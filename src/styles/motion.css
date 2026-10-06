@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Motion system
+   - Durations/easings as tokens so motion stays consistent
+   - Entrance animations use `backwards` fill (not `both`) so hover
+     transforms still work after the animation finishes
+   - All of it is disabled by the prefers-reduced-motion rule in components.css
+   ========================================================================== */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 550ms;
+  --stagger: 60ms;
+}
+
+/* ---------- Keyframes ---------- */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fadeOut { to { opacity: 0; } }
+@keyframes slideOutRight { to { transform: translateX(100%); } }
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to   { transform: none; }
+}
+@keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-10px) rotate(-0.4deg); }
+}
+@keyframes orbDrift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(30px, -20px) scale(1.06); }
+  66%      { transform: translate(-20px, 15px) scale(0.96); }
+}
+@keyframes shimmerText {
+  to { background-position: 200% center; }
+}
+@keyframes bump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.35); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes toastCountdown { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+@keyframes tickerSlide {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---------- Scroll reveal (product cards) ---------- */
+.reveal:not(.revealed) { opacity: 0; transform: translateY(18px); }
+.reveal.revealed {
+  animation: revealUp var(--dur-slow) var(--ease-out-expo) backwards;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+/* ---------- Hero ---------- */
+.hero-content > * {
+  animation: fadeUp 0.7s var(--ease-out-expo) backwards;
+}
+.hero-content > :nth-child(1) { animation-delay: 0.05s; }
+.hero-content > :nth-child(2) { animation-delay: 0.15s; }
+.hero-content > :nth-child(3) { animation-delay: 0.25s; }
+.hero-content > :nth-child(4) { animation-delay: 0.35s; }
+.hero-content > :nth-child(5) { animation-delay: 0.45s; }
+
+.hero-visual { animation: fadeUp 0.9s var(--ease-out-expo) 0.3s backwards; }
+.hero-card-frame { animation: float 7s ease-in-out 1.2s infinite; }
+.hero-card-frame:hover { animation-play-state: paused; }
+
+.orb-1 { animation: orbDrift 18s ease-in-out infinite; }
+.orb-2 { animation: orbDrift 22s ease-in-out infinite reverse; }
+
+.hero-gradient-text {
+  background: linear-gradient(110deg, var(--accent-primary) 0%, var(--accent-gold) 35%, var(--accent-primary) 70%, var(--accent-gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmerText 6s linear infinite;
+}
+
+.feature-item svg { transition: transform var(--dur-base) var(--ease-spring); }
+.feature-item:hover svg { transform: scale(1.2) rotate(-6deg); }
+
+/* ---------- Header ---------- */
+.top-ticker { animation: tickerSlide 0.5s var(--ease-out-expo) backwards; }
+.navbar { transition: padding var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base), background-color var(--dur-base); }
+.navbar.is-scrolled { padding: 0.55rem 0; box-shadow: var(--shadow-md); }
+.logo-icon { transition: transform 0.6s var(--ease-spring); display: inline-block; }
+.brand-logo:hover .logo-icon { transform: rotate(360deg); }
+.nav-item.active::after { animation: growX var(--dur-base) var(--ease-out-expo); transform-origin: left; }
+@keyframes growX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.badge-bump { animation: bump 0.45s var(--ease-spring); display: inline-block; }
+
+/* ---------- Buttons & micro-interactions ---------- */
+.btn, .action-btn, .btn-quick-cart, .variant-chip, .cat-btn, .rating-btn, .pay-tab, .tab-link, .tabbar-item {
+  transition: transform var(--dur-fast) ease, background-color var(--dur-fast), color var(--dur-fast),
+              border-color var(--dur-fast), box-shadow var(--dur-fast), opacity var(--dur-fast);
+}
+.btn:active:not(:disabled),
+.action-btn:active,
+.btn-quick-cart:active,
+.variant-chip:active,
+.tabbar-item:active { transform: scale(0.96); }
+
+.btn-accent { position: relative; overflow: hidden; }
+.btn-accent::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s var(--ease-out-expo);
+}
+.btn-accent:hover:not(:disabled)::after { transform: translateX(120%); }
+
+.wishlist-btn.active svg { animation: heartPop 0.45s var(--ease-spring); }
+.variant-chip.active { animation: bump 0.3s var(--ease-spring); }
+
+/* ---------- Product cards ---------- */
+.product-card { transition: transform var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base); }
+.card-image { transition: transform 0.6s var(--ease-out-expo), opacity var(--dur-base); }
+.card-actions-overlay { transition: opacity var(--dur-base) var(--ease-out-expo), transform var(--dur-base) var(--ease-out-expo); }
+
+/* ---------- Modals & overlays ---------- */
+.modal-backdrop-overlay,
+.cart-drawer-overlay,
+.search-modal-overlay,
+.mobile-menu-overlay { animation: backdropIn var(--dur-base) ease-out; }
+
+.product-detail-modal,
+.order-receipt-modal { animation: modalIn 0.38s var(--ease-out-expo); }
+.search-modal { animation: modalIn 0.3s var(--ease-out-expo); }
+
+.cart-drawer-overlay.is-closing { animation: fadeOut 0.28s ease-in forwards; }
+.cart-drawer.is-closing { animation: slideOutRight 0.28s cubic-bezier(0.7, 0, 0.84, 0) forwards; }
+
+.cart-item-enter {
+  animation: fadeUp 0.4s var(--ease-out-expo) backwards;
+  animation-delay: calc(80ms + var(--i, 0) * 50ms);
+}
+
+.thumb-btn { transition: opacity var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast); }
+.thumb-btn:hover { opacity: 1; transform: translateY(-2px); }
+
+/* ---------- Page & tab transitions ---------- */
+.tab-panel-enter { animation: fadeUp 0.35s var(--ease-out-expo); }
+.step-box.animate-fade-in { animation: fadeUp 0.4s var(--ease-out-expo); }
+.step-num { transition: background-color var(--dur-base), transform var(--dur-base) var(--ease-spring); }
+.step-item.active .step-num { transform: scale(1.08); }
+
+/* ---------- Toast ---------- */
+.toast-notification { overflow: hidden; }
+.toast-enter { animation: toastIn 0.35s var(--ease-spring); }
+.toast-progress {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  background: currentColor; opacity: 0.25;
+  transform-origin: left;
+  animation: toastCountdown 3.2s linear forwards;
+}
+.toast-success .toast-progress { background: var(--success); opacity: 0.6; }
+.toast-info .toast-progress { background: var(--accent-primary); opacity: 0.6; }
+.toast-warning .toast-progress { background: var(--accent-gold); opacity: 0.6; }
+
+/* ---------- Free shipping meter celebration ---------- */
+.free-ship-fill.done { animation: bump 0.5s var(--ease-spring); }
