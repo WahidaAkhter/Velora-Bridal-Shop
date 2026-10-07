@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { AnnouncementBar } from './AnnouncementBar';
 import {
@@ -11,6 +11,7 @@ import {
   X,
   Menu,
   ChevronRight,
+  ChevronDown,
   Globe,
   Tag
 } from 'lucide-react';
@@ -39,7 +40,9 @@ export const Header = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 24);
@@ -52,7 +55,18 @@ export const Header = () => {
     };
   }, []);
 
-  // Cmd/Ctrl + K opens search, Escape closes it
+  // Close category dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsCategoryDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Cmd/Ctrl + K opens search, Escape closes modals
   useEffect(() => {
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -61,6 +75,7 @@ export const Header = () => {
       } else if (e.key === 'Escape') {
         setIsSearchModalOpen(false);
         setIsMobileMenuOpen(false);
+        setIsCategoryDropdownOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -81,7 +96,16 @@ export const Header = () => {
     setSelectedCategory(catId);
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
+    setIsCategoryDropdownOpen(false);
     const el = document.getElementById('catalog-grid');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleNavSectionClick = (sectionId) => {
+    setSelectedCategory('all');
+    setCurrentView('catalog');
+    setIsMobileMenuOpen(false);
+    const el = document.getElementById(sectionId) || document.getElementById('catalog-grid');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -133,41 +157,81 @@ export const Header = () => {
             </div>
           </div>
 
-          {/* Desktop Nav Links */}
+          {/* Desktop Nav Links - Streamlined 4 luxury items */}
           <div className="nav-links" role="navigation" aria-label="Main Navigation">
             <button
               className={`nav-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
               onClick={() => handleCategoryClick('all')}
             >
-              Catalog
+              Shop All
             </button>
-            {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
+
+            {/* Categories Dropdown Menu */}
+            <div className="nav-dropdown-wrapper" ref={dropdownRef}>
               <button
-                key={cat.id}
-                className={`nav-item ${currentView === 'catalog' && selectedCategory === cat.id ? 'active' : ''}`}
-                onClick={() => handleCategoryClick(cat.id)}
+                className={`nav-item nav-dropdown-trigger ${selectedCategory !== 'all' ? 'active' : ''}`}
+                onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                onMouseEnter={() => setIsCategoryDropdownOpen(true)}
+                aria-expanded={isCategoryDropdownOpen}
               >
-                {cat.name}
+                Categories <ChevronDown size={14} className={`dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`} />
               </button>
-            ))}
+
+              {isCategoryDropdownOpen && (
+                <div
+                  className="nav-dropdown-menu glass-panel"
+                  onMouseLeave={() => setIsCategoryDropdownOpen(false)}
+                >
+                  <div className="dropdown-header">
+                    <span>EXPLORE CATEGORIES</span>
+                  </div>
+                  <div className="dropdown-items-grid">
+                    {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
+                      <button
+                        key={cat.id}
+                        className={`dropdown-item ${selectedCategory === cat.id ? 'active' : ''}`}
+                        onClick={() => handleCategoryClick(cat.id)}
+                      >
+                        <span className="cat-item-name">{cat.name}</span>
+                        <span className="cat-item-count">{cat.count} items</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <button
+              className="nav-item"
+              onClick={() => handleNavSectionClick('new-arrivals-heading')}
+            >
+              New Arrivals
+            </button>
+
+            <button
+              className="nav-item"
+              onClick={() => handleNavSectionClick('best-sellers-heading')}
+            >
+              Best Sellers
+            </button>
           </div>
 
-          {/* Right Action Icons */}
+          {/* Right Action Icons - Compact Luxury Layout */}
           <div className="nav-actions">
-            {/* Search Button */}
+            {/* Search Trigger */}
             <button
               className="action-btn search-trigger"
               onClick={() => setIsSearchModalOpen(true)}
               aria-label="Search catalog (Press Ctrl K)"
             >
-              <Search size={19} />
-              <span className="search-placeholder">Search products...</span>
-              <kbd className="search-kbd">Ctrl K</kbd>
+              <Search size={18} />
+              <span className="search-placeholder">Search...</span>
+              <kbd className="search-kbd">⌘K</kbd>
             </button>
 
             {/* Currency Switcher */}
             <label className="currency-switcher" title="Select currency channel">
-              <Globe size={16} />
+              <Globe size={15} />
               <select
                 value={currencyCode}
                 onChange={e => setCurrencyCode(e.target.value)}
@@ -186,7 +250,7 @@ export const Header = () => {
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
               aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {isDark ? <Sun size={20} className="text-amber" /> : <Moon size={20} />}
+              {isDark ? <Sun size={19} className="text-amber" /> : <Moon size={19} />}
             </button>
 
             {/* Wishlist */}
@@ -199,27 +263,27 @@ export const Header = () => {
               title="Wishlist"
               aria-label={`Wishlist with ${wishlist.length} saved items`}
             >
-              <Heart size={20} />
+              <Heart size={19} />
               {wishlist.length > 0 && (
                 <span className="badge-dot">{wishlist.length}</span>
               )}
             </button>
 
-            {/* Cart Button */}
+            {/* Shopping Bag Button */}
             <button
               className="action-btn cart-btn"
               onClick={() => setIsCartOpen(true)}
               title="View Shopping Cart"
               aria-label={`Shopping bag with ${cartCount} items`}
             >
-              <ShoppingBag size={20} />
+              <ShoppingBag size={19} />
               <span className="cart-label">Bag</span>
               {cartCount > 0 && (
                 <span key={cartCount} className="cart-badge badge-bump">{cartCount}</span>
               )}
             </button>
 
-            {/* User Account */}
+            {/* Customer Account */}
             <button
               className={`action-btn icon-only hide-mobile ${currentView === 'account' ? 'active' : ''}`}
               onClick={() => {
@@ -229,7 +293,7 @@ export const Header = () => {
               title="Customer Account"
               aria-label="Customer Account"
             >
-              <User size={20} />
+              <User size={19} />
             </button>
           </div>
         </div>

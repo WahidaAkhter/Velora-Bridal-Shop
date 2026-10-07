@@ -1,0 +1,38 @@
+/**
+ * AURA Promotional Campaign Data & Configuration
+ * Marketing teams can update campaign attributes here without touching UI component code.
+ */
+
+export const CAMPAIGNS = {
+  welcome: {
+    id: 'welcome-aura-2026',
+    enabled: true,
+    badge: 'AURA EXCLUSIVE',
+    title: 'Welcome to AURA',
+    subtitle: 'Enjoy 20% off your first order',
+    discountText: '20% OFF',
+    description: 'Discover our Autumn/Winter minimalist luxury collection and enjoy complimentary express worldwide shipping on orders over $100.',
+    code: 'SALEOR20',
+    ctaText: 'Shop Now',
+    secondaryCtaText: 'Maybe Later',
+    image: '/images/tote-bag.png',
+    imageAlt: 'Minimalist Artisan Leather Tote',
+    startDate: '2026-01-01',
+    endDate: '2026-12-31',
+    showDelay: 1500, // delay in ms after page load
+  }
+};
+
+/**
+ * Returns the currently active promotional campaign if enabled and within date boundaries.
+ */
+export const getActiveCampaign = () => {
+  const campaign = CAMPAIGNS.welcome;
+  if (!campaign || !campaign.enabled) return null;
+
+  const now = new Date();
+  if (campaign.startDate && new Date(campaign.startDate) > now) return null;
+  if (campaign.endDate && new Date(campaign.endDate) < now) return null;
+
+  return campaign;
+};

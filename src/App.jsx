@@ -20,6 +20,7 @@ import { AccountPage } from './components/AccountPage';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
+import { PromotionalModal } from './components/PromotionalModal';
 import { SeoHead } from './components/SeoHead';
 import { MobileTabBar } from './components/MobileTabBar';
 import { ArrowUp } from 'lucide-react';
@@ -124,6 +125,7 @@ const MainContent = () => {
       )}
 
       <CartDrawer />
+      <PromotionalModal />
       <Footer />
       <Toast />
       <MobileTabBar />

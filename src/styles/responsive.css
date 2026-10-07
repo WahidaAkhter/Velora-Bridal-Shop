@@ -167,6 +167,19 @@
   .newsletter-card { padding: 2.5rem 1.25rem; }
   .newsletter-title { font-size: 1.65rem; }
 
+  /* Promotional Campaign Modal Mobile */
+  .promo-modal-backdrop { padding: 1rem; }
+  .promo-modal-card { max-width: 100%; border-radius: var(--radius-lg); }
+  .promo-modal-layout { flex-direction: column; min-height: auto; }
+  .promo-modal-visual { width: 100%; height: 160px; }
+  .promo-modal-content { padding: 1.5rem 1.25rem; }
+  .promo-title { font-size: 1.5rem; }
+  .promo-subtitle { font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .promo-description { font-size: 0.85rem; margin-bottom: 1rem; }
+  .promo-code-box { padding: 0.6rem 0.75rem; margin-bottom: 1.25rem; }
+  .promo-actions-group { flex-direction: column; gap: 0.5rem; }
+  .promo-primary-btn { width: 100%; }
+
   /* Catalog toolbar */
   .catalog-section { padding: 1.25rem 0 2.5rem; }
   .catalog-toolbar { padding: 0.7rem; gap: 0.6rem; margin-bottom: 1rem; }
