@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { PRODUCTS } from '../data/products';
 import { ProductCard } from './ProductCard';
 import { FilterSidebar } from './FilterSidebar';
-import { Grid3X3, LayoutGrid, List, SlidersHorizontal, X, ArrowUpDown } from 'lucide-react';
+import { Grid3X3, LayoutGrid, SlidersHorizontal, X, ArrowUpDown } from 'lucide-react';
 
 export const ProductGrid = () => {
   const {
@@ -18,11 +18,11 @@ export const ProductGrid = () => {
     minRating
   } = useApp();
 
-  const [viewMode, setViewMode] = useState('grid-3'); // 'grid-3' | 'grid-4' | 'list'
+  const [viewMode, setViewMode] = useState('grid-3'); // 'grid-3' | 'grid-4'
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Filter & Sort Logic
-  let filtered = PRODUCTS.filter((p) => {
+  const filtered = PRODUCTS.filter((p) => {
     if (selectedCategory !== 'all' && p.category !== selectedCategory) return false;
     if (p.price > priceRange[1]) return false;
     if (inStockOnly && p.stock <= 0) return false;
@@ -50,19 +50,25 @@ export const ProductGrid = () => {
   }
 
   return (
-    <section id="catalog-grid" className="container catalog-section">
+    <section id="catalog-grid" className="container catalog-section" aria-labelledby="catalog-heading">
+      <div className="section-header">
+        <h2 id="catalog-heading" className="section-title">All Products</h2>
+        <p className="section-desc">Browse our full luxury catalog with custom filter options.</p>
+      </div>
+
       {/* Controls Bar Header */}
       <div className="catalog-toolbar glass-panel">
         <div className="toolbar-left">
           <button
             className="btn btn-outline mobile-filter-btn"
             onClick={() => setIsMobileFilterOpen(true)}
+            aria-label="Open filter drawer"
           >
             <SlidersHorizontal size={16} /> Filters
           </button>
 
           <span className="results-count">
-            Showing <strong>{filtered.length}</strong> products
+            Showing <strong>{filtered.length}</strong> of <strong>{PRODUCTS.length}</strong> products
           </span>
 
           {/* Active Filter Badges */}
@@ -70,13 +76,13 @@ export const ProductGrid = () => {
             {selectedCategory !== 'all' && (
               <span className="filter-badge">
                 Category: {selectedCategory}
-                <X size={12} onClick={() => setSelectedCategory('all')} />
+                <X size={12} onClick={() => setSelectedCategory('all')} aria-label="Clear category filter" />
               </span>
             )}
             {searchQuery && (
               <span className="filter-badge">
                 Search: "{searchQuery}"
-                <X size={12} onClick={() => setSearchQuery('')} />
+                <X size={12} onClick={() => setSearchQuery('')} aria-label="Clear search filter" />
               </span>
             )}
           </div>
@@ -90,6 +96,7 @@ export const ProductGrid = () => {
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="sort-select"
+              aria-label="Sort products by"
             >
               <option value="featured">Featured / Best Sellers</option>
               <option value="newest">Newest Arrivals</option>
@@ -105,6 +112,7 @@ export const ProductGrid = () => {
               className={`view-btn ${viewMode === 'grid-3' ? 'active' : ''}`}
               onClick={() => setViewMode('grid-3')}
               title="3 Column Grid"
+              aria-label="3 Column Grid view"
             >
               <Grid3X3 size={18} />
             </button>
@@ -112,6 +120,7 @@ export const ProductGrid = () => {
               className={`view-btn ${viewMode === 'grid-4' ? 'active' : ''}`}
               onClick={() => setViewMode('grid-4')}
               title="4 Column Grid"
+              aria-label="4 Column Grid view"
             >
               <LayoutGrid size={18} />
             </button>
@@ -140,7 +149,7 @@ export const ProductGrid = () => {
           ) : (
             <div className="no-results-box glass-panel">
               <h3>No products found</h3>
-              <p className="text-muted">Try relaxing your filter criteria or searching for something else.</p>
+              <p className="text-muted">Try adjusting your price slider or clearing your search filters.</p>
               <button
                 className="btn btn-secondary mt-4"
                 onClick={() => {
@@ -161,7 +170,7 @@ export const ProductGrid = () => {
           <div className="mobile-filter-drawer glass-panel" onClick={e => e.stopPropagation()}>
             <div className="drawer-header">
               <h3>Filter Products</h3>
-              <button onClick={() => setIsMobileFilterOpen(false)}><X size={20} /></button>
+              <button onClick={() => setIsMobileFilterOpen(false)} aria-label="Close filters"><X size={20} /></button>
             </div>
             <div className="drawer-body">
               <FilterSidebar />

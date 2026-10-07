@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
+import { AnnouncementBar } from './AnnouncementBar';
 import {
   ShoppingBag,
   Heart,
@@ -10,9 +11,8 @@ import {
   X,
   Menu,
   ChevronRight,
-  Sparkles,
-  Tag,
-  Globe
+  Globe,
+  Tag
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES } from '../data/products';
 import { CURRENCIES } from '../data/channels';
@@ -23,7 +23,6 @@ export const Header = () => {
     toggleTheme,
     currentView,
     setCurrentView,
-    accountTab,
     setAccountTab,
     selectedCategory,
     setSelectedCategory,
@@ -33,7 +32,6 @@ export const Header = () => {
     setIsCartOpen,
     wishlist,
     setSelectedProduct,
-    appliedVoucher,
     currencyCode,
     setCurrencyCode,
     formatPrice
@@ -83,6 +81,8 @@ export const Header = () => {
     setSelectedCategory(catId);
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
+    const el = document.getElementById('catalog-grid');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleProductSearchClick = (product) => {
@@ -93,18 +93,8 @@ export const Header = () => {
 
   return (
     <header className="header-wrapper">
-      {/* Top Banner Ticker */}
-      <div className="top-ticker">
-        <div className="container ticker-content">
-          <span className="ticker-badge"><Sparkles size={13} /> SALEOR DEMO EDITION</span>
-          <span className="ticker-text">
-            Complimentary Worldwide Shipping on orders over $100 — Use code <strong className="code-highlight">SALEOR20</strong> for 20% OFF
-          </span>
-          <a href="#catalog" onClick={() => setCurrentView('catalog')} className="ticker-link">
-            Shop Catalog <ChevronRight size={12} />
-          </a>
-        </div>
-      </div>
+      {/* Top Announcement Bar */}
+      <AnnouncementBar />
 
       {/* Main Navbar */}
       <nav className={`navbar glass-panel ${isScrolled ? 'is-scrolled' : ''}`}>
@@ -113,22 +103,38 @@ export const Header = () => {
           <button
             className="mobile-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Navigation Menu"
+            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           >
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
           {/* Logo */}
-          <div className="brand-logo" onClick={() => setCurrentView('catalog')}>
+          <div
+            className="brand-logo"
+            onClick={() => {
+              setSelectedCategory('all');
+              setCurrentView('catalog');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                setSelectedCategory('all');
+                setCurrentView('catalog');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
             <span className="logo-icon">▲</span>
             <div className="logo-text">
-              <span className="brand-name">A U R A</span>
+              <span className="brand-name">AURA</span>
               <span className="brand-sub">STOREFRONT</span>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <div className="nav-links">
+          <div className="nav-links" role="navigation" aria-label="Main Navigation">
             <button
               className={`nav-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
               onClick={() => handleCategoryClick('all')}
@@ -152,15 +158,15 @@ export const Header = () => {
             <button
               className="action-btn search-trigger"
               onClick={() => setIsSearchModalOpen(true)}
-              aria-label="Search catalog"
+              aria-label="Search catalog (Press Ctrl K)"
             >
               <Search size={19} />
               <span className="search-placeholder">Search products...</span>
               <kbd className="search-kbd">Ctrl K</kbd>
             </button>
 
-            {/* Channel / Currency Switcher */}
-            <label className="currency-switcher" title="Change channel currency">
+            {/* Currency Switcher */}
+            <label className="currency-switcher" title="Select currency channel">
               <Globe size={16} />
               <select
                 value={currencyCode}
@@ -178,6 +184,7 @@ export const Header = () => {
               className="action-btn icon-only"
               onClick={toggleTheme}
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDark ? <Sun size={20} className="text-amber" /> : <Moon size={20} />}
             </button>
@@ -190,6 +197,7 @@ export const Header = () => {
                 setAccountTab('wishlist');
               }}
               title="Wishlist"
+              aria-label={`Wishlist with ${wishlist.length} saved items`}
             >
               <Heart size={20} />
               {wishlist.length > 0 && (
@@ -202,6 +210,7 @@ export const Header = () => {
               className="action-btn cart-btn"
               onClick={() => setIsCartOpen(true)}
               title="View Shopping Cart"
+              aria-label={`Shopping bag with ${cartCount} items`}
             >
               <ShoppingBag size={20} />
               <span className="cart-label">Bag</span>
@@ -218,6 +227,7 @@ export const Header = () => {
                 setAccountTab('overview');
               }}
               title="Customer Account"
+              aria-label="Customer Account"
             >
               <User size={20} />
             </button>
@@ -231,7 +241,7 @@ export const Header = () => {
           <div className="mobile-menu-content glass-panel" onClick={e => e.stopPropagation()}>
             <div className="mobile-menu-header">
               <span className="brand-name">AURA NAVIGATION</span>
-              <button onClick={() => setIsMobileMenuOpen(false)}><X size={20} /></button>
+              <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu"><X size={20} /></button>
             </div>
             <div className="mobile-menu-links">
               <button
@@ -274,8 +284,9 @@ export const Header = () => {
                 onChange={e => setSearchQuery(e.target.value)}
                 autoFocus
                 className="search-input"
+                aria-label="Search catalog input"
               />
-              <button onClick={() => setIsSearchModalOpen(false)} className="close-search">
+              <button onClick={() => setIsSearchModalOpen(false)} className="close-search" aria-label="Close search">
                 <X size={20} />
               </button>
             </div>

@@ -2,7 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
+import { TrustStrip } from './components/TrustStrip';
+import { CategoryDiscovery } from './components/CategoryDiscovery';
+import { NewArrivalsSection } from './components/NewArrivalsSection';
+import { BestSellersSection } from './components/BestSellersSection';
+import { PromoBannerSection } from './components/PromoBannerSection';
+import { SmartRecommendations } from './components/SmartRecommendations';
 import { ProductGrid } from './components/ProductGrid';
+import { BrandStorySection } from './components/BrandStorySection';
+import { SocialProofSection } from './components/SocialProofSection';
+import { NewsletterSection } from './components/NewsletterSection';
 import { RecentlyViewed } from './components/RecentlyViewed';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
@@ -65,6 +74,8 @@ const MainContent = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const isFullHomepage = selectedCategory === 'all' && !searchQuery;
+
   return (
     <div className="app-main-layout">
       <SeoHead />
@@ -73,11 +84,30 @@ const MainContent = () => {
       <main className="main-content-body">
         {currentView === 'catalog' && (
           <>
-            {selectedCategory === 'all' && !searchQuery && <HeroBanner />}
-            <ProductGrid />
-            <RecentlyViewed />
+            {isFullHomepage ? (
+              <>
+                <HeroBanner />
+                <TrustStrip />
+                <CategoryDiscovery />
+                <NewArrivalsSection />
+                <PromoBannerSection />
+                <BestSellersSection />
+                <SmartRecommendations />
+                <ProductGrid />
+                <BrandStorySection />
+                <SocialProofSection />
+                <NewsletterSection />
+                <RecentlyViewed />
+              </>
+            ) : (
+              <>
+                <ProductGrid />
+                <RecentlyViewed />
+              </>
+            )}
           </>
         )}
+
         {currentView === 'checkout' && <CheckoutPage />}
         {currentView === 'account' && <AccountPage />}
       </main>
@@ -99,7 +129,11 @@ const MainContent = () => {
       <MobileTabBar />
 
       {showBackToTop && !anyOverlayOpen && (
-        <button className="back-to-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">
+        <button
+          className="back-to-top"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="Back to top"
+        >
           <ArrowUp size={18} />
         </button>
       )}

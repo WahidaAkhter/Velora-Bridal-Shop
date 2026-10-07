@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { Heart, Eye, ShoppingBag, Star } from 'lucide-react';
-
+import { Heart, Eye, ShoppingBag, Star, AlertCircle } from 'lucide-react';
 import { useReveal } from '../hooks/useMotion';
 
 export const ProductCard = ({ product, index = 0 }) => {
@@ -25,6 +24,8 @@ export const ProductCard = ({ product, index = 0 }) => {
   const primaryImage = product.images[0];
   const secondaryImage = product.images[1] || product.images[0];
 
+  const lowStock = product.stock > 0 && product.stock <= 10;
+
   return (
     <div
       ref={revealRef}
@@ -34,12 +35,30 @@ export const ProductCard = ({ product, index = 0 }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Frame */}
-      <div className="card-media-wrapper" onClick={() => setSelectedProduct(product)}>
-        {product.badge && (
-          <span className={`card-badge badge-${product.isBestseller ? 'gold' : product.isNew ? 'accent' : 'primary'}`}>
-            {product.badge}
-          </span>
-        )}
+      <div
+        className="card-media-wrapper"
+        onClick={() => setSelectedProduct(product)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setSelectedProduct(product);
+          }
+        }}
+      >
+        <div className="card-badge-container">
+          {product.badge && (
+            <span className={`card-badge badge-${product.isBestseller ? 'gold' : product.isNew ? 'accent' : 'primary'}`}>
+              {product.badge}
+            </span>
+          )}
+          {savingsPct > 0 && (
+            <span className="card-badge badge-discount">
+              -{savingsPct}%
+            </span>
+          )}
+        </div>
 
         <button
           className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
@@ -47,6 +66,7 @@ export const ProductCard = ({ product, index = 0 }) => {
             e.stopPropagation();
             toggleWishlist(product.id);
           }}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           title={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart size={18} fill={isWishlisted ? "currentColor" : "none"} />
@@ -59,17 +79,19 @@ export const ProductCard = ({ product, index = 0 }) => {
           loading="lazy"
         />
 
-        {/* Quick View Floating Action Overlay */}
+        {/* Quick View & Quick Add Floating Action Overlay (Desktop) */}
         <div className="card-actions-overlay" onClick={e => e.stopPropagation()}>
           <button
             className="btn btn-secondary btn-sm card-quick-btn"
             onClick={() => setQuickViewProduct(product)}
+            aria-label="Quick View product"
           >
             <Eye size={15} /> Quick View
           </button>
           <button
             className="btn btn-primary btn-sm card-add-btn"
             onClick={() => addToCart(product)}
+            aria-label="Add product to bag"
           >
             <ShoppingBag size={15} /> Add
           </button>
@@ -113,15 +135,20 @@ export const ProductCard = ({ product, index = 0 }) => {
           </div>
         )}
 
+        {/* Low Stock Indicator */}
+        {lowStock && (
+          <div className="card-stock-warning">
+            <AlertCircle size={12} />
+            <span>Only {product.stock} left in stock</span>
+          </div>
+        )}
+
         {/* Price Row */}
         <div className="card-price-row">
           <div className="price-box">
             <span className="current-price">{formatPrice(product.price)}</span>
             {savingsPct > 0 && (
-              <>
-                <span className="original-price">{formatPrice(product.originalPrice)}</span>
-                <span className="savings-pill">-{savingsPct}%</span>
-              </>
+              <span className="original-price">{formatPrice(product.originalPrice)}</span>
             )}
           </div>
 
@@ -129,6 +156,7 @@ export const ProductCard = ({ product, index = 0 }) => {
             className="btn-quick-cart"
             onClick={() => addToCart(product)}
             title="Quick add to bag"
+            aria-label={`Quick add ${product.name} to bag`}
           >
             <ShoppingBag size={17} />
           </button>
