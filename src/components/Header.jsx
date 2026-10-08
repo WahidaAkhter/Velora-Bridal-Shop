@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
-import { AnnouncementBar } from './AnnouncementBar';
 import {
   ShoppingBag,
   Heart,
@@ -117,9 +116,6 @@ export const Header = () => {
 
   return (
     <header className="header-wrapper">
-      {/* Top Announcement Bar */}
-      <AnnouncementBar />
-
       {/* Main Navbar */}
       <nav className={`navbar glass-panel ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="container nav-container">
