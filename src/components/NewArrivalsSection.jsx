@@ -23,10 +23,6 @@ export const NewArrivalsSection = () => {
       <div className="container">
         <div className="section-header flex-between">
           <div>
-            <div className="section-badge-pill">
-              <Sparkles size={13} className="text-gold" />
-              <span>JUST RELEASED</span>
-            </div>
             <h2 id="new-arrivals-heading" className="section-title">New Arrivals</h2>
             <p className="section-desc">Fresh pieces, just added to the collection.</p>
           </div>

@@ -31,11 +31,6 @@ export const HeroBanner = () => {
 
       <div className="container hero-container">
         <div className="hero-content">
-          <div className="hero-pill">
-            <Sparkles size={14} className="text-gold" />
-            <span>AUTUMN / WINTER 2026 EDITION</span>
-          </div>
-
           <h1 className="hero-title">
             Designed for Everyday Motion. <br />
             <span className="hero-gradient-text">Engineered for Pure Elegance.</span>
@@ -88,7 +83,6 @@ export const HeroBanner = () => {
             }}
           >
             <div className="hero-badge-container">
-              <span className="hero-badge">FEATURED ESSENTIAL</span>
               <button
                 className={`hero-wishlist-btn ${isWishlisted ? 'active' : ''}`}
                 onClick={(e) => {

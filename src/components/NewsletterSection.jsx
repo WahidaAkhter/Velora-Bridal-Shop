@@ -41,11 +41,6 @@ export const NewsletterSection = () => {
       <div className="container">
         <div className="newsletter-card glass-panel">
           <div className="newsletter-content">
-            <div className="newsletter-pill">
-              <Sparkles size={13} className="text-gold" />
-              <span>AURA INSIDER CLUB</span>
-            </div>
-
             <h2 id="newsletter-heading" className="newsletter-title">
               Stay in the AURA
             </h2>

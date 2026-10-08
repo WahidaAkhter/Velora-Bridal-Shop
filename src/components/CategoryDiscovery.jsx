@@ -45,7 +45,6 @@ export const CategoryDiscovery = () => {
       <div className="container">
         <div className="section-header">
           <div>
-            <span className="section-subtitle">CURATED COLLECTIONS</span>
             <h2 id="category-heading" className="section-title">Shop by Category</h2>
           </div>
           <p className="section-desc hide-mobile">

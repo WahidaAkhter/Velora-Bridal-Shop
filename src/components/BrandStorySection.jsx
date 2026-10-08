@@ -22,14 +22,9 @@ export const BrandStorySection = () => {
               alt="Artisan Leather Craftsmanship"
               loading="lazy"
             />
-            <div className="media-badge">
-              <Gem size={18} className="text-gold" />
-              <span>Artisan Workshops in Florence & Porto</span>
-            </div>
           </div>
 
           <div className="brand-story-content">
-            <span className="section-subtitle">THE AURA PHILOSOPHY</span>
             <h2 id="brand-story-heading" className="story-title">Designed with Intention</h2>
 
             <p className="story-lead">

@@ -193,20 +193,10 @@ export const PromotionalModal = () => {
           <div className="promo-modal-visual">
             <img src={campaign.image} alt={campaign.imageAlt || campaign.title} loading="eager" />
             <div className="visual-gradient-overlay"></div>
-
-            <div className="visual-badge">
-              <Sparkles size={14} className="text-gold" />
-              <span>{campaign.discountText || 'LIMITED OFFER'}</span>
-            </div>
           </div>
 
           {/* Right Content Column */}
           <div className="promo-modal-content">
-            <div className="promo-header-tag">
-              <Tag size={13} />
-              <span>{campaign.badge}</span>
-            </div>
-
             <h2 id="promo-dialog-title" className="promo-title">
               {campaign.title}
             </h2>

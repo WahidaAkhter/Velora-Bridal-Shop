@@ -39,16 +39,6 @@ export const SocialProofSection = () => {
     <section className="social-proof-section" aria-labelledby="social-proof-heading">
       <div className="container">
         <div className="social-proof-header text-center">
-          <div className="rating-summary-pill">
-            <div className="stars-row">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={15} fill="currentColor" className="text-amber" />
-              ))}
-            </div>
-            <span className="summary-rating">4.9 / 5.0 Rating</span>
-            <span className="summary-count">(2,400+ Verified Customer Reviews)</span>
-          </div>
-
           <h2 id="social-proof-heading" className="section-title text-center">
             Loved by Modern Minimalists Worldwide
           </h2>

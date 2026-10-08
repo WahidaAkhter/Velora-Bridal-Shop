@@ -23,10 +23,6 @@ export const BestSellersSection = () => {
       <div className="container">
         <div className="section-header flex-between">
           <div>
-            <div className="section-badge-pill hot">
-              <Flame size={13} className="text-amber" />
-              <span>POPULAR FAVORITES</span>
-            </div>
             <h2 id="best-sellers-heading" className="section-title">Best Sellers</h2>
             <p className="section-desc">Our most coveted minimalist designs, customer-approved worldwide.</p>
           </div>

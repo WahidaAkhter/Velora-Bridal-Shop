@@ -28,9 +28,6 @@ export const PromoBannerSection = () => {
 
           <div className="promo-content">
             <div className="promo-tag-row">
-              <span className="promo-chip">
-                <Tag size={13} /> SEASONAL EVENT
-              </span>
               <span className="promo-code-badge">PROMO: SALEOR20</span>
             </div>
 
