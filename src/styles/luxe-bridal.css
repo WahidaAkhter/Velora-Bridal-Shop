@@ -149,6 +149,12 @@ body {
 
 .navbar-luxe.is-scrolled {
   box-shadow: 0 4px 20px rgba(183, 110, 101, 0.08);
+  position: relative;
+  z-index: 200;
+}
+
+.header-master:has(.is-scrolled) {
+  z-index: 200;
 }
 
 .navbar-container {
@@ -307,28 +313,23 @@ body {
 }
 
 /* ==========================================================================
-   3. HERO SECTION (Full-cover bridal model matching reference image)
+/* ==========================================================================
+   3. HERO SECTION (Floating Model Picture as per Reference Image)
    ========================================================================== */
 .luxe-hero-section {
   width: 100%;
   position: relative;
+  overflow: visible;
+  height: 560px;
   min-height: 540px;
-  background: linear-gradient(90deg, #FDF9F7 0%, #FAF0EC 30%, #F5DFD7 60%, #EBD0C7 100%);
+  background-color: #FAF1EE;
+  background-image: url('/images/bridal/hero-salon-bg.jpg');
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
   display: flex;
   align-items: center;
-  overflow: hidden;
-  padding: 40px 0 60px;
-}
-
-.hero-warm-glow {
-  position: absolute;
-  right: 10%;
-  top: 10%;
-  width: 650px;
-  height: 650px;
-  background: radial-gradient(circle, rgba(255, 238, 230, 0.75) 0%, rgba(247, 233, 227, 0) 70%);
-  pointer-events: none;
-  z-index: 1;
+  padding: 0;
 }
 
 .luxe-hero-container {
@@ -338,12 +339,18 @@ body {
   padding: 0 32px;
   position: relative;
   z-index: 3;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 .luxe-hero-left {
   display: flex;
   flex-direction: column;
-  max-width: 490px;
+  justify-content: center;
+  max-width: 520px;
+  width: 50%;
+  z-index: 3;
 }
 
 .luxe-hero-tag {
@@ -439,29 +446,41 @@ body {
   transform: translateY(-1px);
 }
 
-.luxe-hero-right {
+/* Pop-Out Bride Cutout - Extends above hero section and pops out over header */
+.hero-popout-wrapper {
   position: absolute;
-  top: 0;
-  right: 0;
+  right: 4%;
+  top: -48px;
   bottom: 0;
-  width: 53%;
-  height: 100%;
-  z-index: 2;
+  width: 52%;
+  max-width: 550px;
+  height: calc(100% + 48px);
+  z-index: 105;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: flex-end;
   pointer-events: none;
-  overflow: hidden;
+  overflow: visible;
 }
 
-.hero-bride-cover-photo {
-  width: 100%;
+.hero-popout-model {
+  width: auto;
   height: 100%;
-  object-fit: cover;
-  object-position: center 8%;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.35) 12%, rgba(0, 0, 0, 0.9) 24%, #000 35%, #000 100%);
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.35) 12%, rgba(0, 0, 0, 0.9) 24%, #000 35%, #000 100%);
+  max-height: 630px;
+  object-fit: contain;
+  object-position: bottom center;
   display: block;
+  filter: drop-shadow(0 16px 36px rgba(183, 110, 101, 0.18));
+  animation: heroModelGentlePop 4s ease-in-out infinite alternate;
+}
+
+@keyframes heroModelGentlePop {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
 }
 
 /* ==========================================================================
@@ -1284,29 +1303,48 @@ body {
     display: block;
   }
   .luxe-hero-section {
+    height: auto;
     min-height: auto;
-    padding: 36px 0 24px;
+    padding: 36px 0 0;
     flex-direction: column;
+    overflow: visible;
+    background-position: right center;
   }
-  .luxe-hero-right {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    margin-top: 24px;
-  }
-  .hero-bride-cover-photo {
-    -webkit-mask-image: none;
-    mask-image: none;
-    object-position: center 15%;
-    border-radius: 8px;
+  .luxe-hero-container {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
   }
   .luxe-hero-left {
     max-width: 100%;
+    width: 100%;
     align-items: center;
     text-align: center;
+    margin-bottom: 16px;
+  }
+  .luxe-hero-desc {
+    margin-left: auto;
+    margin-right: auto;
   }
   .luxe-hero-actions {
     justify-content: center;
+  }
+  .hero-popout-wrapper {
+    position: relative;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 440px;
+    height: 440px;
+    margin: 0 auto;
+    z-index: 10;
+  }
+  .hero-popout-model {
+    height: 100%;
+    max-height: 440px;
+    margin: 0 auto;
   }
   .color-cards-container {
     grid-template-columns: repeat(4, 1fr);

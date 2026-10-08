@@ -18,9 +18,6 @@ export const HeroBanner = () => {
 
   return (
     <section className="luxe-hero-section" aria-label="Luxe Brides Hero Showcase">
-      {/* Background Soft Glow Spotlight */}
-      <div className="hero-warm-glow" aria-hidden="true"></div>
-
       <div className="luxe-hero-container">
         {/* Left Editorial Content */}
         <div className="luxe-hero-left">
@@ -53,12 +50,12 @@ export const HeroBanner = () => {
         </div>
       </div>
 
-      {/* Right Bridal Model - Fully covering the right side as per reference image */}
-      <div className="luxe-hero-right" aria-hidden="true">
+      {/* Pop-Out Model Cutout - Popping out over the header exactly like the reference image */}
+      <div className="hero-popout-wrapper" aria-hidden="true">
         <img
-          src="/images/bridal/hero-model-bride.jpg"
-          alt="Bride in blush pink designer wedding dress"
-          className="hero-bride-cover-photo"
+          src="/images/bridal/model-popout.png"
+          alt="Bride in designer blush gown popping out over hero header"
+          className="hero-popout-model"
           loading="eager"
           fetchPriority="high"
         />
