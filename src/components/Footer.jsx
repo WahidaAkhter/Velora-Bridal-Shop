@@ -26,8 +26,7 @@ export const Footer = () => {
         <div className="footer-links-grid">
           <div className="footer-col brand-col">
             <div className="brand-logo" onClick={() => setCurrentView('catalog')}>
-              <span className="logo-icon">▲</span>
-              <span className="brand-name">AURA</span>
+              <img src="/images/velora-logo.png" alt="VELORA Logo" className="brand-logo-img" />
             </div>
             <p className="brand-tagline">
               Modern luxury e-commerce storefront engineered for high-speed browsing, rich product discovery, transparent sustainability, and seamless checkout.
@@ -81,7 +80,7 @@ export const Footer = () => {
 
         {/* Bottom Rights Bar */}
         <div className="footer-bottom-bar">
-          <p>© 2026 AURA Storefront Platform. All rights reserved.</p>
+          <p>© 2026 VELORA Storefront Platform. All rights reserved.</p>
           <div className="payment-badges-row">
             <span className="pay-card">VISA</span>
             <span className="pay-card">MC</span>

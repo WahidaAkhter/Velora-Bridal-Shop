@@ -28,7 +28,7 @@ export const BrandStorySection = () => {
             <h2 id="brand-story-heading" className="story-title">Designed with Intention</h2>
 
             <p className="story-lead">
-              We reject fast fashion and disposable tech. At AURA, every piece is born from a commitment to radical simplicity, transparent sourcing, and enduring beauty.
+              We reject fast fashion and disposable tech. At VELORA, every piece is born from a commitment to radical simplicity, transparent sourcing, and enduring beauty.
             </p>
 
             <ul className="story-pillars">

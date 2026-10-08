@@ -49,8 +49,8 @@ export const PRODUCTS = [
   },
   {
     id: 'prod-2',
-    name: 'AURA Noise-Canceling ANC Headphones',
-    slug: 'aura-anc-headphones',
+    name: 'VELORA Noise-Canceling ANC Headphones',
+    slug: 'velora-anc-headphones',
     subtitle: 'High-fidelity wireless audio with active noise cancellation',
     category: 'electronics',
     categoryName: 'Electronics',
@@ -73,7 +73,7 @@ export const PRODUCTS = [
       { id: 'v2-2', name: 'Lunar Silver', color: 'Lunar Silver', colorHex: '#E5E7EB', size: 'Standard', material: 'Anodized Aluminum', price: 349.00, stock: 4, sku: 'HPH-SLV' }
     ],
     attributes: {
-      'SKU': 'HPH-AURA-01',
+      'SKU': 'HPH-VELORA-01',
       'Battery Life': '45 Hours (ANC On) / Fast Charge 15min = 5hrs',
       'Bluetooth': 'Version 5.3 with LDAC, AAC & aptX HD',
       'Driver Size': '40mm Beryllium Composite',

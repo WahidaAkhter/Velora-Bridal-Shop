@@ -20,7 +20,7 @@ export const PromoBannerSection = () => {
           <div className="promo-bg-layer">
             <img
               src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80"
-              alt="AURA Collection Campaign"
+              alt="VELORA Collection Campaign"
               loading="lazy"
             />
             <div className="promo-overlay"></div>

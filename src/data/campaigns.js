@@ -7,8 +7,8 @@ export const CAMPAIGNS = {
   welcome: {
     id: 'welcome-aura-2026',
     enabled: true,
-    badge: 'AURA EXCLUSIVE',
-    title: 'Welcome to AURA',
+    badge: 'VELORA EXCLUSIVE',
+    title: 'Welcome to VELORA',
     subtitle: 'Enjoy 20% off your first order',
     discountText: '20% OFF',
     description: 'Discover our Autumn/Winter minimalist luxury collection and enjoy complimentary express worldwide shipping on orders over $100.',

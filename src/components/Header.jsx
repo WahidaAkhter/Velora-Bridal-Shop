@@ -146,23 +146,19 @@ export const Header = () => {
               }
             }}
           >
-            <span className="logo-icon">▲</span>
-            <div className="logo-text">
-              <span className="brand-name">AURA</span>
-              <span className="brand-sub">STOREFRONT</span>
-            </div>
+            <img src="/images/velora-logo.png" alt="VELORA Logo" className="brand-logo-img" />
           </div>
 
-          {/* Desktop Nav Links - Streamlined 4 luxury items */}
+          {/* Desktop Nav Links - Boutique Luxury Navigation */}
           <div className="nav-links" role="navigation" aria-label="Main Navigation">
             <button
               className={`nav-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
               onClick={() => handleCategoryClick('all')}
             >
-              Shop All
+              HOME
             </button>
 
-            {/* Categories Dropdown Menu */}
+            {/* Collections Dropdown Menu */}
             <div className="nav-dropdown-wrapper" ref={dropdownRef}>
               <button
                 className={`nav-item nav-dropdown-trigger ${selectedCategory !== 'all' ? 'active' : ''}`}
@@ -170,7 +166,7 @@ export const Header = () => {
                 onMouseEnter={() => setIsCategoryDropdownOpen(true)}
                 aria-expanded={isCategoryDropdownOpen}
               >
-                Categories <ChevronDown size={14} className={`dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`} />
+                COLLECTIONS <ChevronDown size={13} className={`dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`} />
               </button>
 
               {isCategoryDropdownOpen && (
@@ -179,7 +175,7 @@ export const Header = () => {
                   onMouseLeave={() => setIsCategoryDropdownOpen(false)}
                 >
                   <div className="dropdown-header">
-                    <span>EXPLORE CATEGORIES</span>
+                    <span>EXPLORE COLLECTIONS</span>
                   </div>
                   <div className="dropdown-items-grid">
                     {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
@@ -199,16 +195,30 @@ export const Header = () => {
 
             <button
               className="nav-item"
-              onClick={() => handleNavSectionClick('new-arrivals-heading')}
+              onClick={() => handleCategoryClick('all')}
             >
-              New Arrivals
+              SHOP
             </button>
 
             <button
               className="nav-item"
-              onClick={() => handleNavSectionClick('best-sellers-heading')}
+              onClick={() => handleCategoryClick('accessories')}
             >
-              Best Sellers
+              ACCESSORIES
+            </button>
+
+            <button
+              className="nav-item"
+              onClick={() => handleNavSectionClick('brand-story-heading')}
+            >
+              ABOUT US
+            </button>
+
+            <button
+              className="nav-item"
+              onClick={() => handleNavSectionClick('social-proof-heading')}
+            >
+              REAL BRIDES
             </button>
           </div>
 
@@ -300,7 +310,7 @@ export const Header = () => {
         <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
           <div className="mobile-menu-content glass-panel" onClick={e => e.stopPropagation()}>
             <div className="mobile-menu-header">
-              <span className="brand-name">AURA NAVIGATION</span>
+              <span className="brand-name">VELORA NAVIGATION</span>
               <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu"><X size={20} /></button>
             </div>
             <div className="mobile-menu-links">

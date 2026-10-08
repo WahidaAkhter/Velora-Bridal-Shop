@@ -40,7 +40,7 @@ export const INITIAL_USER = {
   avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
   phone: '+1 (555) 234-8901',
   memberSince: 'January 2024',
-  membershipTier: 'AURA VIP Club',
+  membershipTier: 'VELORA VIP Club',
   addresses: [
     {
       id: 'addr-1',
@@ -70,7 +70,7 @@ export const INITIAL_USER = {
     }
   ],
   giftCards: [
-    { code: 'GIFT-AURA-9821', initialBalance: 200.00, currentBalance: 150.00, expiry: '2027-01-01' },
+    { code: 'GIFT-VELORA-9821', initialBalance: 200.00, currentBalance: 150.00, expiry: '2027-01-01' },
     { code: 'GIFT-SALEOR-5541', initialBalance: 50.00, currentBalance: 50.00, expiry: '2026-11-30' }
   ],
   orders: [

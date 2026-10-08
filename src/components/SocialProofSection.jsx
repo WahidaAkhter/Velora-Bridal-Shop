@@ -19,7 +19,7 @@ const REVIEWS = [
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80',
     rating: 5,
     date: 'Verified Buyer · 1 week ago',
-    productName: 'AURA ANC Headphones',
+    productName: 'VELORA ANC Headphones',
     comment: 'Acoustic clarity is unreal. Noise cancellation easily rivals flagship brands, and the matte aluminum build feels premium yet incredibly lightweight.'
   },
   {

@@ -15,23 +15,23 @@ export const SeoHead = () => {
   const { currentView, selectedCategory, selectedProduct, currency } = useApp();
 
   useEffect(() => {
-    let title = 'AURA — Modern Luxury Storefront';
-    let description = 'High-performance modern e-commerce experience inspired by Saleor. Discover curated apparel, tech, accessories, and home design.';
+    let title = 'VELORA — Modern Luxury Storefront';
+    let description = 'High-performance modern e-commerce experience. Discover curated apparel, tech, accessories, and home design.';
     let image = '/images/tote-bag.png';
 
     if (selectedProduct) {
-      title = `${selectedProduct.name} | AURA Storefront`;
+      title = `${selectedProduct.name} | VELORA Storefront`;
       description = selectedProduct.description;
       image = selectedProduct.images[0];
     } else if (currentView === 'checkout') {
-      title = 'Secure Checkout | AURA Storefront';
+      title = 'Secure Checkout | VELORA Storefront';
       description = 'Complete your order with multiple delivery options and card, PayPal, Apple Pay or gift card payment.';
     } else if (currentView === 'account') {
-      title = 'My Account & Orders | AURA Storefront';
+      title = 'My Account & Orders | VELORA Storefront';
       description = 'Manage your saved addresses, order history, wishlist, vouchers and gift cards.';
     } else if (selectedCategory !== 'all') {
       const name = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
-      title = `${name} Collection | AURA Storefront`;
+      title = `${name} Collection | VELORA Storefront`;
       description = `Shop curated ${selectedCategory} with free Standard shipping on orders over $100.`;
     }
 
@@ -58,7 +58,7 @@ export const SeoHead = () => {
         image: p.images.map(src => new URL(src, window.location.origin).href),
         sku: p.attributes?.SKU,
         category: p.categoryName,
-        brand: { '@type': 'Brand', name: 'AURA' },
+        brand: { '@type': 'Brand', name: 'VELORA' },
         aggregateRating: { '@type': 'AggregateRating', ratingValue: p.rating, reviewCount: p.reviewCount },
         offers: {
           '@type': 'AggregateOffer',

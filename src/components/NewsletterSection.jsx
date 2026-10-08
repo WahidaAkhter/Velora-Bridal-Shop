@@ -31,7 +31,7 @@ export const NewsletterSection = () => {
     // Simulate API network request delay
     setTimeout(() => {
       setStatus('success');
-      showToast('Welcome to AURA Insider Club! 10% code sent to your email.');
+      showToast('Welcome to VELORA Insider Club! 10% code sent to your email.');
       setEmail('');
     }, 1000);
   };
@@ -42,7 +42,7 @@ export const NewsletterSection = () => {
         <div className="newsletter-card glass-panel">
           <div className="newsletter-content">
             <h2 id="newsletter-heading" className="newsletter-title">
-              Stay in the AURA
+              Stay in VELORA
             </h2>
 
             <p className="newsletter-desc">
@@ -88,7 +88,7 @@ export const NewsletterSection = () => {
                       <Loader2 size={18} className="animate-spin" />
                     ) : (
                       <>
-                        Join AURA <ArrowRight size={16} />
+                        Join VELORA <ArrowRight size={16} />
                       </>
                     )}
                   </button>
