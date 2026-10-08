@@ -3,42 +3,35 @@ import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
 import { TrustStrip } from './components/TrustStrip';
-import { CategoryDiscovery } from './components/CategoryDiscovery';
-import { NewArrivalsSection } from './components/NewArrivalsSection';
-import { BestSellersSection } from './components/BestSellersSection';
-import { PromoBannerSection } from './components/PromoBannerSection';
-import { SmartRecommendations } from './components/SmartRecommendations';
-import { ProductGrid } from './components/ProductGrid';
-import { BrandStorySection } from './components/BrandStorySection';
-import { SocialProofSection } from './components/SocialProofSection';
-import { NewsletterSection } from './components/NewsletterSection';
-import { RecentlyViewed } from './components/RecentlyViewed';
+import { ShopByColor } from './components/ShopByColor';
+import { FeaturedCollection } from './components/FeaturedCollection';
+import { DreamDressBanner } from './components/DreamDressBanner';
+import { Footer } from './components/Footer';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutPage } from './components/CheckoutPage';
 import { AccountPage } from './components/AccountPage';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
-import { Footer } from './components/Footer';
+import { AppointmentModal } from './components/AppointmentModal';
 import { Toast } from './components/Toast';
-import { PromotionalModal } from './components/PromotionalModal';
 import { SeoHead } from './components/SeoHead';
-import { MobileTabBar } from './components/MobileTabBar';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
 import './styles/layout.css';
 import './styles/components.css';
 import './styles/motion.css';
 import './styles/responsive.css';
+import './styles/luxe-bridal.css';
 
 const MainContent = () => {
   const {
     currentView,
-    selectedCategory,
-    searchQuery,
     selectedProduct,
     setSelectedProduct,
     quickViewProduct,
     setQuickViewProduct,
+    isAppointmentModalOpen,
+    setIsAppointmentModalOpen,
     selectedOrderDetails,
     setSelectedOrderDetails,
     isCartOpen,
@@ -46,21 +39,34 @@ const MainContent = () => {
   } = useApp();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const anyOverlayOpen = Boolean(selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen);
+  const anyOverlayOpen = Boolean(
+    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen
+  );
 
   // Escape closes the top-most overlay
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
       if (selectedOrderDetails) setSelectedOrderDetails(null);
+      else if (isAppointmentModalOpen) setIsAppointmentModalOpen(false);
       else if (quickViewProduct) setQuickViewProduct(null);
       else if (selectedProduct) setSelectedProduct(null);
       else if (isCartOpen) setIsCartOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [selectedOrderDetails, quickViewProduct, selectedProduct, isCartOpen,
-      setSelectedOrderDetails, setQuickViewProduct, setSelectedProduct, setIsCartOpen]);
+  }, [
+    selectedOrderDetails,
+    isAppointmentModalOpen,
+    quickViewProduct,
+    selectedProduct,
+    isCartOpen,
+    setSelectedOrderDetails,
+    setIsAppointmentModalOpen,
+    setQuickViewProduct,
+    setSelectedProduct,
+    setIsCartOpen
+  ]);
 
   // Lock background scroll while an overlay is open
   useEffect(() => {
@@ -68,67 +74,77 @@ const MainContent = () => {
   }, [anyOverlayOpen]);
 
   // Scroll to top on view change; show back-to-top button after scrolling
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [currentView]);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [currentView]);
+
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 700);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isFullHomepage = selectedCategory === 'all' && !searchQuery;
-
   return (
     <div className="app-main-layout">
       <SeoHead />
+      
+      {/* 1. Header with Top Announcement Bar & Main Navbar */}
       <Header />
 
       <main className="main-content-body">
         {currentView === 'catalog' && (
-          <>
-            {isFullHomepage ? (
-              <>
-                <HeroBanner />
-                <TrustStrip />
-                <CategoryDiscovery />
-                <NewArrivalsSection />
-                <PromoBannerSection />
-                <BestSellersSection />
-                <SmartRecommendations />
-                <ProductGrid />
-                <BrandStorySection />
-                <SocialProofSection />
-                <NewsletterSection />
-                <RecentlyViewed />
-              </>
-            ) : (
-              <>
-                <ProductGrid />
-                <RecentlyViewed />
-              </>
-            )}
-          </>
+          <div className="luxe-storefront-page">
+            {/* 2. Hero Section */}
+            <HeroBanner />
+
+            {/* 3. Floating Pill Trust Strip */}
+            <TrustStrip />
+
+            {/* 4. Shop By Color Grid */}
+            <ShopByColor />
+
+            {/* 5. Featured Collection Grid */}
+            <FeaturedCollection />
+
+            {/* 6. Dream Dress Banner Card */}
+            <DreamDressBanner />
+          </div>
         )}
 
         {currentView === 'checkout' && <CheckoutPage />}
         {currentView === 'account' && <AccountPage />}
       </main>
 
-      {/* key forces a fresh modal state when switching to a related product */}
+      {/* 7. Footer Strip */}
+      <Footer />
+
+      {/* Modals & Drawers */}
       {selectedProduct && (
-        <ProductDetailModal key={selectedProduct.id} product={selectedProduct} onClose={() => setSelectedProduct(null)} />
+        <ProductDetailModal
+          key={selectedProduct.id}
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
       )}
       {quickViewProduct && (
-        <ProductDetailModal key={`qv-${quickViewProduct.id}`} product={quickViewProduct} onClose={() => setQuickViewProduct(null)} />
+        <ProductDetailModal
+          key={`qv-${quickViewProduct.id}`}
+          product={quickViewProduct}
+          onClose={() => setQuickViewProduct(null)}
+        />
+      )}
+      {isAppointmentModalOpen && (
+        <AppointmentModal onClose={() => setIsAppointmentModalOpen(false)} />
       )}
       {selectedOrderDetails && (
-        <OrderConfirmationModal order={selectedOrderDetails} onClose={() => setSelectedOrderDetails(null)} />
+        <OrderConfirmationModal
+          order={selectedOrderDetails}
+          onClose={() => setSelectedOrderDetails(null)}
+        />
       )}
 
       <CartDrawer />
-      <PromotionalModal />
-      <Footer />
       <Toast />
-      <MobileTabBar />
 
       {showBackToTop && !anyOverlayOpen && (
         <button
@@ -136,7 +152,7 @@ const MainContent = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           aria-label="Back to top"
         >
-          <ArrowUp size={18} />
+          <ArrowUp size={16} />
         </button>
       )}
     </div>

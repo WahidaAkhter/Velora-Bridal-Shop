@@ -1,64 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import {
-  ShoppingBag,
-  Heart,
-  User,
-  Search,
-  Sun,
-  Moon,
+  ChevronDown,
   X,
   Menu,
-  ChevronRight,
-  ChevronDown,
-  Globe,
-  Tag
+  Search,
+  Sparkles
 } from 'lucide-react';
-import { PRODUCTS, CATEGORIES } from '../data/products';
-import { CURRENCIES } from '../data/channels';
+import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../data/products';
+import { AnnouncementBar } from './AnnouncementBar';
 
 export const Header = () => {
   const {
-    isDark,
-    toggleTheme,
     currentView,
     setCurrentView,
-    setAccountTab,
     selectedCategory,
     setSelectedCategory,
     searchQuery,
     setSearchQuery,
-    cartItems,
-    setIsCartOpen,
-    wishlist,
     setSelectedProduct,
-    currencyCode,
-    setCurrencyCode,
+    setIsAppointmentModalOpen,
     formatPrice
   } = useApp();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isCollectionsDropdownOpen, setIsCollectionsDropdownOpen] = useState(false);
+  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const dropdownRef = useRef(null);
+
+  const collectionsRef = useRef(null);
+  const shopRef = useRef(null);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 24);
-    const openSearch = () => setIsSearchModalOpen(true);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('aura:open-search', openSearch);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('aura:open-search', openSearch);
-    };
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close category dropdown on click outside
+  // Click outside to close dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsCategoryDropdownOpen(false);
+      if (collectionsRef.current && !collectionsRef.current.contains(e.target)) {
+        setIsCollectionsDropdownOpen(false);
+      }
+      if (shopRef.current && !shopRef.current.contains(e.target)) {
+        setIsShopDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -74,332 +61,282 @@ export const Header = () => {
       } else if (e.key === 'Escape') {
         setIsSearchModalOpen(false);
         setIsMobileMenuOpen(false);
-        setIsCategoryDropdownOpen(false);
+        setIsCollectionsDropdownOpen(false);
+        setIsShopDropdownOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
   const searchResults = searchQuery.trim()
     ? PRODUCTS.filter(p =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.categoryName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.description.toLowerCase().includes(searchQuery.toLowerCase())
       ).slice(0, 5)
     : [];
 
-  const handleCategoryClick = (catId) => {
-    setSelectedCategory(catId);
+  const handleNavClick = (targetId) => {
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
-    setIsCategoryDropdownOpen(false);
-    const el = document.getElementById('catalog-grid');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setIsCollectionsDropdownOpen(false);
+    setIsShopDropdownOpen(false);
+    if (targetId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
-  const handleNavSectionClick = (sectionId) => {
-    setSelectedCategory('all');
-    setCurrentView('catalog');
-    setIsMobileMenuOpen(false);
-    const el = document.getElementById(sectionId) || document.getElementById('catalog-grid');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const handleProductSearchClick = (product) => {
+  const handleProductSelect = (product) => {
     setSelectedProduct(product);
     setIsSearchModalOpen(false);
     setSearchQuery('');
   };
 
   return (
-    <header className="header-wrapper">
-      {/* Main Navbar */}
-      <nav className={`navbar glass-panel ${isScrolled ? 'is-scrolled' : ''}`}>
-        <div className="container nav-container">
-          {/* Mobile Hamburger */}
+    <header className="header-master">
+      {/* 1. Top Utility / Announcement Bar */}
+      <AnnouncementBar onOpenSearch={() => setIsSearchModalOpen(true)} />
+
+      {/* 2. Main Luxury Navbar */}
+      <nav className={`navbar-luxe ${isScrolled ? 'is-scrolled' : ''}`}>
+        <div className="navbar-container">
+          {/* Mobile Menu Toggle */}
           <button
-            className="mobile-toggle"
+            className="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
 
-          {/* Logo */}
+          {/* Boutique Brand Logo */}
           <div
-            className="brand-logo"
-            onClick={() => {
-              setSelectedCategory('all');
-              setCurrentView('catalog');
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            className="luxe-brand-logo"
+            onClick={() => handleNavClick('home')}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                setSelectedCategory('all');
-                setCurrentView('catalog');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
+              if (e.key === 'Enter') handleNavClick('home');
             }}
           >
-            <img src="/images/velora-logo.png" alt="VELORA Logo" className="brand-logo-img" />
+            <img
+              src="/images/bridal/logo.png"
+              alt="LUXE BRIDES BRIDAL BOUTIQUE"
+              className="luxe-logo-img"
+              width="165"
+              height="40"
+            />
           </div>
 
-          {/* Desktop Nav Links - Boutique Luxury Navigation */}
-          <div className="nav-links" role="navigation" aria-label="Main Navigation">
+          {/* Desktop Navigation Links */}
+          <div className="luxe-nav-menu" role="navigation" aria-label="Main Bridal Navigation">
+            {/* HOME */}
             <button
-              className={`nav-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
-              onClick={() => handleCategoryClick('all')}
+              className={`nav-link-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
+              onClick={() => handleNavClick('home')}
             >
               HOME
             </button>
 
-            {/* Collections Dropdown Menu */}
-            <div className="nav-dropdown-wrapper" ref={dropdownRef}>
+            {/* COLLECTIONS ⌵ */}
+            <div className="nav-dropdown-holder" ref={collectionsRef}>
               <button
-                className={`nav-item nav-dropdown-trigger ${selectedCategory !== 'all' ? 'active' : ''}`}
-                onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
-                onMouseEnter={() => setIsCategoryDropdownOpen(true)}
-                aria-expanded={isCategoryDropdownOpen}
+                className="nav-link-item has-dropdown"
+                onClick={() => setIsCollectionsDropdownOpen(!isCollectionsDropdownOpen)}
+                onMouseEnter={() => setIsCollectionsDropdownOpen(true)}
               >
-                COLLECTIONS <ChevronDown size={13} className={`dropdown-arrow ${isCategoryDropdownOpen ? 'open' : ''}`} />
+                COLLECTIONS <ChevronDown size={12} className="chevron-mini" />
               </button>
 
-              {isCategoryDropdownOpen && (
+              {isCollectionsDropdownOpen && (
                 <div
-                  className="nav-dropdown-menu glass-panel"
-                  onMouseLeave={() => setIsCategoryDropdownOpen(false)}
+                  className="dropdown-popover"
+                  onMouseLeave={() => setIsCollectionsDropdownOpen(false)}
                 >
-                  <div className="dropdown-header">
-                    <span>EXPLORE COLLECTIONS</span>
-                  </div>
-                  <div className="dropdown-items-grid">
-                    {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
-                      <button
-                        key={cat.id}
-                        className={`dropdown-item ${selectedCategory === cat.id ? 'active' : ''}`}
-                        onClick={() => handleCategoryClick(cat.id)}
-                      >
-                        <span className="cat-item-name">{cat.name}</span>
-                        <span className="cat-item-count">{cat.count} items</span>
-                      </button>
-                    ))}
-                  </div>
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => handleNavClick('featured-collection-heading')}
+                  >
+                    <span>Featured Bridal Gowns</span>
+                    <span className="subitem-note">4 Signature Pieces</span>
+                  </button>
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => handleNavClick('shop-by-color-heading')}
+                  >
+                    <span>Shop By Color</span>
+                    <span className="subitem-note">7 Color Tones</span>
+                  </button>
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => {
+                      setSelectedCategory('classic');
+                      handleNavClick('featured-collection-heading');
+                    }}
+                  >
+                    <span>Royal Lace & Trains</span>
+                    <span className="subitem-note">Haute Couture</span>
+                  </button>
                 </div>
               )}
             </div>
 
-            <button
-              className="nav-item"
-              onClick={() => handleCategoryClick('all')}
-            >
-              SHOP
-            </button>
+            {/* SHOP ⌵ */}
+            <div className="nav-dropdown-holder" ref={shopRef}>
+              <button
+                className="nav-link-item has-dropdown"
+                onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
+                onMouseEnter={() => setIsShopDropdownOpen(true)}
+              >
+                SHOP <ChevronDown size={12} className="chevron-mini" />
+              </button>
 
+              {isShopDropdownOpen && (
+                <div
+                  className="dropdown-popover"
+                  onMouseLeave={() => setIsShopDropdownOpen(false)}
+                >
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => handleNavClick('featured-collection-heading')}
+                  >
+                    <span>All Designer Gowns</span>
+                  </button>
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => handleNavClick('shop-by-color-heading')}
+                  >
+                    <span>Color Dress Catalog</span>
+                  </button>
+                  <button
+                    className="dropdown-subitem"
+                    onClick={() => handleNavClick('dream-dress-banner')}
+                  >
+                    <span>Private Fittings & Custom</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* ACCESSORIES */}
             <button
-              className="nav-item"
-              onClick={() => handleCategoryClick('accessories')}
+              className="nav-link-item"
+              onClick={() => handleNavClick('featured-collection-heading')}
             >
               ACCESSORIES
             </button>
 
+            {/* ABOUT US */}
             <button
-              className="nav-item"
-              onClick={() => handleNavSectionClick('brand-story-heading')}
+              className="nav-link-item"
+              onClick={() => handleNavClick('dream-dress-banner')}
             >
               ABOUT US
             </button>
 
+            {/* REAL BRIDES */}
             <button
-              className="nav-item"
-              onClick={() => handleNavSectionClick('social-proof-heading')}
+              className="nav-link-item"
+              onClick={() => handleNavClick('footer-testimonials')}
             >
               REAL BRIDES
             </button>
-          </div>
 
-          {/* Right Action Icons - Compact Luxury Layout */}
-          <div className="nav-actions">
-            {/* Search Trigger */}
+            {/* CONTACT US */}
             <button
-              className="action-btn search-trigger"
-              onClick={() => setIsSearchModalOpen(true)}
-              aria-label="Search catalog (Press Ctrl K)"
+              className="nav-link-item"
+              onClick={() => setIsAppointmentModalOpen(true)}
             >
-              <Search size={18} />
-              <span className="search-placeholder">Search...</span>
-              <kbd className="search-kbd">⌘K</kbd>
-            </button>
-
-            {/* Currency Switcher */}
-            <label className="currency-switcher" title="Select currency channel">
-              <Globe size={15} />
-              <select
-                value={currencyCode}
-                onChange={e => setCurrencyCode(e.target.value)}
-                aria-label="Select currency"
-              >
-                {CURRENCIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.symbol} {c.code}</option>
-                ))}
-              </select>
-            </label>
-
-            {/* Dark Mode Toggle */}
-            <button
-              className="action-btn icon-only"
-              onClick={toggleTheme}
-              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-              aria-label={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            >
-              {isDark ? <Sun size={19} className="text-amber" /> : <Moon size={19} />}
-            </button>
-
-            {/* Wishlist */}
-            <button
-              className="action-btn icon-only relative hide-mobile"
-              onClick={() => {
-                setCurrentView('account');
-                setAccountTab('wishlist');
-              }}
-              title="Wishlist"
-              aria-label={`Wishlist with ${wishlist.length} saved items`}
-            >
-              <Heart size={19} />
-              {wishlist.length > 0 && (
-                <span className="badge-dot">{wishlist.length}</span>
-              )}
-            </button>
-
-            {/* Shopping Bag Button */}
-            <button
-              className="action-btn cart-btn"
-              onClick={() => setIsCartOpen(true)}
-              title="View Shopping Cart"
-              aria-label={`Shopping bag with ${cartCount} items`}
-            >
-              <ShoppingBag size={19} />
-              <span className="cart-label">Bag</span>
-              {cartCount > 0 && (
-                <span key={cartCount} className="cart-badge badge-bump">{cartCount}</span>
-              )}
-            </button>
-
-            {/* Customer Account */}
-            <button
-              className={`action-btn icon-only hide-mobile ${currentView === 'account' ? 'active' : ''}`}
-              onClick={() => {
-                setCurrentView('account');
-                setAccountTab('overview');
-              }}
-              title="Customer Account"
-              aria-label="Customer Account"
-            >
-              <User size={19} />
+              CONTACT US
             </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div className="mobile-nav-drawer">
+            <button className="mobile-nav-link" onClick={() => handleNavClick('home')}>
+              HOME
+            </button>
+            <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
+              COLLECTIONS
+            </button>
+            <button className="mobile-nav-link" onClick={() => handleNavClick('shop-by-color-heading')}>
+              SHOP BY COLOR
+            </button>
+            <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
+              ACCESSORIES
+            </button>
+            <button className="mobile-nav-link" onClick={() => handleNavClick('dream-dress-banner')}>
+              ABOUT US
+            </button>
+            <button className="mobile-nav-link" onClick={() => handleNavClick('footer-testimonials')}>
+              REAL BRIDES
+            </button>
+            <button className="mobile-nav-link highlight" onClick={() => { setIsMobileMenuOpen(false); setIsAppointmentModalOpen(true); }}>
+              BOOK APPOINTMENT
+            </button>
+          </div>
+        )}
       </nav>
 
-      {/* Mobile Drawer Menu */}
-      {isMobileMenuOpen && (
-        <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="mobile-menu-content glass-panel" onClick={e => e.stopPropagation()}>
-            <div className="mobile-menu-header">
-              <span className="brand-name">VELORA NAVIGATION</span>
-              <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close menu"><X size={20} /></button>
-            </div>
-            <div className="mobile-menu-links">
-              <button
-                className={selectedCategory === 'all' ? 'active' : ''}
-                onClick={() => handleCategoryClick('all')}
-              >
-                All Products
-              </button>
-              {CATEGORIES.filter(c => c.id !== 'all').map(cat => (
-                <button
-                  key={cat.id}
-                  className={selectedCategory === cat.id ? 'active' : ''}
-                  onClick={() => handleCategoryClick(cat.id)}
-                >
-                  {cat.name} ({cat.count})
-                </button>
-              ))}
-              <hr className="divider" />
-              <button onClick={() => { setCurrentView('account'); setAccountTab('orders'); setIsMobileMenuOpen(false); }}>
-                My Orders
-              </button>
-              <button onClick={() => { setCurrentView('account'); setAccountTab('vouchers'); setIsMobileMenuOpen(false); }}>
-                Vouchers & Gift Cards
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Instant Search Overlay Modal */}
+      {/* Global Search Modal */}
       {isSearchModalOpen && (
-        <div className="search-modal-overlay" onClick={() => setIsSearchModalOpen(false)}>
-          <div className="search-modal glass-panel" onClick={e => e.stopPropagation()}>
-            <div className="search-modal-header">
-              <Search size={20} className="text-muted" />
+        <div className="modal-backdrop" onClick={() => setIsSearchModalOpen(false)}>
+          <div className="search-modal-box" onClick={e => e.stopPropagation()}>
+            <div className="search-input-header">
+              <Search size={20} className="search-icon-muted" />
               <input
                 type="text"
-                placeholder="Type product name, category or material (e.g. Leather, Hoodie, Headphones)..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search gowns by name, silhouette, lace, or color..."
                 autoFocus
-                className="search-input"
-                aria-label="Search catalog input"
+                className="search-main-input"
               />
-              <button onClick={() => setIsSearchModalOpen(false)} className="close-search" aria-label="Close search">
-                <X size={20} />
+              <button
+                className="search-close-btn"
+                onClick={() => setIsSearchModalOpen(false)}
+              >
+                <X size={18} />
               </button>
             </div>
 
-            <div className="search-results-container">
-              {searchQuery.trim() === '' ? (
-                <div className="search-quick-tags">
-                  <span className="quick-label">POPULAR SEARCHES:</span>
-                  <div className="tags-row">
-                    {['Leather Tote', 'Headphones', 'Hoodie', 'Sneakers', 'Blazer'].map(tag => (
-                      <button key={tag} onClick={() => setSearchQuery(tag)} className="search-tag">
-                        <Tag size={12} /> {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : searchResults.length > 0 ? (
-                <div className="search-results-list">
-                  {searchResults.map(prod => (
+            {searchQuery.trim() && (
+              <div className="search-results-list">
+                {searchResults.length > 0 ? (
+                  searchResults.map(prod => (
                     <div
                       key={prod.id}
-                      className="search-item-row"
-                      onClick={() => handleProductSearchClick(prod)}
+                      className="search-result-item"
+                      onClick={() => handleProductSelect(prod)}
                     >
-                      <img src={prod.images[0]} alt={prod.name} className="search-thumb" />
-                      <div className="search-item-info">
-                        <span className="search-item-title">{prod.name}</span>
-                        <span className="search-item-sub">{prod.categoryName} • {formatPrice(prod.price)}</span>
+                      <img src={prod.images[0]} alt={prod.name} className="search-result-thumb" />
+                      <div className="search-result-info">
+                        <h4>{prod.name}</h4>
+                        <p>{prod.subtitle}</p>
+                        <span className="search-result-price">{formatPrice(prod.price)}</span>
                       </div>
-                      <ChevronRight size={16} className="text-muted" />
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="search-empty">
-                  <p>No products found matching "{searchQuery}"</p>
-                  <span className="text-muted">Try checking for spelling or broader terms.</span>
-                </div>
-              )}
-            </div>
+                  ))
+                ) : (
+                  <div className="search-empty">
+                    <p>No designer gowns found matching "{searchQuery}"</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
     </header>
   );
 };
+
+export default Header;

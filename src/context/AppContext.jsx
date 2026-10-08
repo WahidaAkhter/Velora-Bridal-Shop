@@ -40,6 +40,7 @@ export const AppProvider = ({ children }) => {
   // Product modals
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
 
   // Recently viewed (product ids, newest first)
   const [recentlyViewed, setRecentlyViewed] = useState(() => loadJSON('aura_recent', []));
@@ -320,6 +321,7 @@ export const AppProvider = ({ children }) => {
         priceRange, setPriceRange, sortBy, setSortBy,
         inStockOnly, setInStockOnly, minRating, setMinRating,
         selectedProduct, setSelectedProduct, quickViewProduct, setQuickViewProduct,
+        isAppointmentModalOpen, setIsAppointmentModalOpen,
         recentlyViewed,
         isCartOpen, setIsCartOpen, cartItems, addToCart, updateCartQuantity, removeFromCart, clearCart,
         wishlist, toggleWishlist,
