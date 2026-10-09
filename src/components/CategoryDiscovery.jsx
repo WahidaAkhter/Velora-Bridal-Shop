@@ -5,16 +5,16 @@ import { ArrowUpRight } from 'lucide-react';
 
 const CATEGORY_MEDIA = {
   accessories: {
-    image: '/images/tote-bag.png',
-    tagline: 'Handcrafted leather, timepieces & silk'
+    image: '/images/bridal/featured-floral-fantasy.jpg',
+    tagline: 'Handcrafted luxury bridal accessories'
   },
-  electronics: {
-    image: '/images/headphones.png',
-    tagline: 'Acoustic fidelity & mechanical keyboards'
+  classic: {
+    image: '/images/bridal/featured-lace-dream.jpg',
+    tagline: 'Royal lace & cathedral trains'
   },
-  apparel: {
-    image: '/images/hoodie.png',
-    tagline: '480 GSM organic cotton & merino wool'
+  modern: {
+    image: '/images/bridal/featured-modern-romance.jpg',
+    tagline: 'Contemporary silhouette gowns'
   },
   home: {
     image: 'https://images.unsplash.com/photo-1612196808214-b7e239e5f6b7?auto=format&fit=crop&w=800&q=80',

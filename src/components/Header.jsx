@@ -5,7 +5,9 @@ import {
   X,
   Menu,
   Search,
-  Sparkles
+  User,
+  Heart,
+  ShoppingBag
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../data/products';
 import { AnnouncementBar } from './AnnouncementBar';
@@ -20,17 +22,20 @@ export const Header = () => {
     setSearchQuery,
     setSelectedProduct,
     setIsAppointmentModalOpen,
-    formatPrice
+    cartItems,
+    setIsCartOpen,
+    wishlist,
+    setAccountTab
   } = useApp();
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isCollectionsDropdownOpen, setIsCollectionsDropdownOpen] = useState(false);
-  const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const collectionsRef = useRef(null);
-  const shopRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -43,9 +48,6 @@ export const Header = () => {
     const handleClickOutside = (e) => {
       if (collectionsRef.current && !collectionsRef.current.contains(e.target)) {
         setIsCollectionsDropdownOpen(false);
-      }
-      if (shopRef.current && !shopRef.current.contains(e.target)) {
-        setIsShopDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -62,7 +64,6 @@ export const Header = () => {
         setIsSearchModalOpen(false);
         setIsMobileMenuOpen(false);
         setIsCollectionsDropdownOpen(false);
-        setIsShopDropdownOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -81,7 +82,6 @@ export const Header = () => {
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
     setIsCollectionsDropdownOpen(false);
-    setIsShopDropdownOpen(false);
     if (targetId === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -101,7 +101,7 @@ export const Header = () => {
   return (
     <header className={`header-master ${isScrolled ? 'is-scrolled' : ''}`}>
       {/* 1. Top Utility / Announcement Bar */}
-      <AnnouncementBar onOpenSearch={() => setIsSearchModalOpen(true)} />
+      <AnnouncementBar />
 
       {/* 2. Main Luxury Navbar */}
       <nav className={`navbar-luxe ${isScrolled ? 'is-scrolled' : ''}`}>
@@ -114,25 +114,6 @@ export const Header = () => {
           >
             {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
-
-          {/* Boutique Brand Logo */}
-          <div
-            className="luxe-brand-logo"
-            onClick={() => handleNavClick('home')}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleNavClick('home');
-            }}
-          >
-            <img
-              src="/images/bridal/logo.png"
-              alt="LUXE BRIDES BRIDAL BOUTIQUE"
-              className="luxe-logo-img"
-              width="165"
-              height="40"
-            />
-          </div>
 
           {/* Desktop Navigation Links */}
           <div className="luxe-nav-menu" role="navigation" aria-label="Main Bridal Navigation">
@@ -187,43 +168,6 @@ export const Header = () => {
               )}
             </div>
 
-            {/* SHOP ⌵ */}
-            <div className="nav-dropdown-holder" ref={shopRef}>
-              <button
-                className="nav-link-item has-dropdown"
-                onClick={() => setIsShopDropdownOpen(!isShopDropdownOpen)}
-                onMouseEnter={() => setIsShopDropdownOpen(true)}
-              >
-                SHOP <ChevronDown size={12} className="chevron-mini" />
-              </button>
-
-              {isShopDropdownOpen && (
-                <div
-                  className="dropdown-popover"
-                  onMouseLeave={() => setIsShopDropdownOpen(false)}
-                >
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => handleNavClick('featured-collection-heading')}
-                  >
-                    <span>All Designer Gowns</span>
-                  </button>
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => handleNavClick('shop-by-color-heading')}
-                  >
-                    <span>Color Dress Catalog</span>
-                  </button>
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => handleNavClick('dream-dress-banner')}
-                  >
-                    <span>Private Fittings & Custom</span>
-                  </button>
-                </div>
-              )}
-            </div>
-
             {/* ACCESSORIES */}
             <button
               className="nav-link-item"
@@ -254,6 +198,59 @@ export const Header = () => {
               onClick={() => setIsAppointmentModalOpen(true)}
             >
               CONTACT US
+            </button>
+          </div>
+
+          {/* Right Action Features (Right side of the bride model) */}
+          <div className="navbar-actions-right">
+            {/* Search */}
+            <button
+              className="navbar-action-btn"
+              onClick={() => setIsSearchModalOpen(true)}
+              title="Search Bridal Gowns"
+              aria-label="Search gowns"
+            >
+              <Search size={18} strokeWidth={1.5} />
+            </button>
+
+            {/* Account */}
+            <button
+              className="navbar-action-btn"
+              onClick={() => {
+                setCurrentView('account');
+                setAccountTab('overview');
+              }}
+              title="Bride Account"
+              aria-label="Bride account"
+            >
+              <User size={18} strokeWidth={1.5} />
+            </button>
+
+            {/* Wishlist */}
+            <button
+              className="navbar-action-btn btn-wishlist"
+              onClick={() => {
+                setCurrentView('account');
+                setAccountTab('wishlist');
+              }}
+              title="Saved Gowns"
+              aria-label={`Wishlist with ${wishlist.length} saved gowns`}
+            >
+              <Heart size={18} strokeWidth={1.5} />
+              {wishlist.length > 0 && (
+                <span className="navbar-wishlist-badge">{wishlist.length}</span>
+              )}
+            </button>
+
+            {/* Shopping Bag / Cart */}
+            <button
+              className="navbar-action-btn btn-cart"
+              onClick={() => setIsCartOpen(true)}
+              title="View Bridal Bag"
+              aria-label={`Shopping bag with ${cartCount} items`}
+            >
+              <ShoppingBag size={18} strokeWidth={1.5} />
+              <span className="navbar-cart-count">{cartCount}</span>
             </button>
           </div>
         </div>

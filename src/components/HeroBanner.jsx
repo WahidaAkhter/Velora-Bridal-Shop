@@ -50,7 +50,7 @@ export const HeroBanner = () => {
         </div>
       </div>
 
-      {/* Pop-Out Model Cutout - Popping out over the header exactly like the reference image */}
+      {/* Pop-Out Model Cutout - Popping out directly over the header */}
       <div className="hero-popout-wrapper" aria-hidden="true">
         <img
           src="/images/bridal/model-popout.png"

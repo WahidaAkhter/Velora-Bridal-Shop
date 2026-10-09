@@ -17,7 +17,7 @@ export const SeoHead = () => {
   useEffect(() => {
     let title = 'VELORA — Modern Luxury Storefront';
     let description = 'High-performance modern e-commerce experience. Discover curated apparel, tech, accessories, and home design.';
-    let image = '/images/tote-bag.png';
+    let image = '/images/bridal/featured-lace-dream.jpg';
 
     if (selectedProduct) {
       title = `${selectedProduct.name} | VELORA Storefront`;
@@ -32,7 +32,7 @@ export const SeoHead = () => {
     } else if (selectedCategory !== 'all') {
       const name = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
       title = `${name} Collection | VELORA Storefront`;
-      description = `Shop curated ${selectedCategory} with free Standard shipping on orders over $100.`;
+      description = `Explore our curated ${selectedCategory} collection featuring bespoke designer wedding dresses.`;
     }
 
     document.title = title;

@@ -219,19 +219,19 @@ export const ProductDetailModal = ({ product, onClose }) => {
               </button>
             </div>
 
-            {/* Shipping & Guarantee Value Props */}
+            {/* Bridal Boutique Guarantee & Service Value Props */}
             <div className="value-props-list">
               <div className="prop-item">
-                <Truck size={16} className="text-accent" />
-                <span>Free Standard shipping on orders over {formatPrice(100)}</span>
+                <Sparkles size={16} className="text-accent" />
+                <span>Complimentary Private Styling Consultation</span>
               </div>
               <div className="prop-item">
                 <ShieldCheck size={16} className="text-accent" />
-                <span>2-Year Official Manufacturer Warranty</span>
+                <span>Authentic Haute Couture Handcrafted Quality</span>
               </div>
               <div className="prop-item">
                 <RotateCcw size={16} className="text-accent" />
-                <span>30-Day Hassle-Free Returns & Exchanges</span>
+                <span>Complimentary Boutique Fitting & Custom Sizing</span>
               </div>
             </div>
 

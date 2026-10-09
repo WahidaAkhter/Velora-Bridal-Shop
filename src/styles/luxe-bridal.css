@@ -144,7 +144,7 @@ body {
 .navbar-luxe {
   background: #FFFFFF;
   border-bottom: 1px solid rgba(241, 221, 215, 0.6);
-  padding: 12px 24px;
+  padding: 14px 32px;
   transition: box-shadow 0.25s ease;
 }
 
@@ -175,22 +175,10 @@ body {
   color: var(--luxe-text-dark);
 }
 
-.luxe-brand-logo {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.luxe-logo-img {
-  height: 40px;
-  width: auto;
-  display: block;
-}
-
 .luxe-nav-menu {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: clamp(16px, 2.2vw, 28px);
 }
 
 .nav-link-item {
@@ -315,6 +303,71 @@ body {
 }
 
 /* ==========================================================================
+   2b. NAVBAR RIGHT ACTION FEATURES (Search, Account, Wishlist, Cart)
+   ========================================================================== */
+.navbar-actions-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 22px);
+  margin-left: auto;
+  z-index: 10;
+}
+
+.navbar-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--luxe-text-dark);
+  padding: 6px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, transform 0.15s ease;
+  line-height: 1;
+}
+
+.navbar-action-btn:hover {
+  color: var(--luxe-rose);
+  transform: translateY(-1px);
+}
+
+/* Wishlist Badge (Circular Terracotta / Rose Badge) */
+.navbar-wishlist-badge {
+  position: absolute;
+  top: -2px;
+  right: -5px;
+  background-color: var(--luxe-rose);
+  color: #FFFFFF;
+  font-family: var(--font-sans-luxe);
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(183, 110, 101, 0.35);
+}
+
+/* Shopping Bag Count (Bold Number beside the bag icon matching mockup) */
+.navbar-cart-count {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--luxe-text-dark);
+  margin-left: 5px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.navbar-action-btn:hover .navbar-cart-count {
+  color: var(--luxe-rose);
+}
+
+/* ==========================================================================
 /* ==========================================================================
    3. HERO SECTION (Floating Model Picture as per Reference Image)
    ========================================================================== */
@@ -340,7 +393,6 @@ body {
   margin: 0 auto;
   padding: 0 32px;
   position: relative;
-  z-index: 3;
   display: flex;
   align-items: center;
   height: 100%;
@@ -448,15 +500,15 @@ body {
   transform: translateY(-1px);
 }
 
-/* Pop-Out Bride Cutout - Extends above hero section and pops out over header */
+/* Pop-Out Bride Cutout - Extends above hero section and pops out prominently over the header */
 .hero-popout-wrapper {
   position: absolute;
-  right: 4%;
-  top: -28px;
+  right: max(60px, calc((100% - 1200px) / 2 + 165px));
+  top: -48px;
   bottom: 0;
-  width: 52%;
-  max-width: 550px;
-  height: calc(100% + 28px);
+  width: 480px;
+  max-width: 480px;
+  height: calc(100% + 48px);
   z-index: 110;
   display: flex;
   justify-content: center;
@@ -1284,6 +1336,16 @@ body {
     grid-column: span 3;
     order: -1;
     margin-bottom: 12px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .hero-popout-wrapper {
+    right: 130px;
+    width: 400px;
+  }
+  .luxe-nav-menu {
+    gap: 14px;
   }
 }
 

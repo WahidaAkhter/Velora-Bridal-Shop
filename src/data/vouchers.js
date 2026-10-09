@@ -4,7 +4,7 @@ export const VOUCHERS = [
     type: 'percentage',
     value: 20,
     minSpend: 50,
-    description: '20% off site-wide on orders over $50',
+    description: '20% off luxury bridal gowns',
     expiry: '2026-12-31'
   },
   {
@@ -12,7 +12,7 @@ export const VOUCHERS = [
     type: 'fixed',
     value: 10,
     minSpend: 30,
-    description: '$10 off your first purchase',
+    description: '$10 off your first appointment & purchase',
     expiry: '2026-12-31'
   },
   {
@@ -20,7 +20,7 @@ export const VOUCHERS = [
     type: 'shipping',
     value: 100,
     minSpend: 0,
-    description: 'Free Express Shipping on any order',
+    description: 'Complimentary White-Glove Bridal Delivery',
     expiry: '2026-12-31'
   },
   {
@@ -84,11 +84,11 @@ export const INITIAL_USER = {
       items: [
         {
           id: 'prod-1',
-          name: 'Minimalist Artisan Leather Tote',
-          variantName: 'Tan Leather / Medium',
-          price: 285.00,
+          name: 'Lace Dream Gown',
+          variantName: 'Ivory / US 4',
+          price: 2199.00,
           quantity: 1,
-          image: '/images/tote-bag.png'
+          image: '/images/bridal/featured-lace-dream.jpg'
         }
       ],
       subtotal: 285.00,
@@ -115,12 +115,12 @@ export const INITIAL_USER = {
       estimatedDelivery: 'Aug 17, 2026',
       items: [
         {
-          id: 'prod-3',
-          name: 'Heavyweight Organic Hoodie',
-          variantName: 'Sand Beige / Medium',
-          price: 145.00,
+          id: 'prod-2',
+          name: 'Satin Elegance Ballgown',
+          variantName: 'Pearl Ivory / US 6',
+          price: 1899.00,
           quantity: 1,
-          image: '/images/hoodie.png'
+          image: '/images/bridal/featured-satin-elegance.jpg'
         },
         {
           id: 'prod-10',

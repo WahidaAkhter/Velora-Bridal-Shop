@@ -50,22 +50,6 @@ export const CartDrawer = () => {
           </button>
         </div>
 
-        {cartItems.length > 0 && (
-          <div className="free-ship-meter">
-            <div className="free-ship-text">
-              <Truck size={15} />
-              {remainingForFree > 0 ? (
-                <span>Add <strong>{formatPrice(remainingForFree)}</strong> more for free Standard shipping</span>
-              ) : (
-                <span><strong>You've unlocked free Standard shipping!</strong></span>
-              )}
-            </div>
-            <div className="free-ship-track">
-              <div className={`free-ship-fill ${remainingForFree === 0 ? 'done' : ''}`} style={{ width: `${freeShipProgress}%` }} />
-            </div>
-          </div>
-        )}
-
         <div className="drawer-body">
           {cartItems.length === 0 ? (
             <div className="empty-cart-view">
