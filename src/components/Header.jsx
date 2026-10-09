@@ -99,7 +99,7 @@ export const Header = () => {
   };
 
   return (
-    <header className="header-master">
+    <header className={`header-master ${isScrolled ? 'is-scrolled' : ''}`}>
       {/* 1. Top Utility / Announcement Bar */}
       <AnnouncementBar onOpenSearch={() => setIsSearchModalOpen(true)} />
 
