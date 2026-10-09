@@ -960,124 +960,10 @@ body {
   max-width: 190px;
 }
 
-/* Active Gown Ribbon */
-.current-gown-ribbon {
-  max-width: 920px;
-  margin: 0 auto 36px;
-  background: #FFFFFF;
-  border: 1px solid rgba(241, 221, 215, 0.8);
-  border-radius: 8px;
-  padding: 18px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  box-shadow: 0 10px 30px rgba(183, 110, 101, 0.08);
-}
-
-.ribbon-left {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.ribbon-color-eyebrow {
-  font-family: var(--font-sans-luxe);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--luxe-rose);
-  text-transform: uppercase;
-}
-
-.ribbon-gown-title {
-  font-family: var(--font-serif-luxe);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--luxe-text-dark);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.ribbon-gown-desc {
-  font-family: var(--font-sans-luxe);
-  font-size: 12.5px;
-  color: var(--luxe-text-muted);
-  margin: 0;
-}
-
-.ribbon-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
-}
-
-.ribbon-price {
-  font-family: var(--font-serif-luxe);
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--luxe-text-dark);
-}
-
-.ribbon-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.btn-ribbon-primary {
-  background: var(--luxe-rose);
-  color: #FFFFFF;
-  border: 1px solid var(--luxe-rose);
-  font-family: var(--font-sans-luxe);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 10px 18px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease;
-}
-
-.btn-ribbon-primary:hover {
-  background: var(--luxe-rose-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(183, 110, 101, 0.28);
-}
-
-.btn-ribbon-outline {
-  background: transparent;
-  color: var(--luxe-text-dark);
-  border: 1px solid rgba(241, 221, 215, 0.9);
-  font-family: var(--font-sans-luxe);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 10px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease;
-}
-
-.btn-ribbon-outline:hover {
-  border-color: var(--luxe-rose);
-  color: var(--luxe-rose);
-  background: rgba(183, 110, 101, 0.05);
-}
-
 /* Poetic Editorial Story Block matching Reference Image */
 .editorial-story-box {
   max-width: 820px;
-  margin: 40px auto 0;
+  margin: 32px auto 0;
   text-align: center;
   padding: 0 16px;
 }
@@ -1133,14 +1019,6 @@ body {
     height: 440px;
     transform: translate3d(72%, 24px, 0) scale(0.9);
   }
-  .current-gown-ribbon {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .ribbon-right {
-    width: 100%;
-    justify-content: space-between;
-  }
 }
 
 @media (max-width: 768px) {
@@ -1178,18 +1056,6 @@ body {
   }
   .color-pill-btn {
     padding: 6px 12px;
-  }
-  .current-gown-ribbon {
-    padding: 16px;
-  }
-  .ribbon-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  .btn-ribbon-primary,
-  .btn-ribbon-outline {
-    width: 100%;
-    justify-content: center;
   }
 }
 

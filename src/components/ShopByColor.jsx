@@ -37,14 +37,12 @@ export const ShopByColor = () => {
 
   const currentGown = COLOR_DRESSES[currentIndex];
 
-  const handleGownClick = (colorItem, isCenter) => {
-    if (!isCenter) {
-      const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
-      if (idx !== -1) setCurrentIndex(idx);
-      return;
-    }
+  const handleGownClick = (colorItem) => {
+    // Bring clicked color into focus in the carousel
+    const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
+    if (idx !== -1) setCurrentIndex(idx);
 
-    // Center card clicked: Open Product Details
+    // Open full details of that dress
     const matched = PRODUCTS.find((p) => p.slug === colorItem.slug) || {
       id: colorItem.id,
       name: `${colorItem.colorName} BRIDAL GOWN`,
@@ -104,7 +102,7 @@ export const ShopByColor = () => {
         </div>
 
         <p className="editorial-subheading">
-          Explore our couture creations across seven romantic shades. The editorial triptych rotates continuously through each gown.
+          Explore our couture creations across seven romantic shades. The editorial triptych rotates continuously through each gown. Tap any card to view full details.
         </p>
 
         {/* Color Swatches Navigation Pills */}
@@ -163,12 +161,13 @@ export const ShopByColor = () => {
                 <div
                   key={item.id}
                   className={`triptych-card ${slotClass}`}
-                  onClick={() => handleGownClick(item, isCenter)}
+                  onClick={() => handleGownClick(item)}
                   role="button"
                   tabIndex={isVisible ? 0 : -1}
-                  aria-label={`${item.colorName} Bridal Gown - ${item.name}`}
+                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. Click to view whole details.`}
+                  title={`View details of ${item.name}`}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleGownClick(item, isCenter);
+                    if (e.key === 'Enter') handleGownClick(item);
                   }}
                 >
                   <div className="triptych-img-box">
@@ -182,21 +181,12 @@ export const ShopByColor = () => {
                     {/* Gradient Overlay for Editorial Depth */}
                     <div className="triptych-overlay"></div>
 
-                    {/* Center Card Badge & Action */}
-                    {isCenter && (
-                      <div className="triptych-center-cta">
-                        <span className="triptych-pill-badge">
-                          <Eye size={13} /> View Gown Details
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Left / Right Card Click Cue */}
-                    {!isCenter && (
-                      <div className="triptych-cue-badge">
-                        <span>Click to rotate</span>
-                      </div>
-                    )}
+                    {/* Hover Badge on Cards */}
+                    <div className="triptych-center-cta">
+                      <span className="triptych-pill-badge">
+                        <Eye size={13} /> View Gown Details
+                      </span>
+                    </div>
                   </div>
 
                   {/* Caption on the card */}
@@ -218,32 +208,6 @@ export const ShopByColor = () => {
           >
             <ChevronRight size={22} />
           </button>
-        </div>
-
-        {/* Active Gown Editorial Ribbon */}
-        <div className="current-gown-ribbon">
-          <div className="ribbon-left">
-            <span className="ribbon-color-eyebrow">NOW SHOWCASING</span>
-            <h3 className="ribbon-gown-title">{currentGown.name}</h3>
-            <p className="ribbon-gown-desc">{currentGown.subtitle}</p>
-          </div>
-          <div className="ribbon-right">
-            <span className="ribbon-price">{formatPrice(currentGown.price)}</span>
-            <div className="ribbon-actions">
-              <button
-                className="btn-ribbon-primary"
-                onClick={() => handleGownClick(currentGown, true)}
-              >
-                <Eye size={14} /> View Details
-              </button>
-              <button
-                className="btn-ribbon-outline"
-                onClick={() => setIsAppointmentModalOpen(true)}
-              >
-                <Calendar size={14} /> Book Fitting
-              </button>
-            </div>
-          </div>
         </div>
 
         {/* Poetic Editorial Story Statement matching Reference Image */}
