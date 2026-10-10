@@ -16,18 +16,18 @@ export const ShopByColor = () => {
 
   const totalColors = COLOR_DRESSES.length;
 
-  // 1. Idle auto-rotate every 6.5 seconds (slower, majestic pace for editorial viewing)
+  // 1. Idle auto-rotate every 9.5 seconds (very slow, majestic pace for editorial viewing)
   useEffect(() => {
     if (!isAutoPlay || isHovered) return;
 
     autoPlayRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalColors);
-    }, 6500);
+    }, 9500);
 
     return () => clearInterval(autoPlayRef.current);
   }, [isAutoPlay, isHovered, totalColors]);
 
-  // 2. Scroll-driven auto-rotation: calm, paced rotation as user scrolls through this section
+  // 2. Scroll-driven auto-rotation: very slow, stately pace as user scrolls
   useEffect(() => {
     if (typeof window === 'undefined') return;
     lastScrollY.current = window.scrollY;
@@ -38,6 +38,7 @@ export const ShopByColor = () => {
       const inView = rect.top < window.innerHeight && rect.bottom > 0;
       if (!inView) {
         lastScrollY.current = window.scrollY;
+        scrollAccRef.current = 0;
         return;
       }
 
@@ -48,9 +49,10 @@ export const ShopByColor = () => {
       scrollAccRef.current += delta;
       const now = Date.now();
 
-      // Threshold: 145px of scroll delta triggers smooth card rotation with a 260ms cooldown
-      const threshold = 145;
-      if (now - lastStepTime.current > 260) {
+      // Very generous threshold (500px) & 950ms cooldown ensure cards rotate very slowly
+      const threshold = 500;
+      const cooldown = 950;
+      if (now - lastStepTime.current > cooldown) {
         if (scrollAccRef.current >= threshold) {
           setCurrentIndex((prev) => (prev + 1) % totalColors);
           scrollAccRef.current = 0;
@@ -67,13 +69,14 @@ export const ShopByColor = () => {
     return () => window.removeEventListener('scroll', handleWindowScroll);
   }, [totalColors]);
 
-  // 3. Trackpad / mouse-wheel handler over the carousel stage
+  // 3. Trackpad / mouse-wheel handler over the carousel stage (very slow, damped pace)
   const handleStageWheel = (e) => {
     const now = Date.now();
-    if (now - lastStepTime.current < 260) return;
+    const cooldown = 950;
+    if (now - lastStepTime.current < cooldown) return;
 
     scrollAccRef.current += e.deltaY;
-    const threshold = 90;
+    const threshold = 380;
     if (scrollAccRef.current >= threshold) {
       setCurrentIndex((prev) => (prev + 1) % totalColors);
       scrollAccRef.current = 0;
@@ -150,7 +153,7 @@ export const ShopByColor = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="editorial-container">
-        {/* The 5-Image Rotating Editorial Showcase */}
+        {/* The 7-Image Rotating Editorial Showcase */}
         <div className="triptych-stage-wrapper" onWheel={handleStageWheel}>
           {/* Previous Arrow */}
           <button
@@ -162,7 +165,7 @@ export const ShopByColor = () => {
             <ChevronLeft size={22} />
           </button>
 
-          {/* Cards Stage (5 Visible Images: Far Left, Left, Center, Right, Far Right) */}
+          {/* Cards Stage (7 Visible Images in Coverflow Arc: -3 to +3) */}
           <div className="triptych-stage">
             {COLOR_DRESSES.map((item, idx) => {
               const offset = getCardOffset(idx);
@@ -171,7 +174,9 @@ export const ShopByColor = () => {
               const isRight = offset === 1;
               const isFarLeft = offset === -2;
               const isFarRight = offset === 2;
-              const isVisible = Math.abs(offset) <= 2;
+              const isOuterLeft = offset === -3;
+              const isOuterRight = offset === 3;
+              const isVisible = Math.abs(offset) <= 3;
 
               // Derive CSS slot class
               let slotClass = 'slot-hidden';
@@ -180,6 +185,8 @@ export const ShopByColor = () => {
               else if (isRight) slotClass = 'slot-right';
               else if (isFarLeft) slotClass = 'slot-far-left';
               else if (isFarRight) slotClass = 'slot-far-right';
+              else if (isOuterLeft) slotClass = 'slot-outer-left';
+              else if (isOuterRight) slotClass = 'slot-outer-right';
 
               return (
                 <div

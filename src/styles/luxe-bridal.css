@@ -642,7 +642,7 @@ body {
 }
 
 .editorial-container {
-  max-width: 1200px;
+  max-width: 1360px;
   margin: 0 auto;
 }
 
@@ -733,8 +733,8 @@ body {
 .triptych-stage {
   position: relative;
   width: 100%;
-  max-width: 1140px;
-  height: 560px;
+  max-width: 1280px;
+  height: 570px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -745,7 +745,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 25;
+  z-index: 30;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -777,17 +777,17 @@ body {
   box-shadow: 0 8px 24px rgba(183, 110, 101, 0.35);
 }
 
-/* 5-Card Coverflow / Editorial Showcase Cards */
+/* 7-Card Coverflow / Editorial Showcase Cards */
 .triptych-card {
   position: absolute;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   transform-origin: center center;
-  transition: transform 1.15s cubic-bezier(0.25, 1, 0.35, 1),
-              opacity 0.85s ease,
-              box-shadow 0.85s ease,
-              filter 0.85s ease;
+  transition: transform 1.55s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 1.1s ease,
+              box-shadow 1.1s ease,
+              filter 1.1s ease;
   will-change: transform, opacity;
   border-radius: 8px;
   user-select: none;
@@ -809,7 +809,7 @@ body {
   object-fit: cover;
   object-position: center top;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
 }
 
 .triptych-overlay {
@@ -823,85 +823,117 @@ body {
   transform: scale(1.035);
 }
 
-/* 1. Center Hero Slot (Tallest, Centered, Supreme Elevation) */
+/* 1. Center Hero Slot (Tallest, Supreme Elevation) */
 .triptych-card.slot-center {
-  width: 320px;
-  height: 510px;
-  transform: translate3d(0, -10px, 0) scale(1.05);
-  z-index: 10;
+  width: 305px;
+  height: 500px;
+  transform: translate3d(0, -10px, 0) scale(1.06);
+  z-index: 12;
   opacity: 1;
-  box-shadow: 0 30px 70px -15px rgba(35, 27, 25, 0.36), 0 0 0 1px rgba(183, 110, 101, 0.28);
+  box-shadow: 0 32px 75px -15px rgba(35, 27, 25, 0.38), 0 0 0 1px rgba(183, 110, 101, 0.28);
 }
 
 /* 2. Inner Left Slot */
 .triptych-card.slot-left {
-  width: 290px;
+  width: 275px;
   height: 450px;
-  transform: translate3d(-58%, 18px, 0) scale(0.92) rotate(-1.5deg);
-  z-index: 7;
-  opacity: 0.92;
-  box-shadow: 0 18px 45px rgba(35, 27, 25, 0.18);
+  transform: translate3d(-52%, 14px, 0) scale(0.93) rotate(-1.5deg);
+  z-index: 9;
+  opacity: 0.93;
+  box-shadow: 0 20px 48px rgba(35, 27, 25, 0.2);
 }
 
 .triptych-card.slot-left:hover {
   opacity: 1;
-  transform: translate3d(-58%, 10px, 0) scale(0.95) rotate(-0.5deg);
-  box-shadow: 0 22px 52px rgba(35, 27, 25, 0.25);
+  transform: translate3d(-52%, 8px, 0) scale(0.96) rotate(-0.5deg);
+  box-shadow: 0 24px 54px rgba(35, 27, 25, 0.26);
 }
 
 /* 3. Inner Right Slot */
 .triptych-card.slot-right {
-  width: 290px;
+  width: 275px;
   height: 450px;
-  transform: translate3d(58%, 18px, 0) scale(0.92) rotate(1.5deg);
-  z-index: 7;
-  opacity: 0.92;
-  box-shadow: 0 18px 45px rgba(35, 27, 25, 0.18);
+  transform: translate3d(52%, 14px, 0) scale(0.93) rotate(1.5deg);
+  z-index: 9;
+  opacity: 0.93;
+  box-shadow: 0 20px 48px rgba(35, 27, 25, 0.2);
 }
 
 .triptych-card.slot-right:hover {
   opacity: 1;
-  transform: translate3d(58%, 10px, 0) scale(0.95) rotate(0.5deg);
-  box-shadow: 0 22px 52px rgba(35, 27, 25, 0.25);
+  transform: translate3d(52%, 8px, 0) scale(0.96) rotate(0.5deg);
+  box-shadow: 0 24px 54px rgba(35, 27, 25, 0.26);
 }
 
-/* 4. Far Left Slot (Outer Wing Left) */
+/* 4. Far Left Slot */
 .triptych-card.slot-far-left {
-  width: 255px;
+  width: 245px;
   height: 405px;
-  transform: translate3d(-116%, 36px, 0) scale(0.82) rotate(-3deg);
-  z-index: 4;
-  opacity: 0.78;
-  box-shadow: 0 14px 34px rgba(35, 27, 25, 0.14);
+  transform: translate3d(-102%, 30px, 0) scale(0.83) rotate(-3deg);
+  z-index: 6;
+  opacity: 0.82;
+  box-shadow: 0 15px 36px rgba(35, 27, 25, 0.16);
 }
 
 .triptych-card.slot-far-left:hover {
   opacity: 0.96;
-  transform: translate3d(-116%, 28px, 0) scale(0.86) rotate(-1.5deg);
-  box-shadow: 0 18px 42px rgba(35, 27, 25, 0.2);
+  transform: translate3d(-102%, 24px, 0) scale(0.87) rotate(-1.5deg);
+  box-shadow: 0 20px 44px rgba(35, 27, 25, 0.22);
 }
 
-/* 5. Far Right Slot (Outer Wing Right) */
+/* 5. Far Right Slot */
 .triptych-card.slot-far-right {
-  width: 255px;
+  width: 245px;
   height: 405px;
-  transform: translate3d(116%, 36px, 0) scale(0.82) rotate(3deg);
-  z-index: 4;
-  opacity: 0.78;
-  box-shadow: 0 14px 34px rgba(35, 27, 25, 0.14);
+  transform: translate3d(102%, 30px, 0) scale(0.83) rotate(3deg);
+  z-index: 6;
+  opacity: 0.82;
+  box-shadow: 0 15px 36px rgba(35, 27, 25, 0.16);
 }
 
 .triptych-card.slot-far-right:hover {
   opacity: 0.96;
-  transform: translate3d(116%, 28px, 0) scale(0.86) rotate(1.5deg);
-  box-shadow: 0 18px 42px rgba(35, 27, 25, 0.2);
+  transform: translate3d(102%, 24px, 0) scale(0.87) rotate(1.5deg);
+  box-shadow: 0 20px 44px rgba(35, 27, 25, 0.22);
 }
 
-/* 6. Hidden Offscreen Slots */
+/* 6. Outermost Left Slot (Wing 3 Left) */
+.triptych-card.slot-outer-left {
+  width: 215px;
+  height: 365px;
+  transform: translate3d(-148%, 46px, 0) scale(0.74) rotate(-4.5deg);
+  z-index: 3;
+  opacity: 0.68;
+  box-shadow: 0 12px 28px rgba(35, 27, 25, 0.12);
+}
+
+.triptych-card.slot-outer-left:hover {
+  opacity: 0.9;
+  transform: translate3d(-148%, 40px, 0) scale(0.78) rotate(-2.5deg);
+  box-shadow: 0 16px 36px rgba(35, 27, 25, 0.18);
+}
+
+/* 7. Outermost Right Slot (Wing 3 Right) */
+.triptych-card.slot-outer-right {
+  width: 215px;
+  height: 365px;
+  transform: translate3d(148%, 46px, 0) scale(0.74) rotate(4.5deg);
+  z-index: 3;
+  opacity: 0.68;
+  box-shadow: 0 12px 28px rgba(35, 27, 25, 0.12);
+}
+
+.triptych-card.slot-outer-right:hover {
+  opacity: 0.9;
+  transform: translate3d(148%, 40px, 0) scale(0.78) rotate(2.5deg);
+  box-shadow: 0 16px 36px rgba(35, 27, 25, 0.18);
+}
+
+/* 8. Hidden Offscreen Slots */
 .triptych-card.slot-hidden {
-  width: 250px;
-  height: 400px;
-  transform: translate3d(0, 50px, 0) scale(0.65);
+  width: 210px;
+  height: 360px;
+  transform: translate3d(0, 50px, 0) scale(0.55);
   z-index: 0;
   opacity: 0;
   pointer-events: none;
@@ -1733,6 +1765,12 @@ body {
     max-width: 960px;
     height: 520px;
   }
+  .triptych-card.slot-outer-left,
+  .triptych-card.slot-outer-right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
   .triptych-card.slot-center {
     width: 290px;
     height: 470px;
@@ -1817,12 +1855,14 @@ body {
     max-width: 720px;
     height: 500px;
   }
+  .triptych-card.slot-outer-left,
+  .triptych-card.slot-outer-right,
   .triptych-card.slot-far-left,
   .triptych-card.slot-far-right {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translate3d(0, 50px, 0) scale(0.65);
+    transform: translate3d(0, 50px, 0) scale(0.6);
   }
   .triptych-card.slot-left {
     transform: translate3d(-70%, 18px, 0) scale(0.88) rotate(-1deg);
