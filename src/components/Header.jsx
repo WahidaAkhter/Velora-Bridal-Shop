@@ -152,7 +152,7 @@ export const Header = () => {
                     onClick={() => handleNavClick('shop-by-color-heading')}
                   >
                     <span>Shop By Color</span>
-                    <span className="subitem-note">7 Color Tones</span>
+                    <span className="subitem-note">12 Color Tones</span>
                   </button>
                   <button
                     className="dropdown-subitem"

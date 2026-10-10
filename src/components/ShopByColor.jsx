@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { COLOR_DRESSES, PRODUCTS } from '../data/products';
-import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const ShopByColor = () => {
   const { setSelectedProduct } = useApp();
@@ -9,19 +9,81 @@ export const ShopByColor = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const autoPlayRef = useRef(null);
+  const sectionRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const scrollAccRef = useRef(0);
+  const lastStepTime = useRef(0);
 
   const totalColors = COLOR_DRESSES.length;
 
-  // Auto-rotate every 4.2 seconds; pauses on hover so brides can explore
+  // 1. Idle auto-rotate every 6.5 seconds (slower, majestic pace for editorial viewing)
   useEffect(() => {
     if (!isAutoPlay || isHovered) return;
 
     autoPlayRef.current = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalColors);
-    }, 4200);
+    }, 6500);
 
     return () => clearInterval(autoPlayRef.current);
   }, [isAutoPlay, isHovered, totalColors]);
+
+  // 2. Scroll-driven auto-rotation: calm, paced rotation as user scrolls through this section
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    lastScrollY.current = window.scrollY;
+
+    const handleWindowScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) {
+        lastScrollY.current = window.scrollY;
+        return;
+      }
+
+      const currentY = window.scrollY;
+      const delta = currentY - lastScrollY.current;
+      lastScrollY.current = currentY;
+
+      scrollAccRef.current += delta;
+      const now = Date.now();
+
+      // Threshold: 145px of scroll delta triggers smooth card rotation with a 260ms cooldown
+      const threshold = 145;
+      if (now - lastStepTime.current > 260) {
+        if (scrollAccRef.current >= threshold) {
+          setCurrentIndex((prev) => (prev + 1) % totalColors);
+          scrollAccRef.current = 0;
+          lastStepTime.current = now;
+        } else if (scrollAccRef.current <= -threshold) {
+          setCurrentIndex((prev) => (prev - 1 + totalColors) % totalColors);
+          scrollAccRef.current = 0;
+          lastStepTime.current = now;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleWindowScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleWindowScroll);
+  }, [totalColors]);
+
+  // 3. Trackpad / mouse-wheel handler over the carousel stage
+  const handleStageWheel = (e) => {
+    const now = Date.now();
+    if (now - lastStepTime.current < 260) return;
+
+    scrollAccRef.current += e.deltaY;
+    const threshold = 90;
+    if (scrollAccRef.current >= threshold) {
+      setCurrentIndex((prev) => (prev + 1) % totalColors);
+      scrollAccRef.current = 0;
+      lastStepTime.current = now;
+    } else if (scrollAccRef.current <= -threshold) {
+      setCurrentIndex((prev) => (prev - 1 + totalColors) % totalColors);
+      scrollAccRef.current = 0;
+      lastStepTime.current = now;
+    }
+  };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev + 1) % totalColors);
@@ -64,13 +126,10 @@ export const ShopByColor = () => {
     setSelectedProduct(matched);
   };
 
-  const handleCardClick = (colorItem, isCenter) => {
+  const handleCardClick = (colorItem) => {
     const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
-    if (!isCenter) {
-      if (idx !== -1) setCurrentIndex(idx);
-    } else {
-      openProductDetails(colorItem);
-    }
+    if (idx !== -1) setCurrentIndex(idx);
+    openProductDetails(colorItem);
   };
 
   // Calculate relative offset for continuous rotation
@@ -83,6 +142,7 @@ export const ShopByColor = () => {
 
   return (
     <section
+      ref={sectionRef}
       className="luxe-color-section editorial-showcase"
       id="shop-by-color-heading"
       aria-label="Editorial Gown Showcase"
@@ -91,7 +151,7 @@ export const ShopByColor = () => {
     >
       <div className="editorial-container">
         {/* The 5-Image Rotating Editorial Showcase */}
-        <div className="triptych-stage-wrapper">
+        <div className="triptych-stage-wrapper" onWheel={handleStageWheel}>
           {/* Previous Arrow */}
           <button
             className="triptych-nav-arrow arrow-prev"
@@ -125,13 +185,13 @@ export const ShopByColor = () => {
                 <div
                   key={item.id}
                   className={`triptych-card ${slotClass}`}
-                  onClick={() => handleCardClick(item, isCenter)}
+                  onClick={() => handleCardClick(item)}
                   role="button"
                   tabIndex={isVisible ? 0 : -1}
-                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. ${isCenter ? 'Click to view whole details.' : 'Click to rotate to center.'}`}
-                  title={isCenter ? `View details of ${item.name}` : `Rotate ${item.name} to center`}
+                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. Click to view full details.`}
+                  title={`Click to view full details of ${item.name}`}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleCardClick(item, isCenter);
+                    if (e.key === 'Enter') handleCardClick(item);
                   }}
                 >
                   <div className="triptych-img-box">
@@ -141,28 +201,6 @@ export const ShopByColor = () => {
                       className="triptych-img"
                       loading="lazy"
                     />
-
-                    {/* Gradient Overlay for Editorial Depth */}
-                    <div className="triptych-overlay"></div>
-
-                    {/* Action Badge on Cards */}
-                    <div className="triptych-center-cta">
-                      <span
-                        className="triptych-pill-badge"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openProductDetails(item);
-                        }}
-                      >
-                        <Eye size={13} /> View Gown Details
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Caption on the card */}
-                  <div className="triptych-card-meta">
-                    <span className="triptych-color-tag">{item.colorName}</span>
-                    <span className="triptych-title-tag">{item.name}</span>
                   </div>
                 </div>
               );

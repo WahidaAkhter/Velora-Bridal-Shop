@@ -784,10 +784,10 @@ body {
   flex-direction: column;
   cursor: pointer;
   transform-origin: center center;
-  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.65s ease,
-              box-shadow 0.65s ease,
-              filter 0.65s ease;
+  transition: transform 1.15s cubic-bezier(0.25, 1, 0.35, 1),
+              opacity 0.85s ease,
+              box-shadow 0.85s ease,
+              filter 0.85s ease;
   will-change: transform, opacity;
   border-radius: 8px;
   user-select: none;
@@ -815,8 +815,12 @@ body {
 .triptych-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 65%, rgba(20, 15, 14, 0.45) 100%);
+  background: linear-gradient(180deg, transparent 75%, rgba(20, 15, 14, 0.25) 100%);
   pointer-events: none;
+}
+
+.triptych-card:hover .triptych-img {
+  transform: scale(1.035);
 }
 
 /* 1. Center Hero Slot (Tallest, Centered, Supreme Elevation) */
@@ -827,10 +831,6 @@ body {
   z-index: 10;
   opacity: 1;
   box-shadow: 0 30px 70px -15px rgba(35, 27, 25, 0.36), 0 0 0 1px rgba(183, 110, 101, 0.28);
-}
-
-.triptych-card.slot-center:hover .triptych-img {
-  transform: scale(1.04);
 }
 
 /* 2. Inner Left Slot */

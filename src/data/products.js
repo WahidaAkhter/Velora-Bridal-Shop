@@ -1,7 +1,7 @@
 export const CATEGORIES = [
-  { id: 'all', name: 'All Collections', count: 11, icon: 'Sparkles' },
+  { id: 'all', name: 'All Collections', count: 16, icon: 'Sparkles' },
   { id: 'featured', name: 'Featured Gowns', count: 4, icon: 'Crown' },
-  { id: 'color-collection', name: 'Shop By Color', count: 7, icon: 'Palette' },
+  { id: 'color-collection', name: 'Shop By Color', count: 12, icon: 'Palette' },
   { id: 'accessories', name: 'Bridal Accessories', count: 4, icon: 'Gem' }
 ];
 
@@ -89,6 +89,66 @@ export const COLOR_DRESSES = [
     colorHex: '#1A1A1A',
     category: 'color-collection',
     description: 'Daring, unforgettable, and undeniably regal. Midnight black tulle and Chantilly lace for the bold couture bride.'
+  },
+  {
+    id: 'color-8',
+    colorName: 'EMERALD GREEN',
+    name: 'Emerald Empress Ballgown',
+    slug: 'emerald-empress-ballgown',
+    subtitle: 'Regal emerald French lace with sweeping tiered skirt',
+    price: 2490,
+    image: '/images/bridal/color-emerald-green.jpg',
+    colorHex: '#1E4D38',
+    category: 'color-collection',
+    description: 'An ode to royal grandeur. Lush emerald green Chantilly lace adorned with golden thread accents, an illusion V-neckline, and an opulent layered tulle ballgown skirt.'
+  },
+  {
+    id: 'color-9',
+    colorName: 'RUBY BURGUNDY',
+    name: 'Ruby Sovereign Couture Gown',
+    slug: 'ruby-sovereign-couture-gown',
+    subtitle: 'Dramatic deep wine red with hand-beaded lace corset',
+    price: 2550,
+    image: '/images/bridal/color-burgundy.jpg',
+    colorHex: '#6A1A24',
+    category: 'color-collection',
+    description: 'Sensational and deeply romantic. Deep ruby burgundy layers with hand-encrusted crystal beading across a structured corset bodice and an architectural ruffled train.'
+  },
+  {
+    id: 'color-10',
+    colorName: 'PEACH ROSE GOLD',
+    name: 'Peach Blossom Shimmer Gown',
+    slug: 'peach-blossom-shimmer-gown',
+    subtitle: 'Warm luminous peach tulle with floral corset embroidery',
+    price: 2320,
+    image: '/images/bridal/color-peach.jpg',
+    colorHex: '#E8A598',
+    category: 'color-collection',
+    description: 'Sunlit warmth captured in fabric. Features an off-the-shoulder sculpted corset adorned with floral appliqués and glittering rose-gold metallic threading.'
+  },
+  {
+    id: 'color-11',
+    colorName: 'MIDNIGHT NAVY',
+    name: 'Midnight Celestial Starlight Gown',
+    slug: 'midnight-celestial-starlight-gown',
+    subtitle: 'Starlight crystal beading on deep navy blue tulle',
+    price: 2450,
+    image: '/images/bridal/color-midnight-navy.jpg',
+    colorHex: '#18233C',
+    category: 'color-collection',
+    description: 'Like a midnight sky dusted in constellations. Deep sapphire navy blue layers illuminated by hand-applied crystal shimmer and a regal off-shoulder neckline.'
+  },
+  {
+    id: 'color-12',
+    colorName: 'LILAC PERIWINKLE',
+    name: 'Lilac Fairytale Cascading Gown',
+    slug: 'lilac-fairytale-cascading-gown',
+    subtitle: 'Tiered periwinkle organza with crystalline florals',
+    price: 2390,
+    image: '/images/bridal/color-lilac.jpg',
+    colorHex: '#8C92C8',
+    category: 'color-collection',
+    description: 'A storybook silhouette in dreamy periwinkle lilac. Cascading tiered organza flounces pair with an intricately beaded crystal bodice for pure fairytale wonder.'
   }
 ];
 
