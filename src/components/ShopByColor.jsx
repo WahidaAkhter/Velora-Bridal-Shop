@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { COLOR_DRESSES, PRODUCTS } from '../data/products';
-import { ChevronLeft, ChevronRight, Eye, Calendar, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 
 export const ShopByColor = () => {
-  const { setSelectedProduct, setIsAppointmentModalOpen, formatPrice } = useApp();
+  const { setSelectedProduct } = useApp();
   const [currentIndex, setCurrentIndex] = useState(2); // Start with romantic Blush Pink in center
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
@@ -31,18 +31,7 @@ export const ShopByColor = () => {
     setCurrentIndex((prev) => (prev - 1 + totalColors) % totalColors);
   };
 
-  const handleSelectColor = (index) => {
-    setCurrentIndex(index);
-  };
-
-  const currentGown = COLOR_DRESSES[currentIndex];
-
-  const handleGownClick = (colorItem) => {
-    // Bring clicked color into focus in the carousel
-    const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
-    if (idx !== -1) setCurrentIndex(idx);
-
-    // Open full details of that dress
+  const openProductDetails = (colorItem) => {
     const matched = PRODUCTS.find((p) => p.slug === colorItem.slug) || {
       id: colorItem.id,
       name: `${colorItem.colorName} BRIDAL GOWN`,
@@ -75,6 +64,15 @@ export const ShopByColor = () => {
     setSelectedProduct(matched);
   };
 
+  const handleCardClick = (colorItem, isCenter) => {
+    const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
+    if (!isCenter) {
+      if (idx !== -1) setCurrentIndex(idx);
+    } else {
+      openProductDetails(colorItem);
+    }
+  };
+
   // Calculate relative offset for continuous rotation
   const getCardOffset = (index) => {
     let diff = (index - currentIndex) % totalColors;
@@ -87,50 +85,12 @@ export const ShopByColor = () => {
     <section
       className="luxe-color-section editorial-showcase"
       id="shop-by-color-heading"
-      aria-label="Shop By Color"
+      aria-label="Editorial Gown Showcase"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="editorial-container">
-        {/* Decorative Section Header */}
-        <div className="luxe-ornament-header">
-          <span className="ornament-line"></span>
-          <span className="ornament-diamond">◇</span>
-          <h2 className="ornament-title">SHOP BY COLOR</h2>
-          <span className="ornament-diamond">◇</span>
-          <span className="ornament-line"></span>
-        </div>
-
-        <p className="editorial-subheading">
-          Explore our couture creations across seven romantic shades. The editorial triptych rotates continuously through each gown. Tap any card to view full details.
-        </p>
-
-        {/* Color Swatches Navigation Pills */}
-        <div className="color-palette-bar" role="tablist" aria-label="Color Palette">
-          {COLOR_DRESSES.map((item, idx) => {
-            const isActive = idx === currentIndex;
-            return (
-              <button
-                key={item.id}
-                role="tab"
-                aria-selected={isActive}
-                className={`color-pill-btn ${isActive ? 'active' : ''}`}
-                onClick={() => handleSelectColor(idx)}
-              >
-                <span
-                  className="color-pill-dot"
-                  style={{
-                    backgroundColor: item.colorHex,
-                    border: item.colorName === 'IVORY' ? '1px solid #D6CCC7' : 'none'
-                  }}
-                />
-                <span className="color-pill-text">{item.colorName}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* The 3-Image Rotating Editorial Triptych */}
+        {/* The 5-Image Rotating Editorial Showcase */}
         <div className="triptych-stage-wrapper">
           {/* Previous Arrow */}
           <button
@@ -142,32 +102,36 @@ export const ShopByColor = () => {
             <ChevronLeft size={22} />
           </button>
 
-          {/* Cards Stage */}
+          {/* Cards Stage (5 Visible Images: Far Left, Left, Center, Right, Far Right) */}
           <div className="triptych-stage">
             {COLOR_DRESSES.map((item, idx) => {
               const offset = getCardOffset(idx);
               const isCenter = offset === 0;
               const isLeft = offset === -1;
               const isRight = offset === 1;
-              const isVisible = isCenter || isLeft || isRight;
+              const isFarLeft = offset === -2;
+              const isFarRight = offset === 2;
+              const isVisible = Math.abs(offset) <= 2;
 
               // Derive CSS slot class
               let slotClass = 'slot-hidden';
               if (isCenter) slotClass = 'slot-center';
               else if (isLeft) slotClass = 'slot-left';
               else if (isRight) slotClass = 'slot-right';
+              else if (isFarLeft) slotClass = 'slot-far-left';
+              else if (isFarRight) slotClass = 'slot-far-right';
 
               return (
                 <div
                   key={item.id}
                   className={`triptych-card ${slotClass}`}
-                  onClick={() => handleGownClick(item)}
+                  onClick={() => handleCardClick(item, isCenter)}
                   role="button"
                   tabIndex={isVisible ? 0 : -1}
-                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. Click to view whole details.`}
-                  title={`View details of ${item.name}`}
+                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. ${isCenter ? 'Click to view whole details.' : 'Click to rotate to center.'}`}
+                  title={isCenter ? `View details of ${item.name}` : `Rotate ${item.name} to center`}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleGownClick(item);
+                    if (e.key === 'Enter') handleCardClick(item, isCenter);
                   }}
                 >
                   <div className="triptych-img-box">
@@ -181,9 +145,15 @@ export const ShopByColor = () => {
                     {/* Gradient Overlay for Editorial Depth */}
                     <div className="triptych-overlay"></div>
 
-                    {/* Hover Badge on Cards */}
+                    {/* Action Badge on Cards */}
                     <div className="triptych-center-cta">
-                      <span className="triptych-pill-badge">
+                      <span
+                        className="triptych-pill-badge"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openProductDetails(item);
+                        }}
+                      >
                         <Eye size={13} /> View Gown Details
                       </span>
                     </div>

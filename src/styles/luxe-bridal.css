@@ -725,15 +725,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 590px;
+  min-height: 580px;
   margin: 10px 0 32px;
+  width: 100%;
 }
 
 .triptych-stage {
   position: relative;
   width: 100%;
-  max-width: 980px;
-  height: 570px;
+  max-width: 1140px;
+  height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -744,28 +745,28 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 20;
-  width: 46px;
-  height: 46px;
+  z-index: 25;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(241, 221, 215, 0.9);
+  border: 1px solid rgba(241, 221, 215, 0.95);
   color: var(--luxe-text-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.25s ease;
-  box-shadow: 0 6px 18px rgba(45, 35, 33, 0.12);
+  box-shadow: 0 6px 20px rgba(45, 35, 33, 0.16);
 }
 
 .arrow-prev {
-  left: 8px;
+  left: 6px;
 }
 
 .arrow-next {
-  right: 8px;
+  right: 6px;
 }
 
 .triptych-nav-arrow:hover {
@@ -773,10 +774,10 @@ body {
   color: #FFFFFF;
   border-color: var(--luxe-rose);
   transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 8px 22px rgba(183, 110, 101, 0.32);
+  box-shadow: 0 8px 24px rgba(183, 110, 101, 0.35);
 }
 
-/* Triptych Cards (Left, Center, Right, and Hidden) */
+/* 5-Card Coverflow / Editorial Showcase Cards */
 .triptych-card {
   position: absolute;
   display: flex;
@@ -789,6 +790,7 @@ body {
               filter 0.65s ease;
   will-change: transform, opacity;
   border-radius: 8px;
+  user-select: none;
 }
 
 .triptych-img-box {
@@ -817,26 +819,103 @@ body {
   pointer-events: none;
 }
 
-/* 1. Center Slot (The Majestic Tall Hero from Reference Image) */
+/* 1. Center Hero Slot (Tallest, Centered, Supreme Elevation) */
 .triptych-card.slot-center {
-  width: 370px;
-  height: 550px;
-  transform: translate3d(0, -10px, 0) scale(1.06);
+  width: 320px;
+  height: 510px;
+  transform: translate3d(0, -10px, 0) scale(1.05);
   z-index: 10;
   opacity: 1;
-  box-shadow: 0 30px 70px -15px rgba(35, 27, 25, 0.35), 0 0 0 1px rgba(183, 110, 101, 0.25);
+  box-shadow: 0 30px 70px -15px rgba(35, 27, 25, 0.36), 0 0 0 1px rgba(183, 110, 101, 0.28);
 }
 
 .triptych-card.slot-center:hover .triptych-img {
   transform: scale(1.04);
 }
 
+/* 2. Inner Left Slot */
+.triptych-card.slot-left {
+  width: 290px;
+  height: 450px;
+  transform: translate3d(-58%, 18px, 0) scale(0.92) rotate(-1.5deg);
+  z-index: 7;
+  opacity: 0.92;
+  box-shadow: 0 18px 45px rgba(35, 27, 25, 0.18);
+}
+
+.triptych-card.slot-left:hover {
+  opacity: 1;
+  transform: translate3d(-58%, 10px, 0) scale(0.95) rotate(-0.5deg);
+  box-shadow: 0 22px 52px rgba(35, 27, 25, 0.25);
+}
+
+/* 3. Inner Right Slot */
+.triptych-card.slot-right {
+  width: 290px;
+  height: 450px;
+  transform: translate3d(58%, 18px, 0) scale(0.92) rotate(1.5deg);
+  z-index: 7;
+  opacity: 0.92;
+  box-shadow: 0 18px 45px rgba(35, 27, 25, 0.18);
+}
+
+.triptych-card.slot-right:hover {
+  opacity: 1;
+  transform: translate3d(58%, 10px, 0) scale(0.95) rotate(0.5deg);
+  box-shadow: 0 22px 52px rgba(35, 27, 25, 0.25);
+}
+
+/* 4. Far Left Slot (Outer Wing Left) */
+.triptych-card.slot-far-left {
+  width: 255px;
+  height: 405px;
+  transform: translate3d(-116%, 36px, 0) scale(0.82) rotate(-3deg);
+  z-index: 4;
+  opacity: 0.78;
+  box-shadow: 0 14px 34px rgba(35, 27, 25, 0.14);
+}
+
+.triptych-card.slot-far-left:hover {
+  opacity: 0.96;
+  transform: translate3d(-116%, 28px, 0) scale(0.86) rotate(-1.5deg);
+  box-shadow: 0 18px 42px rgba(35, 27, 25, 0.2);
+}
+
+/* 5. Far Right Slot (Outer Wing Right) */
+.triptych-card.slot-far-right {
+  width: 255px;
+  height: 405px;
+  transform: translate3d(116%, 36px, 0) scale(0.82) rotate(3deg);
+  z-index: 4;
+  opacity: 0.78;
+  box-shadow: 0 14px 34px rgba(35, 27, 25, 0.14);
+}
+
+.triptych-card.slot-far-right:hover {
+  opacity: 0.96;
+  transform: translate3d(116%, 28px, 0) scale(0.86) rotate(1.5deg);
+  box-shadow: 0 18px 42px rgba(35, 27, 25, 0.2);
+}
+
+/* 6. Hidden Offscreen Slots */
+.triptych-card.slot-hidden {
+  width: 250px;
+  height: 400px;
+  transform: translate3d(0, 50px, 0) scale(0.65);
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Action CTA Pill on Cards */
 .triptych-center-cta {
   position: absolute;
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
+  width: max-content;
 }
 
 .triptych-pill-badge {
@@ -855,81 +934,14 @@ body {
   gap: 6px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
   transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
 }
 
-.triptych-card.slot-center:hover .triptych-pill-badge {
+.triptych-card:hover .triptych-pill-badge {
   background: var(--luxe-rose);
   color: #FFFFFF;
-  transform: scale(1.05);
-}
-
-/* 2. Left Slot (Medium Portrait, Stepped Down & Overlapping to the Left) */
-.triptych-card.slot-left {
-  width: 330px;
-  height: 460px;
-  transform: translate3d(-78%, 24px, 0) scale(0.91) rotate(-1.5deg);
-  z-index: 4;
-  opacity: 0.86;
-  box-shadow: 0 16px 40px rgba(35, 27, 25, 0.16);
-}
-
-.triptych-card.slot-left:hover {
-  opacity: 0.98;
-  transform: translate3d(-78%, 16px, 0) scale(0.94) rotate(-0.5deg);
-  box-shadow: 0 20px 48px rgba(35, 27, 25, 0.24);
-}
-
-/* 3. Right Slot (Editorial Stepped Down & Overlapping to the Right) */
-.triptych-card.slot-right {
-  width: 340px;
-  height: 480px;
-  transform: translate3d(78%, 30px, 0) scale(0.92) rotate(1.5deg);
-  z-index: 5;
-  opacity: 0.88;
-  box-shadow: 0 18px 45px rgba(35, 27, 25, 0.18);
-}
-
-.triptych-card.slot-right:hover {
-  opacity: 0.98;
-  transform: translate3d(78%, 20px, 0) scale(0.95) rotate(0.5deg);
-  box-shadow: 0 22px 52px rgba(35, 27, 25, 0.26);
-}
-
-/* Click Cue on Left/Right Cards */
-.triptych-cue-badge {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(45, 35, 33, 0.72);
-  backdrop-filter: blur(4px);
-  color: #FFFFFF;
-  font-family: var(--font-sans-luxe);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.triptych-card.slot-left:hover .triptych-cue-badge,
-.triptych-card.slot-right:hover .triptych-cue-badge {
-  opacity: 1;
-}
-
-/* 4. Hidden Offscreen Slots */
-.triptych-card.slot-hidden {
-  width: 320px;
-  height: 440px;
-  transform: translate3d(0, 50px, 0) scale(0.7);
-  z-index: 0;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
+  transform: scale(1.04);
 }
 
 /* Card Metadata / Label */
@@ -1717,6 +1729,34 @@ body {
   .luxe-nav-menu {
     gap: 14px;
   }
+  .triptych-stage {
+    max-width: 960px;
+    height: 520px;
+  }
+  .triptych-card.slot-center {
+    width: 290px;
+    height: 470px;
+  }
+  .triptych-card.slot-left {
+    width: 260px;
+    height: 410px;
+    transform: translate3d(-54%, 16px, 0) scale(0.9) rotate(-1.5deg);
+  }
+  .triptych-card.slot-right {
+    width: 260px;
+    height: 410px;
+    transform: translate3d(54%, 16px, 0) scale(0.9) rotate(1.5deg);
+  }
+  .triptych-card.slot-far-left {
+    width: 230px;
+    height: 370px;
+    transform: translate3d(-108%, 32px, 0) scale(0.8) rotate(-2.5deg);
+  }
+  .triptych-card.slot-far-right {
+    width: 230px;
+    height: 370px;
+    transform: translate3d(108%, 32px, 0) scale(0.8) rotate(2.5deg);
+  }
 }
 
 @media (max-width: 868px) {
@@ -1773,6 +1813,23 @@ body {
   .featured-cards-container {
     grid-template-columns: repeat(2, 1fr);
   }
+  .triptych-stage {
+    max-width: 720px;
+    height: 500px;
+  }
+  .triptych-card.slot-far-left,
+  .triptych-card.slot-far-right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate3d(0, 50px, 0) scale(0.65);
+  }
+  .triptych-card.slot-left {
+    transform: translate3d(-70%, 18px, 0) scale(0.88) rotate(-1deg);
+  }
+  .triptych-card.slot-right {
+    transform: translate3d(70%, 18px, 0) scale(0.88) rotate(1deg);
+  }
   .luxe-footer-container {
     flex-direction: column;
     text-align: center;
@@ -1794,6 +1851,23 @@ body {
   }
   .trust-item-col {
     border-right: none !important;
+  }
+  .triptych-stage-wrapper {
+    min-height: 480px;
+  }
+  .triptych-stage {
+    height: 460px;
+  }
+  .triptych-card.slot-left,
+  .triptych-card.slot-right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .triptych-card.slot-center {
+    width: 280px;
+    height: 440px;
+    transform: translate3d(0, 0, 0) scale(1);
   }
   .featured-cards-container {
     grid-template-columns: 1fr;
