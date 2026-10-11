@@ -5,12 +5,12 @@
 
 :root {
   /* Color Palette - Luxury Soft Blush Pink Theme */
-  --bg-primary: #F9EBE8;
+  --bg-primary: #FDF7F5;
   --bg-secondary: #FFFFFF;
   --bg-tertiary: #F8EAE6;
   --bg-elevated: #FFFFFF;
-  --bg-glass: rgba(249, 235, 232, 0.92);
-  --bg-pink-bar: #F9EBE8;
+  --bg-glass: rgba(253, 247, 245, 0.92);
+  --bg-pink-bar: #F7ECE8;
 
   --text-primary: #2D2321;
   --text-secondary: #6E5D5A;
