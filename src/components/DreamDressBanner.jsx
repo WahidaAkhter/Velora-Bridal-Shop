@@ -1,80 +1,172 @@
-import React from 'react';
-import { Calendar, Store } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronDown, Check } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import { useApp } from '../context/AppContext';
 
-// Custom Hanger / Stylist line icon
-const HangerIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="banner-icon-svg">
-    <path d="M12 4a2 2 0 0 1 2 2c0 1-1 1.5-2 2.5L2 15h20L14 8.5" />
-    <path d="M2 15v3a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3" />
-  </svg>
-);
-
-// Diamond line icon
-const DiamondIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="banner-icon-svg">
-    <polygon points="6 3 18 3 22 9 12 21 2 9 6 3" />
-    <line x1="2" y1="9" x2="22" y2="9" />
-    <polyline points="10 3 12 9 14 3" />
-    <line x1="12" y1="9" x2="12" y2="21" />
-  </svg>
-);
-
 export const DreamDressBanner = () => {
-  const { setIsAppointmentModalOpen } = useApp();
+  const { showToast } = useApp();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    email: '',
+    weddingDate: '',
+    city: '',
+    country: ''
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.firstName || !formData.email) return;
+
+    setIsSubmitted(true);
+    try {
+      confetti({
+        particleCount: 75,
+        spread: 60,
+        origin: { y: 0.75 }
+      });
+    } catch {
+      // Confetti fallback
+    }
+
+    if (showToast) {
+      showToast("VIP Access Granted! You're on the priority list.");
+    }
+  };
 
   return (
-    <section className="luxe-dream-banner-section" id="dream-dress-banner" aria-label="Book Bridal Consultation">
-      <div className="dream-banner-card">
-        {/* Col 1: Book Appointment */}
-        <div className="dream-col">
-          <div className="dream-icon-wrap">
-            <Calendar size={22} className="banner-icon-svg" />
-          </div>
-          <h4 className="dream-col-title">BOOK APPOINTMENT</h4>
-          <p className="dream-col-subtitle">Schedule your private consultation today.</p>
-        </div>
+    <section className="luxe-dream-banner-section" id="dream-dress-banner" aria-label="Ready to say yes to your dream dress">
+      <div className="dream-access-container">
+        <h2 className="dream-access-heading">
+          Ready to say yes to your dream dress? Stay updated
+        </h2>
 
-        {/* Col 2: Expert Stylists */}
-        <div className="dream-col">
-          <div className="dream-icon-wrap">
-            <HangerIcon />
+        {isSubmitted ? (
+          <div className="dream-access-success">
+            <div className="dream-success-badge">
+              <Check size={18} />
+            </div>
+            <h3 className="dream-success-title">VIP ACCESS GRANTED</h3>
+            <p className="dream-success-desc">
+              Thank you, {formData.firstName}! You have been added to our exclusive bridal priority list. Our bridal concierge will reach out to you shortly with early access and private appointment scheduling.
+            </p>
+            <button
+              type="button"
+              className="dream-reset-btn"
+              onClick={() => {
+                setFormData({ firstName: '', email: '', weddingDate: '', city: '', country: '' });
+                setIsSubmitted(false);
+              }}
+            >
+              REGISTER ANOTHER APPOINTMENT
+            </button>
           </div>
-          <h4 className="dream-col-title">EXPERT STYLISTS</h4>
-          <p className="dream-col-subtitle">Our stylists are here to help you shine.</p>
-        </div>
+        ) : (
+          <form className="dream-access-form" onSubmit={handleSubmit} noValidate={false}>
+            <div className="dream-form-grid">
+              {/* Row 1 - Col 1: Name */}
+              <div className="dream-form-field">
+                <label htmlFor="dream-first-name" className="dream-field-label">
+                  Name
+                </label>
+                <input
+                  id="dream-first-name"
+                  type="text"
+                  required
+                  placeholder="First Name"
+                  className="dream-field-input"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                />
+              </div>
 
-        {/* Center Col: Your Dream Dress Awaits You */}
-        <div className="dream-center-col">
-          <h3 className="dream-center-heading">
-            Your Dream Dress<br />
-            <span>Awaits You</span>
-          </h3>
-          <button
-            className="dream-cta-button"
-            onClick={() => setIsAppointmentModalOpen(true)}
-          >
-            BOOK YOUR APPOINTMENT
-          </button>
-        </div>
+              {/* Row 1 - Col 2: Email Address */}
+              <div className="dream-form-field">
+                <label htmlFor="dream-email" className="dream-field-label">
+                  Email Address
+                </label>
+                <input
+                  id="dream-email"
+                  type="email"
+                  required
+                  placeholder="Enter your email address"
+                  className="dream-field-input"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </div>
 
-        {/* Col 4: Perfect Fit */}
-        <div className="dream-col">
-          <div className="dream-icon-wrap">
-            <DiamondIcon />
-          </div>
-          <h4 className="dream-col-title">PERFECT FIT</h4>
-          <p className="dream-col-subtitle">Custom alterations for your perfect fit.</p>
-        </div>
+              {/* Row 1 - Col 3: Wedding Date */}
+              <div className="dream-form-field">
+                <label htmlFor="dream-wedding-date" className="dream-field-label">
+                  Wedding Date
+                </label>
+                <input
+                  id="dream-wedding-date"
+                  type="text"
+                  placeholder="DD/MM/YYYY"
+                  className="dream-field-input"
+                  value={formData.weddingDate}
+                  onChange={(e) => setFormData({ ...formData, weddingDate: e.target.value })}
+                />
+              </div>
 
-        {/* Col 5: Visit Our Boutique */}
-        <div className="dream-col">
-          <div className="dream-icon-wrap">
-            <Store size={22} className="banner-icon-svg" />
-          </div>
-          <h4 className="dream-col-title">VISIT OUR BOUTIQUE</h4>
-          <p className="dream-col-subtitle">Experience luxury in our beautiful bridal salon.</p>
-        </div>
+              {/* Row 2 - Col 1: City */}
+              <div className="dream-form-field">
+                <label htmlFor="dream-city" className="dream-field-label">
+                  City
+                </label>
+                <input
+                  id="dream-city"
+                  type="text"
+                  placeholder="City"
+                  className="dream-field-input"
+                  value={formData.city}
+                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                />
+              </div>
+
+              {/* Row 2 - Col 2: Country */}
+              <div className="dream-form-field">
+                <label htmlFor="dream-country" className="dream-field-label">
+                  Country
+                </label>
+                <div className="dream-select-wrapper">
+                  <select
+                    id="dream-country"
+                    className={`dream-field-select ${!formData.country ? 'is-placeholder' : ''}`}
+                    value={formData.country}
+                    onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  >
+                    <option value="" disabled>Select your country</option>
+                    <option value="United States">United States</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="France">France</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="United Arab Emirates">United Arab Emirates</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <ChevronDown className="dream-select-chevron" size={16} strokeWidth={2.5} />
+                </div>
+              </div>
+
+              {/* Row 2 - Col 3: Submit Button */}
+              <div className="dream-form-field dream-btn-field">
+                <span className="dream-field-label-spacer" aria-hidden="true">&nbsp;</span>
+                <button type="submit" className="dream-access-btn">
+                  GET ACCESS
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
     </section>
   );

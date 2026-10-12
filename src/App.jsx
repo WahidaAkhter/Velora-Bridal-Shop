@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
 import { ShopByColor } from './components/ShopByColor';
 import { FeaturedCollection } from './components/FeaturedCollection';
+import { EditorialSplitBanner } from './components/EditorialSplitBanner';
 import { DreamDressBanner } from './components/DreamDressBanner';
 import { Footer } from './components/Footer';
 import { ProductDetailModal } from './components/ProductDetailModal';
@@ -99,8 +100,11 @@ const MainContent = () => {
             {/* 3. Shop By Color Grid */}
             <ShopByColor />
 
-            {/* 5. Featured Collection Grid */}
+            {/* 4. Featured Collection Grid */}
             <FeaturedCollection />
+
+            {/* 5. Editorial Split Banner ("Fall in Love" & "Forever After" - Lulus Reference) */}
+            <EditorialSplitBanner />
 
             {/* 6. Dream Dress Banner Card */}
             <DreamDressBanner />

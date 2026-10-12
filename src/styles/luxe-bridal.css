@@ -151,12 +151,12 @@ body {
 .navbar-luxe.is-scrolled {
   box-shadow: 0 4px 20px rgba(183, 110, 101, 0.08);
   position: relative;
-  z-index: 200;
+  z-index: 100;
 }
 
 .header-master.is-scrolled,
 .header-master:has(.is-scrolled) {
-  z-index: 200;
+  z-index: 100;
 }
 
 .navbar-container {
@@ -509,12 +509,28 @@ body {
   width: 480px;
   max-width: 480px;
   height: calc(100% + 48px);
-  z-index: 110;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   pointer-events: none;
   overflow: visible;
+}
+
+/* Layer 1: Base bride model permanently behind header (z-index 90), rendering body & dress cleanly */
+.hero-popout-wrapper.hero-model-base {
+  z-index: 90;
+}
+
+/* Layer 2: Floating popout head layer in front of header at top (z-index 110), smoothly blurs & dissolves to back on scroll */
+.hero-popout-wrapper.hero-popout-head {
+  z-index: 110;
+  opacity: var(--head-opacity, 1);
+  filter: blur(var(--head-blur, 0px));
+  transform: translate3d(0, var(--head-y, 0px), 0);
+  transition: opacity 0.08s ease-out, filter 0.08s ease-out, transform 0.08s ease-out;
+  will-change: opacity, filter, transform;
+  mask-image: linear-gradient(to bottom, #000 0%, #000 80px, rgba(0, 0, 0, 0.4) 120px, transparent 160px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80px, rgba(0, 0, 0, 0.4) 120px, transparent 160px);
 }
 
 .hero-popout-model {
@@ -524,7 +540,15 @@ body {
   object-fit: contain;
   object-position: bottom center;
   display: block;
+}
+
+.hero-popout-wrapper.hero-model-base .hero-popout-model {
   filter: drop-shadow(0 16px 36px rgba(183, 110, 101, 0.18));
+}
+
+.hero-head-model {
+  /* No duplicate drop shadow on the head cutout layer so it blends seamlessly with base layer */
+  filter: none !important;
 }
 
 /* ==========================================================================
@@ -1500,216 +1524,636 @@ body {
 }
 
 /* ==========================================================================
-   8. DREAM DRESS PINK BANNER CARD
+   7. EDITORIAL SPLIT BANNER ("Fall in Love" & "Forever After" - Lulus Reference)
+   ========================================================================== */
+.editorial-split-section {
+  width: 100%;
+  margin: 60px 0 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.editorial-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+  height: 640px;
+  min-height: 640px;
+}
+
+.split-banner-card {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  min-height: 640px;
+  cursor: pointer;
+  background-color: #171211;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.split-banner-media-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.split-banner-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.split-banner-card:hover .split-banner-bg {
+  transform: scale(1.045);
+}
+
+@keyframes subtleLuxePan {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.05) translateY(-8px);
+  }
+  100% {
+    transform: scale(1.02) translateY(-3px);
+  }
+}
+
+.split-banner-bg.is-playing {
+  animation: subtleLuxePan 22s ease-in-out infinite alternate;
+}
+
+.split-banner-bg.is-paused {
+  animation-play-state: paused;
+}
+
+/* Gradient overlays for cinematic high-fashion contrast */
+.split-banner-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.left-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 14, 13, 0.08) 0%,
+    rgba(18, 14, 13, 0.18) 35%,
+    rgba(18, 14, 13, 0.65) 75%,
+    rgba(18, 14, 13, 0.82) 100%
+  );
+}
+
+.right-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 14, 13, 0.05) 0%,
+    rgba(18, 14, 13, 0.15) 50%,
+    rgba(18, 14, 13, 0.68) 82%,
+    rgba(18, 14, 13, 0.82) 100%
+  );
+}
+
+.split-banner-card:hover .split-banner-overlay {
+  opacity: 0.92;
+}
+
+/* Text Content overlay */
+.split-card-content {
+  position: absolute;
+  inset: 0;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 5;
+  pointer-events: auto;
+}
+
+/* Content layout variations matching the photo */
+.content-center-low {
+  justify-content: flex-end;
+  padding-bottom: 56px;
+}
+
+.content-bottom {
+  justify-content: flex-end;
+  padding-bottom: 56px;
+}
+
+.split-card-title {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(38px, 4.2vw, 54px);
+  font-weight: 400;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 14px;
+  letter-spacing: -0.015em;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.45);
+}
+
+.split-card-desc {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: clamp(13.5px, 1.15vw, 15px);
+  font-weight: 400;
+  color: #FFFFFF;
+  max-width: 440px;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  margin: 0 auto 22px;
+  opacity: 0.95;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.split-card-cta {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1.5px;
+  cursor: pointer;
+  padding: 6px 0;
+  display: inline-block;
+  transition: all 0.25s ease;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.split-card-cta:hover {
+  text-underline-offset: 9px;
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .editorial-split-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: auto;
+    gap: 12px;
+  }
+  .split-banner-card {
+    height: 540px;
+    min-height: 540px;
+  }
+  .split-card-content {
+    padding: 36px 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .editorial-split-section {
+    margin: 40px 0 50px;
+  }
+  .split-banner-card {
+    height: 480px;
+    min-height: 480px;
+  }
+  .split-card-title {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+  .split-card-desc {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .split-card-cta {
+    font-size: 13.5px;
+  }
+
+}
+
+/* ==========================================================================
+   8. READY TO SAY YES / DREAM DRESS VIP ACCESS & APPOINTMENT BANNER
+   Exact match to the reference design
    ========================================================================== */
 .luxe-dream-banner-section {
+  width: 100%;
+  background-color: #F8F5EE;
+  padding: 68px 24px 76px;
+  margin: 40px 0 0;
+  border-top: 1px solid rgba(226, 217, 206, 0.6);
+  border-bottom: 1px solid rgba(226, 217, 206, 0.6);
+}
+
+.dream-access-container {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 10px 24px 44px;
 }
 
-.dream-banner-card {
-  background-color: var(--luxe-rose-light);
-  border: 1px solid var(--luxe-rose-border);
-  border-radius: 12px;
-  padding: 28px 24px;
+.dream-access-heading {
+  font-family: 'Playfair Display', var(--font-serif-luxe), Georgia, serif;
+  font-size: clamp(23px, 2.6vw, 34px);
+  font-weight: 500;
+  color: #232B36;
+  text-align: center;
+  margin: 0 0 42px;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.dream-access-form {
+  width: 100%;
+}
+
+.dream-form-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.35fr 1fr 1fr;
-  align-items: center;
-  gap: 16px;
-  box-shadow: 0 4px 16px rgba(183, 110, 101, 0.06);
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 24px;
+  row-gap: 22px;
+  width: 100%;
+  align-items: flex-end;
 }
 
-.dream-col {
-  text-align: center;
+.dream-form-field {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
 }
 
-.dream-icon-wrap {
-  color: var(--luxe-rose);
-  margin-bottom: 2px;
-}
-
-.banner-icon-svg {
-  color: var(--luxe-rose);
-}
-
-.dream-col-title {
+.dream-field-label {
   font-family: var(--font-sans-luxe);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--luxe-text-dark);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #2D2725;
+  margin-bottom: 8px;
+  display: block;
 }
 
-.dream-col-subtitle {
+.dream-field-label-spacer {
+  font-size: 13.5px;
+  margin-bottom: 8px;
+  display: block;
+  user-select: none;
+  visibility: hidden;
+}
+
+.dream-field-input {
+  width: 100%;
+  height: 52px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #1C1C1C;
+  border-radius: 0;
+  padding: 0 16px;
   font-family: var(--font-sans-luxe);
-  font-size: 10px;
-  color: var(--luxe-text-muted);
-  line-height: 1.35;
-  max-width: 170px;
+  font-size: 14px;
+  color: #1F1917;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-.dream-center-col {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 0 8px;
+.dream-field-input::placeholder {
+  color: #8C827A;
+  font-weight: 400;
 }
 
-.dream-center-heading {
-  font-family: var(--font-serif-luxe);
-  font-size: 23px;
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--luxe-text-dark);
+.dream-field-input:focus {
+  border-color: #BEA47E;
+  box-shadow: 0 0 0 1px #BEA47E;
 }
 
-.dream-cta-button {
-  background: var(--luxe-rose);
-  color: #FFFFFF;
-  border: 1px solid var(--luxe-rose);
+.dream-select-wrapper {
+  position: relative;
+  width: 100%;
+  height: 52px;
+}
+
+.dream-field-select {
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  border: 1.5px solid #1C1C1C;
+  border-radius: 0;
+  padding: 0 42px 0 16px;
   font-family: var(--font-sans-luxe);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  padding: 10px 22px;
-  border-radius: 4px;
+  font-size: 14px;
+  color: #1F1917;
+  outline: none;
   cursor: pointer;
-  transition: all 0.25s ease;
-  white-space: nowrap;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
 
-.dream-cta-button:hover {
-  background: var(--luxe-rose-dark);
-  border-color: var(--luxe-rose-dark);
+.dream-field-select.is-placeholder {
+  color: #8C827A;
+}
+
+.dream-field-select:focus {
+  border-color: #BEA47E;
+  box-shadow: 0 0 0 1px #BEA47E;
+}
+
+.dream-select-chevron {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #1C1C1C;
+}
+
+.dream-access-btn {
+  width: 100%;
+  height: 52px;
+  background-color: #BEA47E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 0;
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.dream-access-btn:hover {
+  background-color: #AF946E;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(183, 110, 101, 0.25);
+  box-shadow: 0 4px 14px rgba(190, 164, 126, 0.28);
+}
+
+.dream-access-btn:active {
+  transform: translateY(0);
+}
+
+/* Success Confirmation State */
+.dream-access-success {
+  background: #FFFFFF;
+  border: 1.5px solid #BEA47E;
+  padding: 38px 32px;
+  text-align: center;
+  max-width: 660px;
+  margin: 0 auto;
+  box-shadow: 0 8px 26px rgba(190, 164, 126, 0.14);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.dream-success-badge {
+  width: 46px;
+  height: 46px;
+  background: #BEA47E;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.dream-success-title {
+  font-family: var(--font-sans-luxe);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #2E2623;
+  margin-bottom: 10px;
+}
+
+.dream-success-desc {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  color: #6A5F5B;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.dream-reset-btn {
+  background: transparent;
+  color: #BEA47E;
+  border: 1.5px solid #BEA47E;
+  padding: 11px 24px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dream-reset-btn:hover {
+  background: #BEA47E;
+  color: #FFFFFF;
+}
+
+/* Responsive Rules for VIP Access Form */
+@media (max-width: 900px) {
+  .dream-form-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dream-field-label-spacer {
+    display: none;
+  }
+  .dream-btn-field {
+    grid-column: span 2;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .luxe-dream-banner-section {
+    padding: 48px 18px 56px;
+    margin-top: 30px;
+  }
+  .dream-form-grid {
+    grid-template-columns: 1fr;
+    row-gap: 18px;
+  }
+  .dream-btn-field {
+    grid-column: span 1;
+    margin-top: 4px;
+  }
 }
 
 /* ==========================================================================
    9. FOOTER SECTION
+   Faithfully matching the Madi Lane Bridal luxury reference layout
    ========================================================================== */
 .luxe-footer {
   background: #FFFFFF;
-  border-top: 1px solid var(--luxe-rose-border);
-  padding: 28px 24px 34px;
+  border-top: 1px solid rgba(226, 217, 206, 0.6);
+  padding: 68px 32px 36px;
+  width: 100%;
 }
 
-.luxe-footer-container {
-  max-width: 1140px;
+.luxe-footer-inner {
+  max-width: 1220px;
   margin: 0 auto;
+}
+
+.footer-main-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr 1fr 1fr 1fr;
+  column-gap: clamp(20px, 3vw, 44px);
+  row-gap: 36px;
+  align-items: flex-start;
+}
+
+/* Brand Logo Block */
+.footer-brand-block {
+  padding-top: 2px;
+}
+
+.footer-brand-logo {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  user-select: none;
+}
+
+.footer-logo-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-sans-luxe);
+  font-size: 14.5px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  color: #2D2522;
+}
+
+.logo-word-left,
+.logo-word-right {
+  display: inline-block;
+  line-height: 1;
+}
+
+.logo-crest {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  line-height: 1;
+  padding: 0 1px;
+}
+
+.crest-digit {
+  font-family: 'Playfair Display', var(--font-serif-luxe), serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 0.9;
+  color: #1F1917;
+  letter-spacing: -0.02em;
+}
+
+.crest-sub {
+  font-size: 5.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #7D726C;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.footer-logo-tagline {
+  font-family: var(--font-sans-luxe);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: #5A504B;
+  margin-top: 6px;
+  padding-left: 2px;
+}
+
+/* 5 Nav Columns */
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-nav-heading {
+  font-family: 'Playfair Display', var(--font-serif-luxe), Georgia, serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: #1F1917;
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+
+.footer-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-nav-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans-luxe);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #5C524C;
+  line-height: 1.45;
+  transition: color 0.2s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+.footer-nav-link:hover {
+  color: #1C1917;
+  transform: translateX(2px);
+}
+
+/* Subtle Horizontal Divider */
+.footer-bottom-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #EDE7E1;
+  margin: 54px 0 26px;
+}
+
+/* Centered Social Icons Row */
+.footer-social-center {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 24px;
 }
 
-.footer-reviews-col {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.footer-avatars-img {
-  width: 90px;
-  height: auto;
-  display: block;
-}
-
-.footer-review-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.happy-brides-title {
-  font-family: var(--font-sans-luxe);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--luxe-text-dark);
-  text-transform: uppercase;
-}
-
-.rating-stars-row {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.stars-gold {
-  color: #E2A233;
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-.rating-score {
-  font-family: var(--font-sans-luxe);
-  font-size: 10.5px;
-  color: var(--luxe-text-muted);
-}
-
-.footer-quote-col {
-  text-align: center;
-  max-width: 380px;
-}
-
-.footer-quote-text {
-  font-family: var(--font-serif-luxe);
-  font-style: italic;
-  font-size: 13.5px;
-  color: #382E2B;
-  line-height: 1.35;
-}
-
-.footer-quote-author {
-  font-family: var(--font-sans-luxe);
-  font-style: normal;
-  font-size: 10.5px;
-  color: var(--luxe-text-muted);
-  margin-top: 3px;
-  display: block;
-}
-
-.footer-social-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-}
-
-.follow-us-title {
-  font-family: var(--font-sans-luxe);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--luxe-text-dark);
-}
-
-.social-links-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.social-icon-btn {
-  color: #2B2320;
+.footer-social-icon-btn {
+  color: #5C524C;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.social-icon-btn:hover {
-  color: var(--luxe-rose);
+.footer-social-icon-btn:hover {
+  color: #1F1917;
   transform: translateY(-2px);
 }
 
@@ -2001,14 +2445,6 @@ body {
   .trust-item-col:nth-child(2) {
     border-right: none;
   }
-  .dream-banner-card {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .dream-center-col {
-    grid-column: span 3;
-    order: -1;
-    margin-bottom: 12px;
-  }
 }
 
 @media (max-width: 1100px) {
@@ -2085,7 +2521,10 @@ body {
   .luxe-hero-actions {
     justify-content: center;
   }
-  .hero-popout-wrapper {
+  .hero-popout-wrapper.hero-popout-head {
+    display: none !important;
+  }
+  .hero-popout-wrapper.hero-model-base {
     position: relative;
     right: auto;
     top: 0;
@@ -2123,13 +2562,34 @@ body {
   .triptych-card.slot-right {
     transform: translate3d(70%, 18px, 0) scale(0.88) rotate(1deg);
   }
-  .luxe-footer-container {
-    flex-direction: column;
-    text-align: center;
-    gap: 20px;
+  .footer-main-grid {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 32px;
   }
-  .footer-social-col {
-    align-items: center;
+  .footer-brand-block {
+    grid-column: span 3;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 680px) {
+  .luxe-footer {
+    padding: 48px 20px 30px;
+  }
+  .footer-main-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+    row-gap: 28px;
+  }
+  .footer-brand-block {
+    grid-column: span 2;
+    margin-bottom: 12px;
+  }
+  .footer-bottom-divider {
+    margin: 40px 0 22px;
+  }
+  .footer-social-center {
+    gap: 20px;
   }
 }
 

@@ -1,9 +1,48 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { Calendar } from 'lucide-react';
 
 export const HeroBanner = () => {
   const { setSelectedCategory, setCurrentView, setIsAppointmentModalOpen } = useApp();
+  const popoutHeadRef = useRef(null);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (!popoutHeadRef.current) {
+            ticking = false;
+            return;
+          }
+          const scrollY = window.scrollY || 0;
+          // Smoothly dissolve and blur out the protruding head as the user scrolls (0px to 130px)
+          const scrollRange = 130;
+          const progress = Math.min(1, Math.max(0, scrollY / scrollRange));
+
+          // Silky smooth easing curve
+          const eased = Math.pow(progress, 1.25);
+          const opacity = Math.max(0, 1 - eased * 1.05);
+          const blur = (eased * 12).toFixed(1);
+          const translateY = (eased * 10).toFixed(1);
+
+          popoutHeadRef.current.style.setProperty('--head-opacity', opacity.toFixed(2));
+          popoutHeadRef.current.style.setProperty('--head-blur', `${blur}px`);
+          popoutHeadRef.current.style.setProperty('--head-y', `${translateY}px`);
+          popoutHeadRef.current.style.visibility = progress >= 1 ? 'hidden' : 'visible';
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleShopCollection = () => {
     setSelectedCategory('all');
@@ -13,7 +52,16 @@ export const HeroBanner = () => {
   };
 
   const handleBookAppointment = () => {
-    setIsAppointmentModalOpen(true);
+    const el = document.getElementById('dream-dress-banner');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        const input = document.getElementById('dream-first-name');
+        if (input) input.focus();
+      }, 600);
+    } else {
+      setIsAppointmentModalOpen(true);
+    }
   };
 
   return (
@@ -50,12 +98,27 @@ export const HeroBanner = () => {
         </div>
       </div>
 
-      {/* Pop-Out Model Cutout - Popping out directly over the header */}
-      <div className="hero-popout-wrapper" aria-hidden="true">
+      {/* 1. Base Model: Always grounded in hero, passes naturally behind sticky header */}
+      <div className="hero-popout-wrapper hero-model-base" aria-hidden="true">
         <img
           src="/images/bridal/model-popout.png"
-          alt="Bride in designer blush gown popping out over hero header"
+          alt="Bride in designer blush gown"
           className="hero-popout-model"
+          loading="eager"
+          fetchPriority="high"
+        />
+      </div>
+
+      {/* 2. Floating Pop-Out Head: In front of header at top (z-index 110), smoothly blurs & dissolves to back on scroll */}
+      <div
+        ref={popoutHeadRef}
+        className="hero-popout-wrapper hero-popout-head"
+        aria-hidden="true"
+      >
+        <img
+          src="/images/bridal/model-popout.png"
+          alt=""
+          className="hero-popout-model hero-head-model"
           loading="eager"
           fetchPriority="high"
         />
