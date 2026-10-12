@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/Header';
 import { HeroBanner } from './components/HeroBanner';
-import { TrustStrip } from './components/TrustStrip';
 import { ShopByColor } from './components/ShopByColor';
 import { FeaturedCollection } from './components/FeaturedCollection';
 import { DreamDressBanner } from './components/DreamDressBanner';
@@ -97,10 +96,7 @@ const MainContent = () => {
             {/* 2. Hero Section */}
             <HeroBanner />
 
-            {/* 3. Floating Pill Trust Strip */}
-            <TrustStrip />
-
-            {/* 4. Shop By Color Grid */}
+            {/* 3. Shop By Color Grid */}
             <ShopByColor />
 
             {/* 5. Featured Collection Grid */}
