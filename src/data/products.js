@@ -1,109 +1,13 @@
 export const CATEGORIES = [
-  { id: 'all', name: 'All Collections', count: 16, icon: 'Sparkles' },
+  { id: 'all', name: 'All Collections', count: 13, icon: 'Sparkles' },
   { id: 'featured', name: 'Featured Gowns', count: 4, icon: 'Crown' },
-  { id: 'color-collection', name: 'Shop By Color', count: 12, icon: 'Palette' },
+  { id: 'color-collection', name: 'Shop By Color', count: 5, icon: 'Palette' },
   { id: 'accessories', name: 'Bridal Accessories', count: 4, icon: 'Gem' }
 ];
 
 export const COLOR_DRESSES = [
   {
     id: 'color-1',
-    colorName: 'IVORY',
-    name: 'Ivory Royal Ballgown',
-    slug: 'ivory-royal-ballgown',
-    subtitle: 'Classic sweetheart neckline with cascading tulle',
-    price: 2099,
-    image: '/images/bridal/color-ivory.jpg',
-    colorHex: '#FBF8F5',
-    category: 'color-collection',
-    description: 'A bridal archetype reimagined. Features a flattering sweetheart neckline, delicate spaghetti straps, and a sweeping ivory layered skirt tailored for quintessential elegance.'
-  },
-  {
-    id: 'color-2',
-    colorName: 'CHAMPAGNE',
-    name: 'Champagne Shimmer Gown',
-    slug: 'champagne-shimmer-gown',
-    subtitle: 'Warm golden shimmer with plunging sweetheart bodice',
-    price: 2150,
-    image: '/images/bridal/color-champagne.jpg',
-    colorHex: '#EAD9C8',
-    category: 'color-collection',
-    description: 'Enchanting champagne undertones paired with subtle micro-glimmer tulle that catches evening candlelight beautifully.'
-  },
-  {
-    id: 'color-3',
-    colorName: 'BLUSH PINK',
-    name: 'Blush Pink Romance Gown',
-    slug: 'blush-pink-romance-gown',
-    subtitle: 'Romantic rose quartz tulle with structured corset',
-    price: 2250,
-    image: '/images/bridal/color-blush-pink.jpg',
-    colorHex: '#E8C5C8',
-    category: 'color-collection',
-    description: 'Delicate blush tones embody modern romanticism with hand-ruched tulle, exposed boning, and petal-soft movement.'
-  },
-  {
-    id: 'color-4',
-    colorName: 'DUSTY BLUE',
-    name: 'Dusty Blue Ethereal Gown',
-    slug: 'dusty-blue-ethereal-gown',
-    subtitle: 'Something blue reimagined in cloud-soft azure tulle',
-    price: 2190,
-    image: '/images/bridal/color-dusty-blue.jpg',
-    colorHex: '#A3B9C9',
-    category: 'color-collection',
-    description: 'The ultimate fairytale silhouette in serene dusty blue. Perfect for romantic seaside or castle ceremonies.'
-  },
-  {
-    id: 'color-5',
-    colorName: 'SAGE GREEN',
-    name: 'Sage Green Enchantment',
-    slug: 'sage-green-enchantment',
-    subtitle: 'Botanical meadow elegance in serene sage green',
-    price: 2120,
-    image: '/images/bridal/color-sage-green.jpg',
-    colorHex: '#ADC2B0',
-    category: 'color-collection',
-    description: 'Inspired by secret garden vows, this soft sage green creation brings an organic, earthy royalty to your special day.'
-  },
-  {
-    id: 'color-6',
-    colorName: 'LAVENDER',
-    name: 'Lavender Meadow Gown',
-    slug: 'lavender-meadow-gown',
-    subtitle: 'Whispering lilac layers with crystalline accents',
-    price: 2280,
-    image: '/images/bridal/color-lavender.jpg',
-    colorHex: '#BFA8CE',
-    category: 'color-collection',
-    description: 'Infused with gentle lavender luminescence, this gown features an elongated train and sparkling beadwork.'
-  },
-  {
-    id: 'color-7',
-    colorName: 'BLACK',
-    name: 'Midnight Black Couture Gown',
-    slug: 'midnight-black-couture-gown',
-    subtitle: 'Dramatic high-fashion statement with capped sleeves',
-    price: 2350,
-    image: '/images/bridal/color-black.jpg',
-    colorHex: '#1A1A1A',
-    category: 'color-collection',
-    description: 'Daring, unforgettable, and undeniably regal. Midnight black tulle and Chantilly lace for the bold couture bride.'
-  },
-  {
-    id: 'color-8',
-    colorName: 'EMERALD GREEN',
-    name: 'Emerald Empress Ballgown',
-    slug: 'emerald-empress-ballgown',
-    subtitle: 'Regal emerald French lace with sweeping tiered skirt',
-    price: 2490,
-    image: '/images/bridal/color-emerald-green.jpg',
-    colorHex: '#1E4D38',
-    category: 'color-collection',
-    description: 'An ode to royal grandeur. Lush emerald green Chantilly lace adorned with golden thread accents, an illusion V-neckline, and an opulent layered tulle ballgown skirt.'
-  },
-  {
-    id: 'color-9',
     colorName: 'RUBY BURGUNDY',
     name: 'Ruby Sovereign Couture Gown',
     slug: 'ruby-sovereign-couture-gown',
@@ -115,19 +19,19 @@ export const COLOR_DRESSES = [
     description: 'Sensational and deeply romantic. Deep ruby burgundy layers with hand-encrusted crystal beading across a structured corset bodice and an architectural ruffled train.'
   },
   {
-    id: 'color-10',
-    colorName: 'PEACH ROSE GOLD',
-    name: 'Peach Blossom Shimmer Gown',
-    slug: 'peach-blossom-shimmer-gown',
-    subtitle: 'Warm luminous peach tulle with floral corset embroidery',
-    price: 2320,
-    image: '/images/bridal/color-peach.jpg',
-    colorHex: '#E8A598',
+    id: 'color-2',
+    colorName: 'BLUSH PINK',
+    name: 'Blush Pink Romance Gown',
+    slug: 'blush-pink-romance-gown',
+    subtitle: 'Romantic rose quartz tulle with structured corset',
+    price: 2250,
+    image: '/images/bridal/color-blush-pink.jpg',
+    colorHex: '#E8C5C8',
     category: 'color-collection',
-    description: 'Sunlit warmth captured in fabric. Features an off-the-shoulder sculpted corset adorned with floral appliqués and glittering rose-gold metallic threading.'
+    description: 'Delicate blush tones embody modern romanticism with hand-ruched tulle, exposed boning, and petal-soft movement.'
   },
   {
-    id: 'color-11',
+    id: 'color-3',
     colorName: 'MIDNIGHT NAVY',
     name: 'Midnight Celestial Starlight Gown',
     slug: 'midnight-celestial-starlight-gown',
@@ -139,16 +43,28 @@ export const COLOR_DRESSES = [
     description: 'Like a midnight sky dusted in constellations. Deep sapphire navy blue layers illuminated by hand-applied crystal shimmer and a regal off-shoulder neckline.'
   },
   {
-    id: 'color-12',
-    colorName: 'LILAC PERIWINKLE',
-    name: 'Lilac Fairytale Cascading Gown',
-    slug: 'lilac-fairytale-cascading-gown',
-    subtitle: 'Tiered periwinkle organza with crystalline florals',
-    price: 2390,
-    image: '/images/bridal/color-lilac.jpg',
-    colorHex: '#8C92C8',
+    id: 'color-4',
+    colorName: 'LAVENDER',
+    name: 'Lavender Meadow Gown',
+    slug: 'lavender-meadow-gown',
+    subtitle: 'Whispering lilac layers with crystalline accents',
+    price: 2280,
+    image: '/images/bridal/color-lavender.jpg',
+    colorHex: '#BFA8CE',
     category: 'color-collection',
-    description: 'A storybook silhouette in dreamy periwinkle lilac. Cascading tiered organza flounces pair with an intricately beaded crystal bodice for pure fairytale wonder.'
+    description: 'Infused with gentle lavender luminescence, this gown features an elongated train and sparkling beadwork.'
+  },
+  {
+    id: 'color-5',
+    colorName: 'IVORY',
+    name: 'Ivory Royal Ballgown',
+    slug: 'ivory-royal-ballgown',
+    subtitle: 'Classic sweetheart neckline with cascading tulle',
+    price: 2099,
+    image: '/images/bridal/color-ivory.jpg',
+    colorHex: '#FBF8F5',
+    category: 'color-collection',
+    description: 'A bridal archetype reimagined. Features a flattering sweetheart neckline, delicate spaghetti straps, and a sweeping ivory layered skirt tailored for quintessential elegance.'
   }
 ];
 

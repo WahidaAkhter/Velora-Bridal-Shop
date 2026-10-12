@@ -14,7 +14,8 @@ export const ShopByColor = () => {
   const scrollAccRef = useRef(0);
   const lastStepTime = useRef(0);
 
-  const totalColors = COLOR_DRESSES.length;
+  const showcaseDresses = COLOR_DRESSES.slice(0, 5);
+  const totalColors = showcaseDresses.length;
 
   // 1. Idle auto-rotate every 9.5 seconds (very slow, majestic pace for editorial viewing)
   useEffect(() => {
@@ -49,7 +50,7 @@ export const ShopByColor = () => {
       scrollAccRef.current += delta;
       const now = Date.now();
 
-      // Very generous threshold (500px) & 950ms cooldown ensure cards rotate very slowly
+      // Generous threshold & cooldown ensure cards rotate smoothly and slowly
       const threshold = 500;
       const cooldown = 950;
       if (now - lastStepTime.current > cooldown) {
@@ -69,7 +70,7 @@ export const ShopByColor = () => {
     return () => window.removeEventListener('scroll', handleWindowScroll);
   }, [totalColors]);
 
-  // 3. Trackpad / mouse-wheel handler over the carousel stage (very slow, damped pace)
+  // 3. Trackpad / mouse-wheel handler over the carousel stage
   const handleStageWheel = (e) => {
     const now = Date.now();
     const cooldown = 950;
@@ -129,10 +130,13 @@ export const ShopByColor = () => {
     setSelectedProduct(matched);
   };
 
-  const handleCardClick = (colorItem) => {
-    const idx = COLOR_DRESSES.findIndex((c) => c.id === colorItem.id);
-    if (idx !== -1) setCurrentIndex(idx);
-    openProductDetails(colorItem);
+  const handleCardClick = (colorItem, isCenter) => {
+    const idx = showcaseDresses.findIndex((c) => c.id === colorItem.id);
+    if (!isCenter) {
+      if (idx !== -1) setCurrentIndex(idx);
+    } else {
+      openProductDetails(colorItem);
+    }
   };
 
   // Calculate relative offset for continuous rotation
@@ -153,7 +157,7 @@ export const ShopByColor = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="editorial-container">
-        {/* The 7-Image Rotating Editorial Showcase */}
+        {/* The 5-Image Rotating Editorial Showcase */}
         <div className="triptych-stage-wrapper" onWheel={handleStageWheel}>
           {/* Previous Arrow */}
           <button
@@ -165,18 +169,16 @@ export const ShopByColor = () => {
             <ChevronLeft size={22} />
           </button>
 
-          {/* Cards Stage (7 Visible Images in Coverflow Arc: -3 to +3) */}
+          {/* Cards Stage (5 Visible Images in Coverflow Arc: -2 to +2) */}
           <div className="triptych-stage">
-            {COLOR_DRESSES.map((item, idx) => {
+            {showcaseDresses.map((item, idx) => {
               const offset = getCardOffset(idx);
               const isCenter = offset === 0;
               const isLeft = offset === -1;
               const isRight = offset === 1;
               const isFarLeft = offset === -2;
               const isFarRight = offset === 2;
-              const isOuterLeft = offset === -3;
-              const isOuterRight = offset === 3;
-              const isVisible = Math.abs(offset) <= 3;
+              const isVisible = Math.abs(offset) <= 2;
 
               // Derive CSS slot class
               let slotClass = 'slot-hidden';
@@ -185,20 +187,18 @@ export const ShopByColor = () => {
               else if (isRight) slotClass = 'slot-right';
               else if (isFarLeft) slotClass = 'slot-far-left';
               else if (isFarRight) slotClass = 'slot-far-right';
-              else if (isOuterLeft) slotClass = 'slot-outer-left';
-              else if (isOuterRight) slotClass = 'slot-outer-right';
 
               return (
                 <div
                   key={item.id}
                   className={`triptych-card ${slotClass}`}
-                  onClick={() => handleCardClick(item)}
+                  onClick={() => handleCardClick(item, isCenter)}
                   role="button"
                   tabIndex={isVisible ? 0 : -1}
-                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. Click to view full details.`}
-                  title={`Click to view full details of ${item.name}`}
+                  aria-label={`${item.colorName} Bridal Gown - ${item.name}. ${isCenter ? 'Click to view details.' : 'Click to bring to center.'}`}
+                  title={isCenter ? `View details of ${item.name}` : `Rotate ${item.name} to center`}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleCardClick(item);
+                    if (e.key === 'Enter') handleCardClick(item, isCenter);
                   }}
                 >
                   <div className="triptych-img-box">
