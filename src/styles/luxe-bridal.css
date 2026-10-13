@@ -203,29 +203,34 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  text-decoration: none !important;
+  outline: none;
+  box-shadow: none !important;
+  border-bottom: none !important;
 }
 
-.nav-link-item:hover {
+.nav-link-item:hover,
+.nav-link-item:focus,
+.nav-link-item:active,
+.nav-link-item.active,
+.nav-link-item.has-dropdown.active {
   color: var(--luxe-rose);
+  text-decoration: none !important;
+  box-shadow: none !important;
+  border-bottom: none !important;
+  outline: none;
 }
 
-.nav-link-item.active {
-  color: var(--luxe-rose);
-}
-
-.nav-link-item.active::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--luxe-rose);
-  border-radius: 1px;
+.nav-link-item::after,
+.nav-link-item::before {
+  display: none !important;
+  content: none !important;
 }
 
 .nav-dropdown-holder {
   position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .chevron-mini {

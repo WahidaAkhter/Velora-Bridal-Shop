@@ -77,6 +77,162 @@ export const WEDDING_DRESS_CATEGORIES = [
   }
 ];
 
+export const ACCESSORIES_CATEGORIES = [
+  {
+    title: 'VEILS & TIARAS',
+    items: [
+      'CATHEDRAL VEILS',
+      'FINGERTIP VEILS',
+      'BLUSHER & BIRDCAGE',
+      'CRYSTAL TIARAS',
+      'PEARL HEADBANDS'
+    ]
+  },
+  {
+    title: 'BRIDAL JEWELRY',
+    items: [
+      'PEARL DROP EARRINGS',
+      'DIAMOND CHOKERS',
+      'TENNIS BRACELETS',
+      'STATEMENT NECKLACES',
+      'VINTAGE BROOCHES'
+    ]
+  },
+  {
+    title: 'SHOES & SASHES',
+    items: [
+      'SATIN BRIDAL PUMPS',
+      'EMBELLISHED FLATS',
+      'SILK WAIST SASHES',
+      'CRYSTAL BELTS',
+      'ANKLE STRAP HEELS'
+    ]
+  },
+  {
+    title: 'CAPES & GLOVES',
+    items: [
+      'SHEER CHIFFON CAPES',
+      'OPERA LACE GLOVES',
+      'TULLE WINGS & WRAPS',
+      'FAUX FUR STOLES',
+      'BRIDAL ROBES'
+    ]
+  }
+];
+
+export const ABOUT_US_CATEGORIES = [
+  {
+    title: 'OUR HERITAGE',
+    items: [
+      'THE ATELIER STORY',
+      '25 YEARS OF EXCELLENCE',
+      'MEET THE DESIGNERS',
+      'GLOBAL RUNWAYS'
+    ]
+  },
+  {
+    title: 'HAUTE CRAFTSMANSHIP',
+    items: [
+      'FRENCH EMBROIDERED LACE',
+      'SUSTAINABLE SILK',
+      'BESPOKE TAILORING',
+      'ARTISAN ATELIER'
+    ]
+  },
+  {
+    title: 'THE EXPERIENCE',
+    items: [
+      'PRIVATE SUITE FITTINGS',
+      'COMPLIMENTARY CHAMPAGNE',
+      'VIP MASTER STYLISTS',
+      'SUSTAINABILITY PLEDGE'
+    ]
+  }
+];
+
+export const REAL_BRIDES_CATEGORIES = [
+  {
+    title: 'FEATURED WEDDINGS',
+    items: [
+      'CHÂTEAU DE CHANTILLY',
+      'LAKE COMO VILLA',
+      'PARISIAN ROOFTOP',
+      'TUSCAN COUNTRYSIDE'
+    ]
+  },
+  {
+    title: 'BRIDE STORIES',
+    items: [
+      '2,400+ VERIFIED REVIEWS',
+      'PHOTO GALLERY & VIDEOS',
+      'TESTIMONIAL ARCHIVE',
+      'BRIDAL TRANSFORMATIONS'
+    ]
+  },
+  {
+    title: 'COMMUNITY & PRESS',
+    items: [
+      'SUBMIT YOUR WEDDING',
+      'VOGUE WEDDINGS FEATURE',
+      'BRIDES MAGAZINE EDITORIAL',
+      'ANNUAL LOOKBOOK'
+    ]
+  }
+];
+
+export const CONTACT_US_CATEGORIES = [
+  {
+    title: 'APPOINTMENTS',
+    items: [
+      'BOOK IN-STORE FITTING',
+      'VIRTUAL 45-MIN STYLING',
+      'VIP BRIDAL SUITE',
+      'RESCHEDULE OR CANCEL'
+    ]
+  },
+  {
+    title: 'FLAGSHIP BOUTIQUES',
+    items: [
+      'PARIS • RUE SAINT-HONORÉ',
+      'NEW YORK • FIFTH AVENUE',
+      'LONDON • MAYFAIR',
+      'MILAN • VIA MONTENAPOLEONE'
+    ]
+  },
+  {
+    title: 'CONCIERGE & CARE',
+    items: [
+      'CALL +1 (800) 892-LUXE',
+      'LIVE BRIDAL CHAT',
+      'ORDER STATUS & TRACKING',
+      'CARE & CLEANING GUIDE'
+    ]
+  }
+];
+
+export const NAVBAR_FEATURES_DATA = {
+  'wedding-dresses': {
+    title: 'Wedding Dresses',
+    columns: WEDDING_DRESS_CATEGORIES
+  },
+  'accessories': {
+    title: 'Bridal Accessories',
+    columns: ACCESSORIES_CATEGORIES
+  },
+  'about': {
+    title: 'About Aura Luxe',
+    columns: ABOUT_US_CATEGORIES
+  },
+  'brides': {
+    title: 'Real Brides',
+    columns: REAL_BRIDES_CATEGORIES
+  },
+  'contact': {
+    title: 'Contact & Boutiques',
+    columns: CONTACT_US_CATEGORIES
+  }
+};
+
 export const Header = () => {
   const {
     currentView,
@@ -97,10 +253,11 @@ export const Header = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isWeddingDressesOpen, setIsWeddingDressesOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const headerRef = useRef(null);
+  const leaveTimerRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -110,19 +267,19 @@ export const Header = () => {
 
   // Toggle 'megamenu-open' class on body so protruding model head hides instantly
   useEffect(() => {
-    if (isWeddingDressesOpen) {
+    if (activeDropdown) {
       document.body.classList.add('megamenu-open');
     } else {
       document.body.classList.remove('megamenu-open');
     }
     return () => document.body.classList.remove('megamenu-open');
-  }, [isWeddingDressesOpen]);
+  }, [activeDropdown]);
 
   // Click outside to close dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (headerRef.current && !headerRef.current.contains(e.target)) {
-        setIsWeddingDressesOpen(false);
+        setActiveDropdown(null);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -138,7 +295,7 @@ export const Header = () => {
       } else if (e.key === 'Escape') {
         setIsSearchModalOpen(false);
         setIsMobileMenuOpen(false);
-        setIsWeddingDressesOpen(false);
+        setActiveDropdown(null);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -156,7 +313,7 @@ export const Header = () => {
   const handleNavClick = (targetId) => {
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
-    setIsWeddingDressesOpen(false);
+    setActiveDropdown(null);
     if (targetId === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -167,10 +324,53 @@ export const Header = () => {
     }
   };
 
-  const handleDressCategoryClick = (itemName) => {
-    setIsWeddingDressesOpen(false);
+  const handleNavHover = (key) => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    setActiveDropdown(key);
+  };
+
+  const handleNavLeave = () => {
+    leaveTimerRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 180);
+  };
+
+  const handleNavClickToggle = (key) => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+    setActiveDropdown(prev => prev === key ? null : key);
+  };
+
+  const handleDropdownMouseEnter = () => {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    handleNavLeave();
+  };
+
+  const handleFeatureItemClick = (featureKey, colTitle, item) => {
+    setActiveDropdown(null);
     setIsMobileMenuOpen(false);
     setCurrentView('catalog');
+
+    if (featureKey === 'contact' && colTitle.includes('APPOINTMENT')) {
+      setIsAppointmentModalOpen(true);
+      return;
+    }
+
+    if (featureKey === 'about') {
+      const el = document.getElementById('dream-dress-banner');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    if (featureKey === 'brides') {
+      const el = document.getElementById('footer-testimonials') || document.getElementById('boutique-footer');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
+    // Default for gowns and accessories
     const target = document.getElementById('featured-collection-heading') || document.getElementById('featured-collection');
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
@@ -185,7 +385,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${isWeddingDressesOpen ? 'megamenu-open' : ''}`}
+      className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${activeDropdown ? 'megamenu-open' : ''}`}
       ref={headerRef}
     >
       {/* Main Luxury Navbar */}
@@ -204,58 +404,109 @@ export const Header = () => {
           <div className="luxe-nav-menu" role="navigation" aria-label="Main Bridal Navigation">
             {/* HOME */}
             <button
-              className={`nav-link-item ${currentView === 'catalog' && selectedCategory === 'all' ? 'active' : ''}`}
-              onClick={() => handleNavClick('home')}
+              className={`nav-link-item ${currentView === 'catalog' && selectedCategory === 'all' && !activeDropdown ? 'active' : ''}`}
+              onClick={() => {
+                setActiveDropdown(null);
+                handleNavClick('home');
+              }}
             >
               HOME
             </button>
 
-            {/* WEDDING DRESSES ⌵ (Click-only Mega Menu Toggle) */}
-            <div className="nav-dropdown-holder">
+            {/* WEDDING DRESSES ⌵ (Click or Hover) */}
+            <div
+              className="nav-dropdown-holder"
+              onMouseEnter={() => handleNavHover('wedding-dresses')}
+              onMouseLeave={handleNavLeave}
+            >
               <button
                 type="button"
-                className={`nav-link-item has-dropdown ${isWeddingDressesOpen ? 'active' : ''}`}
+                className={`nav-link-item has-dropdown ${activeDropdown === 'wedding-dresses' ? 'active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsWeddingDressesOpen(!isWeddingDressesOpen);
+                  handleNavClickToggle('wedding-dresses');
                 }}
-                aria-expanded={isWeddingDressesOpen}
+                aria-expanded={activeDropdown === 'wedding-dresses'}
               >
-                WEDDING DRESSES <ChevronDown size={12} className={`chevron-mini ${isWeddingDressesOpen ? 'is-rotated' : ''}`} />
+                WEDDING DRESSES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'wedding-dresses' ? 'is-rotated' : ''}`} />
               </button>
             </div>
 
-            {/* ACCESSORIES */}
-            <button
-              className="nav-link-item"
-              onClick={() => handleNavClick('featured-collection-heading')}
+            {/* ACCESSORIES ⌵ (Click or Hover) */}
+            <div
+              className="nav-dropdown-holder"
+              onMouseEnter={() => handleNavHover('accessories')}
+              onMouseLeave={handleNavLeave}
             >
-              ACCESSORIES
-            </button>
+              <button
+                type="button"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'accessories' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavClickToggle('accessories');
+                }}
+                aria-expanded={activeDropdown === 'accessories'}
+              >
+                ACCESSORIES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'accessories' ? 'is-rotated' : ''}`} />
+              </button>
+            </div>
 
-            {/* ABOUT US */}
-            <button
-              className="nav-link-item"
-              onClick={() => handleNavClick('dream-dress-banner')}
+            {/* ABOUT US ⌵ (Click or Hover) */}
+            <div
+              className="nav-dropdown-holder"
+              onMouseEnter={() => handleNavHover('about')}
+              onMouseLeave={handleNavLeave}
             >
-              ABOUT US
-            </button>
+              <button
+                type="button"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'about' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavClickToggle('about');
+                }}
+                aria-expanded={activeDropdown === 'about'}
+              >
+                ABOUT US <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'about' ? 'is-rotated' : ''}`} />
+              </button>
+            </div>
 
-            {/* REAL BRIDES */}
-            <button
-              className="nav-link-item"
-              onClick={() => handleNavClick('footer-testimonials')}
+            {/* REAL BRIDES ⌵ (Click or Hover) */}
+            <div
+              className="nav-dropdown-holder"
+              onMouseEnter={() => handleNavHover('brides')}
+              onMouseLeave={handleNavLeave}
             >
-              REAL BRIDES
-            </button>
+              <button
+                type="button"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'brides' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavClickToggle('brides');
+                }}
+                aria-expanded={activeDropdown === 'brides'}
+              >
+                REAL BRIDES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'brides' ? 'is-rotated' : ''}`} />
+              </button>
+            </div>
 
-            {/* CONTACT US */}
-            <button
-              className="nav-link-item"
-              onClick={() => setIsAppointmentModalOpen(true)}
+            {/* CONTACT US ⌵ (Click or Hover) */}
+            <div
+              className="nav-dropdown-holder"
+              onMouseEnter={() => handleNavHover('contact')}
+              onMouseLeave={handleNavLeave}
             >
-              CONTACT US
-            </button>
+              <button
+                type="button"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'contact' ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNavClickToggle('contact');
+                }}
+                aria-expanded={activeDropdown === 'contact'}
+              >
+                CONTACT US <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'contact' ? 'is-rotated' : ''}`} />
+              </button>
+            </div>
           </div>
 
           {/* Right Action Features (Right side of the bride model) */}
@@ -340,11 +591,28 @@ export const Header = () => {
         )}
       </nav>
 
-      {/* Luxury 5-Column Wedding Dresses Mega Menu (Reference Design) */}
-      {isWeddingDressesOpen && (
-        <div className="wedding-dresses-megamenu" role="region" aria-label="Wedding Dresses Mega Menu">
-          <div className="megamenu-inner-grid">
-            {WEDDING_DRESS_CATEGORIES.map((col, idx) => (
+      {/* Luxury Inside Details Mega Menu / Dropdown for all Navbar Features */}
+      {activeDropdown && NAVBAR_FEATURES_DATA[activeDropdown] && (
+        <div
+          className="wedding-dresses-megamenu"
+          role="region"
+          aria-label={`${NAVBAR_FEATURES_DATA[activeDropdown].title} Details`}
+          onMouseEnter={handleDropdownMouseEnter}
+          onMouseLeave={handleDropdownMouseLeave}
+        >
+          <div
+            className="megamenu-inner-grid"
+            style={{
+              maxWidth:
+                activeDropdown === 'wedding-dresses'
+                  ? '1200px'
+                  : activeDropdown === 'accessories'
+                  ? '1040px'
+                  : '880px',
+              gridTemplateColumns: `repeat(${NAVBAR_FEATURES_DATA[activeDropdown].columns.length}, 1fr)`
+            }}
+          >
+            {NAVBAR_FEATURES_DATA[activeDropdown].columns.map((col, idx) => (
               <div key={idx} className="megamenu-column">
                 <h3 className="megamenu-col-header">{col.title}</h3>
                 <ul className="megamenu-col-list">
@@ -353,7 +621,7 @@ export const Header = () => {
                       <button
                         type="button"
                         className="megamenu-item-btn"
-                        onClick={() => handleDressCategoryClick(item)}
+                        onClick={() => handleFeatureItemClick(activeDropdown, col.title, item)}
                       >
                         {item}
                       </button>
@@ -366,11 +634,11 @@ export const Header = () => {
         </div>
       )}
 
-      {/* Dimmed backdrop while mega menu is open */}
-      {isWeddingDressesOpen && (
+      {/* Dimmed backdrop while dropdown is open */}
+      {activeDropdown && (
         <div
           className="megamenu-backdrop"
-          onClick={() => setIsWeddingDressesOpen(false)}
+          onClick={() => setActiveDropdown(null)}
           aria-hidden="true"
         />
       )}
