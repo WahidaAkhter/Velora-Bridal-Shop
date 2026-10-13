@@ -69,10 +69,8 @@ export const HeroBanner = () => {
       <div className="luxe-hero-container">
         {/* Left Editorial Content */}
         <div className="luxe-hero-left">
-          <span className="luxe-hero-tag">FIND THE DRESS OF YOUR DREAMS</span>
-
           <h1 className="luxe-hero-heading">
-            <span className="hero-serif-line">Timeless Elegance,</span>
+            <span className="hero-serif-line">Timeless Elegance</span>
             <span className="hero-script-line">Made For Your Moment</span>
           </h1>
 

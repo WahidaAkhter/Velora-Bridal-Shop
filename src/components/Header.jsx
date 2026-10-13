@@ -10,7 +10,6 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../data/products';
-import { AnnouncementBar } from './AnnouncementBar';
 
 export const Header = () => {
   const {
@@ -100,10 +99,7 @@ export const Header = () => {
 
   return (
     <header className={`header-master ${isScrolled ? 'is-scrolled' : ''}`}>
-      {/* 1. Top Utility / Announcement Bar */}
-      <AnnouncementBar />
-
-      {/* 2. Main Luxury Navbar */}
+      {/* Main Luxury Navbar */}
       <nav className={`navbar-luxe ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="navbar-container">
           {/* Mobile Menu Toggle */}

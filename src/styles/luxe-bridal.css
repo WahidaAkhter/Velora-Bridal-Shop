@@ -10,7 +10,7 @@
   --luxe-rose-border: #F1DDD7;
   --luxe-text-dark: #1F1917;
   --luxe-text-muted: #756460;
-  --luxe-bg-cream: #FDF9F7;
+  --luxe-bg-cream: #FAF8F5;
   --font-serif-luxe: 'Cormorant Garamond', Georgia, serif;
   --font-sans-luxe: 'Montserrat', -apple-system, sans-serif;
   --font-script-luxe: 'Alex Brush', cursive;
@@ -18,7 +18,7 @@
 
 /* Base resets & typography */
 body {
-  background-color: #FFFFFF;
+  background-color: #FAF8F5;
   color: var(--luxe-text-dark);
   font-family: var(--font-sans-luxe);
   -webkit-font-smoothing: antialiased;
@@ -26,6 +26,7 @@ body {
 
 .luxe-storefront-page {
   width: 100%;
+  background-color: #FAF8F5;
   overflow-x: clip;
   overflow-y: visible;
 }
@@ -34,8 +35,8 @@ body {
    1. TOP UTILITY ANNOUNCEMENT BAR
    ========================================================================== */
 .top-utility-bar {
-  background-color: var(--luxe-rose-light);
-  border-bottom: 1px solid var(--luxe-rose-border);
+  background-color: #FAF8F5;
+  border-bottom: none;
   padding: 6px 24px;
   font-family: var(--font-sans-luxe);
   font-size: 11px;
@@ -138,17 +139,18 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #FFFFFF;
+  background: #FAF8F5;
 }
 
 .navbar-luxe {
-  background: #FFFFFF;
-  border-bottom: 1px solid rgba(241, 221, 215, 0.6);
+  background: #FAF8F5;
+  border-bottom: none;
   padding: 14px 32px;
   transition: box-shadow 0.25s ease;
 }
 
 .navbar-luxe.is-scrolled {
+  background: #FAF8F5;
   box-shadow: 0 4px 20px rgba(183, 110, 101, 0.08);
   position: relative;
   z-index: 100;
@@ -377,7 +379,7 @@ body {
   overflow: visible;
   height: 560px;
   min-height: 540px;
-  background-color: #FAF1EE;
+  background-color: #FAF8F5;
   background-image: url('/images/bridal/hero-salon-bg.jpg');
   background-repeat: no-repeat;
   background-position: right center;
@@ -658,9 +660,9 @@ body {
    6. SHOP BY COLOR SECTION (Rotating Editorial Triptych matching Reference Image)
    ========================================================================== */
 .luxe-color-section.editorial-showcase {
-  background-color: #FAF6F2;
-  border-top: 1px solid rgba(241, 221, 215, 0.5);
-  border-bottom: 1px solid rgba(241, 221, 215, 0.5);
+  background-color: #FAF8F5;
+  border-top: none;
+  border-bottom: none;
   padding: 56px 24px 64px;
   margin: 30px 0 40px;
   position: relative;
@@ -827,7 +829,7 @@ body {
   height: 100%;
   overflow: hidden;
   border-radius: 8px;
-  background: #FDF9F7;
+  background: #FAF8F5;
   border: none;
 }
 
@@ -1132,8 +1134,8 @@ body {
   width: 100%;
   max-width: 100%;
   background-color: #FAF8F5;
-  border-top: 1px solid rgba(228, 214, 208, 0.45);
-  border-bottom: 1px solid rgba(228, 214, 208, 0.45);
+  border-top: none;
+  border-bottom: none;
   padding: 44px 0 52px;
   margin: 20px 0 36px;
   position: relative;
@@ -1176,7 +1178,7 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-  background: #F3ECE8;
+  background: #FAF8F5;
 }
 
 .editorial-peek-img {
@@ -1199,7 +1201,7 @@ body {
   cursor: pointer;
   user-select: none;
   box-shadow: 0 16px 42px rgba(35, 25, 23, 0.16);
-  background: #F8F2EE;
+  background: #FAF8F5;
   transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 
@@ -1418,7 +1420,7 @@ body {
 .editorial-queue-card-inner {
   width: 100%;
   height: 100%;
-  background: #F8F2EE;
+  background: #FAF8F5;
   overflow: hidden;
 }
 
@@ -1749,11 +1751,11 @@ body {
    ========================================================================== */
 .luxe-dream-banner-section {
   width: 100%;
-  background-color: #F8F5EE;
+  background-color: #FAF8F5;
   padding: 68px 24px 76px;
   margin: 40px 0 0;
-  border-top: 1px solid rgba(226, 217, 206, 0.6);
-  border-bottom: 1px solid rgba(226, 217, 206, 0.6);
+  border-top: none;
+  border-bottom: none;
 }
 
 .dream-access-container {
@@ -1997,15 +1999,16 @@ body {
    Faithfully matching the Madi Lane Bridal luxury reference layout
    ========================================================================== */
 .luxe-footer {
-  background: #FFFFFF;
-  border-top: 1px solid rgba(226, 217, 206, 0.6);
-  padding: 68px 32px 36px;
+  background: #FAF8F5;
+  border-top: none;
+  padding: 68px 0 0;
   width: 100%;
 }
 
 .luxe-footer-inner {
   max-width: 1220px;
   margin: 0 auto;
+  padding: 0 32px 36px;
 }
 
 .footer-main-grid {
@@ -2157,6 +2160,41 @@ body {
 .footer-social-icon-btn:hover {
   color: #1F1917;
   transform: translateY(-2px);
+}
+
+/* Boutique Location & Concierge Strip in Footer */
+.footer-utility-bar {
+  background-color: #FAF8F5;
+  border-top: none;
+  padding: 8px 32px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  color: #4D3D39;
+  letter-spacing: 0.02em;
+  width: 100%;
+}
+
+.footer-utility-container {
+  max-width: 1220px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.footer-utility-left,
+.footer-utility-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.footer-utility-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 /* ==========================================================================
@@ -2581,7 +2619,10 @@ body {
 
 @media (max-width: 680px) {
   .luxe-footer {
-    padding: 48px 20px 30px;
+    padding: 48px 0 0;
+  }
+  .luxe-footer-inner {
+    padding: 0 20px 24px;
   }
   .footer-main-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -2597,6 +2638,14 @@ body {
   }
   .footer-social-center {
     gap: 20px;
+  }
+  .footer-utility-bar {
+    padding: 10px 20px;
+  }
+  .footer-utility-container {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
   }
 }
 

@@ -5,12 +5,12 @@
 
 :root {
   /* Color Palette - Luxury Soft Blush Pink Theme */
-  --bg-primary: #FDF7F5;
+  --bg-primary: #FAF8F5;
   --bg-secondary: #FFFFFF;
   --bg-tertiary: #F8EAE6;
   --bg-elevated: #FFFFFF;
-  --bg-glass: rgba(253, 247, 245, 0.92);
-  --bg-pink-bar: #F7ECE8;
+  --bg-glass: rgba(250, 248, 245, 0.94);
+  --bg-pink-bar: #FAF8F5;
 
   --text-primary: #2D2321;
   --text-secondary: #6E5D5A;
@@ -108,6 +108,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: clip;
+  background-color: var(--bg-primary);
   transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
