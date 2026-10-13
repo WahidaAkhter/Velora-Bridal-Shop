@@ -13,6 +13,7 @@ import { CheckoutPage } from './components/CheckoutPage';
 import { AccountPage } from './components/AccountPage';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { AppointmentModal } from './components/AppointmentModal';
+import { WeddingDressFeatureModal } from './components/WeddingDressFeatureModal';
 import { Toast } from './components/Toast';
 import { SeoHead } from './components/SeoHead';
 import { ArrowUp } from 'lucide-react';
@@ -32,6 +33,8 @@ const MainContent = () => {
     setQuickViewProduct,
     isAppointmentModalOpen,
     setIsAppointmentModalOpen,
+    activeWeddingDressOption,
+    setActiveWeddingDressOption,
     selectedOrderDetails,
     setSelectedOrderDetails,
     isCartOpen,
@@ -40,14 +43,15 @@ const MainContent = () => {
 
   const [showBackToTop, setShowBackToTop] = useState(false);
   const anyOverlayOpen = Boolean(
-    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen
+    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption
   );
 
   // Escape closes the top-most overlay
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (selectedOrderDetails) setSelectedOrderDetails(null);
+      if (activeWeddingDressOption) setActiveWeddingDressOption(null);
+      else if (selectedOrderDetails) setSelectedOrderDetails(null);
       else if (isAppointmentModalOpen) setIsAppointmentModalOpen(false);
       else if (quickViewProduct) setQuickViewProduct(null);
       else if (selectedProduct) setSelectedProduct(null);
@@ -56,11 +60,13 @@ const MainContent = () => {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [
+    activeWeddingDressOption,
     selectedOrderDetails,
     isAppointmentModalOpen,
     quickViewProduct,
     selectedProduct,
     isCartOpen,
+    setActiveWeddingDressOption,
     setSelectedOrderDetails,
     setIsAppointmentModalOpen,
     setQuickViewProduct,
@@ -142,6 +148,9 @@ const MainContent = () => {
           onClose={() => setSelectedOrderDetails(null)}
         />
       )}
+
+      {/* Luxury Wedding Dress Feature & Silhouette Showcase */}
+      <WeddingDressFeatureModal />
 
       <CartDrawer />
       <Toast />

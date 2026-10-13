@@ -246,7 +246,8 @@ export const Header = () => {
     cartItems,
     setIsCartOpen,
     wishlist,
-    setAccountTab
+    setAccountTab,
+    setActiveWeddingDressOption
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -351,6 +352,12 @@ export const Header = () => {
   const handleFeatureItemClick = (featureKey, colTitle, item) => {
     setActiveDropdown(null);
     setIsMobileMenuOpen(false);
+
+    if (featureKey === 'wedding-dresses') {
+      setActiveWeddingDressOption(item);
+      return;
+    }
+
     setCurrentView('catalog');
 
     if (featureKey === 'contact' && colTitle.includes('APPOINTMENT')) {
@@ -370,7 +377,7 @@ export const Header = () => {
       return;
     }
 
-    // Default for gowns and accessories
+    // Default for accessories
     const target = document.getElementById('featured-collection-heading') || document.getElementById('featured-collection');
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });

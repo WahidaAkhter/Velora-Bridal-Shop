@@ -2783,3 +2783,1107 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   26. WEDDING DRESS FEATURE SHOWCASE MODAL (Editorial Thoughts, Imagery & Gowns)
+   ========================================================================== */
+.wedding-feature-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 16, 15, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 2.5vw, 32px);
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wedding-feature-modal-container {
+  background: #FAF7F2;
+  width: min(1140px, 100%);
+  max-height: 92vh;
+  border-radius: 18px;
+  border: 1px solid rgba(226, 217, 206, 0.8);
+  box-shadow: 0 28px 80px rgba(25, 17, 16, 0.32);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalScaleUp 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header */
+.wedding-feature-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px 14px;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.5);
+}
+
+.modal-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.modal-category-eyebrow {
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--luxe-rose);
+}
+
+.modal-feature-title {
+  font-family: var(--font-serif-luxe);
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 500;
+  color: #2D2321;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.modal-close-icon-btn {
+  background: #F3ECE2;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #5A4944;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close-icon-btn:hover {
+  background: var(--luxe-rose);
+  color: #FFFFFF;
+  transform: rotate(90deg);
+}
+
+/* Pills Bar */
+.wedding-feature-pills-bar {
+  background: #FFFFFF;
+  padding: 10px 24px 14px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.4);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.pills-scroll-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 2px;
+}
+
+.pills-scroll-track::-webkit-scrollbar {
+  height: 3px;
+}
+
+.pills-scroll-track::-webkit-scrollbar-thumb {
+  background: rgba(184, 153, 140, 0.4);
+  border-radius: 2px;
+}
+
+.feature-pill-btn {
+  background: #FAF7F2;
+  border: 1px solid rgba(184, 153, 140, 0.35);
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5A4944;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.feature-pill-btn:hover {
+  border-color: var(--luxe-rose);
+  color: var(--luxe-rose);
+  background: #FFFFFF;
+}
+
+.feature-pill-btn.is-active {
+  background: #2D2321;
+  border-color: #2D2321;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(45, 35, 33, 0.18);
+}
+
+/* Modal Body */
+.wedding-feature-modal-body {
+  padding: clamp(20px, 3vw, 36px);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Feature Hero Card */
+.feature-hero-card {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: clamp(24px, 3.5vw, 44px);
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 217, 206, 0.6);
+  border-radius: 16px;
+  padding: clamp(20px, 2.5vw, 32px);
+  box-shadow: 0 12px 36px rgba(45, 35, 33, 0.06);
+  margin-bottom: 38px;
+}
+
+.feature-hero-media {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(35, 25, 23, 0.12);
+  aspect-ratio: 3 / 4;
+}
+
+.feature-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-hero-media:hover .feature-hero-img {
+  transform: scale(1.03);
+}
+
+.feature-hero-badge-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(45, 35, 33, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FAF7F2;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.feature-hero-location-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(35, 25, 23, 0.88);
+  backdrop-filter: blur(4px);
+  color: #FAF7F2;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.feature-hero-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.hero-category-label {
+  font-family: var(--font-sans-luxe);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #7A6965;
+}
+
+.hero-pill-badge {
+  background: #F4EAE3;
+  color: #925348;
+  font-family: var(--font-sans-luxe);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 3px 10px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.feature-hero-name {
+  font-family: var(--font-serif-luxe);
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 500;
+  color: #2D2321;
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+}
+
+.feature-hero-tagline {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #7A6965;
+  margin: 0 0 20px 0;
+}
+
+.feature-thought-box {
+  background: #FAF7F2;
+  border-left: 3px solid var(--luxe-rose);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 18px;
+}
+
+.thought-box-title {
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4A3B37;
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thought-box-body {
+  font-family: var(--font-serif-luxe);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3E322F;
+  margin: 0;
+  font-style: italic;
+}
+
+.stylist-note-box {
+  background: #FFFFFF;
+  border: 1px dashed rgba(184, 153, 140, 0.5);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--font-sans-luxe);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #554440;
+  margin-bottom: 24px;
+}
+
+.stylist-note-box strong {
+  color: #2D2321;
+}
+
+.feature-photo-credit {
+  font-family: var(--font-serif-luxe);
+  font-size: 13px;
+  font-style: italic;
+  color: #7A6965;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feature-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-atelier-primary {
+  background: #2D2321;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 30px;
+  padding: 13px 26px;
+  font-family: var(--font-sans-luxe);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.22s ease;
+  box-shadow: 0 6px 18px rgba(45, 35, 33, 0.16);
+}
+
+.btn-atelier-primary:hover {
+  background: var(--luxe-rose);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(168, 93, 80, 0.28);
+}
+
+/* Curated Gowns Section */
+.curated-gowns-section {
+  margin-top: 10px;
+}
+
+.curated-gowns-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.6);
+}
+
+.setting-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.5);
+}
+
+.setting-tab-btn {
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 153, 140, 0.35);
+  border-radius: 30px;
+  padding: 6px 14px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #5A4944;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.setting-tab-btn:hover {
+  border-color: var(--luxe-rose);
+  color: var(--luxe-rose);
+}
+
+.setting-tab-btn.active {
+  background: #2D2321;
+  color: #FFFFFF;
+  border-color: #2D2321;
+  box-shadow: 0 4px 12px rgba(45, 35, 33, 0.16);
+}
+
+.curated-section-title {
+  font-family: var(--font-serif-luxe);
+  font-size: 24px;
+  font-weight: 500;
+  color: #2D2321;
+  margin: 0 0 4px 0;
+}
+
+.curated-section-subtitle {
+  font-family: var(--font-sans-luxe);
+  font-size: 12.5px;
+  color: #7A6965;
+  margin: 0;
+}
+
+.gowns-count-badge {
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 153, 140, 0.4);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  color: #5A4944;
+}
+
+.curated-gowns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.curated-gown-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 217, 206, 0.65);
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(45, 35, 33, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.curated-gown-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(45, 35, 33, 0.11);
+}
+
+.gown-card-media {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  cursor: pointer;
+  background: #F3ECE2;
+}
+
+.gown-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gown-card-media:hover .gown-card-img {
+  transform: scale(1.05);
+}
+
+.gown-location-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(35, 25, 23, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FAF7F2;
+  font-family: var(--font-sans-luxe);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gown-wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5A4944;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.gown-wishlist-btn:hover {
+  background: #FFFFFF;
+  color: #C04343;
+}
+
+.gown-wishlist-btn.is-active {
+  color: #C04343;
+  background: #FFFFFF;
+}
+
+.gown-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(45, 35, 33, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.gown-card-media:hover .gown-media-overlay {
+  opacity: 1;
+}
+
+.gown-view-quick {
+  background: #FFFFFF;
+  color: #2D2321;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gown-card-details {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.gown-attributes-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.gown-chip {
+  background: #FAF7F2;
+  border: 1px solid rgba(226, 217, 206, 0.8);
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-family: var(--font-sans-luxe);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #7A6965;
+}
+
+.gown-name {
+  font-family: var(--font-serif-luxe);
+  font-size: 18px;
+  font-weight: 600;
+  color: #2D2321;
+  margin: 0 0 4px 0;
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+
+.gown-name:hover {
+  color: var(--luxe-rose);
+}
+
+.gown-subtitle {
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  color: #7A6965;
+  margin: 0 0 10px 0;
+}
+
+.gown-desc-text {
+  font-family: var(--font-sans-luxe);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #554440;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.gown-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(226, 217, 206, 0.5);
+  margin-top: auto;
+}
+
+.gown-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.gown-price-current {
+  font-family: var(--font-sans-luxe);
+  font-size: 15px;
+  font-weight: 700;
+  color: #2D2321;
+}
+
+.gown-price-original {
+  font-family: var(--font-sans-luxe);
+  font-size: 12px;
+  color: #A08C86;
+  text-decoration: line-through;
+}
+
+.btn-gown-add-bag {
+  background: #2D2321;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.btn-gown-add-bag:hover {
+  background: var(--luxe-rose);
+  transform: translateY(-1px);
+}
+
+.gallery-pagination-footer {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(226, 217, 206, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.gallery-progress-note {
+  font-family: var(--font-sans-luxe);
+  font-size: 12.5px;
+  color: #7A6965;
+  margin: 0;
+}
+
+.gallery-progress-note strong {
+  color: #2D2321;
+}
+
+.gallery-pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-load-more-gowns {
+  background: #2D2321;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 26px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.22s ease;
+  box-shadow: 0 6px 18px rgba(45, 35, 33, 0.15);
+}
+
+.btn-load-more-gowns:hover {
+  background: var(--luxe-rose);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(168, 93, 80, 0.28);
+}
+
+.btn-show-all-gowns {
+  background: #FFFFFF;
+  color: #382E2B;
+  border: 1px solid rgba(184, 153, 140, 0.5);
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-show-all-gowns:hover {
+  border-color: #2D2321;
+  color: #2D2321;
+  background: #FAF7F2;
+}
+
+/* ==========================================================================
+   SPECIAL VIEW 1: SIZE CHART STUDIO
+   ========================================================================== */
+.special-size-chart-view {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.size-chart-hero {
+  display: grid;
+  grid-template-columns: 1fr minmax(280px, 360px);
+  gap: 32px;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: clamp(20px, 2.8vw, 32px);
+  border: 1px solid rgba(226, 217, 206, 0.7);
+}
+
+.size-chart-hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.size-chart-main-heading {
+  font-family: var(--font-serif-luxe);
+  font-size: clamp(26px, 2.5vw, 34px);
+  color: #2D2321;
+  margin: 10px 0 12px 0;
+}
+
+.size-chart-subtext {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #655450;
+  margin: 0 0 24px 0;
+}
+
+.unit-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FAF7F2;
+  padding: 10px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(226, 217, 206, 0.6);
+  width: fit-content;
+}
+
+.unit-toggle-label {
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #7A6965;
+}
+
+.unit-toggle-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.unit-btn {
+  background: none;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  font-weight: 600;
+  color: #5A4944;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.unit-btn.active {
+  background: #2D2321;
+  color: #FFFFFF;
+}
+
+.size-chart-hero-media {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(35, 25, 23, 0.1);
+  aspect-ratio: 4 / 3;
+}
+
+.size-chart-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-overlay-note {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(35, 25, 23, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FAF7F2;
+  font-family: var(--font-sans-luxe);
+  font-size: 10.5px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sizing-table-wrapper {
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 217, 206, 0.7);
+  overflow-x: auto;
+  box-shadow: 0 8px 24px rgba(45, 35, 33, 0.05);
+}
+
+.atelier-sizing-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans-luxe);
+  font-size: 12px;
+  text-align: center;
+}
+
+.atelier-sizing-table th {
+  background: #F4EAE3;
+  color: #3E322F;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.8);
+  white-space: nowrap;
+}
+
+.atelier-sizing-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.4);
+  color: #554440;
+}
+
+.atelier-sizing-table tr.even-row td {
+  background: #FAF7F2;
+}
+
+.atelier-sizing-table td.size-highlight {
+  font-weight: 700;
+  color: #2D2321;
+}
+
+.measurement-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.step-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 22px 20px;
+  border: 1px solid rgba(226, 217, 206, 0.7);
+}
+
+.step-number {
+  font-family: var(--font-serif-luxe);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--luxe-rose);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.step-card h4 {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #2D2321;
+  margin: 0 0 6px 0;
+}
+
+.step-card p {
+  font-family: var(--font-sans-luxe);
+  font-size: 12px;
+  line-height: 1.55;
+  color: #655450;
+  margin: 0;
+}
+
+.size-chart-footer-cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   SPECIAL VIEW 2: LOOKBOOKS STUDIO
+   ========================================================================== */
+.special-lookbooks-view {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.lookbook-intro-bar {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 24px 28px;
+  border: 1px solid rgba(226, 217, 206, 0.6);
+}
+
+.lookbook-main-title {
+  font-family: var(--font-serif-luxe);
+  font-size: 28px;
+  font-weight: 500;
+  color: #2D2321;
+  margin: 8px 0 8px 0;
+}
+
+.lookbook-desc {
+  font-family: var(--font-sans-luxe);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #655450;
+  margin: 0;
+}
+
+.lookbooks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.lookbook-editorial-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(226, 217, 206, 0.7);
+  box-shadow: 0 10px 28px rgba(45, 35, 33, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease;
+}
+
+.lookbook-editorial-card:hover {
+  transform: translateY(-4px);
+}
+
+.lookbook-card-image-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.lookbook-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.lookbook-editorial-card:hover .lookbook-card-img {
+  transform: scale(1.04);
+}
+
+.lookbook-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(35, 25, 23, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FAF7F2;
+  font-family: var(--font-sans-luxe);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 16px;
+}
+
+.lookbook-card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.lookbook-card-title {
+  font-family: var(--font-serif-luxe);
+  font-size: 20px;
+  font-weight: 600;
+  color: #2D2321;
+  margin: 0 0 6px 0;
+}
+
+.lookbook-card-quote {
+  font-family: var(--font-serif-luxe);
+  font-size: 13.5px;
+  font-style: italic;
+  line-height: 1.5;
+  color: #655450;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.lookbook-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid rgba(226, 217, 206, 0.5);
+}
+
+.featured-dress-label {
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  color: #7A6965;
+}
+
+.featured-dress-label strong {
+  color: #2D2321;
+}
+
+.btn-explore-look {
+  background: none;
+  border: none;
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--luxe-rose);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.2s ease;
+}
+
+.btn-explore-look:hover {
+  transform: translateX(4px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .feature-hero-card {
+    grid-template-columns: 1fr;
+  }
+  .size-chart-hero {
+    grid-template-columns: 1fr;
+  }
+  .lookbooks-grid {
+    grid-template-columns: 1fr;
+  }
+  .measurement-steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
