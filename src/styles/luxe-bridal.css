@@ -402,7 +402,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 520px;
+  max-width: 490px;
   width: 50%;
   z-index: 3;
 }
@@ -500,20 +500,20 @@ body {
   transform: translateY(-1px);
 }
 
-/* Pop-Out Bride Cutout - Extends above hero section and pops out prominently over the header */
+/* Pop-Out Bride Cutout - 70% body visible starting from top, firmly grounded at bottom */
 .hero-popout-wrapper {
   position: absolute;
-  right: max(60px, calc((100% - 1200px) / 2 + 165px));
+  right: max(40px, calc((100% - 1200px) / 2 + 100px));
   top: -48px;
   bottom: 0;
-  width: 480px;
-  max-width: 480px;
+  width: 550px;
+  max-width: 550px;
   height: calc(100% + 48px);
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
   pointer-events: none;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Layer 1: Base bride model permanently behind header (z-index 90), rendering body & dress cleanly */
@@ -529,16 +529,18 @@ body {
   transform: translate3d(0, var(--head-y, 0px), 0);
   transition: opacity 0.08s ease-out, filter 0.08s ease-out, transform 0.08s ease-out;
   will-change: opacity, filter, transform;
-  mask-image: linear-gradient(to bottom, #000 0%, #000 80px, rgba(0, 0, 0, 0.4) 120px, transparent 160px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80px, rgba(0, 0, 0, 0.4) 120px, transparent 160px);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 110px, rgba(0, 0, 0, 0.4) 160px, transparent 220px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 110px, rgba(0, 0, 0, 0.4) 160px, transparent 220px);
 }
 
 .hero-popout-model {
   width: auto;
   height: 100%;
-  max-height: 650px;
+  max-height: none;
   object-fit: contain;
-  object-position: bottom center;
+  object-position: top center;
+  transform: scale(1.45);
+  transform-origin: top center;
   display: block;
 }
 
@@ -2449,8 +2451,8 @@ body {
 
 @media (max-width: 1100px) {
   .hero-popout-wrapper {
-    right: 130px;
-    width: 400px;
+    right: 40px;
+    width: 500px;
   }
   .luxe-nav-menu {
     gap: 14px;
@@ -2534,11 +2536,16 @@ body {
     height: 440px;
     margin: 0 auto;
     z-index: 10;
+    clip-path: none;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   .hero-popout-model {
     height: 100%;
+    min-height: auto;
     max-height: 440px;
     margin: 0 auto;
+    object-position: center;
   }
   .featured-cards-container {
     grid-template-columns: repeat(2, 1fr);
