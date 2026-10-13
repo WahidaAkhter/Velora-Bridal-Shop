@@ -14,6 +14,7 @@ import { AccountPage } from './components/AccountPage';
 import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { AppointmentModal } from './components/AppointmentModal';
 import { WeddingDressFeatureModal } from './components/WeddingDressFeatureModal';
+import { SignatureStylesPage } from './components/SignatureStylesPage';
 import { Toast } from './components/Toast';
 import { SeoHead } from './components/SeoHead';
 import { ArrowUp } from 'lucide-react';
@@ -117,6 +118,7 @@ const MainContent = () => {
           </div>
         )}
 
+        {currentView === 'signature-styles' && <SignatureStylesPage />}
         {currentView === 'checkout' && <CheckoutPage />}
         {currentView === 'account' && <AccountPage />}
       </main>

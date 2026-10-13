@@ -354,6 +354,11 @@ export const Header = () => {
     setIsMobileMenuOpen(false);
 
     if (featureKey === 'wedding-dresses') {
+      if (item === 'SIGNATURE STYLES') {
+        setCurrentView('signature-styles');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
       setActiveWeddingDressOption(item);
       return;
     }

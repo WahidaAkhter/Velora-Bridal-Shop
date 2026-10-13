@@ -1,267 +1,9 @@
 /**
- * Master Bridal Gowns & Features Data
- * Featuring 100+ uniquely cataloged gowns with authentic natural backgrounds (Tuscan vineyards,
- * coastal cliffs, English rose gardens, French chateaux, alpine wildflower meadows, and Amalfi terraces).
- * Non-AI, real documentary-editorial wedding photography aesthetics with zero repeated images.
+ * Comprehensive Wedding Dresses Features Data
+ * Unique high-fashion thoughts, bespoke editorial descriptions, imagery, and curated gowns
+ * for every option across the 5 categories (By Type, By Silhouette, By Neckline/Sleeve, By Style, By Fabrication).
  */
 
-// 1. Array of authentic, non-AI bridal photo sources with real natural & architectural backgrounds
-export const NATURAL_BRIDAL_PHOTOS = [
-  {
-    url: '/images/bridal/natural-tuscan-olive.jpg',
-    location: "Val d'Orcia, Tuscany, Italy",
-    setting: 'Natural Gardens & Vineyards',
-    notes: '35mm film capture in an olive grove at sunset; candid laughter and natural silk slip drape'
-  },
-  {
-    url: '/images/bridal/natural-cliffside-ocean.jpg',
-    location: 'Cliffs of Moher, Ireland',
-    setting: 'Coastal & Oceanside',
-    notes: 'Real windswept cathedral veil and A-line gown above the Atlantic ocean'
-  },
-  {
-    url: '/images/bridal/natural-english-garden.jpg',
-    location: 'Cotswolds, England',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Soft diffused morning light against 17th-century Cotswold stone and climbing heritage roses'
-  },
-  {
-    url: '/images/bridal/natural-chateau-courtyard.jpg',
-    location: 'Loire Valley, France',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'French stone courtyard steps with natural trailing lace train and ivy-covered walls'
-  },
-  {
-    url: '/images/bridal/natural-alpine-meadow.jpg',
-    location: 'Dolomites Alpine Meadow, Italy',
-    setting: 'Alpine Meadows & Highlands',
-    notes: 'Wild purple lupines, mountain morning fog, and a clean minimalist crepe gown'
-  },
-  {
-    url: '/images/bridal/natural-amalfi-terrace.jpg',
-    location: 'Positano, Amalfi Coast, Italy',
-    setting: 'Coastal & Oceanside',
-    notes: 'Stone balustrade terrace with vibrant bougainvillea overlooking the Mediterranean sea'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80',
-    location: 'Sonoma Valley, California',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Warm natural vineyard sunlight illuminating hand-appliquéd lace and delicate floral hairpins'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1546804773-86f7fe48d085?auto=format&fit=crop&w=900&q=80',
-    location: 'Lake Como, Italy',
-    setting: 'Coastal & Oceanside',
-    notes: 'Candid bridal laughter beside historic villa waters with natural wind-blown silk tulle'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1550180390-11f5e76784c8?auto=format&fit=crop&w=900&q=80',
-    location: 'Seville Cathedral Cloisters, Spain',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Cathedral illusion lace veil with sunlight streaming through ancient gothic arches'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1559839776-caa0a3a5b800?auto=format&fit=crop&w=900&q=80',
-    location: 'Sintra Palace Gardens, Portugal',
-    setting: 'Editorial & Veil Textures',
-    notes: 'Macro veil photography highlighting authentic handmade French Chantilly floral embroidery'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=900&q=80',
-    location: 'Chianti Hills, Tuscany, Italy',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Sun-dappled vineyard stroll with a relaxed bohemian silk chiffon gown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1573689705959-7786e029b31e?auto=format&fit=crop&w=900&q=80',
-    location: 'Black Forest, Germany',
-    setting: 'Alpine Meadows & Highlands',
-    notes: 'Atmospheric misty pine forest with a delicate long-sleeve Victorian lace gown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1477313372947-d68a7d410e9f?auto=format&fit=crop&w=900&q=80',
-    location: 'Blenheim Palace, Oxfordshire, UK',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Regal golden hour light across limestone grounds with full-volume cathedral ballgown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1594552072238-b8a3272be6cc?auto=format&fit=crop&w=900&q=80',
-    location: 'Château de Chantilly, France',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Historic stone terrace portrait with high-neck long-lace-sleeve royal gown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80',
-    location: 'Napa Valley, California',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Golden hour open-air ceremony with sunlight passing through layers of Italian tulle'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80',
-    location: 'Paris Atelier Balcony, France',
-    setting: 'Editorial & Veil Textures',
-    notes: 'Artisanal corsetry boning detail against natural Parisian limestone background'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=900&q=80',
-    location: 'Ravello Cliffside, Italy',
-    setting: 'Coastal & Oceanside',
-    notes: 'Candid joyful bride on cliffside terrace overlooking the Tyrrhenian Sea'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80',
-    location: 'Provence Country House, France',
-    setting: 'Editorial & Veil Textures',
-    notes: 'Morning bridal dressing by shuttered French windows with silk button details'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80',
-    location: 'Kew Royal Botanic Gardens, London',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Conservatory glasshouse surrounded by exotic ferns and botanical silk flowers'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80',
-    location: 'Biarritz Coastal Sands, France',
-    setting: 'Coastal & Oceanside',
-    notes: 'Barefoot seaside romance with light ocean spray and fluid silk chiffon train'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1509927083803-4bd519298ac4?auto=format&fit=crop&w=900&q=80',
-    location: 'Deià, Mallorca, Spain',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Warm terracotta stone terrace with minimalist sleeveless modern crepe dress'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?auto=format&fit=crop&w=900&q=80',
-    location: 'Big Sur Pacific Coast, California',
-    setting: 'Coastal & Oceanside',
-    notes: 'Sunset golden glow on coastal bluffs with effortless boho crochet lace'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=900&q=80',
-    location: 'Florence Historic Piazza, Italy',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Classic Italian renaissance stone portico with sculptural Duchess satin gown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=900&q=80',
-    location: 'Scottish Highlands Meadow, UK',
-    setting: 'Alpine Meadows & Highlands',
-    notes: 'Wild heather and granite mountain peaks framing a windswept romantic bride'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80',
-    location: 'Villa Balbiano, Lake Como, Italy',
-    setting: 'Coastal & Oceanside',
-    notes: 'Sun shimmering off alpine waters with dramatic layered organza tiers'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=900&q=80',
-    location: 'Pacific Northwest Redwoods, USA',
-    setting: 'Alpine Meadows & Highlands',
-    notes: 'Majestic ancient redwoods with soft natural moss-carpeted forest light'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=900&q=80',
-    location: 'Stockholm Archipelago, Sweden',
-    setting: 'Coastal & Oceanside',
-    notes: 'Clean Scandinavian modernism on granite sea rocks with pure matte silk'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=80',
-    location: 'Gordes Lavender Valley, France',
-    setting: 'Natural Gardens & Vineyards',
-    notes: 'Fragrant purple lavender fields in summer dusk with a whispering tulle skirt'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?auto=format&fit=crop&w=900&q=80',
-    location: 'Toledo Historic Archways, Spain',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Warm carved limestone arches framing an elegant high-neck royal gown'
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?auto=format&fit=crop&w=900&q=80',
-    location: 'Vaux-le-Vicomte Gardens, France',
-    setting: 'Historic Estates & Stone Chateaus',
-    notes: 'Formal geometric French parterre gardens with a grand royal ballgown'
-  }
-];
-
-// 2. MASTER 104-GOWN CATALOG: Each gown is individually curated with authentic location, setting, fabric, and price
-const SILHOUETTE_TYPES = ['A-Line', 'Ballgown', 'Mermaid', 'Fit & Flare', 'Basque Waist', 'Drop Waist', 'Corset Bodice', 'Column Sheath', 'Princess', 'Short Mini'];
-const FABRIC_TYPES = ['French Chantilly Lace', 'Duchess Silk Satin', 'Italian Illusion Tulle', 'French Matte Crepe', 'Hand-Beaded Crystals', 'Silk Organza', 'Fluid Silk Chiffon'];
-const NECKLINE_TYPES = ['Sweetheart Plunge', 'Off-The-Shoulder', 'High Victorian Neck', 'Spaghetti Straps', 'Long Illusion Sleeves', 'Square Neckline', 'Halter Decolletage'];
-const STYLE_TYPES = ['Modern', 'Romantic', 'Simple', 'Elegant', 'Boho', 'Floral', 'Sexy', 'Glamorous', 'Sparkle', 'Beach'];
-
-const GOWN_NAMES_BASE = [
-  'The Siena Olive Grove Slip', 'The Connemara Windswept A-Line', 'The Cotswolds Rose Garden Ballgown',
-  'The Positano Bougainvillea Mermaid', 'The Dolomites Wildflower Crepe', 'The Loire Valley Chateau Lace',
-  'The Ravello Terrace Silk Gown', 'The Isle of Skye Highland Heather', 'The Provence Lavender Chantilly',
-  'The Lake Como Balbiano Organza', 'The Big Sur Coastal Veil Gown', 'The Mallorca Finca Basque Gown',
-  'The Versailles Orangery Ballgown', 'The Santorini Caldera Chiffon', 'The Sintra Royal Cloister Gown',
-  'The Chianti Vineyard Sun Gown', 'The Biarritz Seaside Slip Gown', 'The Black Forest Victorian Lace',
-  'The Blenheim Palace Sovereign Gown', 'The Kew Botanic Glasshouse Gown', 'The Toledo Archway High Neck',
-  'The Stockholm Archipelago Column', 'The Gordes Lavender Sunset Gown', 'The Vaux-le-Vicomte Cathedral Gown',
-  'The Capri Faraglioni Strapless Gown', 'The Montmartre Cobblestone Mini', 'The Amalfi Cliffside Corset',
-  'The Edinburgh Castle Brocade Gown', 'The Napa Valley Golden Hour Gown', 'The Taormina Citrus Grove Gown',
-  'The Saint-Tropez Barefoot Silk Gown', 'The Salzburg Alpine Meadow Gown', 'The Granada Alhambra Lace Gown',
-  'The Sonoma Valley Heritage Gown', 'The Portofino Harbor Silk Column', 'The Galway Bay Ocean Breeze Gown',
-  'The Avignon Palace Tapestry Gown', 'The Zermatt Glacier Crepe Gown', 'The Menton Lemon Terrace Gown',
-  'The Glencoe Highland Mist Gown', 'The Bellagio Waterfront Mermaid', 'The Oxford Cloister Royal Gown',
-  'The Hydra Island Whitewashed Gown', 'The Monaco Grand Prix Satin Mini', 'The Ronda Gorge Dramatic Gown',
-  'The Bordeaux Grand Cru Lace Gown', 'The Killarney Lake Reflection Gown', 'The Annecy Pastel Canal Gown',
-  'The Interlaken Alpine Wildflower Gown', 'The Antibes Riviera Tulle Gown', 'The Cambridge Courtyard Gown',
-  'The Mykonos Windmill Sunset Gown', 'The Verona Juliet Balcony Gown', 'The Saint-Malo Stone Rampart Gown',
-  'The Lucerne Chapel Bridge Gown', 'The Saint-Emilion Cobblestone Gown', 'The Dingle Peninsula Cliff Gown',
-  'The Fontainebleau Forest Gown', 'The Grindelwald Mountain Breeze Gown', 'The Cannes Croisette Glamour Gown',
-  'The Bruges Canal Mist Lace Gown', 'The Sperlonga Coastal Dune Gown', 'The Hallstatt Lakeside Ballgown',
-  'The Colmar Half-Timbered Rose Gown', 'The Kinsale Harbor Breeze Gown', 'The Gstaad Winter Palace Gown',
-  'The Cap d\'Antibes Pine Grove Gown', 'The Sintra Monserrate Exotic Gown', 'The Cortina d\'Ampezzo Peak Gown',
-  'The Rovinj Old Town Harbor Gown', 'The Giants Causeway Basalt Gown', 'The Beaune Burgundy Vaulted Gown',
-  'The Lauterbrunnen Valley Mist Gown', 'The Eze Village Eagle Nest Gown', 'The Kinsale Colorful Cottage Gown',
-  'The Verbier Alpine Chalet Gown', 'The Portree Isle Harbor Gown', 'The Cassis Calanques Fjord Gown',
-  'The Lucca Renaissance Wall Gown', 'The Kylemore Abbey Lake Gown', 'The Engelberg Monastery Crepe Gown',
-  'The Villefranche Harbor Sun Gown', 'The Glendalough Monastic Valley Gown', 'The Villandry Châteaux Parterre Gown',
-  'The St. Moritz Cresta Run Satin Gown', 'The Bonifacio Chalk Cliff Gown', 'The Adare Manor Heritage Gown',
-  'The Roussillon Ochre Cliff Gown', 'The Appenzell Green Hill Gown', 'The Saint-Paul-de-Vence Art Gown',
-  'The Cong Ashford Castle Sovereign Gown', 'The Chenonceau River Bridge Gown', 'The Wengen Jungfrau Vista Gown',
-  'The Portmeirion Italianate Gown', 'The Kenmare Bay Sunset Gown', 'The Saint-Jean-Cap-Ferrat Villa Gown',
-  'The Saas-Fee Glacial Pearl Gown', 'The Baux-de-Provence Citadel Gown', 'The Doolin Atlantic Session Gown',
-  'The Azay-le-Rideau Water Reflection Gown', 'The Pontresina Alpine Sun Gown', 'The San Fruttuoso Abbey Gown',
-  'The Powerscourt Waterfall Gown', 'The Uzes Duchy Limestone Gown', 'The Murren Cliffside Horizon Gown'
-];
-
-export const MASTER_BRIDAL_GOWNS_CATALOG = GOWN_NAMES_BASE.map((name, index) => {
-  const photo = NATURAL_BRIDAL_PHOTOS[index % NATURAL_BRIDAL_PHOTOS.length];
-  const silhouette = SILHOUETTE_TYPES[index % SILHOUETTE_TYPES.length];
-  const fabric = FABRIC_TYPES[index % FABRIC_TYPES.length];
-  const neckline = NECKLINE_TYPES[index % NECKLINE_TYPES.length];
-  const style = STYLE_TYPES[index % STYLE_TYPES.length];
-  const basePrice = 1650 + ((index * 37) % 1800);
-  const origPrice = Math.round(basePrice * 1.18);
-
-  return {
-    id: `gown-${String(index + 1).padStart(3, '0')}`,
-    name: name,
-    subtitle: `${silhouette} in ${fabric} with ${neckline}`,
-    price: basePrice,
-    originalPrice: origPrice,
-    image: photo.url,
-    location: photo.location,
-    setting: photo.setting,
-    notes: photo.notes,
-    silhouette: silhouette,
-    fabric: fabric,
-    neckline: neckline,
-    style: style,
-    description: `Photographed in natural outdoor light at ${photo.location}. Features ${fabric.toLowerCase()} tailored with ${silhouette.toLowerCase()} architecture, capturing authentic bridal movement and graceful drape.`
-  };
-});
-
-// 3. MASTER DICTIONARY FOR THE 38 NAVBAR OPTIONS
-// Each option has its own unique, bespoke non-AI photo from our real library with zero repetition!
 export const WEDDING_DRESS_OPTIONS_DATA = {
   // ==========================================
   // 1. BY TYPE
@@ -271,11 +13,44 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Signature Styles',
     badge: 'Aura Luxe Icons',
     tagline: 'The defining silhouettes of our Paris & Milan ateliers',
-    heroImage: '/images/bridal/natural-chateau-courtyard.jpg',
-    location: 'Loire Valley, France',
-    notes: 'Real 35mm film photograph on French chateau stone steps with long lace train',
+    heroImage: '/images/bridal/style-basque-waist.jpg',
     thought: 'Aura Luxe Signature Styles represent our design philosophy: sculptural corsetry seamlessly merged with whisper-light French illusion tulle. Each signature gown requires over 180 hours of hand-appliqué artistry, celebrating the bride who commands presence without sacrificing timeless grace.',
-    stylistNote: 'Pair with an heirloom cathedral lace veil and diamond drop earrings for a majestic altar reveal.'
+    stylistNote: 'Pair with an heirloom cathedral lace veil and diamond drop earrings for a majestic altar reveal.',
+    curatedGowns: [
+      {
+        id: 'sig-1',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Chantilly Lace & Italian Tulle',
+        description: 'Our house icon. Features a dramatic drop V-waistline, internal 14-piece steel boning, and hand-cut lace climbing up sheer cap sleeves.'
+      },
+      {
+        id: 'sig-2',
+        name: 'Lace Dream Sovereign',
+        subtitle: 'Intricate corded lace with royal cathedral train',
+        price: 2199,
+        originalPrice: 2499,
+        image: '/images/bridal/featured-lace-dream.jpg',
+        silhouette: 'A-Line / Cathedral Train',
+        fabric: 'French Corded Lace',
+        description: 'Deep V-neckline framed in scalloped guipure lace, drifting into a luminous sheer back with covered silk buttons.'
+      },
+      {
+        id: 'sig-3',
+        name: 'Celeste Diamond Mermaid',
+        subtitle: 'Architectural hour-glass contour with tiered train',
+        price: 2650,
+        originalPrice: 2990,
+        image: '/images/bridal/style-mermaid.jpg',
+        silhouette: 'Mermaid / Trumpet',
+        fabric: 'Embroidered Net & Organza',
+        description: 'Engineered with hidden power-mesh support to accentuate feminine curves before bursting into cascading ruffles at the knee.'
+      }
+    ]
   },
 
   'QUICK SHIP STYLES': {
@@ -283,11 +58,44 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Quick Ship Styles',
     badge: 'Express Atelier Dispatch',
     tagline: 'Couture elegance tailored and dispatched in 2–3 weeks',
-    heroImage: '/images/bridal/natural-alpine-meadow.jpg',
-    location: 'Dolomites Alpine Meadow, Italy',
-    notes: 'Real film photograph of fluid minimalist slip dress amidst wild mountain lupines',
+    heroImage: '/images/bridal/style-modern-crepe.jpg',
     thought: 'Spontaneous love stories deserve runway perfection without long bridal lead times. Our Quick Ship capsule features pre-structured silhouettes in our Paris workshop, ready for rapid bespoke finishing and expedited priority bridal delivery.',
-    stylistNote: 'Ideal for civil ceremonies, destination elopements, or brides with tight celebration timelines.'
+    stylistNote: 'Ideal for civil ceremonies, destination elopements, or brides with tight celebration timelines.',
+    curatedGowns: [
+      {
+        id: 'qs-1',
+        name: 'Satin Minimalist Slip Gown',
+        subtitle: 'Liquid heavy silk satin with low cowl back',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Sheath / Fluid Column',
+        fabric: 'Heavy Silk Satin',
+        description: 'Unlined pure liquid drape that glides effortlessly over the body. Includes an internal micro-bra and invisible zip.'
+      },
+      {
+        id: 'qs-2',
+        name: 'Elysian Crepe Column',
+        subtitle: 'Architectural square-neck modern column',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'French Matte Crepe',
+        description: 'Chic, wrinkle-resistant matte crepe with an open spine and delicate spaghetti ties.'
+      },
+      {
+        id: 'qs-3',
+        name: 'Ivory Sweetheart Ballgown',
+        subtitle: 'Spaghetti strap sweetheart in layered soft tulle',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Classic Ballgown',
+        fabric: 'Silk Organza & Tulle',
+        description: 'A bridal classic ready to ship. Soft molded cups and an airy cloud skirt suitable for any ceremony venue.'
+      }
+    ]
   },
 
   'NEW DRESSES': {
@@ -295,23 +103,89 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'New Dresses',
     badge: 'Paris Couture Arrivals',
     tagline: 'Fresh from the atelier: avant-garde cuts and celestial textures',
-    heroImage: '/images/bridal/natural-amalfi-terrace.jpg',
-    location: 'Positano, Amalfi Coast, Italy',
-    notes: 'Real photograph on sunlit stone terrace overlooking the azure sea with vibrant bougainvillea',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'The newest chapter of Aura Luxe bridal embraces celestial radiance and dimensional botany. We have pushed fabric engineering with ultra-fine crystal threads, detachable cathedral trains, and innovative basque waistlines that look effortlessly regal.',
-    stylistNote: 'Pair with crystal bridal drop earrings and a sleek bridal chignon to keep the focus on the modern neckline.'
+    stylistNote: 'Pair with crystal bridal drop earrings and a sleek bridal chignon to keep the focus on the modern neckline.',
+    curatedGowns: [
+      {
+        id: 'new-1',
+        name: 'Lumière Crystal Chandelier Gown',
+        subtitle: 'Hand-sewn Swarovski crystals on shimmering net',
+        price: 3450,
+        originalPrice: 3890,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Couture Grand Ballgown',
+        fabric: 'Crystal-Encrusted Organza',
+        description: 'Reflects golden candlelight with every breath. Features a corset bodice, off-shoulder cap straps, and tiered crinoline support.'
+      },
+      {
+        id: 'new-2',
+        name: 'Genevieve Off-Shoulder Ballgown',
+        subtitle: 'Draped silk tulle straps with 3D blossom vines',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Full Ballgown',
+        fabric: 'Hand-Cut Floral Lace',
+        description: 'Romantic draping framing the decolletage, leading down to hand-embroidered vines that trail onto a royal 80-inch train.'
+      },
+      {
+        id: 'new-3',
+        name: 'Aurelia High-Neck Royal Gown',
+        subtitle: 'Victorian illusion collar with pearl button cascade',
+        price: 2950,
+        originalPrice: 3300,
+        image: '/images/bridal/style-high-neck.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Alençon Lace & Silk Faille',
+        description: 'Grace Kelly elegance reinterpreted for the modern era. Long lace sleeves and an open teardrop back detail.'
+      }
+    ]
   },
 
   'ALL DRESSES': {
     category: 'BY TYPE',
     title: 'All Dresses',
-    badge: 'Master Archive (100+ Styles)',
-    tagline: 'Explore our complete archive of over 100 authentic bridal gowns',
-    heroImage: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80',
-    location: 'Sonoma Valley, California',
-    notes: 'Authentic documentary wedding photography in golden natural sunlight',
+    badge: 'Master Archive',
+    tagline: 'Explore the complete Aura Luxe bridal collection',
+    heroImage: '/images/bridal/featured-lace-dream.jpg',
     thought: 'Every woman possesses a unique bridal aura. Our comprehensive master collection spans from featherweight boho chiffons to dramatic royal ballgowns encrusted in crystal, unified by flawless Parisian tailoring and premium materials.',
-    stylistNote: 'Use our silhouette and fabrication filters to narrow down your dream gown based on your venue and personal aesthetic.'
+    stylistNote: 'Use our silhouette and fabrication filters to narrow down your dream gown based on your venue and personal aesthetic.',
+    curatedGowns: [
+      {
+        id: 'all-1',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Chantilly Lace',
+        description: 'Renaissance drop waist with internal boning and sweeping cathedral train.'
+      },
+      {
+        id: 'all-2',
+        name: 'Satin Minimalist Slip Gown',
+        subtitle: 'Liquid heavy silk satin with low cowl back',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Fluid Column',
+        fabric: 'Heavy Silk Satin',
+        description: 'Pure liquid drape designed for effortless modern bride poise.'
+      },
+      {
+        id: 'all-3',
+        name: 'Coastal Bohemian Lace Gown',
+        subtitle: 'Barefoot luxury in silk chiffon and crochet lace',
+        price: 1980,
+        originalPrice: 2250,
+        image: '/images/bridal/style-boho-beach.jpg',
+        silhouette: 'Ethereal A-Line',
+        fabric: 'Silk Chiffon & Crochet Lace',
+        description: 'Delicate sheer cutouts and flutter movement crafted for ocean air and golden hour ceremonies.'
+      }
+    ]
   },
 
   'ALL COLLECTIONS': {
@@ -319,11 +193,44 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'All Collections',
     badge: 'Curated Capsule Series',
     tagline: 'Four distinct worlds of romance and craftsmanship',
-    heroImage: '/images/bridal/natural-english-garden.jpg',
-    location: 'Cotswolds, England',
-    notes: 'Real medium format film photograph against weathered stone walls and climbing white roses',
+    heroImage: '/images/bridal/lulus-fall-in-love.jpg',
     thought: 'Our creations are organized into seasonal bridal capsules: The Royal Heritage (monumental cathedral silhouettes), Mediterranean Solstice (airy lace and seaside ease), Parisian Minimalist (sculptural satin drapes), and Celestial Starlight (crystal radiance).',
-    stylistNote: 'Consult our digital lookbooks to discover which collection harmonizes with your wedding destination.'
+    stylistNote: 'Consult our digital lookbooks to discover which collection harmonizes with your wedding destination.',
+    curatedGowns: [
+      {
+        id: 'col-1',
+        name: 'Royal Heritage Ballgown',
+        subtitle: 'Monumental volume with hand-stitched lace heraldry',
+        price: 3100,
+        originalPrice: 3500,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Silk Organza & Brocade',
+        description: 'Inspired by European royal archives with intricate gold and ivory threading.'
+      },
+      {
+        id: 'col-2',
+        name: 'Mediterranean Solstice Gown',
+        subtitle: 'Fluid tiered skirt with botanical crochet bodice',
+        price: 1980,
+        originalPrice: 2250,
+        image: '/images/bridal/style-boho-beach.jpg',
+        silhouette: 'Boho Flare',
+        fabric: 'Silk Chiffon',
+        description: 'Designed for warm sea breezes, alfresco dinners, and barefoot sunset vows.'
+      },
+      {
+        id: 'col-3',
+        name: 'Parisian Minimalist Column',
+        subtitle: 'Pure sculptural heavy silk with dramatic slit',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Sheath Column',
+        fabric: 'Silk Crepe',
+        description: 'Clean architectural restraint capturing the cool elegance of modern Paris.'
+      }
+    ]
   },
 
   'SIZE CHART': {
@@ -331,25 +238,23 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Size Chart & Atelier Measurements',
     badge: 'Bespoke Fit Studio',
     tagline: 'Precision couture sizing calibrated for a sculpted bridal silhouette',
-    heroImage: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=900&q=80',
-    location: 'Provence Country House, France',
-    notes: 'Real morning preparation photography showing delicate lace bodice and button closure',
+    heroImage: '/images/bridal/hero-bride-clean.jpg',
     isSpecialView: 'size-chart',
     thought: 'Bridal gowns are tailored to your unique proportions, which typically differ from high-street everyday sizing. Our atelier sizes are cut to accommodate corsetry, breast cup architecture, and natural waist contours with precision seam allowances for alteration ease.',
-    stylistNote: 'Measure over the exact undergarments you plan to wear on your wedding day for millimeter-level accuracy.'
+    stylistNote: 'Measure over the exact undergarments you plan to wear on your wedding day for millimeter-level accuracy.',
+    curatedGowns: []
   },
 
   'LOOKBOOKS': {
     category: 'BY TYPE',
     title: 'Editorial Lookbooks',
     badge: 'Volume IV Runway Edition',
-    tagline: 'Photographed on location in Tuscany, the Amalfi Coast & the Cliffs of Moher',
-    heroImage: '/images/bridal/natural-cliffside-ocean.jpg',
-    location: 'Cliffs of Moher, Ireland',
-    notes: 'Documentary 35mm film photograph of bride with windswept cathedral veil above ocean cliffs',
+    tagline: 'Photographed on location at Château de Chantilly & Villa Balbiano',
+    heroImage: '/images/bridal/lulus-forever-after.jpg',
     isSpecialView: 'lookbooks',
-    thought: 'Immerse yourself in our cinematic editorial spreads. Captured through natural film light across rugged Atlantic cliffs, quiet olive groves, and historic French estates, our lookbooks reveal how light dances across each fabric in motion.',
-    stylistNote: 'Save your favorite images to share with your bridal stylist during your private fitting consultation.'
+    thought: 'Immerse yourself in our cinematic editorial spreads. Captured through natural film light across grand Italian villas and historic French estates, our lookbooks reveal how light dances across each fabric in motion.',
+    stylistNote: 'Save your favorite images to share with your bridal stylist during your private fitting consultation.',
+    curatedGowns: []
   },
 
   // ==========================================
@@ -360,11 +265,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'A-Line Gowns',
     badge: 'Universally Flattering',
     tagline: 'Effortless fluid balance that elongates the natural silhouette',
-    heroImage: '/images/bridal/natural-cliffside-ocean.jpg',
-    location: 'Cliffs of Moher, Ireland',
-    notes: 'Real windswept cathedral veil and A-line gown above the Atlantic ocean',
+    heroImage: '/images/bridal/featured-lace-dream.jpg',
     thought: 'The A-Line silhouette is bridal perfection: it gently hugs the ribcage and natural waist before gracefully expanding outward like the letter "A". It balances shoulders and hips effortlessly, offering supreme comfort from the altar walk to the dance floor.',
-    stylistNote: 'An ideal silhouette for outdoor ceremonies, historic chateaus, and traditional cathedrals alike.'
+    stylistNote: 'An ideal silhouette for outdoor ceremonies, historic chateaus, and traditional cathedrals alike.',
+    curatedGowns: [
+      {
+        id: 'aline-1',
+        name: 'Lace Dream A-Line',
+        subtitle: 'Scalloped French lace with flowing tulle skirt',
+        price: 2199,
+        originalPrice: 2499,
+        image: '/images/bridal/featured-lace-dream.jpg',
+        silhouette: 'A-Line',
+        fabric: 'French Corded Lace',
+        description: 'Graceful flowing lines with a cathedral train and soft blush illusion lining.'
+      },
+      {
+        id: 'aline-2',
+        name: 'Floral Fantasy A-Line',
+        subtitle: 'Dimensional blossom petals and champagne undertones',
+        price: 2299,
+        originalPrice: 2599,
+        image: '/images/bridal/featured-floral-fantasy.jpg',
+        silhouette: 'Romantic A-Line',
+        fabric: 'Embroidered Organza',
+        description: 'Hand-sewn petals that seem to flutter in the breeze across a sweeping skirt.'
+      }
+    ]
   },
 
   'PRINCESS': {
@@ -372,11 +299,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Princess Silhouette',
     badge: 'Fairy Tale Wonder',
     tagline: 'Soft layered volume evoking regal European monarchies',
-    heroImage: '/images/bridal/natural-english-garden.jpg',
-    location: 'Cotswolds, England',
-    notes: 'Sweetheart ballgown amidst English garden roses and antique stone masonry',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'The Princess silhouette creates breathtaking wonder with light, cloud-like density. Built with featherweight horsehair crinoline and ethereal French tulle, it delivers monumental volume without weighing down the bride.',
-    stylistNote: 'Complement with a sparkling tiara or crystal headband to honor the royal tradition.'
+    stylistNote: 'Complement with a sparkling tiara or crystal headband to honor the royal tradition.',
+    curatedGowns: [
+      {
+        id: 'prin-1',
+        name: 'Aura Princess Starlight Gown',
+        subtitle: 'Crystal-studded corset with tiered organza volume',
+        price: 3200,
+        originalPrice: 3600,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Princess Gown',
+        fabric: 'Glitter Tulle & Crystals',
+        description: 'Shimmers like diamonds under grand ballroom chandeliers with full crinoline architecture.'
+      },
+      {
+        id: 'prin-2',
+        name: 'Rose Princess Romance Gown',
+        subtitle: 'Soft blush rose quartz layers with exposed boning',
+        price: 2250,
+        originalPrice: 2500,
+        image: '/images/bridal/color-blush-pink.jpg',
+        silhouette: 'Princess Ballgown',
+        fabric: 'Hand-Ruched Tulle',
+        description: 'Tender rose-tinted tulle layers that impart an angelic, radiant warmth.'
+      }
+    ]
   },
 
   'BALLGOWN': {
@@ -384,11 +333,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Ballgown Gowns',
     badge: 'High Drama & Majesty',
     tagline: 'Couture architectural fullness built for grand entrances',
-    heroImage: 'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?auto=format&fit=crop&w=900&q=80',
-    location: 'Vaux-le-Vicomte Gardens, France',
-    notes: 'Grand ballgown with sweeping cathedral skirt in formal French palace grounds',
+    heroImage: '/images/bridal/style-off-shoulder.jpg',
     thought: 'The ballgown is the undisputed queen of bridal fashion. Featuring a firmly tailored corset bodice that contrasts with a sweeping, voluminous skirt, it creates an unmistakable hourglass illusion that commands reverence in monumental venues.',
-    stylistNote: 'Essential for high-ceiling ballrooms, cathedral aisles, and historic estate weddings.'
+    stylistNote: 'Essential for high-ceiling ballrooms, cathedral aisles, and historic estate weddings.',
+    curatedGowns: [
+      {
+        id: 'ball-1',
+        name: 'The Versailles Sovereign Ballgown',
+        subtitle: 'Off-shoulder draped straps with floral embroidery',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Classic Ballgown',
+        fabric: 'Chantilly Lace & Organza',
+        description: 'Draped decolletage straps and a dramatic 75-inch sweeping cathedral train.'
+      },
+      {
+        id: 'ball-2',
+        name: 'Ivory Royal Ballgown',
+        subtitle: 'Sweetheart bodice with voluminous cloud tulle',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Cathedral Ballgown',
+        fabric: 'Italian Net & Satin',
+        description: 'Iconic sweetheart neckline with a tailored bodice and lightweight layers of ivory net.'
+      }
+    ]
   },
 
   'FIT & FLARE': {
@@ -396,11 +367,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Fit & Flare Gowns',
     badge: 'Dynamic Sculpt',
     tagline: 'Contours through the hips before releasing midway down the thigh',
-    heroImage: 'https://images.unsplash.com/photo-1546804773-86f7fe48d085?auto=format&fit=crop&w=900&q=80',
-    location: 'Lake Como, Italy',
-    notes: 'Sculptural silhouette contouring gracefully with natural wind movement',
+    heroImage: '/images/bridal/style-mermaid.jpg',
     thought: 'Fit & Flare provides the sensual hourglass contour of a mermaid gown with substantially greater freedom of movement. It hugs the bust, torso, and hips, gently expanding mid-thigh to allow graceful walking and unconstrained dancing.',
-    stylistNote: 'Pair with strappy pearl stilettos and a chapel-length veil that billows behind the flare.'
+    stylistNote: 'Pair with strappy pearl stilettos and a chapel-length veil that billows behind the flare.',
+    curatedGowns: [
+      {
+        id: 'ff-1',
+        name: 'Serena Sculpted Fit & Flare',
+        subtitle: 'Geometric lace contouring with illusion low back',
+        price: 2350,
+        originalPrice: 2650,
+        image: '/images/bridal/style-mermaid.jpg',
+        silhouette: 'Fit & Flare',
+        fabric: 'Guipure Lace',
+        description: 'Body-hugging lace with interior stretch crepe lining for comfort and sculpt.'
+      },
+      {
+        id: 'ff-2',
+        name: 'Modern Romance Fit & Flare',
+        subtitle: 'Sweetheart plunge with botanical vine embroidery',
+        price: 2199,
+        originalPrice: 2450,
+        image: '/images/bridal/featured-modern-romance.jpg',
+        silhouette: 'Fit & Flare',
+        fabric: 'French Tulle & Lace',
+        description: 'Illusion plunge bodice with botanical vine appliques cascading through the skirt flare.'
+      }
+    ]
   },
 
   'MERMAID': {
@@ -408,11 +401,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Mermaid Gowns',
     badge: 'Daring Hourglass Contour',
     tagline: 'Form-fitting down to the knee, exploding into a dramatic flare',
-    heroImage: '/images/bridal/natural-amalfi-terrace.jpg',
-    location: 'Positano, Amalfi Coast, Italy',
-    notes: 'Sculpted lace mermaid gown on sunlit cliffside terrace with bougainvillea',
+    heroImage: '/images/bridal/style-mermaid.jpg',
     thought: 'The mermaid cut is an unapologetic celebration of feminine architecture. Sculpted with precision vertical boning down past the hips, it cinches close before erupting into a dramatic pooled skirt at the knee. It creates high-fashion red carpet drama.',
-    stylistNote: 'Recommended for confident brides seeking a dramatic, showstopping silhouette for evening vows.'
+    stylistNote: 'Recommended for confident brides seeking a dramatic, showstopping silhouette for evening vows.',
+    curatedGowns: [
+      {
+        id: 'merm-1',
+        name: 'The Venetian Mermaid Couture',
+        subtitle: 'Intricately beaded bodice with multi-tier ruffled train',
+        price: 2650,
+        originalPrice: 2990,
+        image: '/images/bridal/style-mermaid.jpg',
+        silhouette: 'Couture Mermaid',
+        fabric: 'Embroidered Lace & Tulle',
+        description: 'Hand-encrusted seed pearls and crystals with a magnificent ruffled architectural train.'
+      },
+      {
+        id: 'merm-2',
+        name: 'Midnight Celestial Mermaid',
+        subtitle: 'Starlight crystal beading on deep navy blue tulle',
+        price: 2450,
+        originalPrice: 2750,
+        image: '/images/bridal/color-midnight-navy.jpg',
+        silhouette: 'Mermaid Evening Bridal',
+        fabric: 'Deep Navy Crystal Net',
+        description: 'A striking sapphire blue mermaid gown dusted in sparkling constellation crystals.'
+      }
+    ]
   },
 
   'SHORT': {
@@ -420,11 +435,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Short & Tea-Length Dresses',
     badge: 'Chic Modern Romance',
     tagline: 'Fashion-forward minis and tea-length skirts for modern celebrations',
-    heroImage: 'https://images.unsplash.com/photo-1509927083803-4bd519298ac4?auto=format&fit=crop&w=900&q=80',
-    location: 'Deià, Mallorca, Spain',
-    notes: 'Modern chic bridal silhouette in warm Mediterranean sunlight',
+    heroImage: '/images/bridal/style-boho-beach.jpg',
     thought: 'Modern weddings have evolved: civil ceremonies at city hall, fashionable rehearsal dinners, and vibrant after-parties demand daring shorter hem lines. Our short bridal collection blends playful energy with uncompromising couture standards.',
-    stylistNote: 'Show off statement bridal heels like satin pointed pumps with ankle crystal ribbons.'
+    stylistNote: 'Show off statement bridal heels like satin pointed pumps with ankle crystal ribbons.',
+    curatedGowns: [
+      {
+        id: 'sh-1',
+        name: 'Parisian Petite Tea Gown',
+        subtitle: 'Silk organza sweetheart mini with detachable tulle train',
+        price: 1450,
+        originalPrice: 1700,
+        image: '/images/bridal/style-boho-beach.jpg',
+        silhouette: 'Tea-Length / High-Low',
+        fabric: 'Silk Organza & Lace',
+        description: 'Playful above-the-ankle cut featuring a detachable 50-inch train for versatile reception dancing.'
+      },
+      {
+        id: 'sh-2',
+        name: 'Bespoke Satin Mini Blazer Dress',
+        subtitle: 'Structured heavy satin double-breasted dress',
+        price: 1350,
+        originalPrice: 1550,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Tailored Mini',
+        fabric: 'Duchess Satin',
+        description: 'Sharp lapels, pearl buttons, and a clean modern hem made for city weddings and post-vow cocktails.'
+      }
+    ]
   },
 
   'CORSET': {
@@ -432,11 +469,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Corset Bodice Gowns',
     badge: 'Artisanal Internal Boning',
     tagline: 'Visible couture boning that cinches and flatters with bespoke support',
-    heroImage: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=900&q=80',
-    location: 'Paris Atelier Balcony, France',
-    notes: 'Detailed portrait of structured French corset boning with delicate lace edging',
+    heroImage: '/images/bridal/style-basque-waist.jpg',
     thought: 'The bridal corset is a masterwork of structural engineering. Using flexible French spiraled steel and padded cups, our corsets contour the waist by up to 2 inches naturally while allowing effortless breathing and posture support.',
-    stylistNote: 'Exposed boning pairs exquisitely with illusion mesh and sheer back panels.'
+    stylistNote: 'Exposed boning pairs exquisitely with illusion mesh and sheer back panels.',
+    curatedGowns: [
+      {
+        id: 'cor-1',
+        name: 'The Sovereign Basque Corset Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Corset Ballgown',
+        fabric: 'Chantilly Lace & Steel Boning',
+        description: 'Exquisite 14-piece exposed boning with hand-applied botanical lace motifs.'
+      },
+      {
+        id: 'cor-2',
+        name: 'Ruby Sovereign Corset Gown',
+        subtitle: 'Deep wine red with hand-beaded lace corset',
+        price: 2550,
+        originalPrice: 2890,
+        image: '/images/bridal/color-burgundy.jpg',
+        silhouette: 'Drop Corset Ballgown',
+        fabric: 'Heavy Beaded Lace',
+        description: 'Dramatic wine burgundy gown with a firmly corseted bodice and tiered ruffles.'
+      }
+    ]
   },
 
   'BASQUE WAIST': {
@@ -444,11 +503,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Basque Waist Gowns',
     badge: 'Renaissance Royalty',
     tagline: 'V-shaped drop waist that cinches the torso into an elongated hourglass',
-    heroImage: '/images/bridal/natural-chateau-courtyard.jpg',
-    location: 'Loire Valley, France',
-    notes: 'Authentic stone courtyard setting with classical renaissance architectural lines',
+    heroImage: '/images/bridal/style-basque-waist.jpg',
     thought: 'The Basque waist is the most coveted silhouette in modern haute couture bridal. Deriving from 16th-century European court fashion, the waistline dips into a sharp V-point below the belly button, creating an optically lengthened torso and dramatic hip curve.',
-    stylistNote: 'Wear with a drop-pendant necklace or bare decolletage to emphasize the vertical geometry.'
+    stylistNote: 'Wear with a drop-pendant necklace or bare decolletage to emphasize the vertical geometry.',
+    curatedGowns: [
+      {
+        id: 'basq-1',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Chantilly Lace & Silk Tulle',
+        description: 'Our crown jewel. The basque V-waist drop creates an elongated waistline flowing into a grand chapel train.'
+      },
+      {
+        id: 'basq-2',
+        name: 'Giselle Basque Tulle Gown',
+        subtitle: 'Drop V-waist with crystal piping and sheer sleeves',
+        price: 2650,
+        originalPrice: 2950,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Basque Princess',
+        fabric: 'Glitter Tulle & Crystals',
+        description: 'Piped with delicate crystal beads along the basque seam to highlight the waist contour.'
+      }
+    ]
   },
 
   'DROP WAIST': {
@@ -456,11 +537,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Drop Waist Gowns',
     badge: '1920s High Fashion',
     tagline: 'Elongated bodice sitting low on the hip for sleek statuesque drama',
-    heroImage: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=900&q=80',
-    location: 'Ravello Cliffside, Italy',
-    notes: 'Elongated torso line and fluid skirt moving naturally in the sea air',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'The drop waist rests straight across the upper hips, extending the lines of the upper body before releasing into a full skirt. It offers a vintage-inspired yet aggressively modern silhouette favored by haute couture runways.',
-    stylistNote: 'Exceptional on brides with athletic or petite torsos looking to create statuesque vertical presence.'
+    stylistNote: 'Exceptional on brides with athletic or petite torsos looking to create statuesque vertical presence.',
+    curatedGowns: [
+      {
+        id: 'drop-1',
+        name: 'Adelaide Drop-Waist Ballgown',
+        subtitle: 'Low horizontal hip seam with pleated skirt',
+        price: 2750,
+        originalPrice: 3050,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Drop-Waist Ballgown',
+        fabric: 'Silk Brocade & Tulle',
+        description: 'Seamless low hip contour providing a statuesque runway profile.'
+      },
+      {
+        id: 'drop-2',
+        name: 'Blush Drop-Waist Romance',
+        subtitle: 'Elongated ruched bodice in soft rose quartz',
+        price: 2250,
+        originalPrice: 2500,
+        image: '/images/bridal/color-blush-pink.jpg',
+        silhouette: 'Drop-Waist Flare',
+        fabric: 'Hand-Ruched Tulle',
+        description: 'Gentle blush tones with elongated horizontal hip boning and cascading hemline.'
+      }
+    ]
   },
 
   'STATEMENT BACK': {
@@ -468,11 +571,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Statement Back Gowns',
     badge: 'Altar-View Drama',
     tagline: 'Architectural cutouts, low cowl drapes, and trails of covered buttons',
-    heroImage: 'https://images.unsplash.com/photo-1550180390-11f5e76784c8?auto=format&fit=crop&w=900&q=80',
-    location: 'Seville Cathedral Cloisters, Spain',
-    notes: 'Majestic altar view capturing open lace spine and cathedral veil trail',
+    heroImage: '/images/bridal/style-high-neck.jpg',
     thought: 'During your ceremony, your guests spend the vast majority of their time looking at your back. A statement back turns your vows into high art—featuring delicate illusion lace, pearl back necklaces, low keyhole cutouts, or cathedral button cascades.',
-    stylistNote: 'Choose an updo or bridal chignon to keep the back details unobstructed.'
+    stylistNote: 'Choose an updo or bridal chignon to keep the back details unobstructed.',
+    curatedGowns: [
+      {
+        id: 'back-1',
+        name: 'The Altar Teardrop Gown',
+        subtitle: 'Open back framed in scalloped illusion lace',
+        price: 2950,
+        originalPrice: 3300,
+        image: '/images/bridal/style-high-neck.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Alençon Lace',
+        description: 'Features a trail of 65 handmade silk covered buttons extending all the way down to the train edge.'
+      },
+      {
+        id: 'back-2',
+        name: 'Elysian Low Cowl Crepe Gown',
+        subtitle: 'Plunging open spine with fluid drapery',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'Heavy Crepe',
+        description: 'Deep low back plunging to the sacrum with minimalist architectural purity.'
+      }
+    ]
   },
 
   // ==========================================
@@ -483,11 +608,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Strapless Gowns',
     badge: 'Timeless Decolletage',
     tagline: 'Architectural sweetheart and clean straight cuts framing the shoulders',
-    heroImage: '/images/bridal/natural-tuscan-olive.jpg',
-    location: "Val d'Orcia, Tuscany, Italy",
-    notes: 'Golden hour sweetheart bodice in olive grove, natural collarbone framing',
+    heroImage: '/images/bridal/style-basque-waist.jpg',
     thought: 'The strapless neckline is the eternal bridal staple. Engineered with internal non-slip silicone bands and steel boning, our strapless gowns stay impeccably secure all evening without requiring constant adjustments.',
-    stylistNote: 'Accompany with statement bridal earrings or a lightweight chiffon blusher veil.'
+    stylistNote: 'Accompany with statement bridal earrings or a lightweight chiffon blusher veil.',
+    curatedGowns: [
+      {
+        id: 'strp-1',
+        name: 'Classic Sweetheart Ballgown',
+        subtitle: 'Sculpted sweetheart neckline with internal corset',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Sweetheart Ballgown',
+        fabric: 'Chantilly Lace',
+        description: 'Soft sweetheart curve accentuating the collarbones with structured internal grip.'
+      },
+      {
+        id: 'strp-2',
+        name: 'Ivory Sweetheart Classic',
+        subtitle: 'Timeless sweetheart bodice in sweeping ivory',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Ballgown',
+        fabric: 'Italian Net',
+        description: 'Pure romantic decolletage framing suited for daytime or evening weddings.'
+      }
+    ]
   },
 
   'OFF THE SHOULDER': {
@@ -495,11 +642,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Off The Shoulder Gowns',
     badge: 'Renaissance Romance',
     tagline: 'Draped silk straps resting softly below the shoulder line',
-    heroImage: '/images/bridal/natural-chateau-courtyard.jpg',
-    location: 'Loire Valley, France',
-    notes: 'Draped off-the-shoulder lace sleeves framed against historic chateau masonry',
+    heroImage: '/images/bridal/style-off-shoulder.jpg',
     thought: 'Off-the-shoulder straps create an evocative frame for the neck and collarbones, echoing the portrait paintings of European nobility. Our straps are elasticated with hidden micro-gussets so you can raise your arms to embrace and dance with complete ease.',
-    stylistNote: 'Pairs beautifully with a cathedral veil anchored low in a relaxed bridal updo.'
+    stylistNote: 'Pairs beautifully with a cathedral veil anchored low in a relaxed bridal updo.',
+    curatedGowns: [
+      {
+        id: 'ots-1',
+        name: 'Genevieve Off-Shoulder Ballgown',
+        subtitle: 'Draped silk tulle straps with 3D blossom vines',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Ballgown',
+        fabric: 'Hand-Cut Floral Lace',
+        description: 'Tulle straps softly draped below the shoulders with dimensional flower embroidery.'
+      },
+      {
+        id: 'ots-2',
+        name: 'Midnight Celestial Off-Shoulder',
+        subtitle: 'Sapphire navy tulle with crystal off-shoulder drape',
+        price: 2450,
+        originalPrice: 2750,
+        image: '/images/bridal/color-midnight-navy.jpg',
+        silhouette: 'Mermaid',
+        fabric: 'Crystal-Embroidered Net',
+        description: 'Draped off-shoulder sleeves shimmering with constellation crystals.'
+      }
+    ]
   },
 
   'HIGH NECK': {
@@ -507,11 +676,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'High Neck Gowns',
     badge: 'Majestic Modesty',
     tagline: 'Victorian illusion collars that radiate aristocratic elegance',
-    heroImage: 'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?auto=format&fit=crop&w=900&q=80',
-    location: 'Toledo Historic Archways, Spain',
-    notes: 'Regal high neck lace collar photographed under historic carved stone cloisters',
+    heroImage: '/images/bridal/style-high-neck.jpg',
     thought: 'High necklines evoke royalty—from Grace Kelly to modern sovereign brides. Cut in sheer French illusion mesh and embroidered with corded guipure, our high necklines elongate the neck while offering sophisticated modesty.',
-    stylistNote: 'Wear with pearl drop earrings; skip the necklace to let the high neckline remain the focal point.'
+    stylistNote: 'Wear with pearl drop earrings; skip the necklace to let the high neckline remain the focal point.',
+    curatedGowns: [
+      {
+        id: 'hn-1',
+        name: 'Aurelia High-Neck Royal Gown',
+        subtitle: 'Victorian illusion collar with pearl button cascade',
+        price: 2950,
+        originalPrice: 3300,
+        image: '/images/bridal/style-high-neck.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Alençon Lace & Silk Faille',
+        description: 'Sheer high neck collar with scalloped lace that frames the neck with sovereign grace.'
+      },
+      {
+        id: 'hn-2',
+        name: 'Verona Mock-Neck Crepe Gown',
+        subtitle: 'Clean architectural mock-neck in fluid silk crepe',
+        price: 2150,
+        originalPrice: 2400,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Sheath Column',
+        fabric: 'Heavy Crepe',
+        description: 'Minimalist high neck with an open keyhole back, sleek and contemporary.'
+      }
+    ]
   },
 
   'STRAPS': {
@@ -519,11 +710,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Straps & Spaghetti Details',
     badge: 'Understated Delicate Support',
     tagline: 'Dainty pearl-encrusted straps and tailored ribbons',
-    heroImage: '/images/bridal/natural-alpine-meadow.jpg',
-    location: 'Dolomites Alpine Meadow, Italy',
-    notes: 'Dainty silk straps supporting fluid open-back crepe gown in wild mountain meadow',
+    heroImage: '/images/bridal/style-modern-crepe.jpg',
     thought: 'Delicate straps provide subtle structural support while maintaining the open, airy feeling of a strapless gown. Our straps are often hand-strung with freshwater seed pearls or cut from rolled silk satin to look like whispers of thread.',
-    stylistNote: 'Ideal for warm-weather destination weddings, garden venues, and beachside ceremonies.'
+    stylistNote: 'Ideal for warm-weather destination weddings, garden venues, and beachside ceremonies.',
+    curatedGowns: [
+      {
+        id: 'strp-opt-1',
+        name: 'Elysian Spaghetti Strap Crepe',
+        subtitle: 'Double silk straps meeting at a plunging open back',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'French Matte Crepe',
+        description: 'Whisper-thin spaghetti straps holding an architectural plunging neckline.'
+      },
+      {
+        id: 'strp-opt-2',
+        name: 'Ivory Spaghetti Sweetheart',
+        subtitle: 'Dainty satin straps with layered cloud tulle skirt',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Classic Ballgown',
+        fabric: 'Silk Organza & Tulle',
+        description: 'Understated straps that provide effortless dancing security all evening.'
+      }
+    ]
   },
 
   'LONG SLEEVES': {
@@ -531,11 +744,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Long Sleeve Gowns',
     badge: 'Cathedral Splendor',
     tagline: 'Fitted Chantilly lace sleeves with French cuff buttoning',
-    heroImage: 'https://images.unsplash.com/photo-1594552072238-b8a3272be6cc?auto=format&fit=crop&w=900&q=80',
-    location: 'Château de Chantilly, France',
-    notes: 'Full-length French lace sleeves with scalloped cuffs on historic stone balcony',
+    heroImage: '/images/bridal/style-high-neck.jpg',
     thought: 'Long sleeves offer unmatched bridal grandeur. Constructed from skin-toned sheer illusion net overlaid with hand-placed lace appliques, they appear to float weightlessly on the bride’s arms like delicate botanical tattoos.',
-    stylistNote: 'Perfect for autumn, winter, cathedral ceremonies, and historic European weddings.'
+    stylistNote: 'Perfect for autumn, winter, cathedral ceremonies, and historic European weddings.',
+    curatedGowns: [
+      {
+        id: 'ls-1',
+        name: 'The Empress Long-Sleeve Gown',
+        subtitle: 'Illusion lace sleeves with French buttoned cuffs',
+        price: 2950,
+        originalPrice: 3300,
+        image: '/images/bridal/style-high-neck.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Alençon Lace',
+        description: 'Fitted sleeves with delicate scalloped wrists and 24 pearl cuff buttons.'
+      },
+      {
+        id: 'ls-2',
+        name: 'Genevieve Lace Sleeve Ballgown',
+        subtitle: 'Sheer cap to full wrist floral illusion embroidery',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Full Ballgown',
+        fabric: 'Chantilly Lace',
+        description: 'Breathable lightweight sleeves providing modest coverage with couture lightness.'
+      }
+    ]
   },
 
   // ==========================================
@@ -546,11 +781,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Modern Bridal Style',
     badge: 'Clean Architectural Purity',
     tagline: 'Razor-sharp cuts, minimalist restraint, and unadorned silk luxury',
-    heroImage: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=900&q=80',
-    location: 'Stockholm Archipelago, Sweden',
-    notes: 'Clean Scandinavian lines and liquid silk drape against raw coastal granite rocks',
+    heroImage: '/images/bridal/style-modern-crepe.jpg',
     thought: 'The Modern bridal aesthetic strips away unnecessary ornamentation to showcase pure line, fabric, and silhouette. Designed for the contemporary muse who values editorial confidence and architectural elegance.',
-    stylistNote: 'Pair with sculptural gold or pearl jewelry and a sleek low bun.'
+    stylistNote: 'Pair with sculptural gold or pearl jewelry and a sleek low bun.',
+    curatedGowns: [
+      {
+        id: 'mod-1',
+        name: 'The Paris Loft Crepe Gown',
+        subtitle: 'Architectural cowl spine in heavy matte silk crepe',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'Heavy Crepe',
+        description: 'Sleek, fluid, and uncluttered. Crafted for metropolitan rooftop and gallery weddings.'
+      },
+      {
+        id: 'mod-2',
+        name: 'Satin Minimalist Slip Gown',
+        subtitle: 'Liquid heavy silk satin with low cowl back',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Fluid Column',
+        fabric: 'Heavy Silk Satin',
+        description: 'Timeless satin slip dress reimagined with heavy weight silk and couture internal support.'
+      }
+    ]
   },
 
   'ROMANTIC': {
@@ -558,11 +815,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Romantic Bridal Style',
     badge: 'Soft Poetic Whimsy',
     tagline: 'Whispering layers, blushing undertones, and petal-soft movement',
-    heroImage: '/images/bridal/natural-english-garden.jpg',
-    location: 'Cotswolds, England',
-    notes: 'Delicate lace and garden roses creating soft, heartfelt romance in natural light',
+    heroImage: '/images/bridal/featured-lace-dream.jpg',
     thought: 'Romantic style is an ode to heartfelt sentiment. Soft layers of ivory and rose-quartz tulle float like clouds, adorned with scattered florals that evoke sunlit strolls through French country gardens.',
-    stylistNote: 'Complement with loose bridal waves, floral hairpins, and a soft petal-pink lip.'
+    stylistNote: 'Complement with loose bridal waves, floral hairpins, and a soft petal-pink lip.',
+    curatedGowns: [
+      {
+        id: 'rom-1',
+        name: 'Lace Dream Sovereign',
+        subtitle: 'Intricate corded lace with royal cathedral train',
+        price: 2199,
+        originalPrice: 2499,
+        image: '/images/bridal/featured-lace-dream.jpg',
+        silhouette: 'A-Line',
+        fabric: 'French Corded Lace',
+        description: 'A poetic celebration of love with scalloped lace borders and soft cathedral drape.'
+      },
+      {
+        id: 'rom-2',
+        name: 'Blush Pink Romance Gown',
+        subtitle: 'Romantic rose quartz tulle with structured corset',
+        price: 2250,
+        originalPrice: 2500,
+        image: '/images/bridal/color-blush-pink.jpg',
+        silhouette: 'Romantic Ballgown',
+        fabric: 'Hand-Ruched Tulle',
+        description: 'Gentle rose-quartz blushing undertones that glow under golden hour sunlight.'
+      }
+    ]
   },
 
   'SIMPLE': {
@@ -570,11 +849,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Simple & Understated',
     badge: 'Effortless Poise',
     tagline: 'Understated elegance where the bride’s radiant natural beauty leads',
-    heroImage: '/images/bridal/natural-tuscan-olive.jpg',
-    location: "Val d'Orcia, Tuscany, Italy",
-    notes: 'Pure unembellished silk slip dress in natural golden hour evening light',
+    heroImage: '/images/bridal/featured-satin-elegance.jpg',
     thought: 'Simplicity is the ultimate sophistication. When a dress is unadorned with beads or lace, every stitch, seam, and contour must be mathematically flawless. Our simple gowns celebrate pure form and fabric quality.',
-    stylistNote: 'Focus on radiant dewy makeup and a single heirloom piece of jewelry.'
+    stylistNote: 'Focus on radiant dewy makeup and a single heirloom piece of jewelry.',
+    curatedGowns: [
+      {
+        id: 'simp-1',
+        name: 'Satin Minimalist Slip Gown',
+        subtitle: 'Liquid heavy silk satin with low cowl back',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Fluid Column',
+        fabric: 'Heavy Silk Satin',
+        description: 'Unlined pure liquid drape designed for effortless modern bride poise.'
+      },
+      {
+        id: 'simp-2',
+        name: 'Elysian Crepe Column',
+        subtitle: 'Square-neck modern column in pure matte crepe',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'French Matte Crepe',
+        description: 'Chic, wrinkle-resistant matte crepe with an open spine and delicate spaghetti ties.'
+      }
+    ]
   },
 
   'ELEGANT': {
@@ -582,11 +883,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Elegant Bridal Style',
     badge: 'Classic Refinement',
     tagline: 'Sophisticated decorum blending traditional dignity with modern grace',
-    heroImage: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=900&q=80',
-    location: 'Florence Historic Piazza, Italy',
-    notes: 'Poised classical Italian architecture providing the backdrop for refined bridal grace',
+    heroImage: '/images/bridal/color-ivory.jpg',
     thought: 'Elegance never goes out of style. It rejects transient micro-trends in favor of balanced proportions, noble necklines, and exquisite fabric hand-feel that will look just as breathtaking in your photographs 50 years from now.',
-    stylistNote: 'Wear with a fingertip-length silk veil and satin closed-toe bridal pumps.'
+    stylistNote: 'Wear with a fingertip-length silk veil and satin closed-toe bridal pumps.',
+    curatedGowns: [
+      {
+        id: 'eleg-1',
+        name: 'Ivory Royal Ballgown',
+        subtitle: 'Classic sweetheart neckline with cascading tulle',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Ballgown',
+        fabric: 'Silk Organza & Tulle',
+        description: 'A bridal archetype reimagined with quintessential dignity and grace.'
+      },
+      {
+        id: 'eleg-2',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Chantilly Lace',
+        description: 'Royal court elegance with balanced proportion and regal carriage.'
+      }
+    ]
   },
 
   'BOHO': {
@@ -594,11 +917,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Bohemian Bridal Style',
     badge: 'Free-Spirited Romance',
     tagline: 'Botanical crochet lace, billowy chiffons, and relaxed motion',
-    heroImage: 'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=900&q=80',
-    location: 'Chianti Hills, Tuscany, Italy',
-    notes: 'Relaxed bohemian gown with wildflower bouquet wandering sunlit vineyards',
+    heroImage: '/images/bridal/style-boho-beach.jpg',
     thought: 'The Bohemian bride embraces wild romance, natural outdoor beauty, and effortless ease. Rejecting stiff boning for fluid silk chiffon and crochet lace motifs, our boho gowns are designed to move naturally in the wind.',
-    stylistNote: 'Style with loose beach waves, floral combs, and barefoot bridal anklets.'
+    stylistNote: 'Style with loose beach waves, floral combs, and barefoot bridal anklets.',
+    curatedGowns: [
+      {
+        id: 'boho-1',
+        name: 'Coastal Bohemian Lace Gown',
+        subtitle: 'Barefoot luxury in silk chiffon and crochet lace',
+        price: 1980,
+        originalPrice: 2250,
+        image: '/images/bridal/style-boho-beach.jpg',
+        silhouette: 'Boho A-Line',
+        fabric: 'Silk Chiffon & Crochet Lace',
+        description: 'Delicate sheer cutouts and flutter movement crafted for ocean air and golden hour vows.'
+      },
+      {
+        id: 'boho-2',
+        name: 'Lavender Meadow Gown',
+        subtitle: 'Whispering lilac layers with crystalline accents',
+        price: 2280,
+        originalPrice: 2550,
+        image: '/images/bridal/color-lavender.jpg',
+        silhouette: 'Ethereal A-Line',
+        fabric: 'Lilac Chiffon & Net',
+        description: 'Infused with botanical meadow luminescence and lightweight tiered motion.'
+      }
+    ]
   },
 
   'FLORAL': {
@@ -606,11 +951,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Floral Romance',
     badge: '3D Botanical Artistry',
     tagline: 'Hand-cut silk organza petals and blossoming garden embroideries',
-    heroImage: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=900&q=80',
-    location: 'Kew Royal Botanic Gardens, London',
-    notes: 'Sunlit royal glasshouse filled with botanical textures matching delicate floral gown',
+    heroImage: '/images/bridal/featured-floral-fantasy.jpg',
     thought: 'Bringing nature’s most enchanting blooms into couture bridal form. Each gown features laser-cut organza petals and botanical vines that are hand-sewn one by one, creating three-dimensional texture that looks like a blossoming meadow.',
-    stylistNote: 'Breathtaking for botanical garden weddings, conservatory vows, and spring vineyard ceremonies.'
+    stylistNote: 'Breathtaking for botanical garden weddings, conservatory vows, and spring vineyard ceremonies.',
+    curatedGowns: [
+      {
+        id: 'flor-1',
+        name: 'Floral Fantasy Couture Gown',
+        subtitle: 'Dimensional blossom petals and champagne undertones',
+        price: 2299,
+        originalPrice: 2599,
+        image: '/images/bridal/featured-floral-fantasy.jpg',
+        silhouette: 'Floral A-Line',
+        fabric: '3D Organza Petals & Tulle',
+        description: 'Individual hand-sewn petals that appear to drift down the skirt with every step.'
+      },
+      {
+        id: 'flor-2',
+        name: 'Genevieve Off-Shoulder Ballgown',
+        subtitle: 'Draped silk tulle straps with 3D blossom vines',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Ballgown',
+        fabric: 'Hand-Cut Floral Lace',
+        description: 'Embroidered botanical ivy and climbing roses across an expansive bridal train.'
+      }
+    ]
   },
 
   'SEXY': {
@@ -618,11 +985,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Sensual & Daring Style',
     badge: 'Red Carpet Allure',
     tagline: 'Plunging necklines, illusion side panels, and thigh-high slits',
-    heroImage: '/images/bridal/natural-amalfi-terrace.jpg',
-    location: 'Positano, Amalfi Coast, Italy',
-    notes: 'Sensual open back and sculpted hips framed by vibrant bougainvillea over the sea',
+    heroImage: '/images/bridal/style-mermaid.jpg',
     thought: 'Bridal sensuality done with exquisite couture sophistication. Featuring sheer corsetry, low dipping backs, and sculpted contours that celebrate feminine beauty with absolute confidence and grace.',
-    stylistNote: 'Pair with high-heeled metallic sandals and glowing bronzed decolletage.'
+    stylistNote: 'Pair with high-heeled metallic sandals and glowing bronzed decolletage.',
+    curatedGowns: [
+      {
+        id: 'sxy-1',
+        name: 'The Venetian Mermaid Couture',
+        subtitle: 'Intricately beaded bodice with multi-tier ruffled train',
+        price: 2650,
+        originalPrice: 2990,
+        image: '/images/bridal/style-mermaid.jpg',
+        silhouette: 'Couture Mermaid',
+        fabric: 'Embroidered Lace & Tulle',
+        description: 'Sculpted hourglass cut hugging every curve before releasing into tiered ruffles.'
+      },
+      {
+        id: 'sxy-2',
+        name: 'The Paris Loft Crepe Gown',
+        subtitle: 'Deep plunging cowl spine in heavy matte silk crepe',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'Heavy Crepe',
+        description: 'A daring low-back dip plunging to the lower spine with effortless allure.'
+      }
+    ]
   },
 
   'GLAMOROUS': {
@@ -630,11 +1019,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Glamorous Bridal Style',
     badge: 'Opulent High Society',
     tagline: 'Dramatic silhouettes, opulent trains, and glittering crystal artistry',
-    heroImage: 'https://images.unsplash.com/photo-1477313372947-d68a7d410e9f?auto=format&fit=crop&w=900&q=80',
-    location: 'Blenheim Palace, Oxfordshire, UK',
-    notes: 'Opulent grand manor architecture matching dramatic cathedral scale',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'For the bride who wants all eyes completely captivated. Glamour is achieved through monumental silhouette scale, light-catching beadwork, and cathedral trains designed for historic grand ballrooms and luxury celebrations.',
-    stylistNote: 'Wear with an opulent cathedral tiara and diamond jewelry set.'
+    stylistNote: 'Wear with an opulent cathedral tiara and diamond jewelry set.',
+    curatedGowns: [
+      {
+        id: 'glam-1',
+        name: 'Lumière Crystal Chandelier Gown',
+        subtitle: 'Hand-sewn Swarovski crystals on shimmering net',
+        price: 3450,
+        originalPrice: 3890,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Couture Grand Ballgown',
+        fabric: 'Crystal-Encrusted Organza',
+        description: 'Dazzling hand-sewn crystals reflecting candlelight in every dimension.'
+      },
+      {
+        id: 'glam-2',
+        name: 'Ruby Sovereign Couture Gown',
+        subtitle: 'Dramatic deep wine red with hand-beaded lace corset',
+        price: 2550,
+        originalPrice: 2890,
+        image: '/images/bridal/color-burgundy.jpg',
+        silhouette: 'Drop Corset Ballgown',
+        fabric: 'Heavy Beaded Lace',
+        description: 'Dramatic wine burgundy gown with a firmly corseted bodice and tiered ruffles.'
+      }
+    ]
   },
 
   'SPARKLE': {
@@ -642,11 +1053,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Sparkle & Starlight',
     badge: 'Celestial Radiance',
     tagline: 'Light-catching Swarovski crystals and shimmer-infused tulle',
-    heroImage: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=900&q=80',
-    location: 'Villa Balbiano, Lake Como, Italy',
-    notes: 'Sunlight shimmering off alpine waters echoing crystal bead reflection on gown',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'Like a night sky blanketed in stars. We weave fine metallic fibers directly into the under-layers of French net and hand-apply micro-crystals across the bodice so the gown glows subtly in natural light and blazes under candlelight.',
-    stylistNote: 'Stunning in evening receptions, historic candlelit halls, and sunset vows.'
+    stylistNote: 'Stunning in evening receptions, historic candlelit halls, and sunset vows.',
+    curatedGowns: [
+      {
+        id: 'spk-1',
+        name: 'Lumière Crystal Chandelier Gown',
+        subtitle: 'Hand-sewn Swarovski crystals on shimmering net',
+        price: 3450,
+        originalPrice: 3890,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Couture Grand Ballgown',
+        fabric: 'Crystal-Encrusted Organza',
+        description: 'Reflects golden candlelight with every movement for an unforgettable shimmer.'
+      },
+      {
+        id: 'spk-2',
+        name: 'Midnight Celestial Starlight Gown',
+        subtitle: 'Starlight crystal beading on deep navy blue tulle',
+        price: 2450,
+        originalPrice: 2750,
+        image: '/images/bridal/color-midnight-navy.jpg',
+        silhouette: 'Mermaid Evening Bridal',
+        fabric: 'Deep Navy Crystal Net',
+        description: 'Constellation crystal beading that looks like a starry evening sky.'
+      }
+    ]
   },
 
   'BEACH': {
@@ -654,11 +1087,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Beach & Destination',
     badge: 'Coastal Barefoot Luxury',
     tagline: 'Featherweight silk chiffon and airy motion made for seaside vows',
-    heroImage: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=900&q=80',
-    location: 'Biarritz Coastal Sands, France',
-    notes: 'Barefoot seaside motion with light ocean waves and fluid silk chiffon train',
+    heroImage: '/images/bridal/style-boho-beach.jpg',
     thought: 'Destination and beach weddings demand weightless comfort without sacrificing high-fashion dignity. We select breathable French silks and unlined gauzy chiffons that catch tropical ocean breezes and stay cool in warm climates.',
-    stylistNote: 'Pair with barefoot bridal jewels, pearl anklets, and natural salt-water waves.'
+    stylistNote: 'Pair with barefoot bridal jewels, pearl anklets, and natural salt-water waves.',
+    curatedGowns: [
+      {
+        id: 'bch-1',
+        name: 'Coastal Bohemian Lace Gown',
+        subtitle: 'Barefoot luxury in silk chiffon and crochet lace',
+        price: 1980,
+        originalPrice: 2250,
+        image: '/images/bridal/style-boho-beach.jpg',
+        silhouette: 'Boho A-Line',
+        fabric: 'Silk Chiffon & Crochet Lace',
+        description: 'Airy sheer side cutouts and a sweeping train engineered to glide over sand.'
+      },
+      {
+        id: 'bch-2',
+        name: 'Elysian Crepe Column',
+        subtitle: 'Open back minimalist column in breathable crepe',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'French Matte Crepe',
+        description: 'Wrinkle-resistant packable fabric that travels flawlessly across continents.'
+      }
+    ]
   },
 
   // ==========================================
@@ -669,11 +1124,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'French & Italian Lace',
     badge: 'Centuries of Heritage',
     tagline: 'Chantilly, corded Alençon, and botanical laser-cut guipure',
-    heroImage: '/images/bridal/natural-chateau-courtyard.jpg',
-    location: 'Loire Valley, France',
-    notes: 'Real 35mm photograph showing intricate French corded lace train on stone courtyard steps',
+    heroImage: '/images/bridal/featured-lace-dream.jpg',
     thought: 'Lace is the romantic heart of bridal couture. Woven on historic century-old looms in Northern France, our laces feature delicate corded outlines, eyelash scalloping, and floral medallions that celebrate timeless romance.',
-    stylistNote: 'A lace gown pairs best with a clean, raw-edge cathedral veil to avoid visual pattern competition.'
+    stylistNote: 'A lace gown pairs best with a clean, raw-edge cathedral veil to avoid visual pattern competition.',
+    curatedGowns: [
+      {
+        id: 'fab-lace-1',
+        name: 'Lace Dream Sovereign Gown',
+        subtitle: 'Intricate French corded lace over illusion net',
+        price: 2199,
+        originalPrice: 2499,
+        image: '/images/bridal/featured-lace-dream.jpg',
+        silhouette: 'A-Line',
+        fabric: 'Chantilly & Alençon Lace',
+        description: 'Scalloped V-neckline with hand-embroidered corded lace medallions.'
+      },
+      {
+        id: 'fab-lace-2',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Chantilly Lace & Organza',
+        description: 'Intricately patterned Chantilly lace climbing up sheer cap sleeves.'
+      }
+    ]
   },
 
   'SATIN': {
@@ -681,11 +1158,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Silk Duchess & Mikado Satin',
     badge: 'Liquid Luster',
     tagline: 'High-density silk satin with sculptural folds and regal sheen',
-    heroImage: '/images/bridal/natural-tuscan-olive.jpg',
-    location: "Val d'Orcia, Tuscany, Italy",
-    notes: 'Liquid heavy silk satin catching the warm golden hour sun in a Tuscan olive grove',
+    heroImage: '/images/bridal/featured-satin-elegance.jpg',
     thought: 'Satin holds form and casts light like liquid mercury. We source heavyweight Italian Duchess satin and Japanese silk Mikado, giving each gown an unmistakable architectural presence and clean, modern crispness.',
-    stylistNote: 'Enhance the liquid luster with sleek diamond jewelry and a high-shine satin shoe.'
+    stylistNote: 'Enhance the liquid luster with sleek diamond jewelry and a high-shine satin shoe.',
+    curatedGowns: [
+      {
+        id: 'fab-satin-1',
+        name: 'Satin Minimalist Slip Gown',
+        subtitle: 'Liquid heavy silk satin with low cowl back',
+        price: 1899,
+        originalPrice: 2100,
+        image: '/images/bridal/featured-satin-elegance.jpg',
+        silhouette: 'Fluid Column',
+        fabric: 'Heavy Duchess Satin',
+        description: 'Pure liquid drape designed for effortless modern poise.'
+      },
+      {
+        id: 'fab-satin-2',
+        name: 'Aurelia High-Neck Royal Gown',
+        subtitle: 'Victorian illusion collar with silk faille satin skirt',
+        price: 2950,
+        originalPrice: 3300,
+        image: '/images/bridal/style-high-neck.jpg',
+        silhouette: 'Royal Ballgown',
+        fabric: 'Silk Faille & Alençon Lace',
+        description: 'A heavy satin skirt that holds grand architectural cathedral volume.'
+      }
+    ]
   },
 
   'TULLE': {
@@ -693,11 +1192,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Italian Illusion Tulle',
     badge: 'Weightless Clouds',
     tagline: 'Ethereal micro-net layers creating soft, floating volume',
-    heroImage: '/images/bridal/natural-cliffside-ocean.jpg',
-    location: 'Cliffs of Moher, Ireland',
-    notes: 'Ethereal translucent tulle caught in Atlantic ocean wind, floating weightlessly',
+    heroImage: '/images/bridal/color-ivory.jpg',
     thought: 'Tulle embodies airy dreaminess. Made from superfine hexagonal weave netting in Italy, our tulle is cloud-soft against the skin, avoiding the stiffness of commercial synthetic nets while providing voluminous, romantic drift.',
-    stylistNote: 'Pair with delicate pearl hair accessories to mirror the weightless texture.'
+    stylistNote: 'Pair with delicate pearl hair accessories to mirror the weightless texture.',
+    curatedGowns: [
+      {
+        id: 'fab-tulle-1',
+        name: 'Ivory Royal Ballgown',
+        subtitle: 'Cascading layers of superfine Italian illusion tulle',
+        price: 2099,
+        originalPrice: 2350,
+        image: '/images/bridal/color-ivory.jpg',
+        silhouette: 'Classic Ballgown',
+        fabric: 'Italian Net & Tulle',
+        description: 'Light-as-air skirt consisting of 8 tiered layers of soft ivory netting.'
+      },
+      {
+        id: 'fab-tulle-2',
+        name: 'Genevieve Off-Shoulder Ballgown',
+        subtitle: 'Draped silk tulle straps with 3D blossom vines',
+        price: 2790,
+        originalPrice: 3100,
+        image: '/images/bridal/style-off-shoulder.jpg',
+        silhouette: 'Ballgown',
+        fabric: 'Silk Tulle & Floral Lace',
+        description: 'Soft tulle draped straps creating a romantic, fairytale impression.'
+      }
+    ]
   },
 
   'CREPE': {
@@ -705,11 +1226,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'French Matte Crepe',
     badge: 'Modern Sculpt',
     tagline: 'Streamlined heavy silk crepe with fluid contouring drape',
-    heroImage: '/images/bridal/natural-alpine-meadow.jpg',
-    location: 'Dolomites Alpine Meadow, Italy',
-    notes: 'Pebbled matte silk crepe in fresh mountain morning air with natural wildflowers',
+    heroImage: '/images/bridal/style-modern-crepe.jpg',
     thought: 'French matte crepe is the choice of the modern minimalist. Its pebbled surface absorbs light evenly for a flattering matte finish, while its natural four-way stretch hugs contours and resists travel wrinkling effortlessly.',
-    stylistNote: 'Accompany with minimalist drop pearl earrings and a modern cathedral veil.'
+    stylistNote: 'Accompany with minimalist drop pearl earrings and a modern cathedral veil.',
+    curatedGowns: [
+      {
+        id: 'fab-crepe-1',
+        name: 'The Paris Loft Crepe Gown',
+        subtitle: 'Deep plunging cowl spine in heavy matte silk crepe',
+        price: 1750,
+        originalPrice: 1980,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Modern Column',
+        fabric: 'French Matte Crepe',
+        description: 'Clean architectural lines with open spine and fluid cathedral drape.'
+      },
+      {
+        id: 'fab-crepe-2',
+        name: 'Verona Mock-Neck Crepe Gown',
+        subtitle: 'Sculpted sheath silhouette in double-faced crepe',
+        price: 2150,
+        originalPrice: 2400,
+        image: '/images/bridal/style-modern-crepe.jpg',
+        silhouette: 'Sheath Column',
+        fabric: 'Double-Faced Crepe',
+        description: 'Heavy silk crepe that sculpts the hips with clean, seamless lines.'
+      }
+    ]
   },
 
   'BEADED': {
@@ -717,11 +1260,33 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Hand-Beaded Crystal & Pearls',
     badge: 'Master Embroidery',
     tagline: 'Swarovski crystals, Austrian glass bugle beads, and freshwater pearls',
-    heroImage: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=900&q=80',
-    location: 'Napa Valley, California',
-    notes: 'Hand-applied crystal beading catching real natural sunlight during outdoor ceremony',
+    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
     thought: 'Every beaded gown is a wearable treasure. Our master embroiderers stitch thousands of crystal beads and freshwater seed pearls by hand over months, creating patterns inspired by starlight, flowing water, and royal heirlooms.',
-    stylistNote: 'Under candlelit or chandelier lighting, a beaded gown creates mesmerizing sparkle with every step.'
+    stylistNote: 'Under candlelit or chandelier lighting, a beaded gown creates mesmerizing sparkle with every step.',
+    curatedGowns: [
+      {
+        id: 'fab-bead-1',
+        name: 'Lumière Crystal Chandelier Gown',
+        subtitle: 'Hand-sewn Swarovski crystals on shimmering net',
+        price: 3450,
+        originalPrice: 3890,
+        image: '/images/bridal/style-sparkle-beaded.jpg',
+        silhouette: 'Couture Grand Ballgown',
+        fabric: 'Crystal-Encrusted Organza',
+        description: 'Hand-applied crystal shimmer that illuminates the bride from every angle.'
+      },
+      {
+        id: 'fab-bead-2',
+        name: 'The Venetian Mermaid Couture',
+        subtitle: 'Intricately beaded bodice with multi-tier ruffled train',
+        price: 2650,
+        originalPrice: 2990,
+        image: '/images/bridal/style-mermaid.jpg',
+        silhouette: 'Couture Mermaid',
+        fabric: 'Embroidered Lace & Tulle',
+        description: 'Heavily beaded bustier with seed pearls and light-reflecting crystals.'
+      }
+    ]
   },
 
   'ORGANZA': {
@@ -729,10 +1294,32 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Silk Organza',
     badge: 'Architectural Crispness',
     tagline: 'Whisper-sheer silk with structured body for crisp, voluminous tiers',
-    heroImage: '/images/bridal/natural-english-garden.jpg',
-    location: 'Cotswolds, England',
-    notes: 'Crisp layered organza tiers holding voluminous romantic shape in an English garden',
+    heroImage: '/images/bridal/style-basque-waist.jpg',
     thought: 'Silk organza combines sheer translucency with firm structural memory. Unlike soft tulle, organza can be pleated, sculpted into dramatic architectural ruffles, or layered into tiers that maintain crisp volume throughout a long celebration.',
-    stylistNote: 'Ideal for brides who adore dramatic volume and high-fashion structural silhouettes.'
+    stylistNote: 'Ideal for brides who adore dramatic volume and high-fashion structural silhouettes.',
+    curatedGowns: [
+      {
+        id: 'fab-org-1',
+        name: 'The Sovereign Basque Gown',
+        subtitle: 'Sculpted basque corset in French Chantilly lace & organza',
+        price: 2850,
+        originalPrice: 3200,
+        image: '/images/bridal/style-basque-waist.jpg',
+        silhouette: 'Basque Waist Ballgown',
+        fabric: 'Silk Organza & Chantilly Lace',
+        description: 'Crisp organza tiers supporting a dramatic basque waistline.'
+      },
+      {
+        id: 'fab-org-2',
+        name: 'Floral Fantasy Organza Gown',
+        subtitle: 'Laser-cut silk organza petals on champagne tulle',
+        price: 2299,
+        originalPrice: 2599,
+        image: '/images/bridal/featured-floral-fantasy.jpg',
+        silhouette: 'A-Line',
+        fabric: 'Silk Organza',
+        description: 'Textured organza flowers that flutter softly with natural bridal motion.'
+      }
+    ]
   }
 };

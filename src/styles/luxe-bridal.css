@@ -2991,25 +2991,6 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
   gap: 5px;
 }
 
-.feature-hero-location-pill {
-  position: absolute;
-  bottom: 14px;
-  left: 14px;
-  background: rgba(35, 25, 23, 0.88);
-  backdrop-filter: blur(4px);
-  color: #FAF7F2;
-  font-family: var(--font-sans-luxe);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 5px 12px;
-  border-radius: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
 .feature-hero-info {
   display: flex;
   flex-direction: column;
@@ -3109,17 +3090,6 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
   color: #2D2321;
 }
 
-.feature-photo-credit {
-  font-family: var(--font-serif-luxe);
-  font-size: 13px;
-  font-style: italic;
-  color: #7A6965;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
 .feature-cta-row {
   display: flex;
   align-items: center;
@@ -3160,44 +3130,9 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(226, 217, 206, 0.6);
-}
-
-.setting-filter-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 24px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(226, 217, 206, 0.5);
-}
-
-.setting-tab-btn {
-  background: #FFFFFF;
-  border: 1px solid rgba(184, 153, 140, 0.35);
-  border-radius: 30px;
-  padding: 6px 14px;
-  font-family: var(--font-sans-luxe);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #5A4944;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.setting-tab-btn:hover {
-  border-color: var(--luxe-rose);
-  color: var(--luxe-rose);
-}
-
-.setting-tab-btn.active {
-  background: #2D2321;
-  color: #FFFFFF;
-  border-color: #2D2321;
-  box-shadow: 0 4px 12px rgba(45, 35, 33, 0.16);
 }
 
 .curated-section-title {
@@ -3265,25 +3200,6 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
 
 .gown-card-media:hover .gown-card-img {
   transform: scale(1.05);
-}
-
-.gown-location-tag {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(35, 25, 23, 0.85);
-  backdrop-filter: blur(4px);
-  color: #FAF7F2;
-  font-family: var(--font-sans-luxe);
-  font-size: 10px;
-  font-weight: 500;
-  padding: 3px 8px;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  z-index: 2;
-  pointer-events: none;
 }
 
 .gown-wishlist-btn {
@@ -3450,82 +3366,6 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
 .btn-gown-add-bag:hover {
   background: var(--luxe-rose);
   transform: translateY(-1px);
-}
-
-.gallery-pagination-footer {
-  margin-top: 36px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(226, 217, 206, 0.6);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  text-align: center;
-}
-
-.gallery-progress-note {
-  font-family: var(--font-sans-luxe);
-  font-size: 12.5px;
-  color: #7A6965;
-  margin: 0;
-}
-
-.gallery-progress-note strong {
-  color: #2D2321;
-}
-
-.gallery-pagination-buttons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.btn-load-more-gowns {
-  background: #2D2321;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 30px;
-  padding: 12px 26px;
-  font-family: var(--font-sans-luxe);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.22s ease;
-  box-shadow: 0 6px 18px rgba(45, 35, 33, 0.15);
-}
-
-.btn-load-more-gowns:hover {
-  background: var(--luxe-rose);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(168, 93, 80, 0.28);
-}
-
-.btn-show-all-gowns {
-  background: #FFFFFF;
-  color: #382E2B;
-  border: 1px solid rgba(184, 153, 140, 0.5);
-  border-radius: 30px;
-  padding: 12px 24px;
-  font-family: var(--font-sans-luxe);
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-show-all-gowns:hover {
-  border-color: #2D2321;
-  color: #2D2321;
-  background: #FAF7F2;
 }
 
 /* ==========================================================================
@@ -3886,4 +3726,476 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
     grid-template-columns: 1fr;
   }
 }
+
+/* Bridal feature modal: quiet, editorial framing with the gown as the focus. */
+.wedding-feature-modal-backdrop {
+  background: rgba(28, 22, 20, 0.76);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: clamp(10px, 2vw, 28px);
+}
+
+.wedding-feature-modal-container {
+  width: min(1280px, 100%);
+  max-height: min(94vh, 980px);
+  border-radius: 22px;
+  border-color: rgba(255, 255, 255, 0.62);
+  background: #f8f5ef;
+  box-shadow: 0 36px 110px rgba(18, 12, 10, 0.42), 0 1px 0 rgba(255,255,255,.6) inset;
+}
+
+.wedding-feature-modal-header {
+  padding: 25px clamp(24px, 3.2vw, 46px) 18px;
+  background: #fbfaf7;
+  border-bottom-color: #e9e1d8;
+}
+
+.modal-category-eyebrow {
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: #a65e52;
+}
+
+.modal-feature-title {
+  font-size: clamp(27px, 3vw, 38px);
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.modal-close-icon-btn {
+  width: 42px;
+  height: 42px;
+  background: #f1ece4;
+  border: 1px solid #e9e1d8;
+}
+
+.wedding-feature-pills-bar {
+  padding: 12px clamp(20px, 3vw, 42px) 14px;
+  background: #fbfaf7;
+  border-bottom-color: #e9e1d8;
+}
+
+.pills-scroll-track { gap: 9px; }
+
+.feature-pill-btn {
+  padding: 9px 16px;
+  font-size: 10px;
+  letter-spacing: .1em;
+  background: transparent;
+  border-color: #ded3c8;
+}
+
+.feature-pill-btn.is-active {
+  background: #352a27;
+  border-color: #352a27;
+  box-shadow: 0 4px 12px rgba(53,42,39,.14);
+}
+
+.wedding-feature-modal-body {
+  padding: clamp(22px, 3.2vw, 46px);
+  background: #f8f5ef;
+  scrollbar-color: #c58a7c #eee8df;
+}
+
+.feature-hero-card {
+  grid-template-columns: minmax(300px, .92fr) minmax(0, 1.08fr);
+  align-items: center;
+  gap: clamp(30px, 5vw, 76px);
+  padding: clamp(10px, 1.2vw, 18px);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 48px;
+}
+
+.feature-hero-media {
+  aspect-ratio: 4 / 5;
+  max-height: 690px;
+  border-radius: 3px;
+  box-shadow: 0 22px 50px rgba(43, 31, 26, .17);
+}
+
+.feature-hero-img { object-position: center 35%; }
+
+.feature-hero-badge-tag {
+  top: 20px;
+  left: 20px;
+  padding: 8px 14px;
+  background: rgba(44, 34, 30, .84);
+  letter-spacing: .12em;
+  font-size: 10px;
+}
+
+.feature-hero-info { padding: 16px 0; }
+
+.feature-badge-row {
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.hero-category-label { letter-spacing: .2em; }
+
+.hero-pill-badge {
+  padding: 5px 12px;
+  letter-spacing: .1em;
+  background: #f0e5dc;
+}
+
+.feature-hero-name {
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.04;
+  margin-bottom: 10px;
+}
+
+.feature-hero-tagline {
+  font-size: 14px;
+  line-height: 1.65;
+  margin-bottom: 26px;
+}
+
+.feature-thought-box {
+  background: #f2ede6;
+  border-left: 2px solid #b66f61;
+  border-radius: 0 3px 3px 0;
+  padding: 19px 22px;
+  margin-bottom: 16px;
+}
+
+.thought-box-title { letter-spacing: .13em; }
+.thought-box-body { font-size: 16px; line-height: 1.72; color: #62534e; }
+
+.stylist-note-box {
+  background: transparent;
+  border: 1px solid #dfd3c8;
+  border-radius: 3px;
+  padding: 15px 18px;
+  line-height: 1.7;
+  margin-bottom: 23px;
+}
+
+.btn-atelier-primary {
+  border-radius: 2px;
+  padding: 15px 22px;
+  letter-spacing: .13em;
+  box-shadow: none;
+}
+
+.curated-gowns-header { border-bottom-color: #ded5cb; }
+
+@media (max-width: 900px) {
+  .feature-hero-card { gap: 24px; }
+  .feature-hero-media { max-height: 620px; }
+}
+
+@media (max-width: 640px) {
+  .wedding-feature-modal-backdrop { padding: 0; align-items: stretch; }
+  .wedding-feature-modal-container { max-height: 100dvh; height: 100dvh; border-radius: 0; }
+  .wedding-feature-modal-header { padding: 20px 20px 15px; }
+  .wedding-feature-pills-bar { padding: 10px 18px 12px; }
+  .feature-pill-btn { padding: 8px 13px; font-size: 9px; }
+  .wedding-feature-modal-body { padding: 18px; }
+  .feature-hero-card { padding: 0; gap: 22px; margin-bottom: 34px; }
+  .feature-hero-media { aspect-ratio: 4 / 4.7; }
+  .feature-hero-info { padding: 0 2px; }
+  .feature-hero-name { font-size: 36px; }
+  .feature-hero-tagline { margin-bottom: 18px; }
+  .thought-box-body { font-size: 15px; }
+  .feature-cta-row, .btn-atelier-primary { width: 100%; justify-content: center; }
+}
+
+/* Keep every category choice visible; the modal body alone owns vertical scrolling. */
+.wedding-feature-pills-bar {
+  overflow: visible;
+  white-space: normal;
+  padding: 14px clamp(22px, 3vw, 44px);
+  background: #f5f0e9;
+  border-bottom: 1px solid #e5dbd0;
+}
+
+.pills-scroll-track {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(132px, 100%), 1fr));
+  gap: 8px;
+  padding: 0;
+  overflow: visible;
+}
+
+.pills-scroll-track::-webkit-scrollbar { display: none; }
+
+.feature-pill-btn {
+  min-width: 0;
+  min-height: 40px;
+  padding: 9px 10px;
+  border-radius: 2px;
+  border-color: #e1d6ca;
+  background: rgba(255, 255, 255, .48);
+  font-size: 9px;
+  letter-spacing: .09em;
+  white-space: normal;
+  line-height: 1.35;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.feature-pill-btn:hover { transform: translateY(-1px); }
+
+.feature-pill-btn.is-active {
+  color: #fffaf4;
+  background: #382b27;
+  border-color: #382b27;
+  box-shadow: 0 5px 14px rgba(56, 43, 39, .16);
+}
+
+@media (max-width: 640px) {
+  .wedding-feature-pills-bar { padding: 11px 16px; }
+  .pills-scroll-track { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+  .feature-pill-btn { min-height: 38px; padding: 8px 9px; }
+}
+
+/* ==========================================================================
+   27. SIGNATURE STYLES DEDICATED PAGE (Reference Design Recreated)
+   ========================================================================== */
+.signature-styles-page-wrapper {
+  background: #FAF7F2;
+  min-height: 80vh;
+  padding-top: 28px;
+  padding-bottom: 80px;
+}
+
+.signature-breadcrumb-container {
+  max-width: 1280px;
+  margin: 0 auto 16px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans-luxe);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.signature-breadcrumb-link {
+  background: none;
+  border: none;
+  color: #7A6965;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  transition: color 0.18s ease;
+  padding: 0;
+}
+
+.signature-breadcrumb-link:hover {
+  color: var(--luxe-rose);
+}
+
+.breadcrumb-divider {
+  color: #C2B3AC;
+}
+
+.signature-breadcrumb-current {
+  color: #7A6965;
+  font-weight: 500;
+}
+
+.signature-breadcrumb-current.highlight {
+  color: #382B27;
+  font-weight: 700;
+}
+
+/* Editorial Header Quote */
+.signature-editorial-header {
+  max-width: 900px;
+  margin: 0 auto 36px;
+  padding: 16px 24px 0;
+  text-align: center;
+}
+
+.signature-editorial-quote {
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #554440;
+  line-height: 1.6;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+/* 4-Column Grid Container */
+.signature-grid-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.signature-gowns-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px 24px;
+}
+
+.signature-gown-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  outline: none;
+}
+
+.signature-media-wrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F0E9DF;
+  box-shadow: 0 4px 16px rgba(45, 35, 33, 0.04);
+  transition: box-shadow 0.25s ease;
+}
+
+.signature-gown-item:hover .signature-media-wrap {
+  box-shadow: 0 10px 28px rgba(45, 35, 33, 0.1);
+}
+
+.signature-gown-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signature-gown-item:hover .signature-gown-img {
+  transform: scale(1.03);
+}
+
+/* Floating Circular Wishlist Button */
+.signature-wishlist-circle-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(4px);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  z-index: 3;
+}
+
+.signature-wishlist-circle-btn:hover {
+  transform: scale(1.1);
+  background: #FFFFFF;
+}
+
+.signature-wishlist-circle-btn.is-active {
+  background: #FFFFFF;
+}
+
+/* Gown Title */
+.signature-gown-title {
+  text-align: center;
+  font-family: var(--font-sans-luxe);
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #4A3E3A;
+  margin: 18px 0 0 0;
+  transition: color 0.18s ease;
+}
+
+.signature-gown-item:hover .signature-gown-title {
+  color: var(--luxe-rose);
+}
+
+/* Pagination Strip */
+.signature-pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 54px;
+}
+
+.signature-pagination-strip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.pagination-num-box {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: #E8DFD7;
+  color: #4A3E3A;
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  border-radius: 2px;
+}
+
+.pagination-num-box:hover {
+  background: #DDD1C6;
+  color: #2D2321;
+}
+
+.pagination-num-box.is-active {
+  background: #C4A482;
+  color: #FFFFFF;
+}
+
+.pagination-num-box.next-arrow {
+  background: #E8DFD7;
+}
+
+.pagination-num-box.next-arrow:hover {
+  background: #C4A482;
+  color: #FFFFFF;
+}
+
+.pagination-ellipsis {
+  color: #7A6965;
+  font-size: 12px;
+  margin: 0 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .signature-gowns-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .signature-gowns-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 14px;
+  }
+  .signature-editorial-quote {
+    font-size: 12.5px;
+  }
+  .signature-grid-container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signature-gowns-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+}
+
 
