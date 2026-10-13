@@ -27,6 +27,13 @@ export const HeroBanner = () => {
           const blur = (eased * 12).toFixed(1);
           const translateY = (eased * 10).toFixed(1);
 
+          if (document.body.classList.contains('megamenu-open')) {
+            popoutHeadRef.current.style.visibility = 'hidden';
+            popoutHeadRef.current.style.setProperty('--head-opacity', '0');
+            ticking = false;
+            return;
+          }
+
           popoutHeadRef.current.style.setProperty('--head-opacity', opacity.toFixed(2));
           popoutHeadRef.current.style.setProperty('--head-blur', `${blur}px`);
           popoutHeadRef.current.style.setProperty('--head-y', `${translateY}px`);
@@ -38,10 +45,26 @@ export const HeroBanner = () => {
       }
     };
 
+    const checkMegaMenu = () => {
+      if (!popoutHeadRef.current) return;
+      if (document.body.classList.contains('megamenu-open')) {
+        popoutHeadRef.current.style.visibility = 'hidden';
+        popoutHeadRef.current.style.setProperty('--head-opacity', '0');
+      } else {
+        handleScroll();
+      }
+    };
+
+    const observer = new MutationObserver(checkMegaMenu);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const handleShopCollection = () => {

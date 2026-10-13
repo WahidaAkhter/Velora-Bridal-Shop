@@ -161,6 +161,11 @@ body {
   z-index: 100;
 }
 
+.header-master.megamenu-open,
+.header-master:has(.wedding-dresses-megamenu) {
+  z-index: 500 !important;
+}
+
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -225,56 +230,127 @@ body {
 
 .chevron-mini {
   color: #7A6965;
-  transition: transform 0.2s ease;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.dropdown-popover {
+.chevron-mini.is-rotated {
+  transform: rotate(180deg);
+}
+
+.nav-link-item.has-dropdown.active {
+  color: var(--luxe-rose);
+}
+
+/* ==========================================================================
+   WEDDING DRESSES LUXURY 5-COLUMN MEGA MENU (Matching Reference Design)
+   ========================================================================== */
+.wedding-dresses-megamenu {
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 8px;
+  width: 100%;
   background: #FFFFFF;
-  border: 1px solid var(--luxe-rose-border);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(183, 110, 101, 0.12);
-  padding: 8px 0;
-  min-width: 220px;
-  z-index: 50;
-  animation: fadeInDown 0.2s ease;
+  border-top: 1px solid rgba(226, 217, 206, 0.45);
+  border-bottom: 1px solid rgba(226, 217, 206, 0.6);
+  box-shadow: 0 24px 50px rgba(35, 25, 23, 0.12);
+  z-index: 510;
+  animation: megamenuFadeDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dropdown-subitem {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 10px 16px;
-  cursor: pointer;
+.megamenu-backdrop {
+  position: fixed;
+  inset: 0;
+  top: 60px;
+  background: rgba(35, 25, 23, 0.22);
+  backdrop-filter: blur(2px);
+  z-index: 490;
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes megamenuFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.megamenu-inner-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 38px 32px 46px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 26px;
+}
+
+.megamenu-column {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  transition: background 0.15s ease;
 }
 
-.dropdown-subitem span {
+.megamenu-col-header {
   font-family: var(--font-sans-luxe);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--luxe-text-dark);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #786661;
+  margin: 0 0 20px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(226, 217, 206, 0.4);
+  line-height: 1.3;
 }
 
-.dropdown-subitem .subitem-note {
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--luxe-text-muted);
+.megamenu-col-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
 }
 
-.dropdown-subitem:hover {
-  background: var(--luxe-rose-light);
+.megamenu-item-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-sans-luxe);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #382E2B;
+  transition: color 0.18s ease, transform 0.18s ease;
+  display: inline-block;
+  line-height: 1.4;
 }
 
-.dropdown-subitem:hover span {
+.megamenu-item-btn:hover {
   color: var(--luxe-rose);
+  transform: translateX(3px);
+}
+
+@media (max-width: 1024px) {
+  .megamenu-inner-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    padding: 28px 24px 34px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wedding-dresses-megamenu {
+    display: none;
+  }
 }
 
 .mobile-nav-drawer {
@@ -553,6 +629,17 @@ body {
 .hero-head-model {
   /* No duplicate drop shadow on the head cutout layer so it blends seamlessly with base layer */
   filter: none !important;
+}
+
+/* When Wedding Dresses mega menu is open, hide popout head completely */
+body.megamenu-open .hero-popout-head,
+body.megamenu-open .hero-head-model,
+body:has(.wedding-dresses-megamenu) .hero-popout-head,
+.header-master.megamenu-open ~ main .hero-popout-head {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* ==========================================================================

@@ -11,6 +11,72 @@ import {
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../data/products';
 
+export const WEDDING_DRESS_CATEGORIES = [
+  {
+    title: 'BY TYPE',
+    items: [
+      'SIGNATURE STYLES',
+      'QUICK SHIP STYLES',
+      'NEW DRESSES',
+      'ALL DRESSES',
+      'ALL COLLECTIONS',
+      'SIZE CHART',
+      'LOOKBOOKS'
+    ]
+  },
+  {
+    title: 'BY SILHOUETTE',
+    items: [
+      'A-LINE',
+      'PRINCESS',
+      'BALLGOWN',
+      'FIT & FLARE',
+      'MERMAID',
+      'SHORT',
+      'CORSET',
+      'BASQUE WAIST',
+      'DROP WAIST',
+      'STATEMENT BACK'
+    ]
+  },
+  {
+    title: 'BY NECKLINE/SLEEVE',
+    items: [
+      'STRAPLESS',
+      'OFF THE SHOULDER',
+      'HIGH NECK',
+      'STRAPS',
+      'LONG SLEEVES'
+    ]
+  },
+  {
+    title: 'BY STYLE',
+    items: [
+      'MODERN',
+      'ROMANTIC',
+      'SIMPLE',
+      'ELEGANT',
+      'BOHO',
+      'FLORAL',
+      'SEXY',
+      'GLAMOROUS',
+      'SPARKLE',
+      'BEACH'
+    ]
+  },
+  {
+    title: 'BY FABRICATION',
+    items: [
+      'LACE',
+      'SATIN',
+      'TULLE',
+      'CREPE',
+      'BEADED',
+      'ORGANZA'
+    ]
+  }
+];
+
 export const Header = () => {
   const {
     currentView,
@@ -31,10 +97,10 @@ export const Header = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isCollectionsDropdownOpen, setIsCollectionsDropdownOpen] = useState(false);
+  const [isWeddingDressesOpen, setIsWeddingDressesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const collectionsRef = useRef(null);
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -42,11 +108,21 @@ export const Header = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Toggle 'megamenu-open' class on body so protruding model head hides instantly
+  useEffect(() => {
+    if (isWeddingDressesOpen) {
+      document.body.classList.add('megamenu-open');
+    } else {
+      document.body.classList.remove('megamenu-open');
+    }
+    return () => document.body.classList.remove('megamenu-open');
+  }, [isWeddingDressesOpen]);
+
   // Click outside to close dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (collectionsRef.current && !collectionsRef.current.contains(e.target)) {
-        setIsCollectionsDropdownOpen(false);
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setIsWeddingDressesOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -62,7 +138,7 @@ export const Header = () => {
       } else if (e.key === 'Escape') {
         setIsSearchModalOpen(false);
         setIsMobileMenuOpen(false);
-        setIsCollectionsDropdownOpen(false);
+        setIsWeddingDressesOpen(false);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -80,7 +156,7 @@ export const Header = () => {
   const handleNavClick = (targetId) => {
     setCurrentView('catalog');
     setIsMobileMenuOpen(false);
-    setIsCollectionsDropdownOpen(false);
+    setIsWeddingDressesOpen(false);
     if (targetId === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -91,6 +167,16 @@ export const Header = () => {
     }
   };
 
+  const handleDressCategoryClick = (itemName) => {
+    setIsWeddingDressesOpen(false);
+    setIsMobileMenuOpen(false);
+    setCurrentView('catalog');
+    const target = document.getElementById('featured-collection-heading') || document.getElementById('featured-collection');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleProductSelect = (product) => {
     setSelectedProduct(product);
     setIsSearchModalOpen(false);
@@ -98,7 +184,10 @@ export const Header = () => {
   };
 
   return (
-    <header className={`header-master ${isScrolled ? 'is-scrolled' : ''}`}>
+    <header
+      className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${isWeddingDressesOpen ? 'megamenu-open' : ''}`}
+      ref={headerRef}
+    >
       {/* Main Luxury Navbar */}
       <nav className={`navbar-luxe ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="navbar-container">
@@ -121,47 +210,19 @@ export const Header = () => {
               HOME
             </button>
 
-            {/* COLLECTIONS ⌵ */}
-            <div className="nav-dropdown-holder" ref={collectionsRef}>
+            {/* WEDDING DRESSES ⌵ (Click-only Mega Menu Toggle) */}
+            <div className="nav-dropdown-holder">
               <button
-                className="nav-link-item has-dropdown"
-                onClick={() => setIsCollectionsDropdownOpen(!isCollectionsDropdownOpen)}
-                onMouseEnter={() => setIsCollectionsDropdownOpen(true)}
+                type="button"
+                className={`nav-link-item has-dropdown ${isWeddingDressesOpen ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsWeddingDressesOpen(!isWeddingDressesOpen);
+                }}
+                aria-expanded={isWeddingDressesOpen}
               >
-                COLLECTIONS <ChevronDown size={12} className="chevron-mini" />
+                WEDDING DRESSES <ChevronDown size={12} className={`chevron-mini ${isWeddingDressesOpen ? 'is-rotated' : ''}`} />
               </button>
-
-              {isCollectionsDropdownOpen && (
-                <div
-                  className="dropdown-popover"
-                  onMouseLeave={() => setIsCollectionsDropdownOpen(false)}
-                >
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => handleNavClick('featured-collection-heading')}
-                  >
-                    <span>Featured Bridal Gowns</span>
-                    <span className="subitem-note">4 Signature Pieces</span>
-                  </button>
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => handleNavClick('shop-by-color-heading')}
-                  >
-                    <span>Shop By Color</span>
-                    <span className="subitem-note">12 Color Tones</span>
-                  </button>
-                  <button
-                    className="dropdown-subitem"
-                    onClick={() => {
-                      setSelectedCategory('classic');
-                      handleNavClick('featured-collection-heading');
-                    }}
-                  >
-                    <span>Royal Lace & Trains</span>
-                    <span className="subitem-note">Haute Couture</span>
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* ACCESSORIES */}
@@ -258,7 +319,7 @@ export const Header = () => {
               HOME
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
-              COLLECTIONS
+              WEDDING DRESSES
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('shop-by-color-heading')}>
               SHOP BY COLOR
@@ -278,6 +339,41 @@ export const Header = () => {
           </div>
         )}
       </nav>
+
+      {/* Luxury 5-Column Wedding Dresses Mega Menu (Reference Design) */}
+      {isWeddingDressesOpen && (
+        <div className="wedding-dresses-megamenu" role="region" aria-label="Wedding Dresses Mega Menu">
+          <div className="megamenu-inner-grid">
+            {WEDDING_DRESS_CATEGORIES.map((col, idx) => (
+              <div key={idx} className="megamenu-column">
+                <h3 className="megamenu-col-header">{col.title}</h3>
+                <ul className="megamenu-col-list">
+                  {col.items.map((item, itemIdx) => (
+                    <li key={itemIdx}>
+                      <button
+                        type="button"
+                        className="megamenu-item-btn"
+                        onClick={() => handleDressCategoryClick(item)}
+                      >
+                        {item}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Dimmed backdrop while mega menu is open */}
+      {isWeddingDressesOpen && (
+        <div
+          className="megamenu-backdrop"
+          onClick={() => setIsWeddingDressesOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* Global Search Modal */}
       {isSearchModalOpen && (
