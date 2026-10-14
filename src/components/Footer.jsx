@@ -39,6 +39,16 @@ export const Footer = () => {
   const { setCurrentView, setSearchQuery } = useApp();
 
   const handleLinkClick = (text, category) => {
+    if (text === 'Quick Ship Delivery' || text === 'Quick Ship Styles') {
+      setCurrentView('quick-ship');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (text === 'Signature Styles') {
+      setCurrentView('signature-styles');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (category === 'shape' || category === 'styles') {
       setCurrentView('catalog');
       setSearchQuery(text);

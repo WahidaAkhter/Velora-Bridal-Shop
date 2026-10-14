@@ -359,6 +359,11 @@ export const Header = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
+      if (item === 'QUICK SHIP STYLES') {
+        setCurrentView('quick-ship');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
       setActiveWeddingDressOption(item);
       return;
     }
@@ -583,6 +588,9 @@ export const Header = () => {
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
               WEDDING DRESSES
+            </button>
+            <button className="mobile-nav-link" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('quick-ship'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+              QUICK SHIP STYLES
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('shop-by-color-heading')}>
               SHOP BY COLOR

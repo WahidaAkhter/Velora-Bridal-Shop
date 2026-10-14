@@ -27,7 +27,8 @@ export const WeddingDressFeatureModal = () => {
     setIsAppointmentModalOpen,
     wishlist,
     toggleWishlist,
-    showToast
+    showToast,
+    setCurrentView
   } = useApp();
 
   const [measurementUnit, setMeasurementUnit] = useState('in'); // 'in' | 'cm'
@@ -115,7 +116,7 @@ export const WeddingDressFeatureModal = () => {
       isNew: true,
       stock: 4,
       description: gown.description,
-      images: [gown.image, featureData.heroImage],
+      images: [gown.image, ...(gown.hoverImage ? [gown.hoverImage] : []), featureData.heroImage],
       variants: [
         { id: `${gown.id}-v0`, name: 'US Size 2 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 2', price: gown.price, stock: 2, sku: `${gown.id}-02` },
         { id: `${gown.id}-v1`, name: 'US Size 4 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 4', price: gown.price, stock: 3, sku: `${gown.id}-04` },
@@ -403,6 +404,18 @@ export const WeddingDressFeatureModal = () => {
                     >
                       <Calendar size={15} /> Book Fitting for {featureData.title}
                     </button>
+                    {currentOptionKey === 'QUICK SHIP STYLES' && (
+                      <button
+                        className="btn-atelier-secondary"
+                        onClick={() => {
+                          handleClose();
+                          setCurrentView('quick-ship');
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <ArrowRight size={15} /> Open Quick Ship Full Page
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

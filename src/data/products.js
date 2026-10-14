@@ -1,5 +1,8 @@
+import { QUICK_SHIP_GOWNS } from './quickShipData';
+
 export const CATEGORIES = [
-  { id: 'all', name: 'All Collections', count: 13, icon: 'Sparkles' },
+  { id: 'all', name: 'All Collections', count: 21, icon: 'Sparkles' },
+  { id: 'quick-ship', name: 'Quick Ship Faster Delivery', count: 8, icon: 'Clock' },
   { id: 'featured', name: 'Featured Gowns', count: 4, icon: 'Crown' },
   { id: 'color-collection', name: 'Shop By Color', count: 5, icon: 'Palette' },
   { id: 'accessories', name: 'Bridal Accessories', count: 4, icon: 'Gem' }
@@ -256,6 +259,55 @@ export const PRODUCTS = [
     },
     reviews: [
       { id: `rc-${index}`, name: 'Verified Bride', avatar: '/images/bridal/avatars.png', rating: 5, date: 'Recently', comment: `The color is so magical in person! Everyone loved it.`, verified: true }
+    ]
+  })),
+  ...QUICK_SHIP_GOWNS.map((gown) => ({
+    id: gown.id,
+    name: gown.name,
+    slug: gown.slug,
+    subtitle: gown.subtitle,
+    category: 'quick-ship',
+    categoryName: 'Quick Ship Faster Delivery',
+    price: gown.price,
+    originalPrice: gown.originalPrice,
+    rating: 5.0,
+    reviewCount: 38,
+    badge: 'Quick Ship (2–3 Wks)',
+    isNew: true,
+    isBestseller: true,
+    stock: 4,
+    description: gown.description,
+    images: gown.images,
+    videoUrl: gown.videoUrl,
+    variants: [
+      { id: `${gown.id}-v0`, name: 'US Size 2 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 2', price: gown.price, stock: 2, sku: `${gown.id}-02` },
+      { id: `${gown.id}-v1`, name: 'US Size 4 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 4', price: gown.price, stock: 3, sku: `${gown.id}-04` },
+      { id: `${gown.id}-v2`, name: 'US Size 6 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 6', price: gown.price, stock: 3, sku: `${gown.id}-06` },
+      { id: `${gown.id}-v3`, name: 'US Size 8 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 8', price: gown.price, stock: 2, sku: `${gown.id}-08` },
+      { id: `${gown.id}-v4`, name: 'US Size 10 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 10', price: gown.price, stock: 2, sku: `${gown.id}-10` },
+      { id: `${gown.id}-v5`, name: 'US Size 12 / Ivory', color: 'Ivory', colorHex: '#FAF7F2', size: 'US 12', price: gown.price, stock: 1, sku: `${gown.id}-12` }
+    ],
+    attributes: {
+      'Silhouette': gown.silhouette,
+      'Fabrication': gown.fabric,
+      'Neckline': gown.neckline,
+      'Sleeves': gown.sleeves,
+      'Train Length': gown.train,
+      'Back Detail': gown.back,
+      'Internal Structure': gown.boning,
+      'Production Timeline': 'Quick Ship (2–3 Weeks Express Delivery)',
+      'Collection': gown.collection
+    },
+    reviews: [
+      {
+        id: `rev-${gown.id}-1`,
+        name: 'Sophie L.',
+        avatar: '/images/bridal/avatars.png',
+        rating: 5,
+        date: '2 weeks ago',
+        comment: `Ordered with Quick Ship for our destination wedding in Positano and it arrived in exactly 18 days! The quality, inner corset support, and craftsmanship are breathtaking.`,
+        verified: true
+      }
     ]
   }))
 ];
