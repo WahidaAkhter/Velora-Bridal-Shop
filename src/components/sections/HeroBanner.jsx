@@ -3,7 +3,7 @@ import { useApp } from '../../context/AppContext';
 import { Calendar } from 'lucide-react';
 
 export const HeroBanner = () => {
-  const { setSelectedCategory, setCurrentView, setIsAppointmentModalOpen } = useApp();
+  const { setSelectedCategory, setCurrentView, setIsAppointmentModalOpen, setPriceRange, setSearchQuery } = useApp();
   const popoutHeadRef = useRef(null);
 
   useEffect(() => {
@@ -69,6 +69,8 @@ export const HeroBanner = () => {
 
   const handleShopCollection = () => {
     setSelectedCategory('all');
+    if (setPriceRange) setPriceRange([0, 10000]);
+    if (setSearchQuery) setSearchQuery('');
     setCurrentView('all-dresses');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };

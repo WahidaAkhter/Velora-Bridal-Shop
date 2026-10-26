@@ -9,7 +9,7 @@ import {
   Heart,
   ShoppingBag
 } from 'lucide-react';
-import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../../data/products';
+import { PRODUCTS } from '../../data/products';
 
 export const WEDDING_DRESS_CATEGORIES = [
   {
@@ -79,43 +79,40 @@ export const WEDDING_DRESS_CATEGORIES = [
 
 export const ACCESSORIES_CATEGORIES = [
   {
-    title: 'VEILS & TIARAS',
+    title: 'BY ACCESSORY PIECE',
     items: [
-      'CATHEDRAL VEILS',
-      'FINGERTIP VEILS',
-      'BLUSHER & BIRDCAGE',
-      'CRYSTAL TIARAS',
-      'PEARL HEADBANDS'
+      'VEILS',
+      'TRAINS',
+      'JACKETS/SHRUGS',
+      'CAPES',
+      'SCARVES',
+      'GLOVES',
+      'BELTS',
+      'NECK COLLARS'
     ]
   },
   {
-    title: 'BRIDAL JEWELRY',
+    title: 'FEATURED ACCENTS',
     items: [
-      'PEARL DROP EARRINGS',
-      'DIAMOND CHOKERS',
-      'TENNIS BRACELETS',
-      'STATEMENT NECKLACES',
-      'VINTAGE BROOCHES'
+      'CATHEDRAL LACE VEILS',
+      'DETACHABLE MIKADO TRAINS',
+      'MOCK-NECK LACE JACKETS',
+      'WATTEAU TULLE CAPES',
+      'FLUID SILK SCARVES',
+      'CHANTILLY OPERA GLOVES',
+      'CRYSTAL EMBROIDERED BELTS',
+      'BAROQUE PEARL COLLARS'
     ]
   },
   {
-    title: 'SHOES & SASHES',
+    title: 'ATELIER STYLING',
     items: [
-      'SATIN BRIDAL PUMPS',
-      'EMBELLISHED FLATS',
-      'SILK WAIST SASHES',
-      'CRYSTAL BELTS',
-      'ANKLE STRAP HEELS'
-    ]
-  },
-  {
-    title: 'CAPES & GLOVES',
-    items: [
-      'SHEER CHIFFON CAPES',
-      'OPERA LACE GLOVES',
-      'TULLE WINGS & WRAPS',
-      'FAUX FUR STOLES',
-      'BRIDAL ROBES'
+      'ALL ACCESSORIES',
+      'VEIL LENGTH GUIDE',
+      'MIX & MATCH SEPARATES',
+      'OVERSKIRTS & BOWS',
+      'CEREMONY LAYERING',
+      'BESPOKE CUSTOMIZATIONS'
     ]
   }
 ];
@@ -247,11 +244,7 @@ export const Header = () => {
     setIsCartOpen,
     wishlist,
     setAccountTab,
-    setActiveWeddingDressOption,
-    user,
-    isLoggedIn,
-    setIsAuthModalOpen,
-    setAuthMode
+    setActiveWeddingDressOption
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -358,6 +351,11 @@ export const Header = () => {
     setIsMobileMenuOpen(false);
 
     if (featureKey === 'wedding-dresses') {
+      if (item === 'NEW DRESSES') {
+        setCurrentView('new-dresses');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
       if (item === 'SIGNATURE STYLES') {
         setCurrentView('signature-styles');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -368,12 +366,40 @@ export const Header = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      if (item === 'ALL DRESSES' || item === 'ALL COLLECTIONS' || item === 'NEW DRESSES') {
+      if (item === 'ALL DRESSES' || item === 'ALL COLLECTIONS') {
         setCurrentView('all-dresses');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
       setActiveWeddingDressOption(item);
+      return;
+    }
+
+    if (featureKey === 'accessories') {
+      setSelectedCategory('accessories');
+      if (item === 'ALL ACCESSORIES') {
+        setSearchQuery('');
+      } else if (item === 'VEILS' || item === 'CATHEDRAL LACE VEILS' || item === 'PEARL VEILS') {
+        setSearchQuery('Veil');
+      } else if (item === 'TRAINS' || item === 'DETACHABLE MIKADO TRAINS' || item === 'OVERSKIRTS & BOWS') {
+        setSearchQuery('Train');
+      } else if (item === 'JACKETS/SHRUGS' || item === 'MOCK-NECK LACE JACKETS' || item === 'SHEER BOLEROS') {
+        setSearchQuery('Jacket');
+      } else if (item === 'CAPES' || item === 'WATTEAU TULLE CAPES' || item === 'WING CAPES') {
+        setSearchQuery('Cape');
+      } else if (item === 'SCARVES' || item === 'FLUID SILK SCARVES') {
+        setSearchQuery('Scarf');
+      } else if (item === 'GLOVES' || item === 'CHANTILLY OPERA GLOVES' || item === 'SATIN GLOVES') {
+        setSearchQuery('Gloves');
+      } else if (item === 'BELTS' || item === 'CRYSTAL EMBROIDERED BELTS' || item === 'EMBROIDERED SASHES') {
+        setSearchQuery('Belt');
+      } else if (item === 'NECK COLLARS' || item === 'BAROQUE PEARL COLLARS') {
+        setSearchQuery('Neck Collar');
+      } else {
+        setSearchQuery('');
+      }
+      setCurrentView('all-dresses');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -394,12 +420,6 @@ export const Header = () => {
       const el = document.getElementById('footer-testimonials') || document.getElementById('boutique-footer');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
       return;
-    }
-
-    // Default for accessories
-    const target = document.getElementById('featured-collection-heading') || document.getElementById('featured-collection');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -612,7 +632,16 @@ export const Header = () => {
             <button className="mobile-nav-link" onClick={() => handleNavClick('shop-by-color-heading')}>
               SHOP BY COLOR
             </button>
-            <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
+            <button
+              className="mobile-nav-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setSelectedCategory('accessories');
+                setSearchQuery('');
+                setCurrentView('all-dresses');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
               ACCESSORIES
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('dream-dress-banner')}>

@@ -28,7 +28,9 @@ export const WeddingDressFeatureModal = () => {
     wishlist,
     toggleWishlist,
     showToast,
-    setCurrentView
+    setCurrentView,
+    setSearchQuery,
+    setSelectedCategory
   } = useApp();
 
   const [measurementUnit, setMeasurementUnit] = useState('in'); // 'in' | 'cm'
@@ -404,7 +406,7 @@ export const WeddingDressFeatureModal = () => {
                     >
                       <Calendar size={15} /> Book Fitting for {featureData.title}
                     </button>
-                    {currentOptionKey === 'QUICK SHIP STYLES' && (
+                    {currentOptionKey === 'QUICK SHIP STYLES' ? (
                       <button
                         className="btn-atelier-secondary"
                         onClick={() => {
@@ -415,6 +417,32 @@ export const WeddingDressFeatureModal = () => {
                       >
                         <ArrowRight size={15} /> Open Quick Ship Full Page
                       </button>
+                    ) : currentOptionKey === 'NEW DRESSES' ? (
+                      <button
+                        className="btn-atelier-secondary"
+                        onClick={() => {
+                          handleClose();
+                          setCurrentView('new-dresses');
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                      >
+                        <ArrowRight size={15} /> View Legacy Collection
+                      </button>
+                    ) : (
+                      currentOptionKey !== 'SIZE CHART' && currentOptionKey !== 'LOOKBOOKS' && (
+                        <button
+                          className="btn-atelier-secondary"
+                          onClick={() => {
+                            handleClose();
+                            setSelectedCategory('all');
+                            setSearchQuery(featureData.title);
+                            setCurrentView('all-dresses');
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }}
+                        >
+                          <ArrowRight size={15} /> Explore All in Gallery
+                        </button>
+                      )
                     )}
                   </div>
                 </div>

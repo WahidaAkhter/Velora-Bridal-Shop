@@ -1,7 +1,10 @@
 import { QUICK_SHIP_GOWNS } from './quickShipData.js';
 import { VELORA_BRIDALS_DRESSES, VELORA_COLLECTION_INFO } from './veloraBridalsData.js';
+import { ACCESSORY_PIECES, ACCESSORIES_NAV_DATA } from './accessoriesData.js';
+import { LEGACY_COLLECTION_GOWNS } from './legacyCollectionData.js';
+import { ALL_SHOP_DRESSES } from './allDressesData.js';
 
-export { VELORA_BRIDALS_DRESSES, VELORA_COLLECTION_INFO };
+export { VELORA_BRIDALS_DRESSES, VELORA_COLLECTION_INFO, ACCESSORY_PIECES, ACCESSORIES_NAV_DATA, LEGACY_COLLECTION_GOWNS, ALL_SHOP_DRESSES };
 
 export const CATEGORIES = [
   { id: 'all', name: 'All Collections', count: 224, icon: 'Sparkles' },
@@ -82,7 +85,9 @@ export const COLOR_DRESSES = [
 ];
 
 export const PRODUCTS = [
+  ...ALL_SHOP_DRESSES,
   ...VELORA_BRIDALS_DRESSES,
+  ...ACCESSORY_PIECES,
   {
     id: 'prod-1',
     name: 'LACE DREAM GOWN',
@@ -320,5 +325,6 @@ export const PRODUCTS = [
         verified: true
       }
     ]
-  }))
+  })),
+  ...LEGACY_COLLECTION_GOWNS
 ];

@@ -5813,6 +5813,42 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
   line-height: 1.2;
 }
 
+/* Madi Lane Reference Quick Category Tabs */
+.velora-quick-category-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 auto 28px auto;
+  max-width: 900px;
+}
+
+.velora-cat-tab {
+  background: #FFFFFF;
+  border: 1px solid rgba(45, 40, 37, 0.15);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 12.5px;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  color: #4A403A;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-cat-tab:hover {
+  border-color: #1F1917;
+  color: #1F1917;
+}
+
+.velora-cat-tab.is-active {
+  background: #1F1917;
+  color: #FFFFFF;
+  border-color: #1F1917;
+  font-weight: 500;
+}
+
 /* Minimalist VELORA Action Toolbar (Filter | Count | Sort By) */
 .velora-toolbar {
   display: flex;
@@ -6332,6 +6368,575 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
     right: 16px;
     width: calc(100vw - 32px);
     max-width: 320px;
+  }
+}
+
+/* ==========================================================================
+   MADI LANE LEGACY COLLECTION ARCHIVE PAGE
+   Exact replication of https://madilane.com/collection-category/legacy/
+   ========================================================================== */
+.legacy-collection-page-root {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  color: #1F1917;
+  padding-bottom: 80px;
+}
+
+/* Top Title & Filter Bar */
+.legacy-header-container {
+  width: 100%;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.legacy-header-inner {
+  max-width: 1640px;
+  margin: 0 auto;
+  padding: 40px 32px 20px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.legacy-title-area {
+  flex: 1;
+}
+
+.legacy-page-main-title {
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #bca07e;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.legacy-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.legacy-filter-toggle-btn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: #202020;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 8px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.legacy-filter-toggle-btn:hover,
+.legacy-filter-toggle-btn.is-open {
+  color: #bca07e;
+}
+
+.legacy-filter-active-count {
+  font-size: 0.8rem;
+  color: #bca07e;
+  font-weight: 600;
+}
+
+/* Expandable Filter Drawer / Panel */
+.legacy-expandable-filter-panel {
+  max-width: 1640px;
+  margin: 0 auto;
+  padding: 0 32px 28px;
+  background: #FFFFFF;
+}
+
+.legacy-filter-panel-inner {
+  background: #fbf9f6;
+  border: 1px solid #efe8df;
+  border-radius: 4px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.legacy-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legacy-filter-label {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #665c54;
+  text-transform: uppercase;
+}
+
+.legacy-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legacy-filter-pill {
+  background: #FFFFFF;
+  border: 1px solid #e0d8cf;
+  color: #403b37;
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  padding: 7px 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.legacy-filter-pill:hover {
+  border-color: #bca07e;
+  color: #bca07e;
+}
+
+.legacy-filter-pill.is-active {
+  background: #bca07e;
+  border-color: #bca07e;
+  color: #FFFFFF;
+}
+
+.legacy-filter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #efe8df;
+  padding-top: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.legacy-filter-results-text {
+  font-size: 0.85rem;
+  color: #706860;
+}
+
+.legacy-filter-results-text strong {
+  color: #1F1917;
+}
+
+.legacy-filter-reset-link {
+  background: none;
+  border: none;
+  color: #A15E56;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+}
+
+.legacy-filter-close-btn {
+  background: transparent;
+  border: 1px solid #d4c8be;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #554d46;
+  transition: all 0.2s ease;
+}
+
+.legacy-filter-close-btn:hover {
+  background: #FFFFFF;
+  border-color: #1F1917;
+  color: #1F1917;
+}
+
+/* 4-Column Grid Container (Exact Madi Lane reference layout) */
+.legacy-grid-container {
+  max-width: 1640px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.legacy-gown-grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 20px;
+}
+
+.legacy-gown-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+}
+
+.legacy-gown-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #f7f4f0;
+}
+
+.legacy-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.legacy-card-img-hover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.legacy-card-img-hover.is-visible-hover {
+  opacity: 1;
+}
+
+.legacy-gown-card:hover .legacy-card-img {
+  transform: scale(1.03);
+}
+
+/* Top-Right Circular Floating Wishlist Heart */
+.legacy-card-wishlist-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 4;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 0;
+}
+
+.legacy-card-wishlist-btn:hover {
+  background: #FFFFFF;
+  transform: scale(1.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.legacy-card-wishlist-btn.is-active {
+  background: #FFFFFF;
+}
+
+/* Centered Title under Card */
+.legacy-gown-info {
+  padding-top: 14px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.legacy-gown-title {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.02rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #202020;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.legacy-gown-card:hover .legacy-gown-title {
+  color: #bca07e;
+}
+
+/* Empty State */
+.legacy-empty-state {
+  padding: 80px 20px;
+  text-align: center;
+  color: #706860;
+  font-size: 1.05rem;
+}
+
+.legacy-btn-reset-all {
+  margin-top: 16px;
+  background: #1F1917;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Responsive Grid */
+@media (max-width: 1280px) {
+  .legacy-gown-grid-4col {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 16px;
+  }
+}
+
+@media (max-width: 860px) {
+  .legacy-header-inner {
+    padding: 28px 20px 16px;
+  }
+  .legacy-grid-container {
+    padding: 0 20px;
+  }
+  .legacy-gown-grid-4col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+  }
+  .legacy-card-wishlist-btn {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+  }
+  .legacy-gown-title {
+    font-size: 0.92rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+@media (max-width: 520px) {
+  .legacy-gown-grid-4col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
+  }
+  .legacy-page-main-title {
+    font-size: 1.6rem;
+  }
+}
+
+/* ==========================================================================
+   VELORA 4-COLUMN GOWN GRID & ALL DRESSES STYLING
+   Exact replication of https://madilane.com/shop/ reference
+   ========================================================================== */
+.velora-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px 20px;
+  width: 100%;
+}
+
+.velora-gown-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+}
+
+.velora-gown-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #f7f4f0;
+}
+
+.velora-card-img-primary {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.velora-card-img-hover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0;
+  transition: opacity 0.45s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.velora-gown-card:hover .velora-card-img-hover {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.velora-gown-card:hover .velora-card-img-primary {
+  transform: scale(1.03);
+}
+
+/* Floating Circular Wishlist Heart Icon (Top Right) */
+.velora-wishlist-circle-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 0;
+}
+
+.velora-wishlist-circle-btn:hover {
+  background: #FFFFFF;
+  transform: scale(1.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.velora-wishlist-circle-btn.is-active {
+  background: #FFFFFF;
+}
+
+/* Minimalist Centered Title under Card */
+.velora-gown-caption {
+  padding-top: 14px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.velora-gown-name {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.02rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #202020;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.velora-gown-card:hover .velora-gown-name {
+  color: #bca07e;
+}
+
+/* Pagination Bar */
+.velora-pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 48px auto 36px;
+  padding: 16px 0;
+}
+
+.velora-page-num {
+  min-width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid #e5ded6;
+  background: #ffffff;
+  color: #333333;
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.velora-page-num:hover {
+  border-color: #bca07e;
+  color: #bca07e;
+}
+
+.velora-page-num.is-active {
+  background: #bca07e;
+  border-color: #bca07e;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(188, 160, 126, 0.35);
+}
+
+.velora-page-arrow {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid #e5ded6;
+  background: #ffffff;
+  color: #202020;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.velora-page-arrow:hover {
+  background: #bca07e;
+  border-color: #bca07e;
+  color: #ffffff;
+}
+
+/* Responsive Grid for 4-col */
+@media (max-width: 1280px) {
+  .velora-grid-4 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 16px;
+  }
+}
+
+@media (max-width: 860px) {
+  .velora-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+  }
+  .velora-wishlist-circle-btn {
+    top: 10px;
+    right: 10px;
+    width: 34px;
+    height: 34px;
+  }
+  .velora-gown-name {
+    font-size: 0.92rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+@media (max-width: 520px) {
+  .velora-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 10px;
   }
 }
 
