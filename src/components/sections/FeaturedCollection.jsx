@@ -136,7 +136,7 @@ export const FeaturedCollection = () => {
               loading="eager"
             />
 
-            {/* SHOP ROMANCE Overlay Button (Exact Allure Bridals Match) */}
+            {/* SHOP ROMANCE Overlay Button (Exact VELORA Romance Match) */}
             <button
               type="button"
               className="editorial-shop-romance-btn"
@@ -153,16 +153,16 @@ export const FeaturedCollection = () => {
 
         {/* Right Area: Top Header + Bottom Queue Track */}
         <div className="editorial-right-area">
-          {/* Editorial Top Split Header (Exact Allure Bridals Layout) */}
+          {/* Editorial Top Split Header (Exact VELORA Romance Layout) */}
           <div className="editorial-collection-header">
             <div className="editorial-header-left">
-              <span className="editorial-kicker">ALLURE ROMANCE</span>
+              <span className="editorial-kicker">VELORA ROMANCE</span>
               <h2 className="editorial-script-title">Dreamy and Feminine</h2>
             </div>
 
             <div className="editorial-header-right">
               <p className="editorial-narrative">
-                Allure Romance focuses on softness and movement for the bride drawn to delicate detail.
+                VELORA Romance focuses on softness and movement for the bride drawn to delicate detail.
                 This season features floral appliqués, airy chiffon, glittering tulle, and romantic touches
                 — designed to feel dreamy, light, and effortlessly beautiful.
               </p>

@@ -86,7 +86,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
         silhouette: 'Sheath / Fluid Column / Fit & Flare',
         fabric: 'Heavy Liquid Stretch Satin & Jersey Lining',
         neckline: 'Draped Cowl Neckline & Off-The-Shoulder Straps',
-        description: 'Effortless modern siren allure. Features liquid heavy stretch satin, draped cowl neckline, off-the-shoulder swags, and a statuesque fluid train.'
+        description: 'Effortless modern siren elegance. Features liquid heavy stretch satin, draped cowl neckline, off-the-shoulder swags, and a statuesque fluid train.'
       },
       {
         id: 'qs-wendall',
@@ -1054,7 +1054,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
   'SEXY': {
     category: 'BY STYLE',
     title: 'Sensual & Daring Style',
-    badge: 'Red Carpet Allure',
+    badge: 'Red Carpet Glamour',
     tagline: 'Plunging necklines, illusion side panels, and thigh-high slits',
     heroImage: '/images/bridal/style-mermaid.jpg',
     thought: 'Bridal sensuality done with exquisite couture sophistication. Featuring sheer corsetry, low dipping backs, and sculpted contours that celebrate feminine beauty with absolute confidence and grace.',
@@ -1080,7 +1080,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
         image: '/images/bridal/style-modern-crepe.jpg',
         silhouette: 'Modern Column',
         fabric: 'Heavy Crepe',
-        description: 'A daring low-back dip plunging to the lower spine with effortless allure.'
+        description: 'A daring low-back dip plunging to the lower spine with effortless grace.'
       }
     ]
   },

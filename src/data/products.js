@@ -1,7 +1,17 @@
 import { QUICK_SHIP_GOWNS } from './quickShipData.js';
+import { VELORA_BRIDALS_DRESSES, VELORA_COLLECTION_INFO } from './veloraBridalsData.js';
+
+export { VELORA_BRIDALS_DRESSES, VELORA_COLLECTION_INFO };
 
 export const CATEGORIES = [
-  { id: 'all', name: 'All Collections', count: 21, icon: 'Sparkles' },
+  { id: 'all', name: 'All Collections', count: 224, icon: 'Sparkles' },
+  { id: 'velora-bridals', name: 'VELORA Bridal Collection', count: 224, icon: 'Crown' },
+  { id: 'Drop Waist', name: 'Drop Waist Silhouettes', count: 28, icon: 'Sparkles' },
+  { id: 'Basque Waist', name: 'Basque Waist Silhouettes', count: 32, icon: 'Sparkles' },
+  { id: 'Ball Gown', name: 'Ball Gown', count: 42, icon: 'Crown' },
+  { id: 'A-Line', name: 'A-Line', count: 68, icon: 'Sparkles' },
+  { id: 'Sheath', name: 'Sheath', count: 24, icon: 'Sparkles' },
+  { id: 'Mermaid', name: 'Mermaid', count: 18, icon: 'Sparkles' },
   { id: 'quick-ship', name: 'Quick Ship Faster Delivery', count: 8, icon: 'Clock' },
   { id: 'featured', name: 'Featured Gowns', count: 4, icon: 'Crown' },
   { id: 'color-collection', name: 'Shop By Color', count: 5, icon: 'Palette' },
@@ -72,6 +82,7 @@ export const COLOR_DRESSES = [
 ];
 
 export const PRODUCTS = [
+  ...VELORA_BRIDALS_DRESSES,
   {
     id: 'prod-1',
     name: 'LACE DREAM GOWN',

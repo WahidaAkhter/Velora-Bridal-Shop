@@ -70,7 +70,7 @@ export const QUICK_SHIP_GOWNS = [
     colorways: ['Ivory', 'Champagne', 'Pearl White'],
     timeline: 'Expedited Atelier Dispatch in 2–3 Weeks',
     tags: ['Sheath', 'Cowl Neck', 'Off-The-Shoulder', 'Satin', 'Quick Ship', 'Modern', 'Minimalist'],
-    description: 'Nelson is the definition of effortless, red-carpet bridal allure. Tailored in liquid heavy stretch satin, Nelson features a romantic draped cowl neckline that spills into gentle off-the-shoulder sleeve swags. The bodice embraces the silhouette with seamless tailoring, gliding down over the hips before cascading into an elongated puddle train that moves like water.'
+    description: 'Nelson is the definition of effortless, red-carpet bridal glamour. Tailored in liquid heavy stretch satin, Nelson features a romantic draped cowl neckline that spills into gentle off-the-shoulder sleeve swags. The bodice embraces the silhouette with seamless tailoring, gliding down over the hips before cascading into an elongated puddle train that moves like water.'
   },
   {
     id: 'qs-wendall',

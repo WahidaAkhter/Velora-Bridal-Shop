@@ -69,22 +69,12 @@ export const HeroBanner = () => {
 
   const handleShopCollection = () => {
     setSelectedCategory('all');
-    setCurrentView('catalog');
-    const el = document.getElementById('featured-collection-heading');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    setCurrentView('all-dresses');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBookAppointment = () => {
-    const el = document.getElementById('dream-dress-banner');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        const input = document.getElementById('dream-first-name');
-        if (input) input.focus();
-      }, 600);
-    } else {
-      setIsAppointmentModalOpen(true);
-    }
+    setIsAppointmentModalOpen(true);
   };
 
   return (

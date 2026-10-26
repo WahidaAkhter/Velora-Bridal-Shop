@@ -368,7 +368,7 @@ export const Header = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      if (item === 'ALL DRESSES' || item === 'ALL COLLECTIONS') {
+      if (item === 'ALL DRESSES' || item === 'ALL COLLECTIONS' || item === 'NEW DRESSES') {
         setCurrentView('all-dresses');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
@@ -596,7 +596,14 @@ export const Header = () => {
             <button className="mobile-nav-link" onClick={() => handleNavClick('home')}>
               HOME
             </button>
-            <button className="mobile-nav-link" onClick={() => handleNavClick('featured-collection-heading')}>
+            <button
+              className="mobile-nav-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setCurrentView('all-dresses');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
               WEDDING DRESSES
             </button>
             <button className="mobile-nav-link" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('quick-ship'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
