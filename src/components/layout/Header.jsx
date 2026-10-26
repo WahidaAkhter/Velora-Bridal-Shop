@@ -366,8 +366,20 @@ export const Header = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
-      if (item === 'ALL DRESSES' || item === 'ALL COLLECTIONS') {
+      if (item === 'ALL DRESSES') {
+        setSelectedCategory('all');
+        setSearchQuery('');
         setCurrentView('all-dresses');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      if (item === 'ALL COLLECTIONS') {
+        setCurrentView('all-collections');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      if (item === 'LOOKBOOKS' || item === 'LOOKBOOK') {
+        setCurrentView('lookbook');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }

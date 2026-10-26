@@ -49,6 +49,16 @@ export const Footer = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (text === 'Lookbooks' || text === 'Collection Lookbook') {
+      setCurrentView('lookbook');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (text === 'All Collections' || text === 'Collections') {
+      setCurrentView('all-collections');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (category === 'shape' || category === 'styles') {
       setCurrentView('catalog');
       setSearchQuery(text);
@@ -102,6 +112,11 @@ export const Footer = () => {
               <li>
                 <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Giving Back', 'brand')}>
                   Giving Back
+                </button>
+              </li>
+              <li>
+                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Lookbooks', 'brand')}>
+                  Lookbooks
                 </button>
               </li>
               <li>

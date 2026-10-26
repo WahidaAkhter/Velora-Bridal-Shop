@@ -97,6 +97,7 @@ export const ProductGrid = () => {
     }
   }, [priceRange, setPriceRange]);
 
+
   // Comprehensive Filter & Sort Logic matching Madi Lane reference
   const filtered = useMemo(() => {
     let result = PRODUCTS.filter((p) => {
@@ -202,7 +203,7 @@ export const ProductGrid = () => {
   // Reset to page 1 whenever filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, searchQuery, sortBy]);
+  }, [selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, searchQuery, priceRange, sortBy]);
 
   const totalPages = Math.ceil(filtered.length / pageSize) || 1;
   const paginatedDresses = useMemo(() => {

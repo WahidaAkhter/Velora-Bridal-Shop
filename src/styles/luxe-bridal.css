@@ -6834,17 +6834,37 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
 
 .velora-gown-name {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
-  font-size: 1.02rem;
+  font-size: 0.95rem;
   font-weight: 400;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #202020;
+  color: #24201e;
   margin: 0;
-  transition: color 0.2s ease;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 6px;
+  transition: color 0.25s ease;
+}
+
+.velora-gown-name::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background-color: #bca07e;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease;
 }
 
 .velora-gown-card:hover .velora-gown-name {
   color: #bca07e;
+}
+
+.velora-gown-card:hover .velora-gown-name::after {
+  transform: scaleX(1);
 }
 
 /* Pagination Bar */
@@ -6939,4 +6959,1083 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
     gap: 14px 10px;
   }
 }
+
+/* ==========================================================================
+   VELORA LOOKBOOK PAGE & INTERACTIVE FLIPBOOKS
+   Exact replica of https://madilane.com/collection-lookbook/
+   ========================================================================== */
+.velora-lookbook-page-root {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+  background-color: #FAF8F5;
+  min-height: 80vh;
+}
+
+/* Header Section */
+.velora-lookbook-header-section {
+  text-align: center;
+  margin-bottom: 42px;
+  padding-top: 10px;
+}
+
+.velora-lookbook-subtitle {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: #7D736C;
+  text-transform: uppercase;
+  margin: 0 0 10px 0;
+}
+
+.velora-lookbook-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.6rem, 4.2vw, 4rem);
+  font-weight: 300;
+  color: #1F1917;
+  letter-spacing: 0.04em;
+  margin: 0 0 16px 0;
+  line-height: 1.15;
+}
+
+.velora-lookbook-desc {
+  max-width: 680px;
+  margin: 0 auto 32px auto;
+  font-size: 0.95rem;
+  color: #665d56;
+  line-height: 1.65;
+}
+
+/* Category Pill Tabs */
+.velora-lookbook-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 auto 36px auto;
+  max-width: 800px;
+}
+
+.velora-lb-tab {
+  background: #FFFFFF;
+  border: 1px solid rgba(45, 40, 37, 0.15);
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+  color: #4A403A;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-lb-tab:hover {
+  border-color: #bca07e;
+  color: #bca07e;
+}
+
+.velora-lb-tab.is-active {
+  background: #1F1917;
+  color: #FFFFFF;
+  border-color: #1F1917;
+  font-weight: 500;
+}
+
+/* 3-Column Grid Container */
+.velora-lookbook-grid-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.velora-lookbook-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px 26px;
+}
+
+/* Lookbook Card */
+.velora-lookbook-card {
+  background: #FFFFFF;
+  border: 1px solid #ebe4dc;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.velora-lookbook-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.09);
+  border-color: #d6c8bc;
+}
+
+/* Card Header */
+.velora-lb-card-header {
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #f2ede6;
+  background: #FAF8F5;
+}
+
+.velora-lb-season-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bca07e;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.velora-lb-card-title {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1F1917;
+  margin: 0;
+}
+
+.velora-lb-action-icon-btn {
+  background: #FFFFFF;
+  border: 1px solid #e0d7ce;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #554d46;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.velora-lb-action-icon-btn:hover {
+  background: #1F1917;
+  color: #FFFFFF;
+  border-color: #1F1917;
+}
+
+/* Embedded Flipsnack Iframe Wrapper */
+.velora-lb-embed-wrapper {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: #f5f0ea;
+  overflow: hidden;
+}
+
+.velora-lb-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* Card Footer */
+.velora-lb-card-footer {
+  padding: 18px 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #FFFFFF;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.velora-lb-desc {
+  font-size: 0.88rem;
+  color: #706860;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.velora-lb-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 6px;
+  border-top: 1px solid #f5ede4;
+}
+
+.velora-lb-explore-btn {
+  background: #1F1917;
+  color: #FFFFFF;
+  border: 1px solid #1F1917;
+  border-radius: 4px;
+  padding: 10px 18px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-lb-explore-btn:hover {
+  background: #bca07e;
+  border-color: #bca07e;
+  transform: translateX(2px);
+}
+
+.velora-lb-share-btn {
+  background: transparent;
+  border: 1px solid #e0d7ce;
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #554d46;
+  transition: all 0.2s ease;
+}
+
+.velora-lb-share-btn:hover {
+  border-color: #bca07e;
+  color: #bca07e;
+  background: #FAF8F5;
+}
+
+/* VIP Early Lookbook Banner (Matching Section 6 of madilane.com) */
+.velora-lookbook-vip-banner {
+  background: linear-gradient(135deg, #1F1917 0%, #2A221E 100%);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 64px 32px;
+  margin: 70px auto 40px auto;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.velora-vip-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.velora-vip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(188, 160, 126, 0.2);
+  border: 1px solid rgba(188, 160, 126, 0.4);
+  color: #e5cfb8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.velora-vip-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.25;
+  color: #FAF7F2;
+  margin: 0 0 12px 0;
+}
+
+.velora-vip-title span {
+  color: #bca07e;
+  font-style: italic;
+}
+
+.velora-vip-desc {
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #d6c8bc;
+  margin: 0 0 28px 0;
+  line-height: 1.6;
+}
+
+.velora-vip-form {
+  display: flex;
+  max-width: 520px;
+  margin: 0 auto 28px auto;
+  gap: 8px;
+}
+
+.velora-vip-input {
+  flex: 1;
+  padding: 13px 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 0.92rem;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.velora-vip-input:focus {
+  border-color: #bca07e;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.velora-vip-submit-btn {
+  background: #bca07e;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 13px 26px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-vip-submit-btn:hover {
+  background: #d4b896;
+  transform: translateY(-1px);
+}
+
+.velora-vip-success {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(188, 160, 126, 0.4);
+  border-radius: 6px;
+  padding: 18px 24px;
+  margin: 0 auto 28px auto;
+  text-align: left;
+}
+
+.velora-vip-success-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #bca07e;
+  color: #1F1917;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.velora-vip-success strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #FAF7F2;
+  margin-bottom: 2px;
+}
+
+.velora-vip-success p {
+  font-size: 0.82rem;
+  color: #d6c8bc;
+  margin: 0;
+}
+
+.velora-vip-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.velora-vip-appt-link {
+  background: none;
+  border: none;
+  color: #e5cfb8;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+  font-family: inherit;
+}
+
+.velora-vip-appt-link:hover {
+  color: #ffffff;
+}
+
+/* Fullscreen Lookbook Modal */
+.velora-fullscreen-lb-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.velora-fullscreen-lb-modal {
+  width: 100%;
+  max-width: 1380px;
+  height: 92vh;
+  background: #1a1614;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.velora-fullscreen-lb-header {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #231e1b;
+}
+
+.velora-fullscreen-season {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bca07e;
+  display: block;
+}
+
+.velora-fullscreen-title {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #FAF7F2;
+  margin: 0;
+}
+
+.velora-fullscreen-close-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-fullscreen-close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+.velora-fullscreen-embed-body {
+  flex: 1;
+  position: relative;
+  background: #000000;
+}
+
+.velora-fullscreen-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.velora-fullscreen-footer {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: #231e1b;
+}
+
+.velora-btn-solid-sm {
+  background: #bca07e;
+  color: #1F1917;
+  border: 1px solid #bca07e;
+  border-radius: 4px;
+  padding: 9px 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-btn-solid-sm:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.velora-btn-outline-sm {
+  background: transparent;
+  color: #FAF7F2;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  padding: 9px 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-btn-outline-sm:hover {
+  border-color: #bca07e;
+  color: #bca07e;
+}
+
+/* Responsive Breakpoints for Lookbook Grid */
+@media (max-width: 1240px) {
+  .velora-lookbook-grid-3col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .velora-lookbook-grid-3col {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .velora-lb-embed-wrapper {
+    height: 420px;
+  }
+  .velora-lookbook-vip-banner {
+    padding: 44px 20px;
+  }
+  .velora-vip-form {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   VELORA ALL COLLECTIONS PAGE & SHAPE & STYLE SECTION
+   Exact replica of https://madilane.com/collections/
+   ========================================================================== */
+.velora-all-collections-page {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 24px 28px 80px;
+  background-color: #FAF8F5;
+  min-height: 80vh;
+}
+
+/* 1. Full-Width Hero Banner (New Collection Legacy) */
+.velora-collections-hero-banner {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  height: clamp(440px, 48vh, 580px);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 48px 56px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.velora-col-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.velora-collections-hero-banner:hover .velora-col-hero-bg {
+  transform: scale(1.03);
+}
+
+.velora-col-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(20, 16, 14, 0.8) 0%, rgba(20, 16, 14, 0.5) 50%, rgba(20, 16, 14, 0.15) 100%);
+}
+
+.velora-col-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 580px;
+  color: #FFFFFF;
+}
+
+.velora-col-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #d4b896;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.velora-col-hero-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px 0;
+  color: #FAF7F2;
+  line-height: 1.1;
+}
+
+.velora-col-hero-subtitle {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e5cfb8;
+  margin: 0 0 14px 0;
+}
+
+.velora-col-hero-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #dcd4cd;
+  margin-bottom: 26px;
+}
+
+.velora-col-hero-btn {
+  background: #bca07e;
+  color: #1F1917;
+  border: none;
+  padding: 13px 28px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.velora-col-hero-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. "All Collections" Editorial Narrative Header */
+.velora-collections-editorial-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 52px auto;
+}
+
+.velora-collections-heading {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 300;
+  color: #1F1917;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.04em;
+}
+
+.velora-collections-desc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.velora-collections-lead {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #4A403A;
+  font-weight: 400;
+  margin: 0;
+}
+
+.velora-collections-body {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #756B64;
+  margin: 0;
+}
+
+/* 3. Seasonal Collections 4-Column Grid (8 Capsules) */
+.velora-seasonal-grid-section {
+  margin-bottom: 72px;
+}
+
+.velora-seasonal-grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px 22px;
+}
+
+.velora-seasonal-card {
+  background: #FFFFFF;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #ebe4dc;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
+  outline: none;
+}
+
+.velora-seasonal-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  border-color: #d6c8bc;
+}
+
+.velora-seasonal-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 280 / 422;
+  overflow: hidden;
+  background: #f5f0ea;
+}
+
+.velora-seasonal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.velora-seasonal-card:hover .velora-seasonal-img {
+  transform: scale(1.05);
+}
+
+.velora-seasonal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(31, 25, 23, 0.35);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.velora-seasonal-card:hover .velora-seasonal-overlay {
+  opacity: 1;
+}
+
+.velora-seasonal-hover-tag {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  color: #1F1917;
+  padding: 9px 20px;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.velora-seasonal-caption {
+  padding: 18px 20px 22px;
+  text-align: center;
+}
+
+.velora-seasonal-season {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #bca07e;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.velora-seasonal-title {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.02rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1F1917;
+  margin: 0 0 6px 0;
+  transition: color 0.2s ease;
+}
+
+.velora-seasonal-card:hover .velora-seasonal-title {
+  color: #bca07e;
+}
+
+.velora-seasonal-desc {
+  font-size: 0.84rem;
+  color: #706860;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 4. "Shape & Style" Section with 10 Facet Tiles */
+.velora-shape-style-section {
+  margin-bottom: 72px;
+  padding: 60px 0 20px;
+  border-top: 1px solid #ebdcd0;
+}
+
+.velora-shape-style-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 46px auto;
+}
+
+.velora-shape-style-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 300;
+  color: #1F1917;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.04em;
+}
+
+.velora-shape-style-mantra {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #5a514b;
+  margin: 0;
+}
+
+.velora-shape-style-mantra em {
+  font-style: italic;
+  color: #1F1917;
+}
+
+.velora-shape-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px 18px;
+}
+
+.velora-shape-cta-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 22px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  outline: none;
+}
+
+.velora-shape-cta-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+}
+
+.velora-shape-bg-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.velora-shape-cta-card:hover .velora-shape-bg-img {
+  transform: scale(1.08);
+}
+
+.velora-shape-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.45) 60%, rgba(0, 0, 0, 0.8) 100%);
+  transition: background 0.3s ease;
+}
+
+.velora-shape-cta-card:hover .velora-shape-overlay {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.88) 100%);
+}
+
+.velora-shape-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+}
+
+.velora-shape-name {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0 0 10px 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.velora-shape-btn {
+  display: inline-block;
+  padding: 6px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  transition: all 0.25s ease;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+.velora-shape-cta-card:hover .velora-shape-btn {
+  background: #FFFFFF;
+  color: #1F1917;
+  border-color: #FFFFFF;
+}
+
+/* 5. Booking Banner */
+.velora-collections-booking-banner {
+  background: #FFFFFF;
+  border: 1px solid #ebdcd0;
+  border-radius: 8px;
+  padding: 36px 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  margin-top: 20px;
+}
+
+.velora-booking-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+}
+
+.velora-booking-icon-holder {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #FAF8F5;
+  border: 1px solid #e0d7ce;
+  color: #bca07e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.velora-booking-text-area {
+  flex: 1;
+}
+
+.velora-booking-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: #1F1917;
+  margin: 0 0 6px 0;
+}
+
+.velora-booking-desc {
+  font-size: 0.88rem;
+  color: #706860;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.velora-booking-btn {
+  background: #1F1917;
+  color: #FFFFFF;
+  border: 1px solid #1F1917;
+  border-radius: 4px;
+  padding: 12px 24px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.velora-booking-btn:hover {
+  background: #bca07e;
+  border-color: #bca07e;
+}
+
+/* Responsive Breakpoints for Collections Page */
+@media (max-width: 1200px) {
+  .velora-seasonal-grid-4col {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 18px;
+  }
+  .velora-shape-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .velora-collections-hero-banner {
+    padding: 36px 24px;
+    height: auto;
+    min-height: 380px;
+  }
+  .velora-seasonal-grid-4col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 14px;
+  }
+  .velora-shape-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 12px;
+  }
+  .velora-booking-banner-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .velora-booking-icon-holder {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .velora-seasonal-grid-4col {
+    grid-template-columns: 1fr;
+  }
+  .velora-shape-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
 
