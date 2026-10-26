@@ -30,7 +30,6 @@ import {
   CartDrawer,
   OrderConfirmationModal,
   ProductDetailModal,
-  TechStackModal,
   WeddingDressFeatureModal
 } from './components/modals';
 
@@ -60,22 +59,19 @@ const MainContent = () => {
     isCartOpen,
     setIsCartOpen,
     isAuthModalOpen,
-    setIsAuthModalOpen,
-    isTechStackModalOpen,
-    setIsTechStackModalOpen
+    setIsAuthModalOpen
   } = useApp();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
   const anyOverlayOpen = Boolean(
-    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen || isTechStackModalOpen
+    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen
   );
 
   // Escape closes the top-most overlay
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (isTechStackModalOpen) setIsTechStackModalOpen(false);
-      else if (isAuthModalOpen) setIsAuthModalOpen(false);
+      if (isAuthModalOpen) setIsAuthModalOpen(false);
       else if (activeWeddingDressOption) setActiveWeddingDressOption(null);
       else if (selectedOrderDetails) setSelectedOrderDetails(null);
       else if (isAppointmentModalOpen) setIsAppointmentModalOpen(false);
@@ -186,24 +182,6 @@ const MainContent = () => {
       <AuthModal />
       <CartDrawer />
       <Toast />
-
-      {/* Requirement 07: Tech Stack, Live Backend Diagnostics & Future Roadmap Modal */}
-      {isTechStackModalOpen && (
-        <TechStackModal onClose={() => setIsTechStackModalOpen(false)} />
-      )}
-
-      {/* Floating Showcase Pill for quick access during evaluation */}
-      {!anyOverlayOpen && (
-        <button
-          className="floating-demo-pill"
-          onClick={() => setIsTechStackModalOpen(true)}
-          title="Click to view 07 Tech Stack, REST API & Future Plan"
-          aria-label="07 Tech Stack and Roadmap Showcase"
-        >
-          <span className="pill-dot"></span>
-          <span>07 TECH STACK & ROADMAP</span>
-        </button>
-      )}
 
       {showBackToTop && !anyOverlayOpen && (
         <button

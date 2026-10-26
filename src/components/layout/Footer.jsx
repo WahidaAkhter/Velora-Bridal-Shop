@@ -36,7 +36,7 @@ const YoutubeIcon = () => (
 );
 
 export const Footer = () => {
-  const { setCurrentView, setSearchQuery, setIsTechStackModalOpen } = useApp();
+  const { setCurrentView, setSearchQuery } = useApp();
 
   const handleLinkClick = (text, category) => {
     if (text === 'Quick Ship Delivery' || text === 'Quick Ship Styles') {
@@ -238,16 +238,6 @@ export const Footer = () => {
               <li>
                 <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Privacy Policy', 'links')}>
                   Privacy Policy
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  className="footer-nav-link"
-                  onClick={() => setIsTechStackModalOpen(true)}
-                  style={{ color: '#8E6D45', fontWeight: 600 }}
-                >
-                  ⚡ 07 Tech Stack & Roadmap
                 </button>
               </li>
             </ul>

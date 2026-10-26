@@ -50,7 +50,6 @@ export const AppProvider = ({ children }) => {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [activeWeddingDressOption, setActiveWeddingDressOption] = useState(null);
-  const [isTechStackModalOpen, setIsTechStackModalOpen] = useState(false);
 
   // Recently viewed (product ids, newest first)
   const [recentlyViewed, setRecentlyViewed] = useState(() => loadJSON('aura_recent', []));
@@ -489,7 +488,6 @@ export const AppProvider = ({ children }) => {
         selectedProduct, setSelectedProduct, quickViewProduct, setQuickViewProduct,
         isAppointmentModalOpen, setIsAppointmentModalOpen,
         activeWeddingDressOption, setActiveWeddingDressOption,
-        isTechStackModalOpen, setIsTechStackModalOpen,
         recentlyViewed,
         isCartOpen, setIsCartOpen, cartItems, addToCart, updateCartQuantity, removeFromCart, clearCart,
         wishlist, toggleWishlist,

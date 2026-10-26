@@ -7,8 +7,7 @@ import {
   Search,
   User,
   Heart,
-  ShoppingBag,
-  Code2
+  ShoppingBag
 } from 'lucide-react';
 import { PRODUCTS, CATEGORIES, COLOR_DRESSES } from '../../data/products';
 
@@ -252,8 +251,7 @@ export const Header = () => {
     user,
     isLoggedIn,
     setIsAuthModalOpen,
-    setAuthMode,
-    setIsTechStackModalOpen
+    setAuthMode
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -539,17 +537,6 @@ export const Header = () => {
 
           {/* Right Action Features (Right side of the bride model) */}
           <div className="navbar-actions-right">
-            {/* Tech Stack Showcase Pill */}
-            <button
-              className="tech-stack-nav-btn"
-              onClick={() => setIsTechStackModalOpen(true)}
-              title="Requirement 07: Tech Stack, Live REST API & Future Plan"
-              aria-label="Tech Stack and Future Plan"
-            >
-              <Code2 size={13} className="text-gold" />
-              <span>TECH STACK</span>
-              <span className="live-dot" title="Live REST API Active"></span>
-            </button>
 
             {/* Search */}
             <button
@@ -606,16 +593,6 @@ export const Header = () => {
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
           <div className="mobile-nav-drawer">
-            <button
-              className="mobile-nav-link"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setIsTechStackModalOpen(true);
-              }}
-              style={{ color: '#8E6D45', fontWeight: 700 }}
-            >
-              ⚡ 07 TECH STACK & ROADMAP
-            </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('home')}>
               HOME
             </button>

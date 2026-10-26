@@ -4,5 +4,4 @@ export * from './CartDrawer';
 export * from './OrderConfirmationModal';
 export * from './ProductDetailModal';
 export * from './PromotionalModal';
-export * from './TechStackModal';
 export * from './WeddingDressFeatureModal';
