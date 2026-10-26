@@ -2,6 +2,11 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { PRODUCTS } from '../data/products';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
+import {
+  createOrder as apiCreateOrder,
+  bookAppointment as apiBookAppointment,
+  submitProductReview as apiSubmitReview
+} from '../services/api';
 
 const AppContext = createContext();
 
@@ -15,10 +20,13 @@ const loadJSON = (key, fallback) => {
 };
 
 export const AppProvider = ({ children }) => {
-  // Theme
+  // Theme — VELORA is an editorial bridal luxury storefront (Light Palette)
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('aura_theme');
-    return saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark') {
+      localStorage.setItem('aura_theme', 'light');
+    }
+    return false;
   });
 
   // Channel / currency
@@ -42,6 +50,7 @@ export const AppProvider = ({ children }) => {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [activeWeddingDressOption, setActiveWeddingDressOption] = useState(null);
+  const [isTechStackModalOpen, setIsTechStackModalOpen] = useState(false);
 
   // Recently viewed (product ids, newest first)
   const [recentlyViewed, setRecentlyViewed] = useState(() => loadJSON('aura_recent', []));
@@ -67,7 +76,23 @@ export const AppProvider = ({ children }) => {
     cost: 5.0
   });
 
-  const [user, setUser] = useState(() => loadJSON('aura_user', INITIAL_USER));
+  const [user, setUser] = useState(() => {
+    const saved = loadJSON('aura_user', INITIAL_USER);
+    return {
+      ...INITIAL_USER,
+      ...saved,
+      appointments: saved?.appointments || INITIAL_USER.appointments || []
+    };
+  });
+
+  // Authentication State
+  const [isLoggedIn, setIsLoggedIn] = useState(() => loadJSON('velora_logged_in', true));
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
+
+  // Custom Product Reviews State
+  const [customReviews, setCustomReviews] = useState(() => loadJSON('velora_custom_reviews', {}));
+
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [toast, setToast] = useState(null);
 
@@ -263,11 +288,149 @@ export const AppProvider = ({ children }) => {
     showToast('Default address updated!');
   };
 
+  // Appointments Management (Persistent)
+  const addAppointment = (aptData) => {
+    const newApt = {
+      id: `apt-${Date.now()}`,
+      service: aptData.service || 'Signature Bridal Gown Consultation',
+      appointmentDate: aptData.appointmentDate,
+      timeSlot: aptData.timeSlot || '11:00 AM',
+      weddingDate: aptData.weddingDate || 'TBD',
+      stylist: 'Chloe Laurent (Master Bridal Stylist)',
+      status: 'Confirmed',
+      location: 'VELORA Atelier, 123 Bridal Lane, New York, NY',
+      notes: aptData.notes || '',
+      createdAt: new Date().toISOString()
+    };
+    setUser(prev => ({
+      ...prev,
+      appointments: [newApt, ...(prev.appointments || [])]
+    }));
+    // Sync to Express Backend asynchronously
+    apiBookAppointment({
+      name: newApt.name,
+      email: newApt.email,
+      phone: newApt.phone,
+      service: newApt.service,
+      appointmentDate: newApt.appointmentDate,
+      timeSlot: newApt.timeSlot,
+      weddingDate: newApt.weddingDate,
+      stylist: newApt.stylist,
+      location: newApt.location,
+      notes: newApt.notes
+    }).catch(err => console.warn('Backend sync error (appointment):', err.message));
+    showToast('Your bridal appointment has been reserved!');
+    return newApt;
+  };
+
+  const cancelAppointment = (aptId) => {
+    setUser(prev => ({
+      ...prev,
+      appointments: (prev.appointments || []).map(a =>
+        a.id === aptId ? { ...a, status: 'Cancelled' } : a
+      )
+    }));
+    showToast('Appointment has been cancelled', 'info');
+  };
+
+  // Authentication Helpers
+  const loginUser = (email) => {
+    const savedUsers = loadJSON('velora_users_list', [INITIAL_USER]);
+    const matched = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
+    if (matched) {
+      setUser(matched);
+      setIsLoggedIn(true);
+      localStorage.setItem('velora_logged_in', 'true');
+      showToast(`Welcome back, ${matched.name}!`);
+      setIsAuthModalOpen(false);
+      return { success: true };
+    }
+    const namePart = email.split('@')[0];
+    const capitalized = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+    const newUser = {
+      ...INITIAL_USER,
+      id: `usr-${Date.now()}`,
+      name: capitalized,
+      email: email.trim(),
+      memberSince: 'October 2026',
+      orders: [],
+      appointments: []
+    };
+    setUser(newUser);
+    setIsLoggedIn(true);
+    localStorage.setItem('velora_logged_in', 'true');
+    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
+    showToast(`Signed in as ${newUser.name}`);
+    setIsAuthModalOpen(false);
+    return { success: true };
+  };
+
+  const registerUser = ({ name, email, phone }) => {
+    const savedUsers = loadJSON('velora_users_list', [INITIAL_USER]);
+    const existing = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
+    if (existing) {
+      return { success: false, message: 'An account with this email already exists. Please sign in.' };
+    }
+    const newUser = {
+      ...INITIAL_USER,
+      id: `usr-${Date.now()}`,
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim() || '+1 (555) 000-0000',
+      memberSince: 'Today',
+      membershipTier: 'VELORA VIP Club',
+      orders: [],
+      appointments: []
+    };
+    setUser(newUser);
+    setIsLoggedIn(true);
+    localStorage.setItem('velora_logged_in', 'true');
+    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
+    showToast(`Welcome to VELORA, ${newUser.name}! Your account is ready.`);
+    setIsAuthModalOpen(false);
+    return { success: true };
+  };
+
+  const logoutUser = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem('velora_logged_in', 'false');
+    showToast('Signed out of VELORA account', 'info');
+  };
+
+  // Product Reviews Management
+  const addProductReview = (productId, reviewData) => {
+    const newReview = {
+      id: `rev-${Date.now()}`,
+      author: reviewData.author || (isLoggedIn ? user.name : 'Bridal Guest'),
+      date: 'Just now',
+      rating: reviewData.rating || 5,
+      title: reviewData.title || 'Exquisite gown & perfect fitting!',
+      comment: reviewData.comment || '',
+      verified: true
+    };
+    setCustomReviews(prev => {
+      const existing = prev[productId] || [];
+      const updated = [newReview, ...existing];
+      const next = { ...prev, [productId]: updated };
+      localStorage.setItem('velora_custom_reviews', JSON.stringify(next));
+      return next;
+    });
+    // Sync review to Express backend asynchronously
+    apiSubmitReview(productId, {
+      author: newReview.author,
+      rating: newReview.rating,
+      comment: newReview.comment,
+      title: newReview.title
+    }).catch(err => console.warn('Backend sync error (review):', err.message));
+    showToast('Thank you! Your bridal review has been published.');
+    return newReview;
+  };
+
   // Orders
   const placeOrder = (orderData) => {
     const giftCredit = getGiftCardCredit();
     const newOrder = {
-      id: `SLR-${Math.floor(10000 + Math.random() * 90000)}`,
+      id: `VLR-${Math.floor(10000 + Math.random() * 90000)}`,
       date: new Date().toISOString().split('T')[0],
       status: 'Processing',
       trackingNumber: `TRK-${Math.floor(100000 + Math.random() * 900000)}-US`,
@@ -308,6 +471,8 @@ export const AppProvider = ({ children }) => {
     setSelectedOrderDetails(newOrder);
     setCurrentView('account');
     setAccountTab('orders');
+    // Sync to Express Backend asynchronously
+    apiCreateOrder(newOrder).catch(err => console.warn('Backend sync error (order):', err.message));
     showToast('Order placed successfully! Receipt generated.');
     return newOrder;
   };
@@ -324,6 +489,7 @@ export const AppProvider = ({ children }) => {
         selectedProduct, setSelectedProduct, quickViewProduct, setQuickViewProduct,
         isAppointmentModalOpen, setIsAppointmentModalOpen,
         activeWeddingDressOption, setActiveWeddingDressOption,
+        isTechStackModalOpen, setIsTechStackModalOpen,
         recentlyViewed,
         isCartOpen, setIsCartOpen, cartItems, addToCart, updateCartQuantity, removeFromCart, clearCart,
         wishlist, toggleWishlist,
@@ -331,6 +497,10 @@ export const AppProvider = ({ children }) => {
         appliedGiftCard, applyGiftCard, removeGiftCard,
         shippingMethod, setShippingMethod,
         user, addAddress, updateAddress, deleteAddress, setDefaultAddress,
+        addAppointment, cancelAppointment,
+        isLoggedIn, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode,
+        loginUser, registerUser, logoutUser,
+        customReviews, addProductReview,
         getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,
         placeOrder, selectedOrderDetails, setSelectedOrderDetails,
         toast, showToast

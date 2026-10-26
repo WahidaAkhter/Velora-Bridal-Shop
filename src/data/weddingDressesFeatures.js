@@ -11,10 +11,10 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
   'SIGNATURE STYLES': {
     category: 'BY TYPE',
     title: 'Signature Styles',
-    badge: 'Aura Luxe Icons',
+    badge: 'VELORA Icons',
     tagline: 'The defining silhouettes of our Paris & Milan ateliers',
     heroImage: '/images/bridal/style-basque-waist.jpg',
-    thought: 'Aura Luxe Signature Styles represent our design philosophy: sculptural corsetry seamlessly merged with whisper-light French illusion tulle. Each signature gown requires over 180 hours of hand-appliqué artistry, celebrating the bride who commands presence without sacrificing timeless grace.',
+    thought: 'VELORA Signature Styles represent our design philosophy: sculptural corsetry seamlessly merged with whisper-light French illusion tulle. Each signature gown requires over 180 hours of hand-appliqué artistry, celebrating the bride who commands presence without sacrificing timeless grace.',
     stylistNote: 'Pair with an heirloom cathedral lace veil and diamond drop earrings for a majestic altar reveal.',
     curatedGowns: [
       {
@@ -175,7 +175,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     badge: 'Paris Couture Arrivals',
     tagline: 'Fresh from the atelier: avant-garde cuts and celestial textures',
     heroImage: '/images/bridal/style-sparkle-beaded.jpg',
-    thought: 'The newest chapter of Aura Luxe bridal embraces celestial radiance and dimensional botany. We have pushed fabric engineering with ultra-fine crystal threads, detachable cathedral trains, and innovative basque waistlines that look effortlessly regal.',
+    thought: 'The newest chapter of VELORA bridal embraces celestial radiance and dimensional botany. We have pushed fabric engineering with ultra-fine crystal threads, detachable cathedral trains, and innovative basque waistlines that look effortlessly regal.',
     stylistNote: 'Pair with crystal bridal drop earrings and a sleek bridal chignon to keep the focus on the modern neckline.',
     curatedGowns: [
       {
@@ -218,9 +218,9 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     category: 'BY TYPE',
     title: 'All Dresses',
     badge: 'Master Archive',
-    tagline: 'Explore the complete Aura Luxe bridal collection',
+    tagline: 'Explore the complete VELORA bridal collection',
     heroImage: '/images/bridal/featured-lace-dream.jpg',
-    thought: 'Every woman possesses a unique bridal aura. Our comprehensive master collection spans from featherweight boho chiffons to dramatic royal ballgowns encrusted in crystal, unified by flawless Parisian tailoring and premium materials.',
+    thought: 'Every woman possesses a unique bridal radiance. Our comprehensive master collection spans from featherweight boho chiffons to dramatic royal ballgowns encrusted in crystal, unified by flawless Parisian tailoring and premium materials.',
     stylistNote: 'Use our silhouette and fabrication filters to narrow down your dream gown based on your venue and personal aesthetic.',
     curatedGowns: [
       {
@@ -376,7 +376,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     curatedGowns: [
       {
         id: 'prin-1',
-        name: 'Aura Princess Starlight Gown',
+        name: 'Velora Princess Starlight Gown',
         subtitle: 'Crystal-studded corset with tiered organza volume',
         price: 3200,
         originalPrice: 3600,

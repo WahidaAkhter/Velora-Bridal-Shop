@@ -1,4 +1,4 @@
-import { QUICK_SHIP_GOWNS } from './quickShipData';
+import { QUICK_SHIP_GOWNS } from './quickShipData.js';
 
 export const CATEGORIES = [
   { id: 'all', name: 'All Collections', count: 21, icon: 'Sparkles' },

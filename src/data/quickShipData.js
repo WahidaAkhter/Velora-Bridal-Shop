@@ -7,7 +7,7 @@
 
 export const QUICK_SHIP_HERO_INFO = {
   headline: 'Quick Ship Faster Delivery',
-  subheading: "We understand that not all brides have the luxury of time. Here's your hand-picked selection of Madi Lane dresses which can be produced in a shorter time frame. No compromise to quality or our same high Madi Lane standards.",
+  subheading: "We understand that not all brides have the luxury of time. Here's your hand-picked selection of VELORA dresses which can be produced in a shorter time frame. No compromise to quality or our same high VELORA standards.",
   badge: 'Express Atelier Dispatch',
   dispatchTime: 'Dispatches within 2–4 Weeks',
   guarantee: '100% Hand-Finished Haute Couture Quality Guarantee'
@@ -215,7 +215,7 @@ export const QUICK_SHIP_GOWNS = [
     colorways: ['Ivory Crepe / Ivory', 'Ivory Crepe / Mocha'],
     timeline: 'Expedited Atelier Dispatch in 2–3 Weeks',
     tags: ['Mermaid', 'Fit and Flare', 'Crepe', 'Chantilly Lace', 'Detachable Sleeves', 'Quick Ship', 'Sexy'],
-    description: 'Ultra feminine and a celebrated Madi Lane sexy signature design, Thane Crepe is made for the confident bride. Gorgeous vine-inspired lace sits atop sheer Chantilly lace across a sculpted sweetheart plunge illusion bodice. Her modern V-shaped Basque-inspired waistline brings a fresh aesthetic, flowing into pure liquid matte crepe. Included are detachable fitted long lace sleeves which can be slipped on for the ceremony and removed for evening dancing.'
+    description: 'Ultra feminine and a celebrated VELORA signature design, Thane Crepe is made for the confident bride. Gorgeous vine-inspired lace sits atop sheer Chantilly lace across a sculpted sweetheart plunge illusion bodice. Her modern V-shaped Basque-inspired waistline brings a fresh aesthetic, flowing into pure liquid matte crepe. Included are detachable fitted long lace sleeves which can be slipped on for the ceremony and removed for evening dancing.'
   },
   {
     id: 'qs-thane',

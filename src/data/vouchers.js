@@ -1,5 +1,13 @@
 export const VOUCHERS = [
   {
+    code: 'VELORA20',
+    type: 'percentage',
+    value: 20,
+    minSpend: 50,
+    description: '20% off luxury bridal gowns',
+    expiry: '2026-12-31'
+  },
+  {
     code: 'SALEOR20',
     type: 'percentage',
     value: 20,
@@ -145,6 +153,19 @@ export const INITIAL_USER = {
         zip: '98101'
       },
       paymentMethod: 'Apple Pay'
+    }
+  ],
+  appointments: [
+    {
+      id: 'apt-101',
+      service: 'Signature Bridal Gown Consultation',
+      appointmentDate: '2026-11-15',
+      timeSlot: '02:00 PM',
+      weddingDate: '2027-04-18',
+      stylist: 'Chloe Laurent (Master Bridal Stylist)',
+      status: 'Confirmed',
+      location: 'VELORA Atelier, 123 Bridal Lane, New York, NY',
+      notes: 'Interested in Basque waist silhouettes and cathedral veils'
     }
   ]
 };

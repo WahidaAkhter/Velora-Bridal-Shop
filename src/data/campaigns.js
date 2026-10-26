@@ -12,11 +12,11 @@ export const CAMPAIGNS = {
     subtitle: 'Enjoy 20% off your first order',
     discountText: '20% OFF',
     description: 'Discover our exclusive bridal collection and enjoy complimentary private boutique styling consultations.',
-    code: 'SALEOR20',
+    code: 'VELORA20',
     ctaText: 'Shop Now',
     secondaryCtaText: 'Maybe Later',
     image: '/images/bridal/featured-lace-dream.jpg',
-    imageAlt: 'Luxe Brides Lace Dream Gown',
+    imageAlt: 'VELORA Lace Dream Gown',
     startDate: '2026-01-01',
     endDate: '2026-12-31',
     showDelay: 1500, // delay in ms after page load

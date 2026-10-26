@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
-import { Header } from './components/Header';
-import { HeroBanner } from './components/HeroBanner';
-import { ShopByColor } from './components/ShopByColor';
-import { FeaturedCollection } from './components/FeaturedCollection';
-import { EditorialSplitBanner } from './components/EditorialSplitBanner';
-import { DreamDressBanner } from './components/DreamDressBanner';
-import { Footer } from './components/Footer';
-import { ProductDetailModal } from './components/ProductDetailModal';
-import { CartDrawer } from './components/CartDrawer';
-import { CheckoutPage } from './components/CheckoutPage';
-import { AccountPage } from './components/AccountPage';
-import { OrderConfirmationModal } from './components/OrderConfirmationModal';
-import { AppointmentModal } from './components/AppointmentModal';
-import { WeddingDressFeatureModal } from './components/WeddingDressFeatureModal';
-import { SignatureStylesPage } from './components/SignatureStylesPage';
-import { QuickShipPage } from './components/QuickShipPage';
-import { Toast } from './components/Toast';
-import { SeoHead } from './components/SeoHead';
+// Layout Components
+import { Header, Footer } from './components/layout';
+
+// Storefront Sections
+import {
+  HeroBanner,
+  ShopByColor,
+  FeaturedCollection,
+  EditorialSplitBanner,
+  DreamDressBanner
+} from './components/sections';
+
+// Catalog & Product Components
+import { ProductGrid } from './components/product';
+
+// Pages
+import {
+  AccountPage,
+  CheckoutPage,
+  QuickShipPage,
+  SignatureStylesPage
+} from './pages';
+
+// Modals & Drawers
+import {
+  AppointmentModal,
+  AuthModal,
+  CartDrawer,
+  OrderConfirmationModal,
+  ProductDetailModal,
+  TechStackModal,
+  WeddingDressFeatureModal
+} from './components/modals';
+
+// Common / UI
+import { Toast, SeoHead } from './components/common';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
 import './styles/layout.css';
@@ -40,19 +58,25 @@ const MainContent = () => {
     selectedOrderDetails,
     setSelectedOrderDetails,
     isCartOpen,
-    setIsCartOpen
+    setIsCartOpen,
+    isAuthModalOpen,
+    setIsAuthModalOpen,
+    isTechStackModalOpen,
+    setIsTechStackModalOpen
   } = useApp();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
   const anyOverlayOpen = Boolean(
-    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption
+    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen || isTechStackModalOpen
   );
 
   // Escape closes the top-most overlay
   useEffect(() => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
-      if (activeWeddingDressOption) setActiveWeddingDressOption(null);
+      if (isTechStackModalOpen) setIsTechStackModalOpen(false);
+      else if (isAuthModalOpen) setIsAuthModalOpen(false);
+      else if (activeWeddingDressOption) setActiveWeddingDressOption(null);
       else if (selectedOrderDetails) setSelectedOrderDetails(null);
       else if (isAppointmentModalOpen) setIsAppointmentModalOpen(false);
       else if (quickViewProduct) setQuickViewProduct(null);
@@ -68,12 +92,14 @@ const MainContent = () => {
     quickViewProduct,
     selectedProduct,
     isCartOpen,
+    isAuthModalOpen,
     setActiveWeddingDressOption,
     setSelectedOrderDetails,
     setIsAppointmentModalOpen,
     setQuickViewProduct,
     setSelectedProduct,
-    setIsCartOpen
+    setIsCartOpen,
+    setIsAuthModalOpen
   ]);
 
   // Lock background scroll while an overlay is open
@@ -119,6 +145,7 @@ const MainContent = () => {
           </div>
         )}
 
+        {currentView === 'all-dresses' && <ProductGrid />}
         {currentView === 'signature-styles' && <SignatureStylesPage />}
         {currentView === 'quick-ship' && <QuickShipPage />}
         {currentView === 'checkout' && <CheckoutPage />}
@@ -156,8 +183,27 @@ const MainContent = () => {
       {/* Luxury Wedding Dress Feature & Silhouette Showcase */}
       <WeddingDressFeatureModal />
 
+      <AuthModal />
       <CartDrawer />
       <Toast />
+
+      {/* Requirement 07: Tech Stack, Live Backend Diagnostics & Future Roadmap Modal */}
+      {isTechStackModalOpen && (
+        <TechStackModal onClose={() => setIsTechStackModalOpen(false)} />
+      )}
+
+      {/* Floating Showcase Pill for quick access during evaluation */}
+      {!anyOverlayOpen && (
+        <button
+          className="floating-demo-pill"
+          onClick={() => setIsTechStackModalOpen(true)}
+          title="Click to view 07 Tech Stack, REST API & Future Plan"
+          aria-label="07 Tech Stack and Roadmap Showcase"
+        >
+          <span className="pill-dot"></span>
+          <span>07 TECH STACK & ROADMAP</span>
+        </button>
+      )}
 
       {showBackToTop && !anyOverlayOpen && (
         <button
