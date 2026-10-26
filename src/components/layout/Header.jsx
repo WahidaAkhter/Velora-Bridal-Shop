@@ -107,6 +107,7 @@ export const ACCESSORIES_CATEGORIES = [
   {
     title: 'ATELIER STYLING',
     items: [
+      'ALL ACCESSORIES SHOWCASE',
       'ALL ACCESSORIES',
       'VEIL LENGTH GUIDE',
       'MIX & MATCH SEPARATES',
@@ -388,10 +389,13 @@ export const Header = () => {
     }
 
     if (featureKey === 'accessories') {
+      if (item === 'ALL ACCESSORIES' || item === 'ALL ACCESSORIES SHOWCASE' || item === 'WEDDING ACCESSORIES SHOWCASE') {
+        setCurrentView('accessories');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
       setSelectedCategory('accessories');
-      if (item === 'ALL ACCESSORIES') {
-        setSearchQuery('');
-      } else if (item === 'VEILS' || item === 'CATHEDRAL LACE VEILS' || item === 'PEARL VEILS') {
+      if (item === 'VEILS' || item === 'CATHEDRAL LACE VEILS' || item === 'PEARL VEILS') {
         setSearchQuery('Veil');
       } else if (item === 'TRAINS' || item === 'DETACHABLE MIKADO TRAINS' || item === 'OVERSKIRTS & BOWS') {
         setSearchQuery('Train');
@@ -648,9 +652,7 @@ export const Header = () => {
               className="mobile-nav-link"
               onClick={() => {
                 setIsMobileMenuOpen(false);
-                setSelectedCategory('accessories');
-                setSearchQuery('');
-                setCurrentView('all-dresses');
+                setCurrentView('accessories');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >

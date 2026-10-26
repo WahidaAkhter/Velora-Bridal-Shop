@@ -59,6 +59,11 @@ export const Footer = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (text === 'Wedding Accessories' || text === 'Accessories' || text === 'Bridal Accessories') {
+      setCurrentView('accessories');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (category === 'shape' || category === 'styles') {
       setCurrentView('catalog');
       setSearchQuery(text);
@@ -238,6 +243,11 @@ export const Footer = () => {
               <li>
                 <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Sizing Chart', 'links')}>
                   Sizing Chart
+                </button>
+              </li>
+              <li>
+                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Wedding Accessories', 'links')}>
+                  Wedding Accessories
                 </button>
               </li>
               <li>

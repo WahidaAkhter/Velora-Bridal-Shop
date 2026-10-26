@@ -23,7 +23,8 @@ import {
   SignatureStylesPage,
   LegacyCollectionPage,
   LookbookPage,
-  AllCollectionsPage
+  AllCollectionsPage,
+  AccessoriesPage
 } from './pages';
 
 // Modals & Drawers
@@ -150,6 +151,7 @@ const MainContent = () => {
         {currentView === 'quick-ship' && <QuickShipPage />}
         {(currentView === 'lookbook' || currentView === 'lookbooks') && <LookbookPage />}
         {(currentView === 'all-collections' || currentView === 'collections') && <AllCollectionsPage />}
+        {(currentView === 'accessories' || currentView === 'wedding-accessories') && <AccessoriesPage />}
         {currentView === 'checkout' && <CheckoutPage />}
         {currentView === 'account' && <AccountPage />}
       </main>

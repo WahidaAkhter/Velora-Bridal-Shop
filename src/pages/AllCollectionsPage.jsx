@@ -141,6 +141,10 @@ export const AllCollectionsPage = () => {
                   alt={col.name}
                   className="velora-seasonal-img"
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://madilane.com/wp-content/uploads/2026/05/ML26667_Odelle1.jpg';
+                  }}
                 />
                 <div className="velora-seasonal-overlay">
                   <span className="velora-seasonal-hover-tag">VIEW COLLECTION</span>

@@ -21,7 +21,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: '2025 / 2026 Drop',
     tagline: 'Earthy Textures & Fluid Bohemian Luxury',
     description: 'Grounding bridal romance with earthy botanicals, weightless silk organza, and effortless silhouettes designed for sunlit celebration.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/GROUP-SHOTS-107-copy-rnrqdjbini0jffd6umn3rn2uee2y7y2eonldt77jh6-280x422.webp',
+    image: 'https://madilane.com/wp-content/uploads/2025/04/Wendall_ML25955_1.jpg',
     gownsCount: 16,
     targetView: 'all-dresses',
     filterTag: 'boho'
@@ -32,7 +32,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Fall / Winter Couture',
     tagline: 'Poetic French Lace & Modern Corset Boning',
     description: 'Intricately structured architectural bodices paired with poetic floral motifs, exposed stays, and delicate scalloped lace trims.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/POEME-WADE-rdhpml68cee7782c7tlhvn5jvzya45x73msbuo907u-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2025/05/POEME-WADE.jpg',
     gownsCount: 18,
     targetView: 'all-dresses',
     filterTag: 'lace'
@@ -43,7 +43,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Golden Hour Drop',
     tagline: 'Sun-Drenched Silks & Shimmer Tulle Movement',
     description: 'Inspired by golden European sunsets. Featuring sheer botanical motifs, fluid skirts, and daring plunge backs that catch the light.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/ML_LISSY_SOLARA_2-rdhpq6vyjjbrpetx6do0fqf5v66xme85lgtc2uwod6-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2024/11/LISSY_ML25250_5-1.jpg',
     gownsCount: 20,
     targetView: 'all-dresses',
     filterTag: 'romantic'
@@ -54,7 +54,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Atelier Modern Line',
     tagline: 'Architectural Crepe & Square Necklines',
     description: 'Clean modern lines cut from heavyweight French crepe, featuring square necklines, thigh splits, and show-stopping cathedral trains.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/THANE_ML24900_6-rdhpod3994tp4phhul84l70wa778nkyy0f5chhm8gq-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2024/05/THANE_ML24900_6.jpg',
     gownsCount: 14,
     targetView: 'all-dresses',
     filterTag: 'modern'
@@ -65,7 +65,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Heritage Archive',
     tagline: 'Nostalgic French Embroidery & Basque Waists',
     description: 'An ode to European vintage romance. Featuring basque waistlines, dramatic box-pleated skirts, and heirloom Chantilly lace detailing.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/SAMARA_ML24121_94-rdhprkpelr7ysqtk3h78lvulclddycpxgbe2iiut7e-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2023/11/SAMARA_ML24121_94.jpg',
     gownsCount: 19,
     targetView: 'all-dresses',
     filterTag: 'basque'
@@ -76,7 +76,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Ceremony Accents & Gowns',
     tagline: 'Detachable Veils, Cape Overlays & Separates',
     description: 'Versatile ceremony layering featuring detachable Mikado trains, lace mock-neck jackets, fluid silk scarves, and sheer Watteau capes.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/SHAW_VEIL_ML24001_6-rdhpuhzbv782x2kn0qpgd5a7vqyhwgbv6sgg9iipui-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2023/11/SHAW_VEIL_ML24001_6.jpg',
     gownsCount: 22,
     targetView: 'all-dresses',
     filterTag: 'accessories'
@@ -87,7 +87,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Italian Romance Series',
     tagline: 'Passionate Floral Appliques & Chapel Trains',
     description: 'Kiss me under the Tuscan sun. Wild botanical petals hand-sewn onto whisper-light tulle with cascading trains and illusion straps.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/PANDORA_ML23567_4-rdhpsbyq3y9a5fpyoazf46yykrn15kq582b5fjqe6y-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2026/04/ML26832_Opera1-1875x2500.jpg',
     gownsCount: 17,
     targetView: 'all-dresses',
     filterTag: 'floral'
@@ -98,7 +98,7 @@ export const SEASONAL_COLLECTIONS_DATA = [
     season: 'Runway Capsule',
     tagline: 'Vintage-Inspired Elegance & Beaded Straps',
     description: 'Subtle sparkle woven through light-as-air layers of ivory tulle, adorned with delicate seed pearls, crystal beading, and siren splits.',
-    image: 'https://madilane.com/wp-content/uploads/elementor/thumbs/KAIYA_ML23133_RUNWAY_39-scaled-rdhq48l4oek17mfd5g9ap6t5ggyenjzquzsk9q2vdm-280x422.jpg',
+    image: 'https://madilane.com/wp-content/uploads/2026/05/ML26857_Ozari1.jpg',
     gownsCount: 15,
     targetView: 'all-dresses',
     filterTag: 'sparkle'

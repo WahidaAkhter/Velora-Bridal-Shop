@@ -5,3 +5,4 @@ export * from './SignatureStylesPage';
 export * from './LegacyCollectionPage';
 export * from './LookbookPage';
 export * from './AllCollectionsPage';
+export * from './AccessoriesPage';

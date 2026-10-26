@@ -8037,5 +8037,703 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
   }
 }
 
+/* ==========================================================================
+   VELORA WEDDING DRESS ACCESSORIES PAGE
+   Directly matching https://allurebridals.com/pages/accessories
+   ========================================================================== */
+
+.velora-accessories-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 32px 80px 32px;
+}
+
+/* 1. Page Header & Editorial Text */
+.velora-accessories-header {
+  text-align: center;
+  max-width: 920px;
+  margin: 12px auto 48px auto;
+}
+
+.velora-accessories-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #bfa07c;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.velora-accessories-main-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  font-weight: 300;
+  color: #1F1917;
+  letter-spacing: 0.03em;
+  margin: 0 0 22px 0;
+  line-height: 1.15;
+}
+
+.velora-accessories-rte {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.velora-accessories-lead {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #3d3530;
+  font-weight: 400;
+  margin: 0;
+}
+
+.velora-accessories-body {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #635850;
+  margin: 0;
+}
+
+/* 2. Accessories 3-Column Grid */
+.velora-accessories-grid-section {
+  width: 100%;
+  margin-bottom: 72px;
+}
+
+.velora-accessories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px 28px;
+}
+
+/* Individual Accessory Card */
+.velora-acc-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: transparent;
+  transition: transform 0.3s ease;
+  outline: none;
+}
+
+.velora-acc-card:focus-visible {
+  outline: 2px solid #bfa07c;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* Media Box */
+.velora-acc-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f7f3ee;
+}
+
+.velora-acc-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+.velora-acc-card:hover .velora-acc-img {
+  transform: scale(1.05);
+}
+
+/* Top Strip (Badge + Wishlist) */
+.velora-acc-top-strip {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.velora-acc-badge {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  color: #1F1917;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.velora-acc-fav-btn {
+  pointer-events: auto;
+  background: rgba(31, 25, 23, 0.45);
+  backdrop-filter: blur(4px);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-acc-fav-btn:hover {
+  background: rgba(31, 25, 23, 0.8);
+  transform: scale(1.1);
+}
+
+.velora-acc-fav-btn.is-fav {
+  background: #FFFFFF;
+}
+
+/* Hover Overlay */
+.velora-acc-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(31, 25, 23, 0.05) 0%, rgba(31, 25, 23, 0.55) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 24px;
+  gap: 12px;
+  z-index: 2;
+}
+
+.velora-acc-card:hover .velora-acc-overlay {
+  opacity: 1;
+}
+
+.velora-acc-quick-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #1F1917;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.velora-acc-quick-btn:hover {
+  background: #1F1917;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.velora-acc-view-cta {
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Card Caption Info */
+.velora-acc-info {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.velora-acc-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: #1F1917;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.25s ease;
+}
+
+.velora-acc-card:hover .velora-acc-title {
+  color: #9f7d54;
+}
+
+.velora-acc-arrow-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: transparent;
+  transition: transform 0.25s ease, background 0.25s ease;
+  color: #58514C;
+}
+
+.velora-acc-card:hover .velora-acc-arrow-wrap {
+  transform: translateX(4px);
+  background: #f0e9e1;
+  color: #1F1917;
+}
+
+.velora-acc-chevron {
+  transition: transform 0.25s ease;
+}
+
+.velora-acc-caption {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: #61564f;
+  margin: 0;
+}
+
+/* 3. "Our Brands" Brand Slider Section */
+.velora-brands-slider-section {
+  width: 100%;
+  background: #FAF7F2;
+  border-radius: 8px;
+  padding: 56px 40px;
+  margin-bottom: 64px;
+}
+
+.velora-brands-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.velora-brands-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.velora-brands-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 300;
+  color: #1F1917;
+  letter-spacing: 0.05em;
+  margin: 0 0 8px 0;
+}
+
+.velora-brands-subline {
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  color: #7a6e65;
+  text-transform: uppercase;
+}
+
+.velora-brands-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.velora-brand-tile {
+  background: #FFFFFF;
+  border: 1px solid #EAE3D9;
+  border-radius: 6px;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  outline: none;
+}
+
+.velora-brand-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  border-color: #d1b89d;
+}
+
+.velora-brand-badge-monogram {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #F4EDE3;
+  color: #8c6f4e;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+.velora-brand-name {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.22rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #1F1917;
+  margin: 0 0 6px 0;
+}
+
+.velora-brand-tagline {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bfa07c;
+  margin-bottom: 12px;
+}
+
+.velora-brand-desc {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #63574e;
+  margin: 0 0 18px 0;
+  flex-grow: 1;
+}
+
+.velora-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1F1917;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.velora-brand-tile:hover .velora-brand-link {
+  color: #9f7d54;
+  transform: translateX(3px);
+}
+
+/* 4. Accessories Booking Strip */
+.velora-accessories-booking-strip {
+  width: 100%;
+  background: #1F1917;
+  border-radius: 8px;
+  padding: 44px 52px;
+  color: #FAF7F2;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+}
+
+.velora-acc-booking-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.velora-acc-booking-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d1b89d;
+  flex-shrink: 0;
+}
+
+.velora-acc-booking-content {
+  flex: 1;
+}
+
+.velora-acc-booking-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 300;
+  color: #FAF7F2;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.04em;
+}
+
+.velora-acc-booking-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #cfc6bf;
+  margin: 0;
+  max-width: 620px;
+}
+
+.velora-acc-booking-btn {
+  background: #bfa07c;
+  color: #1F1917;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.velora-acc-booking-btn:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* 5. Quick Details Modal */
+.velora-acc-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 16, 14, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.25s ease;
+}
+
+.velora-acc-modal-box {
+  background: #FFFFFF;
+  border-radius: 8px;
+  max-width: 880px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.velora-acc-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(245, 240, 234, 0.9);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1F1917;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.velora-acc-modal-close:hover {
+  background: #1F1917;
+  color: #FFFFFF;
+}
+
+.velora-acc-modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 480px;
+}
+
+.velora-acc-modal-image-col {
+  background: #F7F3EE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.velora-acc-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.velora-acc-modal-content-col {
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+}
+
+.velora-acc-modal-badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: #F2EAE1;
+  color: #8c6f4e;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.velora-acc-modal-title {
+  font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #1F1917;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-acc-modal-desc {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #5a5048;
+  margin: 0 0 24px 0;
+}
+
+.velora-acc-modal-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 16px 18px;
+  background: #FAF7F2;
+  border-radius: 6px;
+}
+
+.velora-acc-highlight-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: #3b332e;
+  line-height: 1.45;
+}
+
+.velora-acc-highlight-row .highlight-icon {
+  color: #bfa07c;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.velora-acc-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.velora-acc-modal-shop-btn {
+  background: #1F1917;
+  color: #FAF7F2;
+  border: none;
+  padding: 14px 22px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.velora-acc-modal-shop-btn:hover {
+  background: #9f7d54;
+}
+
+.velora-acc-modal-book-btn {
+  background: transparent;
+  color: #1F1917;
+  border: 1px solid #D6C8BC;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.velora-acc-modal-book-btn:hover {
+  border-color: #1F1917;
+  background: #F7F3EE;
+}
+
+/* Responsive Media Queries for Accessories Page */
+@media (max-width: 1080px) {
+  .velora-accessories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 22px;
+  }
+  .velora-brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .velora-accessories-page {
+    padding: 16px 18px 60px 18px;
+  }
+  .velora-accessories-grid {
+    grid-template-columns: 1fr;
+  }
+  .velora-brands-grid {
+    grid-template-columns: 1fr;
+  }
+  .velora-acc-booking-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  .velora-acc-booking-desc {
+    max-width: 100%;
+  }
+  .velora-acc-modal-body {
+    grid-template-columns: 1fr;
+  }
+  .velora-acc-modal-image-col {
+    max-height: 280px;
+  }
+  .velora-acc-modal-content-col {
+    padding: 24px 20px;
+  }
+}
+
 
 
