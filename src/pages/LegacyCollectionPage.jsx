@@ -5,6 +5,7 @@ import {
   LEGACY_FILTER_SHAPES,
   LEGACY_FILTER_STYLES
 } from '../data/legacyCollectionData';
+import { getLegacyCollection } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import { Heart, X } from 'lucide-react';
 import '../styles/luxe-bridal.css';
@@ -27,13 +28,29 @@ export const LegacyCollectionPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 16;
 
+  const [legacyData, setLegacyData] = useState({
+    gowns: LEGACY_COLLECTION_GOWNS,
+    shapes: LEGACY_FILTER_SHAPES,
+    styles: LEGACY_FILTER_STYLES
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    getLegacyCollection().then((res) => {
+      if (mounted && res && res.success && res.data && res.data.gowns) {
+        setLegacyData(res.data);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Filter gowns based on selected shape and style
   const filteredGowns = useMemo(() => {
-    return LEGACY_COLLECTION_GOWNS.filter((gown) => {
+    return legacyData.gowns.filter((gown) => {
       // Shape filter
       if (selectedShape !== 'All Shapes') {
         const target = selectedShape.toLowerCase();
@@ -57,7 +74,7 @@ export const LegacyCollectionPage = () => {
 
       return true;
     });
-  }, [selectedShape, selectedStyle]);
+  }, [legacyData, selectedShape, selectedStyle]);
 
   // Sort filtered gowns
   const sortedGowns = useMemo(() => {

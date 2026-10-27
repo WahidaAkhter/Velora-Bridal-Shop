@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 
     const total = products.length;
     const pageNum = parseInt(page) || 1;
-    const limitNum = parseInt(limit) || 50;
+    const limitNum = limit === 'all' || limit === '0' ? total : (parseInt(limit) || 500);
     const start = (pageNum - 1) * limitNum;
     const paginated = products.slice(start, start + limitNum);
 

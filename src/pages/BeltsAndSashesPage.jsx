@@ -6,6 +6,7 @@ import {
   SASHES_FILTER_OPTIONS,
   SASHES_COLOR_OPTIONS
 } from '../data/sashesData';
+import { getSashesData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import { Heart, X } from 'lucide-react';
 import '../styles/luxe-bridal.css';
@@ -26,23 +27,39 @@ export const BeltsAndSashesPage = () => {
   const [sortBy, setSortBy] = useState('featured');
   const [hoveredCardId, setHoveredCardId] = useState(null);
 
+  const [sashesState, setSashesState] = useState({
+    hero: SASHES_HERO_INFO,
+    products: SASHES_PRODUCTS
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    getSashesData().then((res) => {
+      if (mounted && res && res.success && res.data && res.data.products) {
+        setSashesState(res.data);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Filter sashes
   const filteredSashes = useMemo(() => {
-    return SASHES_PRODUCTS.filter((item) => {
+    const list = sashesState.products || [];
+    return list.filter((item) => {
       // 1. Style category filter
       if (activeStyleFilter !== 'All Belts & Sashes') {
-        if (item.styleCategory !== activeStyleFilter && !item.tags.includes(activeStyleFilter)) {
+        if (item.styleCategory !== activeStyleFilter && !item.tags?.includes(activeStyleFilter)) {
           return false;
         }
       }
 
       // 2. Color filter
       if (selectedColor !== 'All Colors') {
-        const matchesColor = item.colors.some((c) =>
+        const matchesColor = item.colors?.some((c) =>
           c.toLowerCase().includes(selectedColor.toLowerCase())
         );
         if (!matchesColor) return false;
@@ -50,7 +67,7 @@ export const BeltsAndSashesPage = () => {
 
       return true;
     });
-  }, [activeStyleFilter, selectedColor]);
+  }, [sashesState, activeStyleFilter, selectedColor]);
 
   // Sort sashes
   const sortedSashes = useMemo(() => {
@@ -152,12 +169,12 @@ export const BeltsAndSashesPage = () => {
       </nav>
 
       {/* 2. Collection Main Heading & Editorial Lead */}
-      <h1 className="velora-collection-heading">{SASHES_HERO_INFO.headline}</h1>
+      <h1 className="velora-collection-heading">{sashesState.hero?.headline || SASHES_HERO_INFO.headline}</h1>
       <p style={{ textAlign: 'center', color: '#7D736C', fontSize: '14px', maxWidth: '720px', margin: '-12px auto 14px auto', lineHeight: 1.6 }}>
-        {SASHES_HERO_INFO.lead}
+        {sashesState.hero?.lead || SASHES_HERO_INFO.lead}
       </p>
       <p style={{ textAlign: 'center', color: '#9C8E84', fontSize: '13px', maxWidth: '680px', margin: '0 auto 24px auto', lineHeight: 1.5 }}>
-        {SASHES_HERO_INFO.description}
+        {sashesState.hero?.description || SASHES_HERO_INFO.description}
       </p>
 
       {/* 3. Shop Collection Navigation Tabs (Allows turning to any page in Shop Collection anytime) */}

@@ -4,6 +4,7 @@ import {
   ACCESSORIES_PAGE_HEADER,
   ACCESSORIES_COLLECTION_CARDS
 } from '../data/accessoriesPageData';
+import { getAccessoriesData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import { ChevronRight } from 'lucide-react';
 import '../styles/luxe-bridal.css';
@@ -14,6 +15,20 @@ export const AccessoriesPage = () => {
     setSelectedCategory,
     setSearchQuery
   } = useApp();
+
+  const [headerData, setHeaderData] = useState(ACCESSORIES_PAGE_HEADER);
+  const [cardsData, setCardsData] = useState(ACCESSORIES_COLLECTION_CARDS);
+
+  useEffect(() => {
+    let mounted = true;
+    getAccessoriesData().then((res) => {
+      if (mounted && res && res.success && res.data) {
+        if (res.data.header) setHeaderData(res.data.header);
+        if (res.data.cards) setCardsData(res.data.cards);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -51,10 +66,10 @@ export const AccessoriesPage = () => {
 
       {/* 2. Main Page Title & Editorial Header */}
       <header className="velora-accessories-header">
-        <h1 className="velora-accessories-main-title">{ACCESSORIES_PAGE_HEADER.title}</h1>
+        <h1 className="velora-accessories-main-title">{headerData?.title || ACCESSORIES_PAGE_HEADER.title}</h1>
         <div className="velora-accessories-rte">
-          <p className="velora-accessories-lead">{ACCESSORIES_PAGE_HEADER.lead}</p>
-          <p className="velora-accessories-body">{ACCESSORIES_PAGE_HEADER.body}</p>
+          <p className="velora-accessories-lead">{headerData?.lead || ACCESSORIES_PAGE_HEADER.lead}</p>
+          <p className="velora-accessories-body">{headerData?.body || ACCESSORIES_PAGE_HEADER.body}</p>
         </div>
       </header>
 
@@ -64,7 +79,7 @@ export const AccessoriesPage = () => {
       {/* 3. 11 Bridal Accessories Cards (3-Column Desktop Grid) */}
       <section className="velora-accessories-grid-section" aria-label="Wedding Dress Accessories">
         <div className="velora-accessories-grid">
-          {ACCESSORIES_COLLECTION_CARDS.map((card) => (
+          {(cardsData || []).map((card) => (
             <article
               key={card.id}
               className="velora-acc-card group"

@@ -1,13 +1,35 @@
 /**
  * VELORA API Service Layer
  * Connects frontend React components to the Express backend (http://localhost:5000/api)
- * Includes seamless fallback to local mock data & localStorage if backend is offline.
+ * Includes image routing through backend media proxy and local file storage.
+ * Seamless fallback to local mock data & localStorage if backend is offline.
  */
 
-const API_BASE_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'http://localhost:5000/api';
+export const BACKEND_BASE_URL = 'http://localhost:5000';
+
+/**
+ * Ensures any image URL routes through the backend server (http://localhost:5000)
+ */
+export function toBackendImageUrl(url) {
+  if (!url || typeof url !== 'string') return url;
+  if (url.startsWith('http://localhost:5000')) return url;
+  
+  // Local paths like /images/bridal/...
+  if (url.startsWith('/images/')) {
+    return `${BACKEND_BASE_URL}${url}`;
+  }
+
+  // Remote CDN image URLs -> routed via backend media proxy
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return `${API_BASE_URL}/media?url=${encodeURIComponent(url)}`;
+  }
+
+  return url;
+}
 
 // Safe request wrapper with timeout & offline detection
-async function safeFetch(endpoint, options = {}, timeoutMs = 3500) {
+async function safeFetch(endpoint, options = {}, timeoutMs = 4500) {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -57,7 +79,40 @@ export async function submitProductReview(productId, reviewData) {
   });
 }
 
-// 3. Orders API
+// 3. Collection Specific APIs
+export async function getLegacyCollection() {
+  return await safeFetch('/legacy-collection', { method: 'GET' });
+}
+
+export async function getQuickShipData() {
+  return await safeFetch('/quick-ship', { method: 'GET' });
+}
+
+export async function getSashesData() {
+  return await safeFetch('/sashes', { method: 'GET' });
+}
+
+export async function getAccessoriesData() {
+  return await safeFetch('/accessories', { method: 'GET' });
+}
+
+export async function getAllCollectionsData() {
+  return await safeFetch('/collections', { method: 'GET' });
+}
+
+export async function getLookbooksData() {
+  return await safeFetch('/lookbooks', { method: 'GET' });
+}
+
+export async function getOurStoryData() {
+  return await safeFetch('/our-story', { method: 'GET' });
+}
+
+export async function getChannelsData() {
+  return await safeFetch('/channels', { method: 'GET' });
+}
+
+// 4. Orders API
 export async function getOrders() {
   return await safeFetch('/orders', { method: 'GET' });
 }
@@ -69,7 +124,7 @@ export async function createOrder(orderData) {
   });
 }
 
-// 4. Appointments API
+// 5. Appointments API
 export async function getAppointments() {
   return await safeFetch('/appointments', { method: 'GET' });
 }
@@ -87,7 +142,7 @@ export async function cancelAppointment(appointmentId) {
   });
 }
 
-// 5. Promotional Vouchers API
+// 6. Promotional Vouchers API
 export async function validateVoucher(code, subtotal) {
   return await safeFetch('/vouchers/validate', {
     method: 'POST',
@@ -95,7 +150,7 @@ export async function validateVoucher(code, subtotal) {
   });
 }
 
-// 6. Auth API
+// 7. Auth API
 export async function loginUser(email, password) {
   return await safeFetch('/auth/login', {
     method: 'POST',

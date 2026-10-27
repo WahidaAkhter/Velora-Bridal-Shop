@@ -26,3 +26,6 @@ dist-ssr
 # Agents and agent skills
 .agents/
 .taste-skill/
+
+# Server cache
+server/cache/

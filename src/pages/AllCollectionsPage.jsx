@@ -5,6 +5,7 @@ import {
   SEASONAL_COLLECTIONS_DATA,
   SHAPE_AND_STYLE_CARDS
 } from '../data/allCollectionsData';
+import { getAllCollectionsData } from '../services/api';
 import {
   ArrowRight,
   Sparkles,
@@ -20,6 +21,22 @@ export const AllCollectionsPage = () => {
     setSearchQuery,
     setIsAppointmentModalOpen
   } = useApp();
+
+  const [heroData, setHeroData] = useState(COLLECTIONS_HERO_DATA);
+  const [seasonalData, setSeasonalData] = useState(SEASONAL_COLLECTIONS_DATA);
+  const [shapeStyleData, setShapeStyleData] = useState(SHAPE_AND_STYLE_CARDS);
+
+  useEffect(() => {
+    let mounted = true;
+    getAllCollectionsData().then((res) => {
+      if (mounted && res && res.success && res.data) {
+        if (res.data.hero) setHeroData(res.data.hero);
+        if (res.data.seasonal) setSeasonalData(res.data.seasonal);
+        if (res.data.shapeAndStyle) setShapeStyleData(res.data.shapeAndStyle);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -84,7 +101,7 @@ export const AllCollectionsPage = () => {
       <section className="velora-collections-hero-banner" aria-label="New Collection Legacy Showcase">
         <div
           className="velora-col-hero-bg"
-          style={{ backgroundImage: `url(${COLLECTIONS_HERO_DATA.bgImage})` }}
+          style={{ backgroundImage: `url(${heroData?.bgImage || COLLECTIONS_HERO_DATA.bgImage})` }}
         >
           <div className="velora-col-hero-overlay" />
         </div>
@@ -92,20 +109,20 @@ export const AllCollectionsPage = () => {
         <div className="velora-col-hero-content">
           <span className="velora-col-hero-badge">
             <Sparkles size={14} />
-            <span>{COLLECTIONS_HERO_DATA.title}</span>
+            <span>{heroData?.title || COLLECTIONS_HERO_DATA.title}</span>
           </span>
-          <h1 className="velora-col-hero-title">{COLLECTIONS_HERO_DATA.collectionName}</h1>
-          <p className="velora-col-hero-subtitle">{COLLECTIONS_HERO_DATA.subtitle}</p>
-          <p className="velora-col-hero-desc">{COLLECTIONS_HERO_DATA.description}</p>
+          <h1 className="velora-col-hero-title">{heroData?.collectionName || COLLECTIONS_HERO_DATA.collectionName}</h1>
+          <p className="velora-col-hero-subtitle">{heroData?.subtitle || COLLECTIONS_HERO_DATA.subtitle}</p>
+          <p className="velora-col-hero-desc">{heroData?.description || COLLECTIONS_HERO_DATA.description}</p>
           <button
             type="button"
             className="velora-col-hero-btn"
             onClick={() => {
-              setCurrentView(COLLECTIONS_HERO_DATA.targetView);
+              setCurrentView(heroData?.targetView || COLLECTIONS_HERO_DATA.targetView);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <span>{COLLECTIONS_HERO_DATA.ctaText}</span>
+            <span>{heroData?.ctaText || COLLECTIONS_HERO_DATA.ctaText}</span>
             <ArrowRight size={16} />
           </button>
         </div>
@@ -127,7 +144,7 @@ export const AllCollectionsPage = () => {
       {/* 4. Seasonal Collections 4-Column Grid (Exact 8 Capsules) */}
       <section className="velora-seasonal-grid-section" aria-label="Seasonal Bridal Collections">
         <div className="velora-seasonal-grid-4col">
-          {SEASONAL_COLLECTIONS_DATA.map((col) => (
+          {(seasonalData || []).map((col) => (
             <article
               key={col.id}
               className="velora-seasonal-card"
@@ -178,7 +195,7 @@ export const AllCollectionsPage = () => {
 
         {/* 10 Facet CTA Cards (5 Columns x 2 Rows) */}
         <div className="velora-shape-cards-grid">
-          {SHAPE_AND_STYLE_CARDS.map((card) => (
+          {(shapeStyleData || []).map((card) => (
             <div
               key={card.id}
               className="velora-shape-cta-card"

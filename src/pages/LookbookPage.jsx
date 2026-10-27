@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { LOOKBOOKS_DATA } from '../data/lookbookData';
+import { getLookbooksData } from '../services/api';
 import {
   Maximize2,
   Share2,
@@ -25,12 +26,24 @@ export const LookbookPage = () => {
   const [vipEmail, setVipEmail] = useState('');
   const [vipSuccess, setVipSuccess] = useState(false);
 
+  const [lookbooksList, setLookbooksList] = useState(LOOKBOOKS_DATA);
+
+  useEffect(() => {
+    let mounted = true;
+    getLookbooksData().then((res) => {
+      if (mounted && res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+        setLookbooksList(res.data);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Filter lookbooks
-  const filteredLookbooks = LOOKBOOKS_DATA.filter((lb) => {
+  const filteredLookbooks = (lookbooksList || []).filter((lb) => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'latest') return lb.id === 'legacy' || lb.id === 'solara';
     if (activeFilter === 'romantic') return lb.id === 'memoirs' || lb.id === 'baciami' || lb.id === 'flora';

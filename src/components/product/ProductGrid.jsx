@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { PRODUCTS } from '../../data/products';
+import { getProducts } from '../../services/api';
 import { ShopCollectionNav } from '../common/ShopCollectionNav';
 import { Heart, X } from 'lucide-react';
 
@@ -91,6 +92,19 @@ export const ProductGrid = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
 
+  const [productsList, setProductsList] = useState(PRODUCTS);
+
+  // Fetch full live catalog from backend server (with backend-routed images)
+  useEffect(() => {
+    let isMounted = true;
+    getProducts({ limit: 'all' }).then(res => {
+      if (isMounted && res && res.success && res.data && res.data.length > 0) {
+        setProductsList(res.data);
+      }
+    }).catch(() => {});
+    return () => { isMounted = false; };
+  }, []);
+
   // Auto-normalize price range on mount if legacy low non-bridal range was set
   useEffect(() => {
     if (!priceRange || (Array.isArray(priceRange) && priceRange[1] < 1500)) {
@@ -101,7 +115,7 @@ export const ProductGrid = () => {
 
   // Comprehensive Filter & Sort Logic matching Madi Lane reference
   const filtered = useMemo(() => {
-    let result = PRODUCTS.filter((p) => {
+    let result = productsList.filter((p) => {
       // 1. Category filter
       if (selectedCategory === 'accessories') {
         const isAcc = p.category === 'accessories' ||
@@ -199,7 +213,7 @@ export const ProductGrid = () => {
       sorted.sort((a, b) => a.name.localeCompare(b.name));
     }
     return sorted;
-  }, [selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, priceRange, searchQuery, sortBy]);
+  }, [productsList, selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, priceRange, searchQuery, sortBy]);
 
   // Reset to page 1 whenever filters change
   useEffect(() => {

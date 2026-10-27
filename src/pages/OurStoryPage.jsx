@@ -5,6 +5,7 @@ import {
   OUR_STORY_QA_LIST,
   OUR_STORY_VIP_BANNER
 } from '../data/ourStoryData';
+import { getOurStoryData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import { ChevronDown, Plus, Minus, ArrowRight } from 'lucide-react';
 import '../styles/luxe-bridal.css';
@@ -12,6 +13,22 @@ import '../styles/luxe-bridal.css';
 export const OurStoryPage = () => {
   const { setCurrentView } = useApp();
   const [openAccordionId, setOpenAccordionId] = useState('qa-1');
+
+  const [storyState, setStoryState] = useState({
+    sections: OUR_STORY_SECTIONS,
+    faqs: OUR_STORY_QA_LIST,
+    vipBanner: OUR_STORY_VIP_BANNER
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    getOurStoryData().then((res) => {
+      if (mounted && res && res.success && res.data && res.data.sections) {
+        setStoryState(res.data);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -51,7 +68,7 @@ export const OurStoryPage = () => {
 
       {/* 3. Main Alternating Story Grid (Exact Match to madilane.com/our-story/ Reference Screenshot) */}
       <div className="madilane-story-grid-container">
-        {OUR_STORY_SECTIONS.map((section, idx) => {
+        {(storyState.sections || []).map((section, idx) => {
           const isImageLeft = section.layout === 'image-left';
 
           return (
@@ -126,7 +143,7 @@ export const OurStoryPage = () => {
           <h2 className="madilane-qa-main-heading">Q&A</h2>
 
           <div className="madilane-qa-accordion-list">
-            {OUR_STORY_QA_LIST.map((item) => {
+            {(storyState.faqs || []).map((item) => {
               const isOpen = openAccordionId === item.id;
               return (
                 <article
@@ -207,19 +224,19 @@ export const OurStoryPage = () => {
       {/* 5. VIP Lookbook Banner (Matching Reference Site Bottom Banner) */}
       <section className="madilane-bottom-vip-banner" aria-label="New Collection Access">
         <div className="madilane-vip-inner">
-          <h2 className="madilane-vip-heading">{OUR_STORY_VIP_BANNER.title}</h2>
+          <h2 className="madilane-vip-heading">{(storyState.vipBanner || OUR_STORY_VIP_BANNER).title}</h2>
           <p className="madilane-vip-sub">
-            {OUR_STORY_VIP_BANNER.subtitle}
+            {(storyState.vipBanner || OUR_STORY_VIP_BANNER).subtitle}
           </p>
           <button
             type="button"
             className="madilane-vip-access-btn"
             onClick={() => {
-              setCurrentView(OUR_STORY_VIP_BANNER.actionView);
+              setCurrentView((storyState.vipBanner || OUR_STORY_VIP_BANNER).actionView);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            {OUR_STORY_VIP_BANNER.buttonText}
+            {(storyState.vipBanner || OUR_STORY_VIP_BANNER).buttonText}
           </button>
         </div>
       </section>

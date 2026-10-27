@@ -2,244 +2,175 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Import full datasets directly from src/data
+import { PRODUCTS } from '../../src/data/products.js';
+import {
+  LEGACY_COLLECTION_GOWNS,
+  LEGACY_FILTER_SHAPES,
+  LEGACY_FILTER_STYLES
+} from '../../src/data/legacyCollectionData.js';
+import { QUICK_SHIP_HERO_INFO, QUICK_SHIP_GOWNS } from '../../src/data/quickShipData.js';
+import { SASHES_PRODUCTS, SASHES_HERO_INFO } from '../../src/data/sashesData.js';
+import { ACCESSORY_PIECES, ACCESSORIES_NAV_DATA } from '../../src/data/accessoriesData.js';
+import {
+  ACCESSORIES_PAGE_HEADER,
+  ACCESSORIES_COLLECTION_CARDS,
+  VELORA_BRANDS_CAROUSEL
+} from '../../src/data/accessoriesPageData.js';
+import {
+  COLLECTIONS_HERO_DATA,
+  SEASONAL_COLLECTIONS_DATA,
+  SHAPE_AND_STYLE_CARDS
+} from '../../src/data/allCollectionsData.js';
+import { LOOKBOOKS_DATA } from '../../src/data/lookbookData.js';
+import {
+  OUR_STORY_SECTIONS,
+  OUR_STORY_QA_LIST,
+  OUR_STORY_VIP_BANNER
+} from '../../src/data/ourStoryData.js';
+import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../../src/data/channels.js';
+import { VOUCHERS, INITIAL_USER } from '../../src/data/vouchers.js';
+
+import { transformDataImageUrls } from '../utils/mediaUrl.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DB_FILE = path.join(__dirname, 'db.json');
 
-// Initial seed data
-const SEED_DATA = {
-  products: [
-    {
-      id: 'prod-1',
-      name: 'Lace Dream Gown',
-      slug: 'lace-dream-gown',
-      subtitle: 'Hand-appliquéd French lace with illusion bodice',
-      price: 2199,
-      originalPrice: 2499,
-      category: 'featured',
-      categoryName: 'Featured Gowns',
-      rating: 4.9,
-      reviewCount: 38,
-      stock: 6,
-      badge: 'Couture Icon',
-      isNew: true,
-      isBestseller: true,
-      description: 'Handcrafted with corded Alençon lace and whisper-light illusion tulle, this iconic silhouette embodies eternal romanticism.',
-      images: ['/images/bridal/featured-lace-dream.jpg', '/images/bridal/hero-salon-bg.jpg'],
-      attributes: {
-        'Silhouette': 'A-Line / Cathedral Train',
-        'Fabrication': 'French Corded Alençon Lace & Silk Tulle',
-        'Neckline': 'Plunging V-Neck with Illusion Mesh',
-        'Back Detail': 'Low Illusion Back with Covered Buttons',
-        'Boning': '12-Piece Internal Architectural Boning'
-      },
-      variants: [
-        { id: 'prod-1-v0', name: 'Ivory / US 2', size: 'US 2', color: 'Ivory', price: 2199, stock: 2, sku: 'LD-IV-02' },
-        { id: 'prod-1-v1', name: 'Ivory / US 4', size: 'US 4', color: 'Ivory', price: 2199, stock: 2, sku: 'LD-IV-04' },
-        { id: 'prod-1-v2', name: 'Ivory / US 6', size: 'US 6', color: 'Ivory', price: 2199, stock: 2, sku: 'LD-IV-06' }
-      ],
-      reviews: [
-        { id: 'rev-1', author: 'Eleanor Vance', date: '3 weeks ago', rating: 5, comment: 'The fitting was pure magic. Light as a feather and perfectly structured.', verified: true }
-      ]
-    },
-    {
-      id: 'prod-2',
-      name: 'Satin Elegance Ballgown',
-      slug: 'satin-elegance-ballgown',
-      subtitle: 'Architectural silk duchess satin with basque waist',
-      price: 1899,
-      originalPrice: 2150,
-      category: 'featured',
-      categoryName: 'Featured Gowns',
-      rating: 4.8,
-      reviewCount: 29,
-      stock: 4,
-      badge: 'Best Seller',
-      isNew: false,
-      isBestseller: true,
-      description: 'A monument of minimalist luxury. Sculpted in Italian duchess satin with razor-sharp seams and hidden pockets.',
-      images: ['/images/bridal/featured-satin-elegance.jpg'],
-      attributes: {
-        'Silhouette': 'Basque Waist Grand Ballgown',
-        'Fabrication': 'Italian Duchess Satin',
-        'Neckline': 'Straight Strapless',
-        'Pockets': 'Integrated Invisible Side Pockets'
-      },
-      variants: [
-        { id: 'prod-2-v0', name: 'Pearl Ivory / US 4', size: 'US 4', color: 'Pearl Ivory', price: 1899, stock: 2, sku: 'SE-PI-04' },
-        { id: 'prod-2-v1', name: 'Pearl Ivory / US 6', size: 'US 6', color: 'Pearl Ivory', price: 1899, stock: 2, sku: 'SE-PI-06' }
-      ],
-      reviews: []
-    },
-    {
-      id: 'prod-3',
-      name: 'Modern Romance Sheath',
-      slug: 'modern-romance-sheath',
-      subtitle: 'Liquid crepe column gown with cowl back',
-      price: 1650,
-      originalPrice: 1890,
-      category: 'featured',
-      categoryName: 'Featured Gowns',
-      rating: 5.0,
-      reviewCount: 44,
-      stock: 8,
-      badge: 'Metropolitan Muse',
-      isNew: true,
-      isBestseller: true,
-      description: 'Sleek and provocative. Features an asymmetric neck scarf, dramatic open spine, and fluid liquid crepe drape.',
-      images: ['/images/bridal/featured-modern-romance.jpg'],
-      attributes: {
-        'Silhouette': 'Column / Fitted Sheath',
-        'Fabrication': 'Heavy Liquid Silk Crepe',
-        'Neckline': 'High Boatneck with Detachable Scarf'
-      },
-      variants: [
-        { id: 'prod-3-v0', name: 'Ivory / US 4', size: 'US 4', color: 'Ivory', price: 1650, stock: 4, sku: 'MR-IV-04' }
-      ],
-      reviews: []
-    },
-    {
-      id: 'prod-4',
-      name: 'Floral Fantasy Tulle',
-      slug: 'floral-fantasy-tulle',
-      subtitle: '3D botanical blossom vines on sparkling blush tulle',
-      price: 2450,
-      originalPrice: 2800,
-      category: 'featured',
-      categoryName: 'Featured Gowns',
-      rating: 4.9,
-      reviewCount: 31,
-      stock: 3,
-      badge: 'Editorial Favorite',
-      isNew: true,
-      isBestseller: true,
-      description: 'Enchanting botanical vines hand-embroidered with micro-crystals cascade from a corset bodice onto a sweeping train.',
-      images: ['/images/bridal/featured-floral-fantasy.jpg'],
-      attributes: {
-        'Silhouette': 'Romantic A-Line',
-        'Fabrication': '3D Floral Appliqué & Sparkle Tulle',
-        'Neckline': 'Sweetheart with Off-Shoulder Straps'
-      },
-      variants: [
-        { id: 'prod-4-v0', name: 'Blush Ivory / US 4', size: 'US 4', color: 'Blush Ivory', price: 2450, stock: 2, sku: 'FF-BI-04' }
-      ],
-      reviews: []
+// Transform image URLs so 100% of images originate from backend server (http://localhost:5000)
+const transformedProducts = transformDataImageUrls(PRODUCTS);
+const transformedLegacyCollection = transformDataImageUrls({
+  gowns: LEGACY_COLLECTION_GOWNS,
+  shapes: LEGACY_FILTER_SHAPES,
+  styles: LEGACY_FILTER_STYLES
+});
+const transformedQuickShip = transformDataImageUrls({
+  header: QUICK_SHIP_HERO_INFO,
+  products: QUICK_SHIP_GOWNS
+});
+const transformedSashes = transformDataImageUrls({
+  hero: SASHES_HERO_INFO,
+  products: SASHES_PRODUCTS
+});
+const transformedAccessories = transformDataImageUrls({
+  header: ACCESSORIES_PAGE_HEADER,
+  cards: ACCESSORIES_COLLECTION_CARDS,
+  items: ACCESSORY_PIECES,
+  nav: ACCESSORIES_NAV_DATA,
+  carousel: VELORA_BRANDS_CAROUSEL
+});
+const transformedAllCollections = transformDataImageUrls({
+  hero: COLLECTIONS_HERO_DATA,
+  seasonal: SEASONAL_COLLECTIONS_DATA,
+  shapeAndStyle: SHAPE_AND_STYLE_CARDS
+});
+const transformedLookbooks = transformDataImageUrls(LOOKBOOKS_DATA);
+const transformedOurStory = transformDataImageUrls({
+  sections: OUR_STORY_SECTIONS,
+  faqs: OUR_STORY_QA_LIST,
+  vipBanner: OUR_STORY_VIP_BANNER
+});
+
+// Database in-memory instance
+let db = null;
+
+export const getDB = () => {
+  if (db) return db;
+
+  let savedData = {};
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const content = fs.readFileSync(DB_FILE, 'utf-8');
+      savedData = JSON.parse(content);
     }
-  ],
-  vouchers: [
-    { code: 'VELORA20', type: 'percentage', value: 20, minSpend: 50, description: '20% off luxury bridal gowns', expiry: '2026-12-31' },
-    { code: 'SALEOR20', type: 'percentage', value: 20, minSpend: 50, description: '20% off luxury bridal gowns', expiry: '2026-12-31' },
-    { code: 'WELCOME10', type: 'fixed', value: 10, minSpend: 30, description: '$10 off your first purchase', expiry: '2026-12-31' },
-    { code: 'FREESHIP', type: 'shipping', value: 100, minSpend: 0, description: 'Complimentary White-Glove Bridal Delivery', expiry: '2026-12-31' },
-    { code: 'LUXE100', type: 'fixed', value: 100, minSpend: 400, description: '$100 off luxury purchases over $400', expiry: '2026-12-31' }
-  ],
-  users: [
-    {
-      id: 'usr-901',
-      name: 'Eleanor Vance',
-      email: 'eleanor.vance@example.com',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-      phone: '+1 (555) 234-8901',
-      memberSince: 'January 2024',
-      membershipTier: 'VELORA VIP Club',
-      addresses: [
-        {
-          id: 'addr-1',
-          title: 'Primary Residence',
-          isDefault: true,
+  } catch (e) {
+    console.warn('[VELORA DB] Note: reading db.json failed, initializing fresh storage:', e.message);
+  }
+
+  db = {
+    products: transformedProducts,
+    legacyCollection: transformedLegacyCollection,
+    quickShip: transformedQuickShip,
+    sashes: transformedSashes,
+    accessories: transformedAccessories,
+    allCollections: transformedAllCollections,
+    lookbooks: transformedLookbooks,
+    ourStory: transformedOurStory,
+    channels: {
+      currencies: CURRENCIES,
+      freeShippingThreshold: FREE_SHIPPING_THRESHOLD,
+      taxRate: TAX_RATE
+    },
+    vouchers: VOUCHERS,
+    orders: savedData.orders || [
+      {
+        id: 'VLR-89241',
+        date: '2026-09-28',
+        status: 'Delivered',
+        trackingNumber: 'TRK-908234-US',
+        carrier: 'FedEx Express',
+        estimatedDelivery: 'Sep 30, 2026',
+        items: [
+          {
+            id: 'prod-1',
+            name: 'Lace Dream Gown',
+            variantName: 'Ivory / US 4',
+            price: 2199,
+            quantity: 1,
+            image: 'http://localhost:5000/images/bridal/featured-lace-dream.jpg'
+          }
+        ],
+        subtotal: 2199,
+        discount: 219.9,
+        shipping: 0,
+        tax: 158.32,
+        total: 2137.42,
+        shippingAddress: {
           firstName: 'Eleanor',
           lastName: 'Vance',
           street: '742 Evergreen Terrace, Suite 4B',
           city: 'Seattle',
           state: 'WA',
-          zip: '98101',
-          country: 'United States',
-          phone: '+1 (555) 234-8901'
-        }
-      ],
-      giftCards: [
-        { code: 'GIFT-VELORA-9821', initialBalance: 200.0, currentBalance: 150.0, expiry: '2027-01-01' }
-      ]
-    }
-  ],
-  appointments: [
-    {
-      id: 'apt-101',
-      name: 'Eleanor Vance',
-      email: 'eleanor.vance@example.com',
-      phone: '+1 (555) 234-8901',
-      service: 'Signature Bridal Gown Consultation',
-      appointmentDate: '2026-11-15',
-      timeSlot: '02:00 PM',
-      weddingDate: '2027-04-18',
-      stylist: 'Chloe Laurent (Master Bridal Stylist)',
-      status: 'Confirmed',
-      location: 'VELORA Atelier, 123 Bridal Lane, New York, NY',
-      notes: 'Interested in Basque waist silhouettes and cathedral veils',
-      createdAt: '2026-10-25T10:00:00.000Z'
-    }
-  ],
-  orders: [
-    {
-      id: 'VLR-89241',
-      date: '2026-09-28',
-      status: 'Delivered',
-      trackingNumber: 'TRK-908234-US',
-      carrier: 'FedEx Express',
-      estimatedDelivery: 'Sep 30, 2026',
-      items: [
-        {
-          id: 'prod-1',
-          name: 'Lace Dream Gown',
-          variantName: 'Ivory / US 4',
-          price: 2199.00,
-          quantity: 1,
-          image: '/images/bridal/featured-lace-dream.jpg'
-        }
-      ],
-      subtotal: 2199.00,
-      discount: 219.90,
-      shipping: 0.00,
-      tax: 158.32,
-      total: 2137.42,
-      shippingAddress: {
-        firstName: 'Eleanor',
-        lastName: 'Vance',
-        street: '742 Evergreen Terrace, Suite 4B',
-        city: 'Seattle',
-        state: 'WA',
-        zip: '98101'
-      },
-      paymentMethod: 'Visa ending in 4242'
-    }
-  ]
-};
+          zip: '98101'
+        },
+        paymentMethod: 'Visa ending in 4242'
+      }
+    ],
+    appointments: savedData.appointments || [
+      {
+        id: 'apt-101',
+        name: 'Eleanor Vance',
+        email: 'eleanor.vance@example.com',
+        phone: '+1 (555) 234-8901',
+        service: 'Signature Bridal Gown Consultation',
+        appointmentDate: '2026-11-15',
+        timeSlot: '02:00 PM',
+        weddingDate: '2027-04-18',
+        stylist: 'Chloe Laurent (Master Bridal Stylist)',
+        status: 'Confirmed',
+        location: 'VELORA Atelier, 123 Bridal Lane, New York, NY',
+        notes: 'Interested in Basque waist silhouettes and cathedral veils',
+        createdAt: '2026-10-25T10:00:00.000Z'
+      }
+    ],
+    users: savedData.users || [INITIAL_USER]
+  };
 
-// Database in-memory cache with file persistence
-let db = null;
-
-export const getDB = () => {
-  if (db) return db;
-  try {
-    if (fs.existsSync(DB_FILE)) {
-      const content = fs.readFileSync(DB_FILE, 'utf-8');
-      db = JSON.parse(content);
-    } else {
-      db = { ...SEED_DATA };
-      saveDB();
-    }
-  } catch (e) {
-    console.warn('Fallback to in-memory seed data:', e.message);
-    db = { ...SEED_DATA };
-  }
+  saveDB();
   return db;
 };
 
 export const saveDB = () => {
   if (!db) return;
   try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
+    // Only persist user modifications: orders, appointments, users
+    const toSave = {
+      orders: db.orders,
+      appointments: db.appointments,
+      users: db.users
+    };
+    fs.writeFileSync(DB_FILE, JSON.stringify(toSave, null, 2), 'utf-8');
   } catch (e) {
-    console.warn('Failed to save to disk:', e.message);
+    console.warn('[VELORA DB] Failed to save to disk:', e.message);
   }
 };

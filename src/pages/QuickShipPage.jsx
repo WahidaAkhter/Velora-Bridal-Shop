@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { QUICK_SHIP_GOWNS, QUICK_SHIP_HERO_INFO } from '../data/quickShipData';
+import { getQuickShipData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import {
   Heart,
@@ -31,25 +32,42 @@ export const QuickShipPage = () => {
   const [activeFilter, setActiveFilter] = useState('ALL');
   const [hoveredGownId, setHoveredGownId] = useState(null);
 
+  const [quickShipState, setQuickShipState] = useState({
+    header: QUICK_SHIP_HERO_INFO,
+    products: QUICK_SHIP_GOWNS
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    getQuickShipData().then((res) => {
+      if (mounted && res && res.success && res.data && res.data.products) {
+        setQuickShipState(res.data);
+      }
+    }).catch(() => {});
+    return () => { mounted = false; };
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const gownsList = quickShipState.products || [];
+
   const filterOptions = [
-    { label: 'ALL GOWNS', count: QUICK_SHIP_GOWNS.length },
-    { label: 'A-LINE', match: (g) => g.tags.includes('A-Line') },
-    { label: 'MERMAID', match: (g) => g.tags.includes('Mermaid') || g.tags.includes('Fit and Flare') },
-    { label: 'BALLGOWN', match: (g) => g.tags.includes('Ballgown') },
-    { label: 'BASQUE WAIST', match: (g) => g.tags.includes('Basque Waist') },
-    { label: 'STRAPLESS', match: (g) => g.tags.includes('Strapless') },
-    { label: 'OFF-THE-SHOULDER', match: (g) => g.tags.includes('Off-The-Shoulder') },
-    { label: 'ORGANZA', match: (g) => g.tags.includes('Organza') },
-    { label: 'CREPE & LACE', match: (g) => g.tags.includes('Crepe') || g.tags.includes('Lace') }
+    { label: 'ALL GOWNS', count: gownsList.length },
+    { label: 'A-LINE', match: (g) => g.tags?.includes('A-Line') },
+    { label: 'MERMAID', match: (g) => g.tags?.includes('Mermaid') || g.tags?.includes('Fit and Flare') },
+    { label: 'BALLGOWN', match: (g) => g.tags?.includes('Ballgown') },
+    { label: 'BASQUE WAIST', match: (g) => g.tags?.includes('Basque Waist') },
+    { label: 'STRAPLESS', match: (g) => g.tags?.includes('Strapless') },
+    { label: 'OFF-THE-SHOULDER', match: (g) => g.tags?.includes('Off-The-Shoulder') },
+    { label: 'ORGANZA', match: (g) => g.tags?.includes('Organza') },
+    { label: 'CREPE & LACE', match: (g) => g.tags?.includes('Crepe') || g.tags?.includes('Lace') }
   ];
 
   const filteredGowns = activeFilter === 'ALL'
-    ? QUICK_SHIP_GOWNS
-    : QUICK_SHIP_GOWNS.filter((g) => {
+    ? gownsList
+    : gownsList.filter((g) => {
         const option = filterOptions.find((o) => o.label === activeFilter);
         return option && option.match ? option.match(g) : true;
       });
@@ -175,11 +193,11 @@ export const QuickShipPage = () => {
           </div>
 
           <h1 className="quick-ship-headline">
-            {QUICK_SHIP_HERO_INFO.headline}
+            {quickShipState.header?.headline || QUICK_SHIP_HERO_INFO.headline}
           </h1>
 
           <p className="quick-ship-quote">
-            {QUICK_SHIP_HERO_INFO.subheading}
+            {quickShipState.header?.subheading || QUICK_SHIP_HERO_INFO.subheading}
           </p>
         </div>
       </header>
