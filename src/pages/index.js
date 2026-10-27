@@ -6,3 +6,5 @@ export * from './LegacyCollectionPage';
 export * from './LookbookPage';
 export * from './AllCollectionsPage';
 export * from './AccessoriesPage';
+export * from './BeltsAndSashesPage';
+export * from './OurStoryPage';

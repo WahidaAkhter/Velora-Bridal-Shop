@@ -10,6 +10,7 @@ import {
   Sparkles,
   Calendar
 } from 'lucide-react';
+import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import '../styles/luxe-bridal.css';
 
 export const AllCollectionsPage = () => {
@@ -75,6 +76,9 @@ export const AllCollectionsPage = () => {
         <span className="velora-breadcrumb-sep">/</span>
         <span className="velora-breadcrumb-current">All Collections</span>
       </nav>
+
+      {/* Shop Collection Navigation Tabs */}
+      <ShopCollectionNav activeTab="all-collections" style={{ margin: '0 auto 28px auto' }} />
 
       {/* 2. Full-Width Hero Banner (Exact match to CTA 0 - New Collection Legacy) */}
       <section className="velora-collections-hero-banner" aria-label="New Collection Legacy Showcase">

@@ -1,7 +1,6 @@
 /**
  * VELORA Wedding Dress Accessories Data
- * Extracted directly from reference: https://allurebridals.com/pages/accessories
- * All mentions of "Allure" replaced with "VELORA".
+ * Curated Luxury Bridal Accessories
  * All 11 categories, high-resolution photography, captions, and brand carousel.
  */
 
@@ -116,11 +115,11 @@ export const ACCESSORIES_COLLECTION_CARDS = [
     id: 'bridal-belts-sashes',
     title: 'Bridal Belts and Sashes',
     caption: 'Bridal belts and sashes offer a simple yet powerful way to elevate your gown and cinch your waist with crystals, pearls, and double-faced satin.',
-    image: 'https://allurebridals.com/cdn/shop/collections/S156F__11469.jpg?v=1755099982&width=1500',
-    fallbackImage: 'https://madilane.com/wp-content/uploads/2025/04/Willa_ML25700_11.jpg',
+    image: 'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/S156F__11469.jpg?v=1754885604',
+    fallbackImage: 'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/F207-Gabrielle-BC__56114.jpg?v=1754885604',
     category: 'Belts',
     filterQuery: 'Belt',
-    badge: '15 Styles'
+    badge: 'VELORA Signature Collection'
   }
 ];
 

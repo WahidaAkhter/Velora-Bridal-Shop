@@ -64,12 +64,17 @@ export const Footer = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
+    if (text === 'Our Story' || text === 'About Us') {
+      setCurrentView('our-story');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     if (category === 'shape' || category === 'styles') {
       setCurrentView('catalog');
       setSearchQuery(text);
       const el = document.getElementById('featured-collection-heading');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else if (text === 'About Us' || text === 'Contact') {
+    } else if (text === 'Contact') {
       const banner = document.getElementById('dream-dress-banner');
       if (banner) banner.scrollIntoView({ behavior: 'smooth' });
     }
@@ -100,8 +105,8 @@ export const Footer = () => {
             <h4 className="footer-nav-heading">BRAND</h4>
             <ul className="footer-nav-list">
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('About Us', 'brand')}>
-                  About Us
+                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Our Story', 'brand')}>
+                  Our Story
                 </button>
               </li>
               <li>

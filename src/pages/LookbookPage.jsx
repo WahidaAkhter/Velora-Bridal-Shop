@@ -10,6 +10,7 @@ import {
   Check,
   Calendar
 } from 'lucide-react';
+import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import '../styles/luxe-bridal.css';
 
 export const LookbookPage = () => {
@@ -83,6 +84,9 @@ export const LookbookPage = () => {
         <span className="velora-breadcrumb-sep">/</span>
         <span className="velora-breadcrumb-current">Lookbooks</span>
       </nav>
+
+      {/* Shop Collection Navigation Tabs */}
+      <ShopCollectionNav activeTab="lookbook" style={{ margin: '0 auto 28px auto' }} />
 
       {/* 2. Exact Header Section from madilane.com/collection-lookbook/ */}
       <div className="velora-lookbook-header-section">

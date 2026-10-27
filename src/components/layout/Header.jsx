@@ -122,28 +122,30 @@ export const ABOUT_US_CATEGORIES = [
   {
     title: 'OUR HERITAGE',
     items: [
-      'THE ATELIER STORY',
-      '25 YEARS OF EXCELLENCE',
+      'OUR STORY',
+      '10 YEARS VELORA',
       'MEET THE DESIGNERS',
-      'GLOBAL RUNWAYS'
+      'AUSTRALIAN ATELIER'
     ]
   },
   {
-    title: 'HAUTE CRAFTSMANSHIP',
+    title: '5 BRAND PILLARS',
     items: [
-      'FRENCH EMBROIDERED LACE',
-      'SUSTAINABLE SILK',
-      'BESPOKE TAILORING',
-      'ARTISAN ATELIER'
+      'FOR-BRIDES-FIRST',
+      'CATALYST FOR CONFIDENCE',
+      'EXPERTLY CRAFTED',
+      'LIGHTWEIGHT WEARABILITY',
+      'HAPPILY-EVER-AFTER'
     ]
   },
   {
-    title: 'THE EXPERIENCE',
+    title: 'CARE & KNOWLEDGE',
     items: [
-      'PRIVATE SUITE FITTINGS',
-      'COMPLIMENTARY CHAMPAGNE',
-      'VIP MASTER STYLISTS',
-      'SUSTAINABILITY PLEDGE'
+      'Q&A KNOWLEDGE BASE',
+      'INCLUSIVE SIZING 2–28',
+      'QUICK SHIP PROGRAM',
+      'GOWN CARE & CLEANING',
+      'VIP LOOKBOOK ACCESS'
     ]
   }
 ];
@@ -218,7 +220,7 @@ export const NAVBAR_FEATURES_DATA = {
     columns: ACCESSORIES_CATEGORIES
   },
   'about': {
-    title: 'About VELORA',
+    title: 'Our Story',
     columns: ABOUT_US_CATEGORIES
   },
   'brides': {
@@ -408,7 +410,9 @@ export const Header = () => {
       } else if (item === 'GLOVES' || item === 'CHANTILLY OPERA GLOVES' || item === 'SATIN GLOVES') {
         setSearchQuery('Gloves');
       } else if (item === 'BELTS' || item === 'CRYSTAL EMBROIDERED BELTS' || item === 'EMBROIDERED SASHES') {
-        setSearchQuery('Belt');
+        setCurrentView('belts-and-sashes');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
       } else if (item === 'NECK COLLARS' || item === 'BAROQUE PEARL COLLARS') {
         setSearchQuery('Neck Collar');
       } else {
@@ -426,9 +430,9 @@ export const Header = () => {
       return;
     }
 
-    if (featureKey === 'about') {
-      const el = document.getElementById('dream-dress-banner');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (featureKey === 'about' || featureKey === 'our-story') {
+      setCurrentView('our-story');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
@@ -513,7 +517,7 @@ export const Header = () => {
               </button>
             </div>
 
-            {/* ABOUT US ⌵ (Click or Hover) */}
+            {/* OUR STORY ⌵ (Click or Hover) */}
             <div
               className="nav-dropdown-holder"
               onMouseEnter={() => handleNavHover('about')}
@@ -521,14 +525,16 @@ export const Header = () => {
             >
               <button
                 type="button"
-                className={`nav-link-item has-dropdown ${activeDropdown === 'about' ? 'active' : ''}`}
+                className={`nav-link-item has-dropdown ${currentView === 'our-story' || activeDropdown === 'about' ? 'active' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleNavClickToggle('about');
+                  setCurrentView('our-story');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setActiveDropdown(null);
                 }}
                 aria-expanded={activeDropdown === 'about'}
               >
-                ABOUT US <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'about' ? 'is-rotated' : ''}`} />
+                OUR STORY <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'about' ? 'is-rotated' : ''}`} />
               </button>
             </div>
 
@@ -658,8 +664,15 @@ export const Header = () => {
             >
               ACCESSORIES
             </button>
-            <button className="mobile-nav-link" onClick={() => handleNavClick('dream-dress-banner')}>
-              ABOUT US
+            <button
+              className="mobile-nav-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setCurrentView('our-story');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              OUR STORY
             </button>
             <button className="mobile-nav-link" onClick={() => handleNavClick('footer-testimonials')}>
               REAL BRIDES

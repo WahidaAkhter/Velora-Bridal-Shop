@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { PRODUCTS } from '../../data/products';
+import { ShopCollectionNav } from '../common/ShopCollectionNav';
 import { Heart, X } from 'lucide-react';
 
 export const SILHOUETTE_OPTIONS = [
@@ -298,95 +299,81 @@ export const ProductGrid = () => {
           : 'Discover our complete bridal collection featuring hand-appliquéd lace, basque corsetry, dramatic drop waists, and ethereal silhouettes inspired by European haute couture.'}
       </p>
 
-      {/* Madi Lane Style Quick Category Pill Tabs */}
-      <div className="velora-quick-category-tabs">
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedCategory === 'all' && selectedAccessory === 'All Accessories' && selectedSilhouette === 'All Silhouettes' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory('all');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette('All Silhouettes');
-            setSearchQuery('');
-          }}
-        >
-          All Gowns
-        </button>
-        <button
-          type="button"
-          className="velora-cat-tab"
-          onClick={() => {
-            setCurrentView('new-dresses');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Legacy Collection
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedSilhouette === 'A-Line' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory('all');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette(selectedSilhouette === 'A-Line' ? 'All Silhouettes' : 'A-Line');
-          }}
-        >
-          A-Line
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedSilhouette === 'Ballgown' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory('all');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette(selectedSilhouette === 'Ballgown' ? 'All Silhouettes' : 'Ballgown');
-          }}
-        >
-          Ballgown
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedSilhouette === 'Basque Waist' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory('all');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette(selectedSilhouette === 'Basque Waist' ? 'All Silhouettes' : 'Basque Waist');
-          }}
-        >
-          Basque Waist
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedSilhouette === 'Drop Waist' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory('all');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette(selectedSilhouette === 'Drop Waist' ? 'All Silhouettes' : 'Drop Waist');
-          }}
-        >
-          Drop Waist
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory(selectedCategory === 'accessories' ? 'all' : 'accessories');
-            setSelectedAccessory('All Accessories');
-            setSelectedSilhouette('All Silhouettes');
-          }}
-        >
-          Accessories
-        </button>
-        <button
-          type="button"
-          className={`velora-cat-tab ${selectedCategory === 'quick-ship' ? 'is-active' : ''}`}
-          onClick={() => {
-            setSelectedCategory(selectedCategory === 'quick-ship' ? 'all' : 'quick-ship');
-          }}
-        >
-          Quick Ship
-        </button>
-      </div>
+      {/* 3. Shop Collection Quick Nav Tabs */}
+      <ShopCollectionNav activeTab={selectedCategory === 'accessories' ? 'accessories' : 'all-dresses'} />
+
+      {/* Secondary Sub-Category / Silhouette Filter Pills */}
+      {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories' ? (
+        <div className="legacy-shape-quick-pills">
+          <button
+            type="button"
+            className={`legacy-shape-pill ${!searchQuery && selectedAccessory === 'All Accessories' ? 'is-active' : ''}`}
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedAccessory('All Accessories');
+            }}
+          >
+            All Accessories
+          </button>
+          {[
+            { label: 'Veils', query: 'Veil' },
+            { label: 'Trains', query: 'Train' },
+            { label: 'Jackets', query: 'Jacket' },
+            { label: 'Bows', query: 'Bow' },
+            { label: 'Sleeves', query: 'Sleeve' },
+            { label: 'Gloves', query: 'Gloves' },
+            { label: 'Corsets', query: 'Corset' },
+            { label: 'Skirts', query: 'Skirt' },
+            { label: 'Capes', query: 'Cape' },
+            { label: 'Scarves', query: 'Scarf' },
+            { label: 'Belts & Sashes', query: 'Belt' }
+          ].map((item) => {
+            const isActive = searchQuery.toLowerCase() === item.query.toLowerCase();
+            return (
+              <button
+                key={item.query}
+                type="button"
+                className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
+                onClick={() => {
+                  setSearchQuery(isActive ? '' : item.query);
+                }}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="legacy-shape-quick-pills">
+          {[
+            'All Silhouettes',
+            'A-Line',
+            'Ballgown',
+            'Basque Waist',
+            'Drop Waist',
+            'Mermaid',
+            'Fit & Flare'
+          ].map((sil) => {
+            const isActive = selectedSilhouette === sil;
+            return (
+              <button
+                key={sil}
+                type="button"
+                className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSelectedAccessory('All Accessories');
+                  setSelectedSilhouette(sil);
+                  setCurrentPage(1);
+                }}
+              >
+                {sil}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
 
       {/* 3. Toolbar: Filter Toggle | Products Count | Sort By */}
       <div className="velora-toolbar">

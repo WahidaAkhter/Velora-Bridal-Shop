@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { SIGNATURE_GOWNS_PAGES } from '../data/signatureStylesData';
+import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import { Heart, ChevronRight, ArrowLeft } from 'lucide-react';
 
 export const SignatureStylesPage = () => {
@@ -87,10 +88,14 @@ export const SignatureStylesPage = () => {
 
       {/* Editorial Header Subtitle (Matching Reference Image) */}
       <div className="signature-editorial-header">
+        <h1 className="velora-collection-heading" style={{ margin: '0 0 10px 0' }}>SIGNATURE STYLES</h1>
         <p className="signature-editorial-quote">
           There's something truly special about wearing a signature VELORA wedding gown, designed in Australia & Paris.
         </p>
       </div>
+
+      {/* Shop Collection Navigation Tabs */}
+      <ShopCollectionNav activeTab="signature-styles" />
 
       {/* 4-Column Editorial Gowns Grid */}
       <div className="signature-grid-container">

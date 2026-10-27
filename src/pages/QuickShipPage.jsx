@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { QUICK_SHIP_GOWNS, QUICK_SHIP_HERO_INFO } from '../data/quickShipData';
+import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import {
   Heart,
   ArrowLeft,
@@ -182,6 +183,9 @@ export const QuickShipPage = () => {
           </p>
         </div>
       </header>
+
+      {/* Shop Collection Navigation Tabs */}
+      <ShopCollectionNav activeTab="quick-ship" style={{ marginTop: '24px' }} />
 
       {/* 3. Filter Navigation Strip */}
       <section className="quick-ship-filter-strip" aria-label="Quick Ship Gown Filters">

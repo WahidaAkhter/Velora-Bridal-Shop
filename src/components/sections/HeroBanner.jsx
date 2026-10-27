@@ -71,7 +71,7 @@ export const HeroBanner = () => {
     setSelectedCategory('all');
     if (setPriceRange) setPriceRange([0, 10000]);
     if (setSearchQuery) setSearchQuery('');
-    setCurrentView('all-dresses');
+    setCurrentView('new-dresses');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 

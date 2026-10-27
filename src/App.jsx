@@ -24,7 +24,9 @@ import {
   LegacyCollectionPage,
   LookbookPage,
   AllCollectionsPage,
-  AccessoriesPage
+  AccessoriesPage,
+  BeltsAndSashesPage,
+  OurStoryPage
 } from './pages';
 
 // Modals & Drawers
@@ -152,6 +154,8 @@ const MainContent = () => {
         {(currentView === 'lookbook' || currentView === 'lookbooks') && <LookbookPage />}
         {(currentView === 'all-collections' || currentView === 'collections') && <AllCollectionsPage />}
         {(currentView === 'accessories' || currentView === 'wedding-accessories') && <AccessoriesPage />}
+        {(currentView === 'belts-and-sashes' || currentView === 'sashes' || currentView === 'bridal-belts-sashes') && <BeltsAndSashesPage />}
+        {(currentView === 'our-story' || currentView === 'about' || currentView === 'about-us') && <OurStoryPage />}
         {currentView === 'checkout' && <CheckoutPage />}
         {currentView === 'account' && <AccountPage />}
       </main>

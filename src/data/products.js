@@ -326,5 +326,6 @@ export const PRODUCTS = [
       }
     ]
   })),
-  ...LEGACY_COLLECTION_GOWNS
+  ...LEGACY_COLLECTION_GOWNS,
+  ...ACCESSORY_PIECES
 ];

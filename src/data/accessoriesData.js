@@ -3,6 +3,8 @@
  * Based on Madi Lane reference: Veils, Trains, Jackets/Shrugs, Capes, Scarves, Gloves, Belts, Neck Collars.
  */
 
+import { SASHES_PRODUCTS } from './sashesData.js';
+
 export const ACCESSORY_PIECES = [
   // 1. VEILS
   {
@@ -293,7 +295,8 @@ export const ACCESSORY_PIECES = [
     }
   },
 
-  // 7. BELTS
+  // 7. BELTS & SASHES (VELORA Signature Collection)
+  ...SASHES_PRODUCTS,
   {
     id: 'acc-belt-crystal',
     name: 'Valeria Hand-Embroidered Crystal & Pearl Sash',
