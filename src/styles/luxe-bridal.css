@@ -586,7 +586,7 @@ body {
 /* Pop-Out Bride Cutout - 70% body visible starting from top, firmly grounded at bottom */
 .hero-popout-wrapper {
   position: absolute;
-  right: max(40px, calc((100% - 1200px) / 2 + 100px));
+  right: max(60px, calc((100% - 1200px) / 2 + 200px));
   top: -48px;
   bottom: 0;
   width: 550px;
@@ -2581,7 +2581,7 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
 
 @media (max-width: 1100px) {
   .hero-popout-wrapper {
-    right: 40px;
+    right: 80px;
     width: 500px;
   }
   .luxe-nav-menu {
