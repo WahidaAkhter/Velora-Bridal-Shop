@@ -1,5 +1,4 @@
 import React from 'react';
-import { MapPin, Phone } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 // High-fidelity social SVG icons matching the reference design
@@ -356,23 +355,6 @@ export const Footer = () => {
           >
             <YoutubeIcon />
           </a>
-        </div>
-      </div>
-
-      {/* Boutique Location & Concierge Strip */}
-      <div className="footer-utility-bar">
-        <div className="footer-utility-container">
-          <div className="footer-utility-left">
-            <MapPin size={13} className="utility-icon" />
-            <span>Visit Our Boutique: 123 Bridal Lane, New York, NY 10001</span>
-          </div>
-
-          <div className="footer-utility-right">
-            <div className="footer-utility-phone">
-              <Phone size={13} className="utility-icon" />
-              <span>Concierge: (123) 456-7890</span>
-            </div>
-          </div>
         </div>
       </div>
     </footer>

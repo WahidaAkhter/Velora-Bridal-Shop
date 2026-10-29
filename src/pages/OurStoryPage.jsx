@@ -250,47 +250,79 @@ export const OurStoryPage = () => {
             or wish to reserve an exclusive styling suite, our master atelier team is delighted to assist you.
           </p>
 
+          {/* Prominent Boutique Address & Concierge Strip */}
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '20px',
+              background: '#FFFFFF',
+              border: '1px solid #E2D7CC',
+              borderRadius: '999px',
+              padding: '10px 26px',
+              margin: '0 auto 28px',
+              boxShadow: '0 4px 14px rgba(31, 25, 23, 0.04)',
+              flexWrap: 'wrap',
+              fontSize: '13px',
+              color: '#3F312D'
+            }}
+          >
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <MapPin size={15} style={{ color: '#B76E65', flexShrink: 0 }} />
+              <span>
+                <strong>Visit Our Boutique:</strong> 123 Bridal Lane, New York, NY 10001
+              </span>
+            </div>
+            <span style={{ color: '#D4C4B7' }}>•</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <Phone size={15} style={{ color: '#B76E65', flexShrink: 0 }} />
+              <span>
+                <strong>Concierge:</strong> (123) 456-7890
+              </span>
+            </div>
+          </div>
+
           <div className="story-contact-grid">
             <div className="story-contact-col">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', color: '#B76E65' }}>
                 <MapPin size={20} />
                 <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  Flagship Boutiques
+                  Visit Our Boutique
                 </h4>
               </div>
-              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
-                • <strong>New York:</strong> 742 Fifth Avenue, NY<br />
-                • <strong>Paris:</strong> 18 Rue Saint-Honoré<br />
-                • <strong>London:</strong> 45 Mayfair Boulevard<br />
-                • <strong>Sydney:</strong> Gold Coast Design Studio
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.65, margin: 0 }}>
+                • <strong>New York Flagship:</strong> 123 Bridal Lane, New York, NY 10001<br />
+                • <strong>Paris Atelier:</strong> 18 Rue Saint-Honoré<br />
+                • <strong>London Studio:</strong> 45 Mayfair Boulevard<br />
+                • <strong>Sydney Showroom:</strong> Gold Coast Design Suite
               </p>
             </div>
 
             <div className="story-contact-col">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', color: '#B76E65' }}>
                 <Phone size={20} />
                 <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Direct Concierge
                 </h4>
               </div>
-              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
-                Toll-Free: <strong>+1 (800) 892-LUXE</strong><br />
-                Direct Atelier: +1 (212) 555-0199<br />
-                Email: <strong>concierge@velorabridal.com</strong><br />
-                Mon – Sat: 9:00 AM – 7:00 PM EST
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.65, margin: 0 }}>
+                • <strong>Concierge Direct:</strong> (123) 456-7890<br />
+                • <strong>Toll-Free Hotline:</strong> +1 (800) 892-LUXE<br />
+                • <strong>Email:</strong> concierge@velorabridal.com<br />
+                • <strong>Hours:</strong> Mon – Sat: 9:00 AM – 7:00 PM EST
               </p>
             </div>
 
             <div className="story-contact-col">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', color: '#B76E65' }}>
                 <Calendar size={20} />
                 <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  Bespoke Fittings
+                  Bespoke Appointments
                 </h4>
               </div>
-              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
-                Reserve a private 1-on-1 champagne fitting with Master Bridal Stylist Chloe Laurent.
-                Virtual consultations available for international brides.
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.65, margin: 0 }}>
+                Reserve a private 1-on-1 champagne fitting with Master Bridal Stylist Chloe Laurent at our 123 Bridal Lane boutique or schedule a virtual styling session.
               </p>
             </div>
           </div>
