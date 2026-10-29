@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { CheckCircle2, Info, AlertTriangle, X } from 'lucide-react';
+import { CheckCircle2, Info, AlertTriangle } from 'lucide-react';
 
 export const Toast = () => {
   const { toast } = useApp();

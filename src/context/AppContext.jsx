@@ -48,8 +48,14 @@ export const AppProvider = ({ children }) => {
   const [currencyCode, setCurrencyCode] = useState(() => localStorage.getItem('aura_currency') || 'USD');
   const currency = CURRENCIES.find(c => c.code === currencyCode) || CURRENCIES[0];
 
-  // Navigation: 'catalog' | 'checkout' | 'account'
-  const [currentView, setCurrentView] = useState('catalog');
+  // Navigation: 'catalog' | 'checkout' | 'account' | 'lookbook' | 'all-dresses' etc.
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('view')) return p.get('view');
+    }
+    return 'catalog';
+  });
   const [accountTab, setAccountTab] = useState('overview');
 
   // Filters
@@ -63,7 +69,12 @@ export const AppProvider = ({ children }) => {
   // Product modals
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('modal') === 'appointment';
+    }
+    return false;
+  });
   const [activeWeddingDressOption, setActiveWeddingDressOption] = useState(null);
 
   // Recently viewed (product ids, newest first)

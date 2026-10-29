@@ -5,13 +5,14 @@ import {
   CreditCard,
   Truck,
   MapPin,
-  ShieldCheck,
   Lock,
   ArrowLeft,
   ChevronRight,
   Gift,
   CheckCircle2,
-  Smartphone
+  Smartphone,
+  AlertCircle,
+  Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -59,11 +60,125 @@ export const CheckoutPage = () => {
   // Payment State
   const [paymentType, setPaymentType] = useState('card'); // 'card' | 'paypal' | 'applepay' | 'giftcard'
   const [cardData, setCardData] = useState({
-    number: '4242 •••• •••• 4242',
-    name: 'Eleanor Vance',
-    expiry: '12/28',
-    cvc: '888'
+    number: '',
+    name: '',
+    expiry: '',
+    cvc: ''
   });
+  const [cardErrors, setCardErrors] = useState({});
+
+  const getCardBrand = (num = '') => {
+    const clean = num.replace(/\s+/g, '');
+    if (clean.startsWith('4')) return 'VISA';
+    if (/^5[1-5]/.test(clean)) return 'MASTERCARD';
+    if (/^3[47]/.test(clean)) return 'AMEX';
+    if (/^6(?:011|5)/.test(clean)) return 'DISCOVER';
+    return 'DEBIT / CREDIT';
+  };
+
+  const handleCardNumberChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, '').slice(0, 16);
+    const formatted = raw.replace(/(\d{4})(?=\d)/g, '$1 ');
+    setCardData(prev => ({ ...prev, number: formatted }));
+    if (cardErrors.number) {
+      setCardErrors(prev => ({ ...prev, number: '' }));
+    }
+  };
+
+  const handleNameChange = (e) => {
+    setCardData(prev => ({ ...prev, name: e.target.value }));
+    if (cardErrors.name) {
+      setCardErrors(prev => ({ ...prev, name: '' }));
+    }
+  };
+
+  const handleExpiryChange = (e) => {
+    let raw = e.target.value.replace(/\D/g, '').slice(0, 4);
+    if (raw.length >= 3) {
+      raw = `${raw.slice(0, 2)}/${raw.slice(2)}`;
+    }
+    setCardData(prev => ({ ...prev, expiry: raw }));
+    if (cardErrors.expiry) {
+      setCardErrors(prev => ({ ...prev, expiry: '' }));
+    }
+  };
+
+  const handleCvcChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, '').slice(0, 4);
+    setCardData(prev => ({ ...prev, cvc: raw }));
+    if (cardErrors.cvc) {
+      setCardErrors(prev => ({ ...prev, cvc: '' }));
+    }
+  };
+
+  const fillDemoCard = () => {
+    setCardData({
+      number: '4532 8920 1144 8923',
+      name: 'Eleanor Vance',
+      expiry: '12/28',
+      cvc: '742'
+    });
+    setCardErrors({});
+  };
+
+  const validateCard = () => {
+    const errors = {};
+    const cleanNumber = (cardData.number || '').replace(/\s+/g, '');
+
+    if (!cleanNumber) {
+      errors.number = 'Card number is required.';
+    } else if (cleanNumber.length < 15 || cleanNumber.length > 16) {
+      errors.number = 'Please enter a valid 15 or 16-digit card number.';
+    }
+
+    if (!cardData.name || !cardData.name.trim()) {
+      errors.name = 'Cardholder name is required.';
+    } else if (cardData.name.trim().length < 2) {
+      errors.name = 'Please enter the full cardholder name.';
+    }
+
+    if (!cardData.expiry) {
+      errors.expiry = 'Expiry date is required (MM/YY).';
+    } else {
+      const match = cardData.expiry.match(/^(\d{2})\/(\d{2})$/);
+      if (!match) {
+        errors.expiry = 'Format must be MM/YY.';
+      } else {
+        const month = parseInt(match[1], 10);
+        const year = parseInt(`20${match[2]}`, 10);
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth() + 1;
+
+        if (month < 1 || month > 12) {
+          errors.expiry = 'Invalid month (01-12).';
+        } else if (year < currentYear || (year === currentYear && month < currentMonth)) {
+          errors.expiry = 'Card has already expired.';
+        }
+      }
+    }
+
+    if (!cardData.cvc) {
+      errors.cvc = 'CVC code is required.';
+    } else if (cardData.cvc.length < 3 || cardData.cvc.length > 4) {
+      errors.cvc = 'CVC must be 3 or 4 digits.';
+    }
+
+    return errors;
+  };
+
+  const handleProceedToReview = (e) => {
+    if (e) e.preventDefault();
+    if (paymentType === 'card') {
+      const errors = validateCard();
+      if (Object.keys(errors).length > 0) {
+        setCardErrors(errors);
+        return;
+      }
+    }
+    setCardErrors({});
+    setStep(4);
+  };
 
   const handleSelectAddress = (addr) => {
     setSelectedAddrId(addr.id);
@@ -107,9 +222,10 @@ export const CheckoutPage = () => {
     } catch (e) {}
 
     // Place Order
+    const cleanCardNum = (cardData.number || '').replace(/\s+/g, '');
     const paymentName =
       paymentType === 'card'
-        ? `Visa ending in ${cardData.number.slice(-4)}`
+        ? `${getCardBrand(cardData.number)} ending in ${cleanCardNum.slice(-4) || '••••'}`
         : paymentType === 'paypal'
         ? 'PayPal Account'
         : paymentType === 'applepay'
@@ -409,26 +525,30 @@ export const CheckoutPage = () => {
 
               <div className="payment-tabs-row">
                 <button
+                  type="button"
                   className={`pay-tab ${paymentType === 'card' ? 'active' : ''}`}
-                  onClick={() => setPaymentType('card')}
+                  onClick={() => { setPaymentType('card'); setCardErrors({}); }}
                 >
                   <CreditCard size={16} /> Credit / Debit Card
                 </button>
                 <button
+                  type="button"
                   className={`pay-tab ${paymentType === 'paypal' ? 'active' : ''}`}
-                  onClick={() => setPaymentType('paypal')}
+                  onClick={() => { setPaymentType('paypal'); setCardErrors({}); }}
                 >
                   <span>PayPal</span>
                 </button>
                 <button
+                  type="button"
                   className={`pay-tab ${paymentType === 'applepay' ? 'active' : ''}`}
-                  onClick={() => setPaymentType('applepay')}
+                  onClick={() => { setPaymentType('applepay'); setCardErrors({}); }}
                 >
                   <Smartphone size={16} /> Apple Pay
                 </button>
                 <button
+                  type="button"
                   className={`pay-tab ${paymentType === 'giftcard' ? 'active' : ''}`}
-                  onClick={() => setPaymentType('giftcard')}
+                  onClick={() => { setPaymentType('giftcard'); setCardErrors({}); }}
                 >
                   <Gift size={16} /> Gift Card
                 </button>
@@ -437,54 +557,110 @@ export const CheckoutPage = () => {
               {/* Card Payment Form */}
               {paymentType === 'card' && (
                 <div className="card-payment-view mt-4">
+                  <div className="card-demo-header">
+                    <span className="text-sm font-semibold text-secondary">
+                      Debit / Credit / Visa Card Details
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-outline btn-xs demo-fill-btn"
+                      onClick={fillDemoCard}
+                      title="Quick fill sample Visa credentials for testing"
+                    >
+                      <Sparkles size={13} className="text-accent" /> Fill Demo Visa Card
+                    </button>
+                  </div>
+
+                  {/* Top Validation Alert if there are errors */}
+                  {Object.keys(cardErrors).length > 0 && (
+                    <div className="payment-alert-error animate-fade-in">
+                      <AlertCircle size={17} />
+                      <span>Please enter complete debit, credit, or Visa card details to proceed.</span>
+                    </div>
+                  )}
+
                   {/* Live Credit Card Component */}
                   <div className="visual-credit-card">
-                    <div className="card-chip-icon">⚡</div>
-                    <div className="card-number-display">{cardData.number}</div>
+                    <div className="card-top-row">
+                      <div className="card-chip-icon">⚡</div>
+                      <span className="card-brand-badge">
+                        {getCardBrand(cardData.number)}
+                      </span>
+                    </div>
+                    <div className="card-number-display">
+                      {cardData.number || '•••• •••• •••• ••••'}
+                    </div>
                     <div className="card-bottom-row">
                       <div>
                         <span className="card-label">CARDHOLDER</span>
-                        <span className="card-val">{cardData.name}</span>
+                        <span className="card-val">{cardData.name.toUpperCase() || 'FULL NAME'}</span>
                       </div>
                       <div>
                         <span className="card-label">EXPIRES</span>
-                        <span className="card-val">{cardData.expiry}</span>
+                        <span className="card-val">{cardData.expiry || 'MM/YY'}</span>
                       </div>
                     </div>
                   </div>
 
                   <div className="card-inputs-grid mt-4">
-                    <div className="form-group full-width">
-                      <label>Card Number</label>
+                    <div className={`form-group full-width ${cardErrors.number ? 'has-error' : ''}`}>
+                      <label>Card Number (Visa, Mastercard, Amex)</label>
                       <input
                         type="text"
+                        placeholder="1234 5678 9012 3456"
+                        maxLength={19}
                         value={cardData.number}
-                        onChange={e => setCardData({ ...cardData, number: e.target.value })}
+                        onChange={handleCardNumberChange}
                       />
+                      {cardErrors.number && (
+                        <span className="field-error-text">
+                          <AlertCircle size={13} /> {cardErrors.number}
+                        </span>
+                      )}
                     </div>
-                    <div className="form-group">
+                    <div className={`form-group ${cardErrors.name ? 'has-error' : ''}`}>
                       <label>Name on Card</label>
                       <input
                         type="text"
+                        placeholder="e.g. Jane Doe"
                         value={cardData.name}
-                        onChange={e => setCardData({ ...cardData, name: e.target.value })}
+                        onChange={handleNameChange}
                       />
+                      {cardErrors.name && (
+                        <span className="field-error-text">
+                          <AlertCircle size={13} /> {cardErrors.name}
+                        </span>
+                      )}
                     </div>
-                    <div className="form-group">
+                    <div className={`form-group ${cardErrors.expiry ? 'has-error' : ''}`}>
                       <label>Expiry Date</label>
                       <input
                         type="text"
+                        placeholder="MM/YY"
+                        maxLength={5}
                         value={cardData.expiry}
-                        onChange={e => setCardData({ ...cardData, expiry: e.target.value })}
+                        onChange={handleExpiryChange}
                       />
+                      {cardErrors.expiry && (
+                        <span className="field-error-text">
+                          <AlertCircle size={13} /> {cardErrors.expiry}
+                        </span>
+                      )}
                     </div>
-                    <div className="form-group">
+                    <div className={`form-group ${cardErrors.cvc ? 'has-error' : ''}`}>
                       <label>CVC Security Code</label>
                       <input
-                        type="text"
+                        type="password"
+                        placeholder="CVC"
+                        maxLength={4}
                         value={cardData.cvc}
-                        onChange={e => setCardData({ ...cardData, cvc: e.target.value })}
+                        onChange={handleCvcChange}
                       />
+                      {cardErrors.cvc && (
+                        <span className="field-error-text">
+                          <AlertCircle size={13} /> {cardErrors.cvc}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -494,7 +670,7 @@ export const CheckoutPage = () => {
                 <div className="mock-paypal-box text-center p-6 glass-panel mt-4">
                   <span className="paypal-logo text-accent font-bold text-xl">PayPal Express</span>
                   <p className="text-muted mt-2">You will be redirected to PayPal to authorize payment securely.</p>
-                  <button className="btn btn-primary mt-4" onClick={() => setStep(4)}>
+                  <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
                     Authorize PayPal Payment
                   </button>
                 </div>
@@ -505,7 +681,7 @@ export const CheckoutPage = () => {
                   <Smartphone size={36} className="mx-auto text-accent mb-2" />
                   <h4>Apple Pay Instant Touch / FaceID</h4>
                   <p className="text-muted mt-1">Pay quickly using saved Apple Wallet cards.</p>
-                  <button className="btn btn-primary mt-4" onClick={() => setStep(4)}>
+                  <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
                     Pay with Apple Pay
                   </button>
                 </div>
@@ -526,9 +702,10 @@ export const CheckoutPage = () => {
                           </div>
                           <span className="badge badge-gold">{formatPrice(card.currentBalance)}</span>
                           {isApplied ? (
-                            <button className="btn btn-outline btn-sm" onClick={removeGiftCard}>Remove</button>
+                            <button type="button" className="btn btn-outline btn-sm" onClick={removeGiftCard}>Remove</button>
                           ) : (
                             <button
+                              type="button"
                               className="btn btn-secondary btn-sm"
                               disabled={card.currentBalance <= 0}
                               onClick={() => applyGiftCard(card.code)}
@@ -544,10 +721,14 @@ export const CheckoutPage = () => {
               )}
 
               <div className="form-actions-bar mt-6">
-                <button className="btn btn-outline" onClick={() => setStep(2)}>
+                <button type="button" className="btn btn-outline" onClick={() => setStep(2)}>
                   <ArrowLeft size={16} /> Back
                 </button>
-                <button className="btn btn-accent btn-lg flex-1" onClick={() => setStep(4)}>
+                <button
+                  type="button"
+                  className="btn btn-accent btn-lg flex-1"
+                  onClick={handleProceedToReview}
+                >
                   Review Order Details <ChevronRight size={18} />
                 </button>
               </div>
@@ -580,7 +761,7 @@ export const CheckoutPage = () => {
                   <span className="block-title">Payment Method:</span>
                   <p>
                     {paymentType === 'card'
-                      ? `Visa Card (${cardData.number.slice(-4)})`
+                      ? `${getCardBrand(cardData.number)} (${(cardData.number || '').replace(/\s+/g, '').slice(-4) || '••••'})`
                       : paymentType === 'paypal'
                       ? 'PayPal Express'
                       : paymentType === 'applepay'

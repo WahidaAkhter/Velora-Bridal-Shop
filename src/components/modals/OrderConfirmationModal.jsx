@@ -4,8 +4,6 @@ import {
   X,
   Printer,
   CheckCircle2,
-  Package,
-  Truck,
   MapPin,
   CreditCard,
   Download

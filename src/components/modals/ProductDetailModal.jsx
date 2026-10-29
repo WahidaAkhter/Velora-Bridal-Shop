@@ -21,7 +21,6 @@ export const ProductDetailModal = ({ product, onClose }) => {
     addToCart,
     wishlist,
     toggleWishlist,
-    showToast,
     formatPrice,
     setSelectedProduct,
     setQuickViewProduct,
