@@ -299,6 +299,18 @@ export const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Toggle search-open and modal-open class on body when search modal opens
+  useEffect(() => {
+    if (isSearchModalOpen) {
+      document.body.classList.add('search-open', 'modal-open');
+    } else {
+      document.body.classList.remove('search-open', 'modal-open');
+    }
+    return () => {
+      document.body.classList.remove('search-open', 'modal-open');
+    };
+  }, [isSearchModalOpen]);
+
   // Cmd/Ctrl + K opens search, Escape closes modals
   useEffect(() => {
     const onKey = (e) => {
@@ -473,7 +485,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${activeDropdown ? 'megamenu-open' : ''}`}
+      className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${activeDropdown ? 'megamenu-open' : ''} ${isSearchModalOpen ? 'search-open modal-open' : ''}`}
       ref={headerRef}
     >
       {/* Main Luxury Navbar */}

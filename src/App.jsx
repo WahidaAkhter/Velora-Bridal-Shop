@@ -104,9 +104,13 @@ const MainContent = () => {
     setIsAuthModalOpen
   ]);
 
-  // Lock background scroll while an overlay is open
+  // Lock background scroll and mark body while an overlay is open
   useEffect(() => {
     document.body.style.overflow = anyOverlayOpen ? 'hidden' : '';
+    document.body.classList.toggle('modal-open', anyOverlayOpen);
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
   }, [anyOverlayOpen]);
 
   // Scroll to top on view change; show back-to-top button after scrolling

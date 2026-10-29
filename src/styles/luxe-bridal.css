@@ -166,6 +166,11 @@ body {
   z-index: 500 !important;
 }
 
+.header-master.search-open,
+.header-master:has(.search-modal-box) {
+  z-index: 2000 !important;
+}
+
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -636,15 +641,36 @@ body {
   filter: none !important;
 }
 
-/* When Wedding Dresses mega menu is open, hide popout head completely */
+/* When Wedding Dresses mega menu or search/modal is open, hide popout head completely */
 body.megamenu-open .hero-popout-head,
 body.megamenu-open .hero-head-model,
+body.search-open .hero-popout-head,
+body.search-open .hero-head-model,
+body.modal-open .hero-popout-head,
+body.modal-open .hero-head-model,
 body:has(.wedding-dresses-megamenu) .hero-popout-head,
-.header-master.megamenu-open ~ main .hero-popout-head {
+body:has(.search-modal-box) .hero-popout-head,
+.header-master.megamenu-open ~ main .hero-popout-head,
+.header-master.search-open ~ main .hero-popout-head,
+.header-master:has(.search-modal-box) ~ main .hero-popout-head {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* Blur the background page and base model when search or modal is open */
+body.search-open .main-content-body,
+body.modal-open .main-content-body {
+  filter: blur(6px);
+  opacity: 0.85;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+  pointer-events: none;
+}
+
+body.search-open .hero-popout-wrapper,
+body.modal-open .hero-popout-wrapper {
+  z-index: 10 !important;
 }
 
 /* ==========================================================================
@@ -2478,14 +2504,24 @@ body:has(.wedding-dresses-megamenu) .hero-popout-head,
 /* ==========================================================================
    11. SEARCH MODAL
    ========================================================================== */
+.header-master .modal-backdrop {
+  z-index: 2000 !important;
+  background: rgba(28, 20, 18, 0.65) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
 .search-modal-box {
   background: #FFFFFF;
   border-radius: 12px;
   max-width: 580px;
   width: 100%;
-  box-shadow: 0 20px 50px rgba(28, 20, 18, 0.25);
+  box-shadow: 0 25px 60px rgba(18, 12, 10, 0.45);
   border: 1px solid var(--luxe-rose-border);
   overflow: hidden;
+  position: relative;
+  z-index: 2010;
+  animation: modalScaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .search-input-header {

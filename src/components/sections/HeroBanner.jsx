@@ -27,7 +27,12 @@ export const HeroBanner = () => {
           const blur = (eased * 12).toFixed(1);
           const translateY = (eased * 10).toFixed(1);
 
-          if (document.body.classList.contains('megamenu-open')) {
+          const isOverlayOpen =
+            document.body.classList.contains('megamenu-open') ||
+            document.body.classList.contains('search-open') ||
+            document.body.classList.contains('modal-open');
+
+          if (isOverlayOpen) {
             popoutHeadRef.current.style.visibility = 'hidden';
             popoutHeadRef.current.style.setProperty('--head-opacity', '0');
             ticking = false;
@@ -45,9 +50,14 @@ export const HeroBanner = () => {
       }
     };
 
-    const checkMegaMenu = () => {
+    const checkOverlayState = () => {
       if (!popoutHeadRef.current) return;
-      if (document.body.classList.contains('megamenu-open')) {
+      const isOverlayOpen =
+        document.body.classList.contains('megamenu-open') ||
+        document.body.classList.contains('search-open') ||
+        document.body.classList.contains('modal-open');
+
+      if (isOverlayOpen) {
         popoutHeadRef.current.style.visibility = 'hidden';
         popoutHeadRef.current.style.setProperty('--head-opacity', '0');
       } else {
@@ -55,7 +65,7 @@ export const HeroBanner = () => {
       }
     };
 
-    const observer = new MutationObserver(checkMegaMenu);
+    const observer = new MutationObserver(checkOverlayState);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     window.addEventListener('scroll', handleScroll, { passive: true });
