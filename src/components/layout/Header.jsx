@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   ChevronDown,
@@ -261,6 +261,9 @@ export const Header = () => {
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const validWishlistCount = useMemo(() => {
+    return Array.isArray(wishlist) ? wishlist.filter(id => PRODUCTS.some(p => p.id === id)).length : 0;
+  }, [wishlist]);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -677,7 +680,7 @@ export const Header = () => {
                         setIsUserMenuOpen(false);
                       }}
                     >
-                      <Heart size={14} /> Saved Gowns ({wishlist.length})
+                      <Heart size={14} /> Saved Gowns ({validWishlistCount})
                     </button>
                     <button
                       type="button"
@@ -716,11 +719,11 @@ export const Header = () => {
                 setAccountTab('wishlist');
               }}
               title="Saved Gowns"
-              aria-label={`Wishlist with ${wishlist.length} saved gowns`}
+              aria-label={`Wishlist with ${validWishlistCount} saved gowns`}
             >
               <Heart size={18} strokeWidth={1.5} />
-              {wishlist.length > 0 && (
-                <span className="navbar-wishlist-badge">{wishlist.length}</span>
+              {validWishlistCount > 0 && (
+                <span className="navbar-wishlist-badge">{validWishlistCount}</span>
               )}
             </button>
 

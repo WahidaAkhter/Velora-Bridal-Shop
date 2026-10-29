@@ -266,7 +266,7 @@ export const AccountPage = () => {
             <span className="stat-label">Saved Addresses</span>
           </div>
           <div className="stat-box">
-            <span className="stat-num">{wishlist.length}</span>
+            <span className="stat-num">{wishlistedProducts.length}</span>
             <span className="stat-label">Wishlist Items</span>
           </div>
           <div className="stat-box">
@@ -300,7 +300,7 @@ export const AccountPage = () => {
           className={`tab-link ${accountTab === 'wishlist' ? 'active' : ''}`}
           onClick={() => setAccountTab('wishlist')}
         >
-          <Heart size={18} /> Wishlist ({wishlist.length})
+          <Heart size={18} /> Wishlist ({wishlistedProducts.length})
         </button>
         <button
           className={`tab-link ${accountTab === 'appointments' ? 'active' : ''}`}

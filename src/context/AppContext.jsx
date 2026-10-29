@@ -19,6 +19,21 @@ const loadJSON = (key, fallback) => {
   }
 };
 
+// Sanitizes wishlist IDs to keep only valid, unique IDs that actually exist in PRODUCTS
+const sanitizeWishlistIds = (rawIds) => {
+  if (!Array.isArray(rawIds)) return [];
+  const validIdSet = new Set(PRODUCTS.map(p => p.id));
+  const seen = new Set();
+  const clean = [];
+  for (const id of rawIds) {
+    if (validIdSet.has(id) && !seen.has(id)) {
+      seen.add(id);
+      clean.push(id);
+    }
+  }
+  return clean;
+};
+
 export const AppProvider = ({ children }) => {
   // Theme — VELORA is an editorial bridal luxury storefront (Light Palette)
   const [isDark, setIsDark] = useState(() => {
@@ -63,7 +78,10 @@ export const AppProvider = ({ children }) => {
     ])
   );
 
-  const [wishlist, setWishlist] = useState(() => loadJSON('aura_wishlist', ['prod-1', 'prod-5']));
+  const [wishlist, setWishlist] = useState(() => {
+    const raw = loadJSON('aura_wishlist', ['prod-1', 'prod-2']);
+    return sanitizeWishlistIds(raw);
+  });
 
   // Discounts
   const [appliedVoucher, setAppliedVoucher] = useState(null);
@@ -108,7 +126,15 @@ export const AppProvider = ({ children }) => {
   }, [isDark]);
   useEffect(() => localStorage.setItem('aura_currency', currencyCode), [currencyCode]);
   useEffect(() => localStorage.setItem('aura_cart', JSON.stringify(cartItems)), [cartItems]);
-  useEffect(() => localStorage.setItem('aura_wishlist', JSON.stringify(wishlist)), [wishlist]);
+  useEffect(() => {
+    const clean = sanitizeWishlistIds(wishlist);
+    if (clean.length !== wishlist.length) {
+      setWishlist(clean);
+      localStorage.setItem('aura_wishlist', JSON.stringify(clean));
+    } else {
+      localStorage.setItem('aura_wishlist', JSON.stringify(wishlist));
+    }
+  }, [wishlist]);
   useEffect(() => localStorage.setItem('aura_user', JSON.stringify(user)), [user]);
   useEffect(() => localStorage.setItem('aura_recent', JSON.stringify(recentlyViewed)), [recentlyViewed]);
 
@@ -175,13 +201,15 @@ export const AppProvider = ({ children }) => {
   };
 
   const toggleWishlist = (productId) => {
+    const item = PRODUCTS.find(p => p.id === productId);
+    if (!item) return;
+
     if (wishlist.includes(productId)) {
       setWishlist(prev => prev.filter(id => id !== productId));
       showToast('Removed from wishlist', 'info');
     } else {
-      setWishlist(prev => [...prev, productId]);
-      const item = PRODUCTS.find(p => p.id === productId);
-      showToast(`Saved "${item?.name || 'Item'}" to wishlist`);
+      setWishlist(prev => sanitizeWishlistIds([...prev, productId]));
+      showToast(`Saved "${item.name}" to wishlist`);
     }
   };
 

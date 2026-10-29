@@ -17,8 +17,12 @@
 }
 
 /* Base resets & typography */
-body {
-  background-color: #FAF8F5;
+html,
+body,
+#root,
+.app-main-layout,
+.main-content-body {
+  background-color: #FAF8F5 !important;
   color: var(--luxe-text-dark);
   font-family: var(--font-sans-luxe);
   -webkit-font-smoothing: antialiased;
@@ -26,7 +30,7 @@ body {
 
 .luxe-storefront-page {
   width: 100%;
-  background-color: #FAF8F5;
+  background-color: #FAF8F5 !important;
   overflow-x: clip;
   overflow-y: visible;
 }
@@ -4172,7 +4176,7 @@ body.modal-open .hero-popout-wrapper {
    27. SIGNATURE STYLES DEDICATED PAGE (Reference Design Recreated)
    ========================================================================== */
 .signature-styles-page-wrapper {
-  background: #FAF7F2;
+  background: #FAF8F5 !important;
   min-height: 80vh;
   padding-top: 28px;
   padding-bottom: 80px;
@@ -4419,14 +4423,14 @@ body.modal-open .hero-popout-wrapper {
    ========================================================================== */
 
 .quick-ship-page-wrapper {
-  background: #FCFBF9;
+  background: #FAF8F5 !important;
   min-height: 100vh;
   padding-bottom: 80px;
 }
 
 /* Breadcrumbs */
 .quick-ship-breadcrumb-container {
-  background: #F7F3EE;
+  background: #FAF8F5 !important;
   border-bottom: 1px solid #EAE3D9;
   padding: 14px 24px;
 }
@@ -6594,7 +6598,7 @@ body.modal-open .hero-popout-wrapper {
 .legacy-collection-page-root {
   width: 100%;
   min-height: 100vh;
-  background-color: #FFFFFF;
+  background-color: #FAF8F5 !important;
   color: #1F1917;
   padding-bottom: 80px;
 }
@@ -6602,7 +6606,7 @@ body.modal-open .hero-popout-wrapper {
 /* Top Title & Filter Bar */
 .legacy-header-container {
   width: 100%;
-  background: #FFFFFF;
+  background: #FAF8F5 !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
 }
@@ -9403,7 +9407,7 @@ body.modal-open .hero-popout-wrapper {
   max-width: 1440px;
   margin: 0 auto;
   padding: 24px 32px 80px 32px;
-  background-color: #FFFFFF;
+  background-color: #FAF8F5 !important;
   color: #1F1917;
 }
 
@@ -9825,6 +9829,38 @@ body.modal-open .hero-popout-wrapper {
     padding: 40px 16px;
   }
 }
+
+/* ==========================================================================
+   GLOBAL UNIFORM LUXE BACKGROUND COLOR (#FAF8F5)
+   Applied consistently across all pages, layouts, and views from top to bottom
+   ========================================================================== */
+html,
+body,
+#root,
+.app-main-layout,
+.main-content-body,
+.luxe-storefront-page,
+.velora-collection-page,
+.legacy-collection-page-root,
+.legacy-header-container,
+.signature-styles-page-wrapper,
+.quick-ship-page-wrapper,
+.quick-ship-breadcrumb-container,
+.velora-lookbook-page-root,
+.velora-all-collections-page,
+.velora-accessories-page,
+.velora-our-story-page,
+.account-container,
+.checkout-container,
+.header-master,
+.top-utility-bar,
+.navbar-luxe,
+.luxe-dream-banner-section,
+.luxe-footer,
+.footer-utility-bar {
+  background-color: #FAF8F5 !important;
+}
+
 
 
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
+import { PRODUCTS } from '../../data/products';
 import { Home, Search, Heart, ShoppingBag, User } from 'lucide-react';
 
 /** Bottom navigation shown only on small screens (see responsive.css). */
@@ -10,6 +11,7 @@ export const MobileTabBar = () => {
   } = useApp();
 
   const cartCount = cartItems.reduce((a, b) => a + b.quantity, 0);
+  const validWishlistCount = Array.isArray(wishlist) ? wishlist.filter(id => PRODUCTS.some(p => p.id === id)).length : 0;
 
   const tabs = [
     {
@@ -22,7 +24,7 @@ export const MobileTabBar = () => {
       onClick: () => window.dispatchEvent(new Event('aura:open-search'))
     },
     {
-      id: 'wishlist', label: 'Saved', icon: Heart, badge: wishlist.length,
+      id: 'wishlist', label: 'Saved', icon: Heart, badge: validWishlistCount,
       active: currentView === 'account' && accountTab === 'wishlist' && !isCartOpen,
       onClick: () => { setCurrentView('account'); setAccountTab('wishlist'); setIsCartOpen(false); }
     },
