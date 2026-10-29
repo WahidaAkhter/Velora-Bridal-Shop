@@ -15,8 +15,8 @@ export const SeoHead = () => {
   const { currentView, selectedCategory, selectedProduct, currency } = useApp();
 
   useEffect(() => {
-    let title = 'VELORA — Modern Luxury Storefront';
-    let description = 'High-performance modern e-commerce experience. Discover curated apparel, tech, accessories, and home design.';
+    let title = 'VELORA — Luxury Bridal Boutique';
+    let description = 'High-performance luxury bridal boutique and couture wedding gowns atelier.';
     let image = '/images/bridal/featured-lace-dream.jpg';
 
     if (selectedProduct) {

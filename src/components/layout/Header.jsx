@@ -9,8 +9,7 @@ import {
   Heart,
   ShoppingBag,
   LogOut,
-  Calendar,
-  Sparkles
+  Calendar
 } from 'lucide-react';
 import { PRODUCTS } from '../../data/products';
 
@@ -623,7 +622,7 @@ export const Header = () => {
                     <div className="user-menu-header">
                       <span className="user-menu-name">{user.name}</span>
                       <span className="user-menu-tier">
-                        <Sparkles size={10} /> {user.membershipTier}
+                        {user.membershipTier}
                       </span>
                     </div>
                     <button

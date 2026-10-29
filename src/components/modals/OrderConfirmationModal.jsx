@@ -8,8 +8,7 @@ import {
   Truck,
   MapPin,
   CreditCard,
-  Download,
-  Sparkles
+  Download
 } from 'lucide-react';
 
 export const OrderConfirmationModal = ({ order, onClose }) => {

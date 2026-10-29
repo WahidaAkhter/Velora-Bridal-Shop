@@ -4,7 +4,6 @@ import {
   ChevronRight,
   BookOpen,
   Maximize2,
-  Sparkles,
   ArrowRight,
   Calendar,
   Layers,
@@ -138,7 +137,6 @@ export const VeloraLookbookViewer = ({
       {/* 2. Top Book Status & Mode Switcher Bar */}
       <div className="velora-book-top-bar">
         <div className="velora-book-brand-badge">
-          <Sparkles size={12} className="velora-gold-sparkle" />
           <span>VELORA HAUTE COUTURE</span>
         </div>
 
@@ -222,9 +220,7 @@ export const VeloraLookbookViewer = ({
                   {/* Gold Foil Border Frame */}
                   <div className="velora-hardcover-frame">
                     <div className="velora-hardcover-top-kicker">
-                      <Sparkles size={11} className="velora-gold-sparkle" />
                       <span>VELORA BRIDAL ATELIER</span>
-                      <Sparkles size={11} className="velora-gold-sparkle" />
                     </div>
 
                     <h2 className="velora-hardcover-title">

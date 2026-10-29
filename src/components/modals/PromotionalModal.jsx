@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
 import { getActiveCampaign } from '../../data/campaigns';
-import { X, Copy, Check, Sparkles, ArrowRight, Tag } from 'lucide-react';
+import { X, Copy, Check, ArrowRight, Tag } from 'lucide-react';
 
 export const PromotionalModal = () => {
   const { applyVoucherCode, showToast, setCurrentView, setSelectedCategory } = useApp();

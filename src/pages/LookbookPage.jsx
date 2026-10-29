@@ -8,7 +8,6 @@ import {
   X,
   Play,
   Calendar,
-  Sparkles,
   ArrowRight,
   Share2,
   Check
@@ -473,7 +472,6 @@ export const LookbookPage = () => {
       <section className="velora-lookbook-vip-banner" aria-label="VIP Lookbook Access">
         <div className="velora-vip-inner">
           <div className="velora-vip-badge">
-            <Sparkles size={14} />
             <span>HAUTE COUTURE ATELIER</span>
           </div>
 

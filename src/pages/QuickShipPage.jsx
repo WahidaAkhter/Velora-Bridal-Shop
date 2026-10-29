@@ -6,7 +6,6 @@ import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
 import {
   Heart,
   ArrowLeft,
-  Sparkles,
   Truck,
   ShieldCheck,
   Clock,

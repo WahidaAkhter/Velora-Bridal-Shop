@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   X,
-  Sparkles,
   User,
   Mail,
   Lock,
@@ -132,7 +131,7 @@ export const AuthModal = () => {
           <div className="velora-auth-sidebar-content">
             <div>
               <div className="velora-auth-seal">
-                <Sparkles size={11} /> VELORA VIP ATELIER
+                VELORA VIP ATELIER
               </div>
               <h3 className="velora-auth-sidebar-title">
                 The Bridal Sanctuary
@@ -345,7 +344,7 @@ export const AuthModal = () => {
                     onClick={() => handleQuickDemo('eleanor.vance@example.com', 'Eleanor Vance')}
                     title="Sign in as Eleanor Vance (VIP Bride with full orders)"
                   >
-                    <Sparkles size={12} color="#B76E65" />
+                    <User size={12} color="#B76E65" />
                     <span>Eleanor Vance (VIP)</span>
                   </button>
                   <button

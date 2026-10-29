@@ -7,7 +7,7 @@ import {
 } from '../data/ourStoryData';
 import { getOurStoryData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
-import { ChevronDown, Plus, Minus, ArrowRight, MapPin, Phone, Mail, Calendar, Sparkles } from 'lucide-react';
+import { ChevronDown, Plus, Minus, ArrowRight, MapPin, Phone, Mail, Calendar } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const OurStoryPage = () => {

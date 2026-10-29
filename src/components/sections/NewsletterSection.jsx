@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { ArrowRight, Mail, CheckCircle2, Loader2, Sparkles } from 'lucide-react';
+import { ArrowRight, Mail, CheckCircle2, Loader2 } from 'lucide-react';
 
 export const NewsletterSection = () => {
   const { showToast } = useApp();

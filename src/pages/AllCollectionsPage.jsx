@@ -8,7 +8,6 @@ import {
 import { getAllCollectionsData } from '../services/api';
 import {
   ArrowRight,
-  Sparkles,
   Calendar
 } from 'lucide-react';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
@@ -108,7 +107,6 @@ export const AllCollectionsPage = () => {
 
         <div className="velora-col-hero-content">
           <span className="velora-col-hero-badge">
-            <Sparkles size={14} />
             <span>{heroData?.title || COLLECTIONS_HERO_DATA.title}</span>
           </span>
           <h1 className="velora-col-hero-title">{heroData?.collectionName || COLLECTIONS_HERO_DATA.collectionName}</h1>

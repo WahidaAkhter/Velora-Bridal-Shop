@@ -11,7 +11,6 @@ import {
   ChevronRight,
   Gift,
   CheckCircle2,
-  Sparkles,
   Smartphone
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -596,7 +595,7 @@ export const CheckoutPage = () => {
                 className="btn btn-accent btn-lg w-full mt-6 place-order-btn"
                 onClick={handleCompleteOrder}
               >
-                <Sparkles size={20} /> Complete Purchase — {formatPrice(total)}
+                <Lock size={18} /> Complete Purchase — {formatPrice(total)}
               </button>
             </div>
           )}

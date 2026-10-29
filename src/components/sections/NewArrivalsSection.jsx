@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../../context/AppContext';
 import { PRODUCTS } from '../../data/products';
 import { ProductCard } from '../product/ProductCard';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 export const NewArrivalsSection = () => {
   const { setCurrentView, setSelectedCategory } = useApp();

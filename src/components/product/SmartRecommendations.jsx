@@ -1,7 +1,6 @@
 import React from 'react';
 import { PRODUCTS } from '../../data/products';
 import { ProductCard } from './ProductCard';
-import { Sparkles } from 'lucide-react';
 
 export const SmartRecommendations = () => {
   // Deterministic recommendation rules: top-rated items ($4.8+) sorted by review count

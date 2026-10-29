@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, Clock, Sparkles, CheckCircle2 } from 'lucide-react';
+import { X, Calendar, Clock, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import confetti from 'canvas-confetti';
 
@@ -132,7 +132,7 @@ export const AppointmentModal = ({ onClose }) => {
               </div>
 
               <button type="submit" className="appointment-submit-btn">
-                <Sparkles size={16} /> CONFIRM RESERVATION
+                <Calendar size={16} /> CONFIRM RESERVATION
               </button>
             </form>
           </>

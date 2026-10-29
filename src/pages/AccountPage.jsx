@@ -15,7 +15,6 @@ import {
   ExternalLink,
   ShoppingBag,
   Clock,
-  Sparkles,
   ShieldCheck,
   Pencil,
   Calendar,
@@ -116,7 +115,7 @@ export const AccountPage = () => {
       <div className="container account-container animate-fade-in" style={{ padding: '40px 16px' }}>
         <div className="account-guest-gate">
           <div className="guest-gate-icon-circle">
-            <Sparkles size={28} />
+            <User size={28} />
           </div>
           <span className="guest-gate-eyebrow">VELORA VIP ATELIER GATEWAY</span>
           <h1 className="guest-gate-title">Sign In to Your Bridal Sanctuary</h1>
@@ -160,7 +159,7 @@ export const AccountPage = () => {
                 onClick={() => loginUser('eleanor.vance@example.com')}
                 title="Sign in as Eleanor Vance (VIP Bride)"
               >
-                <Sparkles size={12} color="#B76E65" />
+                <User size={12} color="#B76E65" />
                 <span>Eleanor Vance (VIP Bride)</span>
               </button>
               <button
@@ -213,7 +212,7 @@ export const AccountPage = () => {
             <div className="user-title-badge-row">
               <h2>{user.name}</h2>
               <span className="badge badge-gold">
-                <Sparkles size={12} /> {user.membershipTier}
+                {user.membershipTier}
               </span>
             </div>
             <p className="text-muted">{user.email} • Member since {user.memberSince}</p>

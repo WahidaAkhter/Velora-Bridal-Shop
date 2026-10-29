@@ -12,7 +12,7 @@ import {
   Check,
   Plus,
   Minus,
-  Sparkles,
+  Calendar,
   MessageSquare
 } from 'lucide-react';
 
@@ -237,7 +237,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
             {/* Bridal Boutique Guarantee & Service Value Props */}
             <div className="value-props-list">
               <div className="prop-item">
-                <Sparkles size={16} className="text-accent" />
+                <Calendar size={16} className="text-accent" />
                 <span>Complimentary Private Styling Consultation</span>
               </div>
               <div className="prop-item">

@@ -4,7 +4,6 @@ import { WEDDING_DRESS_OPTIONS_DATA } from '../../data/weddingDressesFeatures';
 import { WEDDING_DRESS_CATEGORIES } from '../layout/Header';
 import {
   X,
-  Sparkles,
   Heart,
   ShoppingBag,
   Eye,
@@ -372,7 +371,7 @@ export const WeddingDressFeatureModal = () => {
                     className="feature-hero-img"
                   />
                   <div className="feature-hero-badge-tag">
-                    <Sparkles size={13} /> {featureData.badge}
+                    {featureData.badge}
                   </div>
                 </div>
 
