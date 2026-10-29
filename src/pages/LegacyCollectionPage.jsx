@@ -174,7 +174,7 @@ export const LegacyCollectionPage = () => {
           type="button"
           className="velora-breadcrumb-link"
           onClick={() => {
-            setCurrentView('all-collections');
+            setCurrentView('all-dresses');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >

@@ -220,8 +220,8 @@ export const ProductGrid = () => {
     return filtered.slice(start, start + pageSize);
   }, [filtered, currentPage, pageSize]);
 
-  // Return to whole site (Storefront / Home) on reset as requested by user
-  const handleResetFilters = () => {
+  // Navigate directly to All Dresses page, clearing any search and filters
+  const handleGoToAllDresses = () => {
     setSelectedCategory('all');
     setSelectedSilhouette('All Silhouettes');
     setSelectedNeckline('All Necklines');
@@ -232,8 +232,12 @@ export const ProductGrid = () => {
     setSortBy('featured');
     setCurrentPage(1);
     if (setPriceRange) setPriceRange([0, 10000]);
-    setCurrentView('catalog');
+    setCurrentView('all-dresses');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleResetFilters = () => {
+    handleGoToAllDresses();
   };
 
   const handleClearFiltersOnly = () => {
@@ -273,11 +277,10 @@ export const ProductGrid = () => {
         </button>
         <span className="velora-breadcrumb-sep">/</span>
         <button
+          type="button"
           className="velora-breadcrumb-link"
-          onClick={() => {
-            handleResetFilters();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          onClick={handleGoToAllDresses}
+          title="See All Dresses"
         >
           Collections
         </button>
