@@ -329,3 +329,771 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ==========================================================================
+   VELORA LUXURY AUTHENTICATION & VIP ATELIER SUITE
+   ========================================================================== */
+
+/* Modal Backdrop */
+.velora-auth-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 14, 13, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1200;
+  animation: authFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes authFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal Card */
+.velora-auth-card {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  max-width: 860px;
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(18, 14, 13, 0.35), 0 0 0 1px rgba(227, 218, 201, 0.6);
+  position: relative;
+  max-height: 92vh;
+  animation: authSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes authSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Left Editorial Sidebar */
+.velora-auth-sidebar {
+  position: relative;
+  background-size: cover;
+  background-position: center top;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 28px;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.velora-auth-sidebar-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(25, 20, 18, 0.45) 0%,
+    rgba(25, 20, 18, 0.75) 50%,
+    rgba(25, 20, 18, 0.95) 100%
+  );
+  z-index: 1;
+}
+
+.velora-auth-sidebar-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.velora-auth-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #DFC090;
+  background: rgba(25, 20, 18, 0.55);
+  padding: 6px 12px;
+  border-radius: 30px;
+  border: 1px solid rgba(223, 192, 144, 0.4);
+  width: fit-content;
+}
+
+.velora-auth-sidebar-title {
+  font-family: var(--font-serif-luxe, 'Cinzel', serif);
+  font-size: 26px;
+  font-weight: 600;
+  color: #FAF8F5;
+  line-height: 1.25;
+  margin: 18px 0 10px;
+  letter-spacing: 0.02em;
+}
+
+.velora-auth-sidebar-desc {
+  font-size: 13px;
+  color: #E0D7D0;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.velora-auth-perks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.velora-auth-perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: #F1ECE6;
+  line-height: 1.4;
+}
+
+.velora-auth-perk-icon {
+  color: #DFC090;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.velora-auth-sidebar-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 11px;
+  color: #C7BCB4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Right Form Container */
+.velora-auth-form-wrap {
+  padding: 38px 40px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  background: #FFFFFF;
+}
+
+.velora-auth-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #FAF8F5;
+  border: 1px solid #EBE4DA;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6C5B55;
+  transition: all 0.2s ease;
+}
+
+.velora-auth-close-btn:hover {
+  background: #B76E65;
+  color: #FFFFFF;
+  border-color: #B76E65;
+  transform: rotate(90deg);
+}
+
+.velora-auth-header {
+  margin-bottom: 22px;
+}
+
+.velora-auth-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #B76E65;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.velora-auth-heading {
+  font-family: var(--font-serif-luxe, 'Cinzel', serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: #1F1917;
+  letter-spacing: 0.02em;
+  margin: 0 0 6px;
+}
+
+.velora-auth-subtext {
+  font-size: 12.5px;
+  color: #7A6964;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Tab Switcher */
+.velora-auth-tabs {
+  display: flex;
+  border-bottom: 1px solid #EBE4DA;
+  margin-bottom: 22px;
+  gap: 20px;
+}
+
+.velora-auth-tab {
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-family: var(--font-sans-luxe, sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8C7B76;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.velora-auth-tab:hover {
+  color: #1F1917;
+}
+
+.velora-auth-tab.is-active {
+  color: #1F1917;
+}
+
+.velora-auth-tab.is-active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #B76E65;
+}
+
+/* Form Inputs */
+.velora-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.velora-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.velora-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4D3D39;
+}
+
+.velora-field-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.velora-field-icon {
+  position: absolute;
+  left: 14px;
+  color: #9C8C86;
+  pointer-events: none;
+}
+
+.velora-field-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  font-size: 13.5px;
+  font-family: inherit;
+  color: #1F1917;
+  background: #FAF8F5;
+  border: 1px solid #DCD4C9;
+  border-radius: 6px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.velora-field-input:focus {
+  border-color: #B76E65;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(183, 110, 101, 0.15);
+}
+
+.velora-field-toggle-pwd {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #9C8C86;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.velora-field-toggle-pwd:hover {
+  color: #1F1917;
+}
+
+/* Remember me & forgot password row */
+.velora-auth-sub-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.velora-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #5C4B47;
+  cursor: pointer;
+  user-select: none;
+}
+
+.velora-checkbox-label input {
+  accent-color: #B76E65;
+  width: 15px;
+  height: 15px;
+}
+
+.velora-auth-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: #B76E65;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.velora-auth-link:hover {
+  color: #8D473F;
+}
+
+/* Primary Submit Button */
+.velora-auth-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: #1F1917;
+  color: #FAF8F5;
+  font-family: var(--font-sans-luxe, sans-serif);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 8px;
+}
+
+.velora-auth-submit-btn:hover {
+  background: #B76E65;
+  box-shadow: 0 6px 20px rgba(183, 110, 101, 0.35);
+  transform: translateY(-1px);
+}
+
+/* 1-Click Demo Profiles */
+.velora-demo-profiles-card {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px dashed #E5DED4;
+  text-align: center;
+}
+
+.velora-demo-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8C7B76;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.velora-demo-chips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.velora-demo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: #FAF8F5;
+  border: 1px solid #DCD4C9;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #3D2F2C;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-demo-chip:hover {
+  background: #F4E8E4;
+  border-color: #B76E65;
+  color: #1F1917;
+  transform: translateY(-1px);
+}
+
+.velora-demo-chip.is-vip {
+  background: #F6EEEA;
+  border-color: #D4B399;
+}
+
+/* Navbar Auth Pill */
+.navbar-auth-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #F4ECE7;
+  border: 1px solid #DFC6BE;
+  border-radius: 20px;
+  color: #1F1917;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navbar-auth-pill:hover {
+  background: #B76E65;
+  color: #FFFFFF;
+  border-color: #B76E65;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(183, 110, 101, 0.2);
+}
+
+/* Navbar User Dropdown */
+.navbar-user-wrapper {
+  position: relative;
+}
+
+.navbar-user-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 20px;
+  color: #1F1917;
+  transition: all 0.2s ease;
+}
+
+.navbar-user-btn:hover {
+  background: #F4ECE7;
+}
+
+.navbar-user-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #DFC090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FAF8F5;
+  color: #1F1917;
+}
+
+.navbar-user-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #1F1917;
+}
+
+.navbar-user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 230px;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 15px 35px rgba(28, 20, 18, 0.18), 0 0 0 1px #E8E2D9;
+  padding: 10px 0;
+  z-index: 150;
+  animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-menu-header {
+  padding: 8px 16px 10px;
+  border-bottom: 1px solid #F0EAE1;
+}
+
+.user-menu-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1F1917;
+  display: block;
+}
+
+.user-menu-tier {
+  font-size: 10.5px;
+  color: #B76E65;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.user-menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  color: #4D3D39;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.user-menu-item:hover {
+  background: #FAF8F5;
+  color: #B76E65;
+  padding-left: 19px;
+}
+
+.user-menu-item.logout-item {
+  color: #9E2B2B;
+  border-top: 1px solid #F0EAE1;
+  margin-top: 4px;
+  padding-top: 10px;
+}
+
+.user-menu-item.logout-item:hover {
+  background: #FDF2F2;
+  color: #B91C1C;
+}
+
+/* Account Page Guest State */
+.account-guest-gate {
+  max-width: 760px;
+  margin: 40px auto;
+  background: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid #EBE4DA;
+  box-shadow: 0 15px 40px rgba(28, 20, 18, 0.06);
+  padding: 50px 40px;
+  text-align: center;
+}
+
+.guest-gate-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #F4ECE7;
+  border: 1px solid #DFC6BE;
+  color: #B76E65;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.guest-gate-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #B76E65;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.guest-gate-title {
+  font-family: var(--font-serif-luxe, 'Cinzel', serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: #1F1917;
+  margin: 0 0 12px;
+}
+
+.guest-gate-desc {
+  font-size: 14px;
+  color: #6C5B55;
+  max-width: 520px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+.guest-gate-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+
+.guest-gate-perks-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding-top: 28px;
+  border-top: 1px solid #EBE4DA;
+  text-align: left;
+}
+
+.guest-gate-perk {
+  padding: 14px;
+  background: #FAF8F5;
+  border-radius: 8px;
+  border: 1px solid #ECE5DB;
+}
+
+.guest-gate-perk h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1F1917;
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guest-gate-perk p {
+  font-size: 11.5px;
+  color: #7A6964;
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .velora-auth-card {
+    grid-template-columns: 1fr;
+    max-height: 94vh;
+  }
+  .velora-auth-sidebar {
+    display: none;
+  }
+  .velora-auth-form-wrap {
+    padding: 28px 20px;
+  }
+  .guest-gate-perks-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   OUR STORY CONTACT US SECTION & BUTTONS
+   ========================================================================== */
+.madilane-outline-contact-btn {
+  background: transparent;
+  color: #1F1917;
+  border: 1px solid #1F1917;
+  font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 13px 28px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  border-radius: 2px;
+}
+
+.madilane-outline-contact-btn:hover {
+  background: #1F1917;
+  color: #FAF8F5;
+  border-color: #1F1917;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(31, 25, 23, 0.15);
+}
+
+.story-contact-section {
+  padding: 40px 20px 20px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.story-contact-card {
+  background: #FAF8F5;
+  border: 1px solid #EBE4DA;
+  border-radius: 12px;
+  padding: 48px 36px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(31, 25, 23, 0.04);
+}
+
+.story-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin: 34px 0 28px;
+  text-align: left;
+}
+
+.story-contact-col {
+  background: #FFFFFF;
+  border: 1px solid #EAE3D9;
+  border-radius: 8px;
+  padding: 24px 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-contact-col:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(183, 110, 101, 0.08);
+}
+
+@media (max-width: 860px) {
+  .story-contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .story-contact-card {
+    padding: 32px 20px;
+  }
+}
+
+

@@ -41,6 +41,7 @@ export const AccountPage = () => {
     isLoggedIn,
     setIsAuthModalOpen,
     setAuthMode,
+    loginUser,
     logoutUser,
     cancelAppointment,
     setIsAppointmentModalOpen
@@ -108,6 +109,99 @@ export const AccountPage = () => {
   };
 
   const wishlistedProducts = PRODUCTS.filter(p => wishlist.includes(p.id));
+
+  // If user is not signed in, display the luxury guest gateway
+  if (!isLoggedIn) {
+    return (
+      <div className="container account-container animate-fade-in" style={{ padding: '40px 16px' }}>
+        <div className="account-guest-gate">
+          <div className="guest-gate-icon-circle">
+            <Sparkles size={28} />
+          </div>
+          <span className="guest-gate-eyebrow">VELORA VIP ATELIER GATEWAY</span>
+          <h1 className="guest-gate-title">Sign In to Your Bridal Sanctuary</h1>
+          <p className="guest-gate-desc">
+            Access your reserved fitting appointments, white-glove couture order tracking,
+            and personal bridal wishlist curated by our master stylists.
+          </p>
+
+          <div className="guest-gate-actions">
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ padding: '12px 28px', fontSize: '13px', letterSpacing: '0.1em' }}
+              onClick={() => {
+                setAuthMode('login');
+                setIsAuthModalOpen(true);
+              }}
+            >
+              SIGN IN TO ATELIER
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline"
+              style={{ padding: '12px 28px', fontSize: '13px', letterSpacing: '0.1em' }}
+              onClick={() => {
+                setAuthMode('register');
+                setIsAuthModalOpen(true);
+              }}
+            >
+              CREATE VIP ACCOUNT
+            </button>
+          </div>
+
+          {/* Quick Demo Logins inside Guest Gate */}
+          <div className="velora-demo-profiles-card" style={{ maxWidth: '520px', margin: '0 auto 28px' }}>
+            <span className="velora-demo-title">Explore With 1-Click Demo Profiles:</span>
+            <div className="velora-demo-chips">
+              <button
+                type="button"
+                className="velora-demo-chip is-vip"
+                onClick={() => loginUser('eleanor.vance@example.com')}
+                title="Sign in as Eleanor Vance (VIP Bride)"
+              >
+                <Sparkles size={12} color="#B76E65" />
+                <span>Eleanor Vance (VIP Bride)</span>
+              </button>
+              <button
+                type="button"
+                className="velora-demo-chip"
+                onClick={() => loginUser('jessica.sterling@example.com')}
+                title="Sign in as Jessica Sterling"
+              >
+                <User size={12} />
+                <span>Jessica Sterling</span>
+              </button>
+              <button
+                type="button"
+                className="velora-demo-chip"
+                onClick={() => loginUser('chloe.laurent@velora.com')}
+                title="Sign in as Chloe Laurent (Stylist)"
+              >
+                <ShieldCheck size={12} />
+                <span>Chloe (Stylist)</span>
+              </button>
+            </div>
+          </div>
+
+          <div className="guest-gate-perks-row">
+            <div className="guest-gate-perk">
+              <h4><Calendar size={15} color="#B76E65" /> Reserved Fittings</h4>
+              <p>Book champagne consultations with Master Stylist Chloe Laurent.</p>
+            </div>
+            <div className="guest-gate-perk">
+              <h4><Package size={15} color="#B76E65" /> White-Glove Tracking</h4>
+              <p>Track your couture gown from Paris atelier directly to your door.</p>
+            </div>
+            <div className="guest-gate-perk">
+              <h4><Heart size={15} color="#B76E65" /> Saved Dream Gowns</h4>
+              <p>Curate your private moodboard and bridal styling options.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container account-container animate-fade-in">

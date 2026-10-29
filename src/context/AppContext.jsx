@@ -85,9 +85,9 @@ export const AppProvider = ({ children }) => {
   });
 
   // Authentication State
-  const [isLoggedIn, setIsLoggedIn] = useState(() => loadJSON('velora_logged_in', true));
+  const [isLoggedIn, setIsLoggedIn] = useState(() => loadJSON('velora_logged_in', false));
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState('login'); // 'login' | 'register'
+  const [authMode, setAuthMode] = useState('login'); // 'login' | 'register' | 'forgot'
 
   // Custom Product Reviews State
   const [customReviews, setCustomReviews] = useState(() => loadJSON('velora_custom_reviews', {}));
@@ -332,14 +332,57 @@ export const AppProvider = ({ children }) => {
     showToast('Appointment has been cancelled', 'info');
   };
 
+  // Preconfigured Demo VIP Profiles
+  const PRECONFIGURED_USERS = [
+    INITIAL_USER,
+    {
+      ...INITIAL_USER,
+      id: 'usr-902',
+      name: 'Jessica Sterling',
+      email: 'jessica.sterling@example.com',
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
+      phone: '+1 (555) 890-1234',
+      memberSince: 'August 2026',
+      membershipTier: 'Bride-to-be (Summer 2027)',
+      orders: [],
+      appointments: [
+        {
+          id: 'apt-demo-1',
+          name: 'Jessica Sterling',
+          email: 'jessica.sterling@example.com',
+          phone: '+1 (555) 890-1234',
+          service: 'Signature Bridal Gown Consultation',
+          appointmentDate: '2026-11-15',
+          timeSlot: '2:00 PM',
+          stylist: 'Chloe Laurent (Master Bridal Stylist)',
+          status: 'Confirmed',
+          location: 'VELORA Atelier Flagship, New York'
+        }
+      ]
+    },
+    {
+      ...INITIAL_USER,
+      id: 'usr-903',
+      name: 'Chloe Laurent',
+      email: 'chloe.laurent@velora.com',
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
+      phone: '+1 (800) 892-LUXE',
+      memberSince: 'Senior Atelier Team',
+      membershipTier: 'Master Bridal Stylist',
+      orders: [],
+      appointments: []
+    }
+  ];
+
   // Authentication Helpers
   const loginUser = (email) => {
-    const savedUsers = loadJSON('velora_users_list', [INITIAL_USER]);
+    const savedUsers = loadJSON('velora_users_list', PRECONFIGURED_USERS);
     const matched = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
     if (matched) {
       setUser(matched);
       setIsLoggedIn(true);
       localStorage.setItem('velora_logged_in', 'true');
+      localStorage.setItem('aura_user', JSON.stringify(matched));
       showToast(`Welcome back, ${matched.name}!`);
       setIsAuthModalOpen(false);
       return { success: true };
@@ -352,31 +395,6 @@ export const AppProvider = ({ children }) => {
       name: capitalized,
       email: email.trim(),
       memberSince: 'October 2026',
-      orders: [],
-      appointments: []
-    };
-    setUser(newUser);
-    setIsLoggedIn(true);
-    localStorage.setItem('velora_logged_in', 'true');
-    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
-    showToast(`Signed in as ${newUser.name}`);
-    setIsAuthModalOpen(false);
-    return { success: true };
-  };
-
-  const registerUser = ({ name, email, phone }) => {
-    const savedUsers = loadJSON('velora_users_list', [INITIAL_USER]);
-    const existing = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
-    if (existing) {
-      return { success: false, message: 'An account with this email already exists. Please sign in.' };
-    }
-    const newUser = {
-      ...INITIAL_USER,
-      id: `usr-${Date.now()}`,
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim() || '+1 (555) 000-0000',
-      memberSince: 'Today',
       membershipTier: 'VELORA VIP Club',
       orders: [],
       appointments: []
@@ -384,8 +402,42 @@ export const AppProvider = ({ children }) => {
     setUser(newUser);
     setIsLoggedIn(true);
     localStorage.setItem('velora_logged_in', 'true');
+    localStorage.setItem('aura_user', JSON.stringify(newUser));
     localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
-    showToast(`Welcome to VELORA, ${newUser.name}! Your account is ready.`);
+    showToast(`Welcome to VELORA, ${newUser.name}!`);
+    setIsAuthModalOpen(false);
+    return { success: true };
+  };
+
+  const registerUser = ({ name, email, phone, weddingDate }) => {
+    const savedUsers = loadJSON('velora_users_list', PRECONFIGURED_USERS);
+    const existing = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
+    if (existing) {
+      setUser(existing);
+      setIsLoggedIn(true);
+      localStorage.setItem('velora_logged_in', 'true');
+      localStorage.setItem('aura_user', JSON.stringify(existing));
+      showToast(`Welcome back, ${existing.name}!`);
+      setIsAuthModalOpen(false);
+      return { success: true };
+    }
+    const newUser = {
+      ...INITIAL_USER,
+      id: `usr-${Date.now()}`,
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone ? phone.trim() : '+1 (555) 000-0000',
+      memberSince: 'Today',
+      membershipTier: weddingDate ? `Bride-to-be (Wedding: ${weddingDate})` : 'VELORA VIP Club',
+      orders: [],
+      appointments: []
+    };
+    setUser(newUser);
+    setIsLoggedIn(true);
+    localStorage.setItem('velora_logged_in', 'true');
+    localStorage.setItem('aura_user', JSON.stringify(newUser));
+    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
+    showToast(`Welcome to VELORA, ${newUser.name}! Your VIP account is ready.`);
     setIsAuthModalOpen(false);
     return { success: true };
   };

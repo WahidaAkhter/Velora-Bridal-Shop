@@ -7,7 +7,10 @@ import {
   Search,
   User,
   Heart,
-  ShoppingBag
+  ShoppingBag,
+  LogOut,
+  Calendar,
+  Sparkles
 } from 'lucide-react';
 import { PRODUCTS } from '../../data/products';
 
@@ -139,13 +142,13 @@ export const ABOUT_US_CATEGORIES = [
     ]
   },
   {
-    title: 'CARE & KNOWLEDGE',
+    title: 'CONTACT & CONCIERGE',
     items: [
-      'Q&A KNOWLEDGE BASE',
-      'INCLUSIVE SIZING 2–28',
-      'QUICK SHIP PROGRAM',
-      'GOWN CARE & CLEANING',
-      'VIP LOOKBOOK ACCESS'
+      'CONTACT US',
+      'FLAGSHIP BOUTIQUES',
+      'BOOK ATELIER FITTING',
+      'CALL +1 (800) 892-LUXE',
+      'Q&A KNOWLEDGE BASE'
     ]
   }
 ];
@@ -247,7 +250,12 @@ export const Header = () => {
     setIsCartOpen,
     wishlist,
     setAccountTab,
-    setActiveWeddingDressOption
+    setActiveWeddingDressOption,
+    isLoggedIn,
+    user,
+    logoutUser,
+    setIsAuthModalOpen,
+    setAuthMode
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -256,9 +264,11 @@ export const Header = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const headerRef = useRef(null);
   const leaveTimerRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 20);
@@ -276,11 +286,14 @@ export const Header = () => {
     return () => document.body.classList.remove('megamenu-open');
   }, [activeDropdown]);
 
-  // Click outside to close dropdowns
+  // Click outside to close dropdowns and user menu
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (headerRef.current && !headerRef.current.contains(e.target)) {
         setActiveDropdown(null);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
+        setIsUserMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -425,7 +438,17 @@ export const Header = () => {
 
     setCurrentView('catalog');
 
-    if (featureKey === 'contact' && colTitle.includes('APPOINTMENT')) {
+    if (item === 'CONTACT US' || item === 'FLAGSHIP BOUTIQUES' || item === 'CALL +1 (800) 892-LUXE') {
+      setCurrentView('our-story');
+      setTimeout(() => {
+        const el = document.getElementById('story-contact-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        else setIsAppointmentModalOpen(true);
+      }, 80);
+      return;
+    }
+
+    if (item === 'BOOK ATELIER FITTING' || (featureKey === 'contact' && colTitle.includes('APPOINTMENT'))) {
       setIsAppointmentModalOpen(true);
       return;
     }
@@ -556,25 +579,6 @@ export const Header = () => {
                 REAL BRIDES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'brides' ? 'is-rotated' : ''}`} />
               </button>
             </div>
-
-            {/* CONTACT US ⌵ (Click or Hover) */}
-            <div
-              className="nav-dropdown-holder"
-              onMouseEnter={() => handleNavHover('contact')}
-              onMouseLeave={handleNavLeave}
-            >
-              <button
-                type="button"
-                className={`nav-link-item has-dropdown ${activeDropdown === 'contact' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNavClickToggle('contact');
-                }}
-                aria-expanded={activeDropdown === 'contact'}
-              >
-                CONTACT US <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'contact' ? 'is-rotated' : ''}`} />
-              </button>
-            </div>
           </div>
 
           {/* Right Action Features (Right side of the bride model) */}
@@ -590,18 +594,99 @@ export const Header = () => {
               <Search size={18} strokeWidth={1.5} />
             </button>
 
-            {/* Account */}
-            <button
-              className="navbar-action-btn"
-              onClick={() => {
-                setCurrentView('account');
-                setAccountTab('overview');
-              }}
-              title="Bride Account"
-              aria-label="Bride account"
-            >
-              <User size={18} strokeWidth={1.5} />
-            </button>
+            {/* Account / Sign In */}
+            {isLoggedIn ? (
+              <div className="navbar-user-wrapper" ref={userMenuRef}>
+                <button
+                  type="button"
+                  className="navbar-user-btn"
+                  onClick={() => setIsUserMenuOpen(prev => !prev)}
+                  title={`Atelier Account: ${user.name}`}
+                  aria-label="Bride account menu"
+                >
+                  <div className="navbar-user-avatar">
+                    <User size={14} strokeWidth={1.8} />
+                  </div>
+                  <span className="navbar-user-name">{user.name.split(' ')[0]}</span>
+                  <ChevronDown
+                    size={12}
+                    strokeWidth={1.5}
+                    style={{
+                      transform: isUserMenuOpen ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s ease'
+                    }}
+                  />
+                </button>
+
+                {isUserMenuOpen && (
+                  <div className="navbar-user-dropdown-menu">
+                    <div className="user-menu-header">
+                      <span className="user-menu-name">{user.name}</span>
+                      <span className="user-menu-tier">
+                        <Sparkles size={10} /> {user.membershipTier}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="user-menu-item"
+                      onClick={() => {
+                        setCurrentView('account');
+                        setAccountTab('overview');
+                        setIsUserMenuOpen(false);
+                      }}
+                    >
+                      <User size={14} /> My Profile & Orders
+                    </button>
+                    <button
+                      type="button"
+                      className="user-menu-item"
+                      onClick={() => {
+                        setCurrentView('account');
+                        setAccountTab('appointments');
+                        setIsUserMenuOpen(false);
+                      }}
+                    >
+                      <Calendar size={14} /> Fitting Appointments
+                    </button>
+                    <button
+                      type="button"
+                      className="user-menu-item"
+                      onClick={() => {
+                        setCurrentView('account');
+                        setAccountTab('wishlist');
+                        setIsUserMenuOpen(false);
+                      }}
+                    >
+                      <Heart size={14} /> Saved Gowns ({wishlist.length})
+                    </button>
+                    <button
+                      type="button"
+                      className="user-menu-item logout-item"
+                      onClick={() => {
+                        logoutUser();
+                        setIsUserMenuOpen(false);
+                      }}
+                    >
+                      <LogOut size={14} /> Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                type="button"
+                className="navbar-auth-pill"
+                onClick={() => {
+                  setAuthMode('login');
+                  setIsAuthModalOpen(true);
+                }}
+                title="Sign In to VELORA Atelier"
+                aria-label="Sign in"
+              >
+                <User size={14} strokeWidth={1.8} />
+                <span>SIGN IN</span>
+              </button>
+            )}
 
             {/* Wishlist */}
             <button
@@ -680,6 +765,58 @@ export const Header = () => {
             <button className="mobile-nav-link highlight" onClick={() => { setIsMobileMenuOpen(false); setIsAppointmentModalOpen(true); }}>
               BOOK APPOINTMENT
             </button>
+
+            {/* Mobile Auth Action */}
+            <div style={{ padding: '14px 16px', borderTop: '1px solid #EBE4DA', marginTop: '12px' }}>
+              {isLoggedIn ? (
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    className="mobile-nav-link"
+                    style={{ margin: 0, padding: 0, display: 'flex', alignItems: 'center', gap: '8px' }}
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setCurrentView('account');
+                      setAccountTab('overview');
+                    }}
+                  >
+                    <User size={15} />
+                    <span>{user.name}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logoutUser();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#9E2B2B',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="navbar-auth-pill"
+                  style={{ width: '100%', justifyContent: 'center', padding: '10px' }}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setAuthMode('login');
+                    setIsAuthModalOpen(true);
+                  }}
+                >
+                  <User size={15} />
+                  <span>SIGN IN / JOIN VIP CLUB</span>
+                </button>
+              )}
+            </div>
           </div>
         )}
       </nav>

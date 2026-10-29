@@ -14,7 +14,7 @@ export const ShopByColor = () => {
   const scrollAccRef = useRef(0);
   const lastStepTime = useRef(0);
 
-  const showcaseDresses = COLOR_DRESSES.slice(0, 5);
+  const showcaseDresses = COLOR_DRESSES;
   const totalColors = showcaseDresses.length;
 
   // 1. Idle auto-rotate every 9.5 seconds (very slow, majestic pace for editorial viewing)

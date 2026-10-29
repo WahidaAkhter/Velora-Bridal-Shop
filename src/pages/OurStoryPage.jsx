@@ -7,11 +7,11 @@ import {
 } from '../data/ourStoryData';
 import { getOurStoryData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
-import { ChevronDown, Plus, Minus, ArrowRight } from 'lucide-react';
+import { ChevronDown, Plus, Minus, ArrowRight, MapPin, Phone, Mail, Calendar, Sparkles } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const OurStoryPage = () => {
-  const { setCurrentView } = useApp();
+  const { setCurrentView, setIsAppointmentModalOpen, showToast } = useApp();
   const [openAccordionId, setOpenAccordionId] = useState('qa-1');
 
   const [storyState, setStoryState] = useState({
@@ -109,15 +109,30 @@ export const OurStoryPage = () => {
                     ))}
                   </div>
 
-                  {/* Button on row 1 ("VIEW OUR 10-YEAR STORY") */}
+                  {/* Buttons on row 1 ("VIEW OUR 10-YEAR STORY" & "CONTACT US") */}
                   {section.button && (
-                    <div className="madilane-story-btn-wrap">
+                    <div className="madilane-story-btn-wrap" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button
                         type="button"
                         className="madilane-gold-button"
                         onClick={() => scrollToRow(1)}
                       >
                         {section.button.text}
+                      </button>
+                      <button
+                        type="button"
+                        className="madilane-outline-contact-btn"
+                        onClick={() => {
+                          const contactSec = document.getElementById('story-contact-section');
+                          if (contactSec) {
+                            contactSec.scrollIntoView({ behavior: 'smooth' });
+                          } else {
+                            setIsAppointmentModalOpen(true);
+                          }
+                        }}
+                      >
+                        <Phone size={13} />
+                        <span>CONTACT US</span>
                       </button>
                     </div>
                   )}
@@ -221,7 +236,87 @@ export const OurStoryPage = () => {
         </div>
       </section>
 
-      {/* 5. VIP Lookbook Banner (Matching Reference Site Bottom Banner) */}
+      {/* 5. Dedicated Contact Us Section Inside Our Story */}
+      <section className="story-contact-section" id="story-contact-section" aria-label="Contact Our Atelier">
+        <div className="story-contact-card">
+          <span className="appointment-eyebrow" style={{ color: '#B76E65', letterSpacing: '0.2em' }}>
+            ATELIER CONCIERGE & CARE
+          </span>
+          <h2 className="appointment-title" style={{ fontSize: '32px', margin: '8px 0 14px' }}>
+            Get in Touch With Our Atelier
+          </h2>
+          <p className="appointment-subtitle" style={{ maxWidth: '620px', margin: '0 auto 28px', fontSize: '14px', lineHeight: 1.6 }}>
+            Whether you have inquiries regarding custom bridal measurements, bespoke veil pairings,
+            or wish to reserve an exclusive styling suite, our master atelier team is delighted to assist you.
+          </p>
+
+          <div className="story-contact-grid">
+            <div className="story-contact-col">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+                <MapPin size={20} />
+                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Flagship Boutiques
+                </h4>
+              </div>
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
+                • <strong>New York:</strong> 742 Fifth Avenue, NY<br />
+                • <strong>Paris:</strong> 18 Rue Saint-Honoré<br />
+                • <strong>London:</strong> 45 Mayfair Boulevard<br />
+                • <strong>Sydney:</strong> Gold Coast Design Studio
+              </p>
+            </div>
+
+            <div className="story-contact-col">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+                <Phone size={20} />
+                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Direct Concierge
+                </h4>
+              </div>
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
+                Toll-Free: <strong>+1 (800) 892-LUXE</strong><br />
+                Direct Atelier: +1 (212) 555-0199<br />
+                Email: <strong>concierge@velorabridal.com</strong><br />
+                Mon – Sat: 9:00 AM – 7:00 PM EST
+              </p>
+            </div>
+
+            <div className="story-contact-col">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', color: '#B76E65' }}>
+                <Calendar size={20} />
+                <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 700, color: '#1F1917', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Bespoke Fittings
+                </h4>
+              </div>
+              <p style={{ fontSize: '12.5px', color: '#6C5B56', lineHeight: 1.6, margin: 0 }}>
+                Reserve a private 1-on-1 champagne fitting with Master Bridal Stylist Chloe Laurent.
+                Virtual consultations available for international brides.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
+            <button
+              type="button"
+              className="madilane-gold-button"
+              style={{ padding: '14px 32px', fontSize: '12px' }}
+              onClick={() => setIsAppointmentModalOpen(true)}
+            >
+              BOOK AN ATELIER APPOINTMENT
+            </button>
+            <a
+              href="mailto:concierge@velorabridal.com?subject=Bridal%20Inquiry%20-%20VELORA%20Atelier"
+              className="madilane-outline-contact-btn"
+              style={{ padding: '14px 32px', fontSize: '12px', textDecoration: 'none' }}
+            >
+              <Mail size={14} />
+              <span>SEND EMAIL INQUIRY</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. VIP Lookbook Banner (Matching Reference Site Bottom Banner) */}
       <section className="madilane-bottom-vip-banner" aria-label="New Collection Access">
         <div className="madilane-vip-inner">
           <h2 className="madilane-vip-heading">{(storyState.vipBanner || OUR_STORY_VIP_BANNER).title}</h2>
