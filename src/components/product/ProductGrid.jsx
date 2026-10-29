@@ -283,7 +283,9 @@ export const ProductGrid = () => {
         </button>
         <span className="velora-breadcrumb-sep">/</span>
         <span className="velora-breadcrumb-current">
-          {selectedCategory === 'accessories'
+          {searchQuery.trim()
+            ? `Search: "${searchQuery}"`
+            : selectedCategory === 'accessories'
             ? 'Bridal Accessories'
             : selectedAccessory !== 'All Accessories'
             ? `Accessories · ${selectedAccessory}`
@@ -291,95 +293,100 @@ export const ProductGrid = () => {
         </span>
       </nav>
 
-      {/* 2. Collection Main Heading */}
-      <h1 className="velora-collection-heading">
-        {selectedCategory === 'accessories'
-          ? 'BRIDAL ACCESSORIES'
-          : selectedAccessory !== 'All Accessories'
-          ? `BRIDAL ${selectedAccessory.toUpperCase()}`
-          : selectedSilhouette !== 'All Silhouettes'
-          ? `${selectedSilhouette.toUpperCase()} GOWNS`
-          : 'ALL DRESSES'}
-      </h1>
-      <p style={{ textAlign: 'center', color: '#7D736C', fontSize: '14px', maxWidth: '640px', margin: '-12px auto 24px auto', lineHeight: 1.6 }}>
-        {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories'
-          ? 'Handcrafted veils, detachable royal trains, mock-neck lace jackets, sheer capes, and bespoke bridal accents designed to complete your wedding day look.'
-          : 'Discover our complete bridal collection featuring hand-appliquéd lace, basque corsetry, dramatic drop waists, and ethereal silhouettes inspired by European haute couture.'}
-      </p>
+      {/* Hide the huge ALL DRESSES heading, description, and category/silhouette pills when in search mode */}
+      {!searchQuery.trim() && (
+        <>
+          {/* 2. Collection Main Heading */}
+          <h1 className="velora-collection-heading">
+            {selectedCategory === 'accessories'
+              ? 'BRIDAL ACCESSORIES'
+              : selectedAccessory !== 'All Accessories'
+              ? `BRIDAL ${selectedAccessory.toUpperCase()}`
+              : selectedSilhouette !== 'All Silhouettes'
+              ? `${selectedSilhouette.toUpperCase()} GOWNS`
+              : 'ALL DRESSES'}
+          </h1>
+          <p style={{ textAlign: 'center', color: '#7D736C', fontSize: '14px', maxWidth: '640px', margin: '-12px auto 24px auto', lineHeight: 1.6 }}>
+            {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories'
+              ? 'Handcrafted veils, detachable royal trains, mock-neck lace jackets, sheer capes, and bespoke bridal accents designed to complete your wedding day look.'
+              : 'Discover our complete bridal collection featuring hand-appliquéd lace, basque corsetry, dramatic drop waists, and ethereal silhouettes inspired by European haute couture.'}
+          </p>
 
-      {/* 3. Shop Collection Quick Nav Tabs */}
-      <ShopCollectionNav activeTab={selectedCategory === 'accessories' ? 'accessories' : 'all-dresses'} />
+          {/* 3. Shop Collection Quick Nav Tabs */}
+          <ShopCollectionNav activeTab={selectedCategory === 'accessories' ? 'accessories' : 'all-dresses'} />
 
-      {/* Secondary Sub-Category / Silhouette Filter Pills */}
-      {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories' ? (
-        <div className="legacy-shape-quick-pills">
-          <button
-            type="button"
-            className={`legacy-shape-pill ${!searchQuery && selectedAccessory === 'All Accessories' ? 'is-active' : ''}`}
-            onClick={() => {
-              setSearchQuery('');
-              setSelectedAccessory('All Accessories');
-            }}
-          >
-            All Accessories
-          </button>
-          {[
-            { label: 'Veils', query: 'Veil' },
-            { label: 'Trains', query: 'Train' },
-            { label: 'Jackets', query: 'Jacket' },
-            { label: 'Bows', query: 'Bow' },
-            { label: 'Sleeves', query: 'Sleeve' },
-            { label: 'Gloves', query: 'Gloves' },
-            { label: 'Corsets', query: 'Corset' },
-            { label: 'Skirts', query: 'Skirt' },
-            { label: 'Capes', query: 'Cape' },
-            { label: 'Scarves', query: 'Scarf' },
-            { label: 'Belts & Sashes', query: 'Belt' }
-          ].map((item) => {
-            const isActive = searchQuery.toLowerCase() === item.query.toLowerCase();
-            return (
+          {/* Secondary Sub-Category / Silhouette Filter Pills */}
+          {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories' ? (
+            <div className="legacy-shape-quick-pills">
               <button
-                key={item.query}
                 type="button"
-                className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
+                className={`legacy-shape-pill ${!searchQuery && selectedAccessory === 'All Accessories' ? 'is-active' : ''}`}
                 onClick={() => {
-                  setSearchQuery(isActive ? '' : item.query);
-                }}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="legacy-shape-quick-pills">
-          {[
-            'All Silhouettes',
-            'A-Line',
-            'Ballgown',
-            'Basque Waist',
-            'Drop Waist',
-            'Mermaid',
-            'Fit & Flare'
-          ].map((sil) => {
-            const isActive = selectedSilhouette === sil;
-            return (
-              <button
-                key={sil}
-                type="button"
-                className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
-                onClick={() => {
-                  setSelectedCategory('all');
+                  setSearchQuery('');
                   setSelectedAccessory('All Accessories');
-                  setSelectedSilhouette(sil);
-                  setCurrentPage(1);
                 }}
               >
-                {sil}
+                All Accessories
               </button>
-            );
-          })}
-        </div>
+              {[
+                { label: 'Veils', query: 'Veil' },
+                { label: 'Trains', query: 'Train' },
+                { label: 'Jackets', query: 'Jacket' },
+                { label: 'Bows', query: 'Bow' },
+                { label: 'Sleeves', query: 'Sleeve' },
+                { label: 'Gloves', query: 'Gloves' },
+                { label: 'Corsets', query: 'Corset' },
+                { label: 'Skirts', query: 'Skirt' },
+                { label: 'Capes', query: 'Cape' },
+                { label: 'Scarves', query: 'Scarf' },
+                { label: 'Belts & Sashes', query: 'Belt' }
+              ].map((item) => {
+                const isActive = searchQuery.toLowerCase() === item.query.toLowerCase();
+                return (
+                  <button
+                    key={item.query}
+                    type="button"
+                    className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
+                    onClick={() => {
+                      setSearchQuery(isActive ? '' : item.query);
+                    }}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="legacy-shape-quick-pills">
+              {[
+                'All Silhouettes',
+                'A-Line',
+                'Ballgown',
+                'Basque Waist',
+                'Drop Waist',
+                'Mermaid',
+                'Fit & Flare'
+              ].map((sil) => {
+                const isActive = selectedSilhouette === sil;
+                return (
+                  <button
+                    key={sil}
+                    type="button"
+                    className={`legacy-shape-pill ${isActive ? 'is-active' : ''}`}
+                    onClick={() => {
+                      setSelectedCategory('all');
+                      setSelectedAccessory('All Accessories');
+                      setSelectedSilhouette(sil);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {sil}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </>
       )}
 
 
