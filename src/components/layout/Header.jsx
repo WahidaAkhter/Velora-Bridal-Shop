@@ -9,9 +9,11 @@ import {
   Heart,
   ShoppingBag,
   LogOut,
-  Calendar
+  Calendar,
+  ArrowRight
 } from 'lucide-react';
 import { PRODUCTS } from '../../data/products';
+import { matchGownSearchStrict } from '../../utils/searchMatcher';
 
 export const WEDDING_DRESS_CATEGORIES = [
   {
@@ -254,7 +256,8 @@ export const Header = () => {
     user,
     logoutUser,
     setIsAuthModalOpen,
-    setAuthMode
+    setAuthMode,
+    formatPrice
   } = useApp();
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -327,13 +330,24 @@ export const Header = () => {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  const searchResults = searchQuery.trim()
-    ? PRODUCTS.filter(p =>
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.subtitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 5)
+  const allMatchingGowns = searchQuery.trim()
+    ? PRODUCTS.filter(p => matchGownSearchStrict(p, searchQuery))
     : [];
+
+  const searchResults = allMatchingGowns.slice(0, 8);
+
+  const handleProductSelect = (prod) => {
+    setSelectedProduct(prod);
+    setIsSearchModalOpen(false);
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setCurrentView('all-dresses');
+    setIsSearchModalOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const handleNavClick = (targetId) => {
     setCurrentView('catalog');
@@ -477,11 +491,6 @@ export const Header = () => {
     }
   };
 
-  const handleProductSelect = (product) => {
-    setSelectedProduct(product);
-    setIsSearchModalOpen(false);
-    setSearchQuery('');
-  };
 
   return (
     <header
@@ -888,8 +897,15 @@ export const Header = () => {
       {isSearchModalOpen && (
         <div className="modal-backdrop" onClick={() => setIsSearchModalOpen(false)}>
           <div className="search-modal-box" onClick={e => e.stopPropagation()}>
-            <div className="search-input-header">
-              <Search size={20} className="search-icon-muted" />
+            <form className="search-input-header" onSubmit={handleSearchSubmit}>
+              <button
+                type="submit"
+                className="search-submit-icon-btn"
+                title="Search"
+                aria-label="Submit search"
+              >
+                <Search size={18} className="search-icon-active" />
+              </button>
               <input
                 type="text"
                 value={searchQuery}
@@ -898,34 +914,97 @@ export const Header = () => {
                 autoFocus
                 className="search-main-input"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="search-clear-text-btn"
+                  onClick={() => setSearchQuery('')}
+                  title="Clear search text"
+                >
+                  Clear
+                </button>
+              )}
               <button
+                type="submit"
+                className="search-submit-btn"
+              >
+                SEARCH
+              </button>
+              <button
+                type="button"
                 className="search-close-btn"
                 onClick={() => setIsSearchModalOpen(false)}
+                title="Close"
+                aria-label="Close search"
               >
                 <X size={18} />
               </button>
-            </div>
+            </form>
 
-            {searchQuery.trim() && (
+            {!searchQuery.trim() ? (
+              <div className="search-quick-tags">
+                <span className="search-quick-title">Popular Bridal Searches:</span>
+                <div className="search-tag-chips">
+                  {['A-Line', 'Mermaid', 'Ballgown', 'Princess', 'Lace', 'Drop Waist', 'Quick Ship'].map(tag => (
+                    <button
+                      key={tag}
+                      type="button"
+                      className="search-tag-chip"
+                      onClick={() => {
+                        setSearchQuery(tag);
+                        setCurrentView('all-dresses');
+                        setIsSearchModalOpen(false);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
               <div className="search-results-list">
                 {searchResults.length > 0 ? (
-                  searchResults.map(prod => (
-                    <div
-                      key={prod.id}
-                      className="search-result-item"
-                      onClick={() => handleProductSelect(prod)}
-                    >
-                      <img src={prod.images[0]} alt={prod.name} className="search-result-thumb" />
-                      <div className="search-result-info">
-                        <h4>{prod.name}</h4>
-                        <p>{prod.subtitle}</p>
-                        <span className="search-result-price">{formatPrice(prod.price)}</span>
+                  <>
+                    {searchResults.map(prod => (
+                      <div
+                        key={prod.id}
+                        className="search-result-item"
+                        onClick={() => handleProductSelect(prod)}
+                      >
+                        <img
+                          src={prod.images?.[0] || prod.image}
+                          alt={prod.name}
+                          className="search-result-thumb"
+                        />
+                        <div className="search-result-info">
+                          <h4>{prod.name}</h4>
+                          <p>{prod.subtitle || prod.categoryName}</p>
+                          <span className="search-result-price">{formatPrice(prod.price)}</span>
+                        </div>
                       </div>
+                    ))}
+                    <div className="search-modal-footer">
+                      <button
+                        type="button"
+                        className="search-view-all-btn"
+                        onClick={handleSearchSubmit}
+                      >
+                        <span>VIEW ALL {allMatchingGowns.length} RESULTS IN COLLECTION</span>
+                        <ArrowRight size={14} />
+                      </button>
                     </div>
-                  ))
+                  </>
                 ) : (
                   <div className="search-empty">
                     <p>No designer gowns found matching "{searchQuery}"</p>
+                    <button
+                      type="button"
+                      className="search-reset-btn"
+                      onClick={() => setSearchQuery('')}
+                    >
+                      Clear Search
+                    </button>
                   </div>
                 )}
               </div>

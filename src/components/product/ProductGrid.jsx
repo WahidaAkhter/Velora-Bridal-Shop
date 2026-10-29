@@ -4,6 +4,7 @@ import { PRODUCTS } from '../../data/products';
 import { getProducts } from '../../services/api';
 import { ShopCollectionNav } from '../common/ShopCollectionNav';
 import { Heart, X } from 'lucide-react';
+import { matchGownSearchStrict, getSilhouetteKey, SILHOUETTE_DEFINITIONS } from '../../utils/searchMatcher';
 
 export const SILHOUETTE_OPTIONS = [
   'All Silhouettes',
@@ -129,14 +130,19 @@ export const ProductGrid = () => {
         if (p.category !== selectedCategory && !p.tags?.includes(selectedCategory)) return false;
       }
 
-      // 2. Silhouette filter (Madi Lane options)
+      // 2. Silhouette filter (Strict Madi Lane options)
       if (selectedSilhouette !== 'All Silhouettes') {
-        const target = selectedSilhouette.toLowerCase();
-        const silMatch = (p.silhouette || '').toLowerCase().includes(target) ||
-                         p.tags?.some(t => t.toLowerCase().includes(target)) ||
-                         (p.name || '').toLowerCase().includes(target) ||
-                         (p.description || '').toLowerCase().includes(target);
-        if (!silMatch) return false;
+        const silDef = SILHOUETTE_DEFINITIONS.find(d => d.name.toLowerCase() === selectedSilhouette.toLowerCase());
+        const silKey = getSilhouetteKey(p);
+        if (silDef) {
+          if (!silDef.check(silKey, p)) return false;
+        } else {
+          const target = selectedSilhouette.toLowerCase();
+          const silMatch = (p.silhouette || '').toLowerCase().includes(target) ||
+                           p.tags?.some(t => t.toLowerCase().includes(target)) ||
+                           (p.name || '').toLowerCase().includes(target);
+          if (!silMatch) return false;
+        }
       }
 
       // 3. Neckline & Sleeve filter (Madi Lane options)
@@ -147,7 +153,6 @@ export const ProductGrid = () => {
         const neckMatch = neckAttr.includes(target) ||
                           sleeveAttr.includes(target) ||
                           p.tags?.some(t => t.toLowerCase().includes(target)) ||
-                          (p.description || '').toLowerCase().includes(target) ||
                           (p.subtitle || '').toLowerCase().includes(target);
         if (!neckMatch) return false;
       }
@@ -156,8 +161,7 @@ export const ProductGrid = () => {
       if (selectedStyle !== 'All Styles') {
         const target = selectedStyle.toLowerCase();
         const styleMatch = p.tags?.some(t => t.toLowerCase().includes(target)) ||
-                           (p.subtitle || '').toLowerCase().includes(target) ||
-                           (p.description || '').toLowerCase().includes(target);
+                           (p.subtitle || '').toLowerCase().includes(target);
         if (!styleMatch) return false;
       }
 
@@ -165,9 +169,8 @@ export const ProductGrid = () => {
       if (selectedFabric !== 'All Fabrics') {
         const target = selectedFabric.toLowerCase();
         const tagMatch = p.tags?.some(t => t.toLowerCase().includes(target));
-        const descMatch = (p.description || '').toLowerCase().includes(target);
         const attrMatch = (p.attributes?.['Fabrication'] || p.attributes?.['Fabric & Details'] || p.attributes?.['Fabric'] || '').toLowerCase().includes(target);
-        if (!tagMatch && !descMatch && !attrMatch) return false;
+        if (!tagMatch && !attrMatch) return false;
       }
 
       // 6. Accessories filter (Madi Lane options)
@@ -176,8 +179,7 @@ export const ProductGrid = () => {
         const accTypeMatch = (p.accessoryType || '').toLowerCase().includes(target);
         const tagMatch = p.tags?.some(t => t.toLowerCase().includes(target));
         const nameMatch = (p.name || '').toLowerCase().includes(target) || (p.subtitle || '').toLowerCase().includes(target);
-        const descMatch = (p.description || '').toLowerCase().includes(target);
-        if (!accTypeMatch && !tagMatch && !nameMatch && !descMatch) return false;
+        if (!accTypeMatch && !tagMatch && !nameMatch) return false;
       }
 
       // 7. Price filter — only apply if upper bound has been explicitly filtered
@@ -185,17 +187,9 @@ export const ProductGrid = () => {
         if (p.price > priceRange[1]) return false;
       }
 
-      // 8. Search query
+      // 8. Strict Search Query — shows ONLY the requested gown type / silhouette / name
       if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchName = (p.name || '').toLowerCase().includes(q);
-        const matchCode = (p.code || '').toLowerCase().includes(q);
-        const matchSil = (p.silhouette || '').toLowerCase().includes(q);
-        const matchDesc = (p.description || '').toLowerCase().includes(q);
-        const matchSub = (p.subtitle || '').toLowerCase().includes(q);
-        const matchAcc = (p.accessoryType || '').toLowerCase().includes(q);
-        const matchTag = p.tags?.some(t => t.toLowerCase().includes(q));
-        if (!matchName && !matchCode && !matchSil && !matchDesc && !matchSub && !matchAcc && !matchTag) return false;
+        if (!matchGownSearchStrict(p, searchQuery)) return false;
       }
 
       return true;
