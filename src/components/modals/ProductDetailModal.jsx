@@ -172,7 +172,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
                 <span className="stock-warning">Out of stock</span>
               ) : currentStock <= 5 && (
                 <span className="stock-warning">
-                  ⚡ Low Stock: Only {currentStock} left!
+                  Low Stock: Only {currentStock} left!
                 </span>
               )}
             </div>

@@ -1,4 +1,4 @@
-# 💍 VELORA Atelier — Luxury Bridal Haute Couture E-Commerce Platform
+# VELORA Atelier — Luxury Bridal Haute Couture E-Commerce Platform
 
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -9,19 +9,19 @@
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [✨ Key Features](#-key-features)
-- [🏛️ Project Architecture & Components (18 UI Modules)](#️-project-architecture--components-18-ui-modules)
-- [🌐 Comprehensive Page Directory (12 Live Views)](#-comprehensive-page-directory-12-live-views)
-- [🛠️ Detailed Log of Accomplishments & Bug Fixes](#️-detailed-log-of-accomplishments--bug-fixes)
-- [💻 Tech Stack](#-tech-stack)
-- [🚀 Getting Started](#-getting-started)
-- [📂 Project Structure](#-project-structure)
+- [Key Features](#key-features)
+- [Project Architecture & Components (18 UI Modules)](#project-architecture--components-18-ui-modules)
+- [Comprehensive Page Directory (12 Live Views)](#comprehensive-page-directory-12-live-views)
+- [Detailed Log of Accomplishments & Bug Fixes](#detailed-log-of-accomplishments--bug-fixes)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Haute Couture Editorial UI:** Glassmorphism headers, serif typography, high-fashion layout compositions, and smooth micro-interactions.
 - **Dynamic Product Detail Modals (PDP):** Multi-angle high-resolution image galleries, real-time variant selectors (Size/Color), live stock tracking, and customer reviews.
@@ -42,7 +42,7 @@
 
 ---
 
-## 🏛️ Project Architecture & Components (18 UI Modules)
+## Project Architecture & Components (18 UI Modules)
 
 The application's interface is modularized into **18 distinct UI components** grouped into 5 architectural tiers:
 
@@ -86,7 +86,7 @@ The application's interface is modularized into **18 distinct UI components** gr
 
 ---
 
-## 🌐 Comprehensive Page Directory (12 Live Views)
+## Comprehensive Page Directory (12 Live Views)
 
 The storefront operates as a responsive Single Page Application (SPA) driven by `AppContext` state routing:
 
@@ -105,7 +105,7 @@ The storefront operates as a responsive Single Page Application (SPA) driven by 
 
 ---
 
-## 🛠️ Detailed Log of Accomplishments & Bug Fixes
+## Detailed Log of Accomplishments & Bug Fixes
 
 Here is an honest, technical summary of all optimizations, bugs resolved, and features implemented to date:
 
@@ -138,7 +138,7 @@ Here is an honest, technical summary of all optimizations, bugs resolved, and fe
 
 ---
 
-## 💻 Tech Stack
+## Tech Stack
 
 - **Frontend Core:** [React 19](https://react.dev/), [Vite 8](https://vitejs.dev/)
 - **Icons:** [Lucide React](https://lucide.dev/)
@@ -148,7 +148,7 @@ Here is an honest, technical summary of all optimizations, bugs resolved, and fe
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v18.0 or higher recommended)
@@ -186,7 +186,7 @@ npm run preview
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── public/

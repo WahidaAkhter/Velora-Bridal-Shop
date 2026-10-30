@@ -11,8 +11,7 @@ import {
   Gift,
   CheckCircle2,
   Smartphone,
-  AlertCircle,
-  Sparkles
+  AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -567,7 +566,7 @@ export const CheckoutPage = () => {
                       onClick={fillDemoCard}
                       title="Quick fill sample Visa credentials for testing"
                     >
-                      <Sparkles size={13} className="text-accent" /> Fill Demo Visa Card
+                      Fill Demo Visa Card
                     </button>
                   </div>
 
@@ -582,7 +581,7 @@ export const CheckoutPage = () => {
                   {/* Live Credit Card Component */}
                   <div className="visual-credit-card">
                     <div className="card-top-row">
-                      <div className="card-chip-icon">⚡</div>
+                      <div className="card-chip-icon"><CreditCard size={15} /></div>
                       <span className="card-brand-badge">
                         {getCardBrand(cardData.number)}
                       </span>

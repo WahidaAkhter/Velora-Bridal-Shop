@@ -145,7 +145,7 @@ export const AppointmentModal = ({ onClose }) => {
               <strong>{formData.appointmentDate || 'your selected date'}</strong> at <strong>{formData.timeSlot}</strong>.
             </p>
             <span className="location-reminder">
-              📍 123 Bridal Lane, New York, NY 10001
+              123 Bridal Lane, New York, NY 10001
             </span>
             <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
               <button

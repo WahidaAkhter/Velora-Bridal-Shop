@@ -670,10 +670,10 @@ export const AccountPage = () => {
                         {apt.service}
                       </h4>
                       <p style={{ margin: '0 0 6px 0', fontSize: '13px', color: '#4D3D39' }}>
-                        📅 <strong>{apt.appointmentDate}</strong> at <strong>{apt.timeSlot}</strong>
+                        <strong>{apt.appointmentDate}</strong> at <strong>{apt.timeSlot}</strong>
                       </p>
                       <p style={{ margin: 0, fontSize: '12px', color: '#756460' }}>
-                        📍 {apt.location || 'VELORA Atelier, 123 Bridal Lane, New York, NY'}
+                        {apt.location || 'VELORA Atelier, 123 Bridal Lane, New York, NY'}
                       </p>
                       {apt.notes && (
                         <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#887B75', fontStyle: 'italic' }}>
