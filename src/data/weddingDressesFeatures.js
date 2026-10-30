@@ -309,7 +309,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Size Chart & Atelier Measurements',
     badge: 'Bespoke Fit Studio',
     tagline: 'Precision couture sizing calibrated for a sculpted bridal silhouette',
-    heroImage: '/images/bridal/hero-bride-clean.jpg',
+    heroImage: '/images/bridal/style-modern-crepe.jpg',
     isSpecialView: 'size-chart',
     thought: 'Bridal gowns are tailored to your unique proportions, which typically differ from high-street everyday sizing. Our atelier sizes are cut to accommodate corsetry, breast cup architecture, and natural waist contours with precision seam allowances for alteration ease.',
     stylistNote: 'Measure over the exact undergarments you plan to wear on your wedding day for millimeter-level accuracy.',

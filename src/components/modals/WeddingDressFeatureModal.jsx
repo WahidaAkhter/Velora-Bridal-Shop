@@ -146,7 +146,9 @@ export const WeddingDressFeatureModal = () => {
         <div className="wedding-feature-modal-header">
           <div className="modal-header-left">
             <span className="modal-category-eyebrow">
-              WEDDING DRESSES &bull; {featureData.category}
+              {featureData.isSpecialView === 'size-chart' || currentOptionKey === 'SIZE CHART'
+                ? 'ATELIER SIZING & FIT GUIDE'
+                : `WEDDING DRESSES • ${featureData.category}`}
             </span>
             <h2 className="modal-feature-title">{featureData.title}</h2>
           </div>
@@ -160,21 +162,23 @@ export const WeddingDressFeatureModal = () => {
           </button>
         </div>
 
-        {/* Category Option Pill Bar (Allows rapid switching between options in this column) */}
-        <div className="wedding-feature-pills-bar">
-          <div className="pills-scroll-track">
-            {currentCategory.items.map((opt, i) => (
-              <button
-                key={i}
-                type="button"
-                className={`feature-pill-btn ${opt === currentOptionKey ? 'is-active' : ''}`}
-                onClick={() => handleOptionSelect(opt)}
-              >
-                {opt}
-              </button>
-            ))}
+        {/* Category Option Pill Bar (Hidden for Size Chart so only the size chart is displayed without other unrelated buttons) */}
+        {featureData.isSpecialView !== 'size-chart' && currentOptionKey !== 'SIZE CHART' && (
+          <div className="wedding-feature-pills-bar">
+            <div className="pills-scroll-track">
+              {currentCategory.items.map((opt, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`feature-pill-btn ${opt === currentOptionKey ? 'is-active' : ''}`}
+                  onClick={() => handleOptionSelect(opt)}
+                >
+                  {opt}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Modal Body Content */}
         <div className="wedding-feature-modal-body">
