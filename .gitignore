@@ -29,3 +29,8 @@ dist-ssr
 
 # Server cache
 server/cache/
+
+# Generated presentation assets & scripts
+*.pdf
+public/screenshots/
+scripts/

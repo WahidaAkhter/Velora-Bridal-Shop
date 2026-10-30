@@ -550,7 +550,7 @@ export const AccountPage = () => {
               <div className="wishlist-grid">
                 {wishlistedProducts.map((product) => (
                   <div key={product.id} className="wishlist-card glass-panel">
-                    <img src={product.images[0]} alt={product.name} />
+                    <img src={product.images?.[0] || product.image || ''} alt={product.name} />
                     <div className="card-info">
                       <h4>{product.name}</h4>
                       <span className="price">{formatPrice(product.price)}</span>

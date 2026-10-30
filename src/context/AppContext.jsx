@@ -173,8 +173,14 @@ export const AppProvider = ({ children }) => {
 
   // Cart helpers
   const addToCart = (product, variant = null, quantity = 1) => {
-    const selectedVar = variant || product.variants[0];
-    const existing = cartItems.find(i => i.productId === product.id && i.variant.id === selectedVar.id);
+    const defaultVariant = {
+      id: `${product.id}-default`,
+      name: 'Standard Atelier Sizing',
+      price: product.price || 0,
+      stock: product.stock ?? 10
+    };
+    const selectedVar = variant || (product.variants && product.variants.length > 0 ? product.variants[0] : defaultVariant);
+    const existing = cartItems.find(i => i.productId === product.id && i.variant?.id === selectedVar.id);
     if (existing) {
       setCartItems(prev =>
         prev.map(i => (i.id === existing.id ? { ...i, quantity: i.quantity + quantity } : i))
@@ -531,10 +537,10 @@ export const AppProvider = ({ children }) => {
       items: cartItems.map(i => ({
         id: i.productId,
         name: i.product.name,
-        variantName: i.variant.name,
-        price: i.variant.price,
+        variantName: i.variant?.name || 'Standard Atelier Sizing',
+        price: i.variant?.price || i.product.price || 0,
         quantity: i.quantity,
-        image: i.product.images[0]
+        image: i.product.images?.[0] || i.product.image || ''
       })),
       subtotal: getCartSubtotal(),
       discount: getVoucherDiscount(),

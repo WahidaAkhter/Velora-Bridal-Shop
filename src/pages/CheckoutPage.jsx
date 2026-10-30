@@ -790,7 +790,7 @@ export const CheckoutPage = () => {
             <div className="summary-items-list">
               {cartItems.map((item) => (
                 <div key={item.id} className="summary-item-row">
-                  <img src={item.product.images[0]} alt={item.product.name} />
+                  <img src={item.product.images?.[0] || item.product.image || ''} alt={item.product.name} />
                   <div className="item-meta">
                     <span className="item-title">{item.product.name}</span>
                     <span className="item-sub">{item.variant.name} × {item.quantity}</span>

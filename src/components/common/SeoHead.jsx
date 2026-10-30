@@ -22,7 +22,7 @@ export const SeoHead = () => {
     if (selectedProduct) {
       title = `${selectedProduct.name} | VELORA Storefront`;
       description = selectedProduct.description;
-      image = selectedProduct.images[0];
+      image = selectedProduct.images?.[0] || selectedProduct.image || '';
     } else if (currentView === 'checkout') {
       title = 'Secure Checkout | VELORA Storefront';
       description = 'Complete your order with multiple delivery options and card, PayPal, Apple Pay or gift card payment.';

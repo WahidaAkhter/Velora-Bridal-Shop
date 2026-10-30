@@ -37,12 +37,10 @@ export const WeddingDressFeatureModal = () => {
 
   // Sync activeTabOption with activeWeddingDressOption
   useEffect(() => {
-    if (activeWeddingDressOption) {
-      setActiveTabOption(activeWeddingDressOption);
-    }
+    setActiveTabOption(activeWeddingDressOption);
   }, [activeWeddingDressOption]);
 
-  if (!activeWeddingDressOption && !activeTabOption) return null;
+  if (!activeWeddingDressOption) return null;
 
   const currentOptionKey = activeTabOption || activeWeddingDressOption;
   const featureData = WEDDING_DRESS_OPTIONS_DATA[currentOptionKey] || {

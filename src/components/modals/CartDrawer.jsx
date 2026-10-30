@@ -8,7 +8,7 @@ export const CartDrawer = () => {
   const {
     isCartOpen, setIsCartOpen, cartItems, updateCartQuantity, removeFromCart,
     getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,
-    appliedVoucher, applyVoucherCode, removeVoucher, setCurrentView, shippingMethod, formatPrice
+    appliedVoucher, applyVoucherCode, removeVoucher, setCurrentView, setSelectedCategory, setSearchQuery, shippingMethod, formatPrice
   } = useApp();
 
   const [inputCode, setInputCode] = useState('');
@@ -16,6 +16,14 @@ export const CartDrawer = () => {
   const { shouldRender, isClosing } = useDelayedUnmount(isCartOpen, 280);
 
   if (!shouldRender) return null;
+
+  const handleStartShopping = () => {
+    setIsCartOpen(false);
+    if (setSelectedCategory) setSelectedCategory('all');
+    if (setSearchQuery) setSearchQuery('');
+    setCurrentView('all-dresses');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const subtotal = getCartSubtotal();
   const discount = getVoucherDiscount();
@@ -56,13 +64,13 @@ export const CartDrawer = () => {
               <div className="empty-icon-circle"><ShoppingBag size={32} className="text-muted" /></div>
               <h4>Your bag is currently empty</h4>
               <p className="text-muted">Discover our curated artisan products and add items to your cart.</p>
-              <button className="btn btn-primary mt-4" onClick={() => setIsCartOpen(false)}>Start Shopping</button>
+              <button className="btn btn-primary mt-4" onClick={handleStartShopping}>Start Shopping</button>
             </div>
           ) : (
             <div className="cart-items-list">
               {cartItems.map((item, i) => (
                 <div key={item.id} className="cart-item-card cart-item-enter" style={{ '--i': i }}>
-                  <img src={item.product.images[0]} alt={item.product.name} className="item-thumb" />
+                  <img src={item.product.images?.[0] || item.product.image || ''} alt={item.product.name} className="item-thumb" />
                   <div className="item-details">
                     <span className="item-cat">{item.product.categoryName}</span>
                     <h4 className="item-name">{item.product.name}</h4>

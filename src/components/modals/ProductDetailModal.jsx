@@ -50,9 +50,20 @@ export const ProductDetailModal = ({ product, onClose }) => {
     setSelectedProduct(p);
   };
 
+  const productImages = (Array.isArray(product.images) && product.images.length > 0)
+    ? product.images
+    : [product.image || '/images/bridal/hero-bride-clean.jpg'];
+
+  const defaultVariant = {
+    id: `${product.id}-default`,
+    name: 'Standard Atelier Sizing',
+    price: product.price || 0,
+    stock: product.stock ?? 10
+  };
+
   const [activeImgIndex, setActiveImgIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(
-    product.variants ? product.variants[0] : null
+    product.variants && product.variants.length > 0 ? product.variants[0] : defaultVariant
   );
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('specs'); // 'specs' | 'reviews'
@@ -70,8 +81,8 @@ export const ProductDetailModal = ({ product, onClose }) => {
   ];
 
   const isWishlisted = wishlist.includes(product.id);
-  const currentPrice = selectedVariant ? selectedVariant.price : product.price;
-  const currentStock = selectedVariant ? selectedVariant.stock : product.stock;
+  const currentPrice = selectedVariant ? selectedVariant.price : (product.price || 0);
+  const currentStock = selectedVariant ? (selectedVariant.stock ?? 10) : (product.stock ?? 10);
 
   const handleAddReview = (e) => {
     e.preventDefault();
@@ -108,7 +119,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
               onMouseLeave={() => setZoom(z => ({ ...z, active: false }))}
             >
               <img
-                src={product.images[activeImgIndex] || product.images[0]}
+                src={productImages[activeImgIndex] || productImages[0]}
                 alt={product.name}
                 className="main-detail-img"
                 style={{
@@ -123,9 +134,9 @@ export const ProductDetailModal = ({ product, onClose }) => {
             </div>
 
             {/* Thumbnail Switcher */}
-            {product.images.length > 1 && (
+            {productImages.length > 1 && (
               <div className="thumbnails-row">
-                {product.images.map((img, idx) => (
+                {productImages.map((img, idx) => (
                   <button
                     key={idx}
                     className={`thumb-btn ${activeImgIndex === idx ? 'active' : ''}`}
@@ -144,8 +155,8 @@ export const ProductDetailModal = ({ product, onClose }) => {
               <span className="category-tag">{product.categoryName}</span>
               <div className="rating-pill">
                 <Star size={14} className="text-amber" fill="currentColor" />
-                <strong>{product.rating}</strong>
-                <span>({reviewsList.length} reviews)</span>
+                <strong>{product.rating || '5.0'}</strong>
+                <span>({combinedReviews.length} reviews)</span>
               </div>
             </div>
 
@@ -369,7 +380,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
             <div className="related-grid">
               {related.map(p => (
                 <button key={p.id} className="related-card" onClick={() => openRelated(p)}>
-                  <img src={p.images[0]} alt={p.name} loading="lazy" />
+                  <img src={p.images?.[0] || p.image || ''} alt={p.name} loading="lazy" />
                   <span className="related-name">{p.name}</span>
                   <span className="related-price">{formatPrice(p.price)}</span>
                 </button>
