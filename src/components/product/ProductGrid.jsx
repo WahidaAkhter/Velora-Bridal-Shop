@@ -3,7 +3,8 @@ import { useApp } from '../../context/AppContext';
 import { PRODUCTS } from '../../data/products';
 import { getProducts } from '../../services/api';
 import { ShopCollectionNav } from '../common/ShopCollectionNav';
-import { Heart, X } from 'lucide-react';
+import { Heart, X, Scale } from 'lucide-react';
+import { useCompare } from '../../hooks/useCompare';
 import { matchGownSearchStrict, getSilhouetteKey, SILHOUETTE_DEFINITIONS } from '../../utils/searchMatcher';
 
 export const SILHOUETTE_OPTIONS = [
@@ -82,6 +83,8 @@ export const ProductGrid = () => {
     formatPrice,
     setIsAppointmentModalOpen
   } = useApp();
+
+  const { isInCompare, toggle: toggleCompare } = useCompare();
 
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [selectedSilhouette, setSelectedSilhouette] = useState('All Silhouettes');
@@ -504,6 +507,7 @@ export const ProductGrid = () => {
         <div className="velora-grid-4">
           {paginatedDresses.map((gown) => {
             const isWishlisted = wishlist.includes(gown.id);
+            const isCompared = isInCompare(gown.id);
             const primaryImg = gown.images?.[0] || gown.image || '';
             const secondaryImg = gown.images?.[1] || gown.hoverImage || primaryImg;
 
@@ -521,6 +525,24 @@ export const ProductGrid = () => {
               >
                 {/* Image Media Box (Aspect Ratio 3/4) */}
                 <div className="velora-gown-media">
+                  {/* Floating Circular Compare Icon (Top Left) */}
+                  <button
+                    type="button"
+                    className={`velora-compare-circle-btn ${isCompared ? 'is-active' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleCompare(gown.id);
+                    }}
+                    aria-label={isCompared ? "Remove from comparison" : "Compare gown"}
+                    title={isCompared ? "Remove from comparison" : "Compare this gown (up to 3)"}
+                  >
+                    <Scale
+                      size={15}
+                      stroke={isCompared ? "#BCA07E" : "rgba(0,0,0,0.65)"}
+                      strokeWidth={1.8}
+                    />
+                  </button>
+
                   {/* Floating Circular Wishlist Heart Icon (Top Right) */}
                   <button
                     type="button"

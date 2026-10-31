@@ -43,6 +43,8 @@ import {
 import { Toast, SeoHead } from './components/common';
 import { RecentlyViewedStrip } from './components/extras/RecentlyViewedStrip';
 import { SharedWishlistView } from './components/extras/SharedWishlistView';
+import { CompareBar } from './components/extras/CompareBar';
+import { CompareView } from './components/extras/CompareView';
 import { parseShareUrl } from './utils/wishlistShare';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
@@ -177,6 +179,7 @@ const MainContent = () => {
             {(currentView === 'our-story' || currentView === 'about' || currentView === 'about-us') && <OurStoryPage />}
             {currentView === 'checkout' && <CheckoutPage />}
             {currentView === 'account' && <AccountPage />}
+            {currentView === 'compare' && <CompareView />}
           </>
         )}
       </main>
@@ -214,6 +217,7 @@ const MainContent = () => {
 
       <AuthModal />
       <CartDrawer />
+      <CompareBar />
       <Toast />
 
       {showBackToTop && !anyOverlayOpen && (
