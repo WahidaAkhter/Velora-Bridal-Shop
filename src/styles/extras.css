@@ -1,0 +1,446 @@
+/* ==========================================================================
+   VELORA LUXURY BRIDAL EXTRAS STYLING
+   Feature 1: Recently Viewed Strip & Complete The Look
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. RECENTLY VIEWED STRIP
+   -------------------------------------------------------------------------- */
+.velora-recent-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 48px auto 32px auto;
+  padding: 0 24px;
+}
+
+.velora-recent-container {
+  background: #FFFFFF;
+  border: 1px solid #EFEAE3;
+  border-radius: 4px;
+  padding: 28px 24px 32px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.velora-recent-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #F2ECE4;
+}
+
+.velora-recent-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.velora-recent-kicker {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #BCA07E;
+  font-weight: 600;
+}
+
+.velora-recent-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: clamp(20px, 2.4vw, 26px);
+  color: #1F1917;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-recent-count {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #8C847E;
+  text-transform: uppercase;
+}
+
+/* Horizontal scrollable strip */
+.velora-recent-strip {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.velora-recent-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.velora-recent-strip::-webkit-scrollbar-thumb {
+  background: #E0D7CC;
+  border-radius: 2px;
+}
+
+.velora-recent-strip::-webkit-scrollbar-track {
+  background: #FAF8F5;
+}
+
+/* Card */
+.velora-recent-card {
+  flex: 0 0 180px;
+  display: flex;
+  flex-direction: column;
+  background: #FAF8F5;
+  border: 1px solid #ECE5DC;
+  border-radius: 3px;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+}
+
+.velora-recent-card:hover,
+.velora-recent-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(45, 35, 33, 0.08);
+  border-color: #BCA07E;
+  outline: none;
+}
+
+.velora-recent-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #F3EFEA;
+}
+
+.velora-recent-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.35s ease;
+}
+
+.velora-recent-card:hover .velora-recent-img {
+  transform: scale(1.04);
+}
+
+.velora-recent-hover-hint {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(31, 25, 23, 0.85);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.velora-recent-card:hover .velora-recent-hover-hint {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.velora-recent-card-body {
+  padding: 10px 12px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.velora-recent-name {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1F1917;
+  letter-spacing: 0.03em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.velora-recent-subtitle {
+  font-size: 11px;
+  color: #7D7570;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.velora-recent-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #BCA07E;
+  margin-top: 4px;
+}
+
+/* Strip inside ProductDetailModal */
+.pdp-modal-dialog .velora-recent-section {
+  margin: 32px 0 0 0;
+  padding: 0;
+}
+
+.pdp-modal-dialog .velora-recent-container {
+  background: #FCFBF9;
+  border-color: #E8E2D9;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. COMPLETE THE LOOK BUNDLE WIDGET
+   -------------------------------------------------------------------------- */
+.velora-complete-look-box {
+  background: #FCFBF9;
+  border: 1px solid #EBE5DC;
+  border-radius: 4px;
+  padding: 24px;
+  margin: 28px 0 24px 0;
+  box-shadow: 0 4px 16px rgba(45, 35, 33, 0.03);
+}
+
+.velora-look-header {
+  margin-bottom: 20px;
+}
+
+.velora-look-kicker {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #BCA07E;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.velora-look-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 22px;
+  color: #1F1917;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-look-desc {
+  font-size: 13px;
+  color: #6E6662;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Grid of 3 pieces */
+.velora-look-bundle-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.velora-bundle-card {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #ECE6DE;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.velora-bundle-card:hover {
+  border-color: #BCA07E;
+  transform: translateY(-2px);
+}
+
+.velora-bundle-thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: #F4EFEB;
+}
+
+.velora-bundle-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.velora-bundle-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: rgba(31, 25, 23, 0.8);
+  backdrop-filter: blur(4px);
+  color: #FAF8F5;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 2px;
+}
+
+.velora-bundle-info {
+  padding: 10px 10px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.velora-bundle-name {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1F1917;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.velora-bundle-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: #BCA07E;
+}
+
+.velora-bundle-plus {
+  flex: 0 0 auto;
+  color: #BCA07E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Footer / CTA */
+.velora-look-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #ECE6DE;
+}
+
+.velora-look-total-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.velora-look-total-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8C847E;
+}
+
+.velora-look-total-price {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1F1917;
+}
+
+.velora-look-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #1F1917;
+  color: #FAF8F5;
+  border: 1px solid #1F1917;
+  border-radius: 2px;
+  padding: 12px 24px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.velora-look-cta-btn:hover {
+  background: #BCA07E;
+  border-color: #BCA07E;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(188, 160, 126, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   3. RESPONSIVE MEDIA QUERIES (375px, 768px, 1280px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .velora-recent-section {
+    padding: 0 16px;
+    margin: 32px auto 24px auto;
+  }
+
+  .velora-recent-card {
+    flex: 0 0 150px;
+  }
+
+  .velora-complete-look-box {
+    padding: 18px 14px;
+  }
+
+  .velora-look-bundle-grid {
+    gap: 8px;
+  }
+
+  .velora-look-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .velora-look-cta-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .velora-recent-card {
+    flex: 0 0 135px;
+  }
+
+  .velora-look-bundle-grid {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .velora-bundle-plus {
+    transform: rotate(90deg);
+  }
+
+  .velora-bundle-card {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .velora-bundle-thumb-wrap {
+    width: 80px;
+    height: 100px;
+    aspect-ratio: auto;
+    flex-shrink: 0;
+  }
+
+  .velora-bundle-info {
+    padding: 8px 12px;
+  }
+}

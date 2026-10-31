@@ -6,7 +6,6 @@ import { ALL_SHOP_DRESSES } from '../../data/allDressesData';
 import { ACCESSORY_PIECES } from '../../data/accessoriesData';
 import { QUICK_SHIP_GOWNS } from '../../data/quickShipData';
 import { LEGACY_COLLECTION_GOWNS } from '../../data/legacyCollectionData';
-import { Sparkles, ArrowRight } from 'lucide-react';
 
 export const RecentlyViewedStrip = ({ excludeId = null, title = 'Recently Viewed' }) => {
   const { setSelectedProduct, formatPrice } = useApp();

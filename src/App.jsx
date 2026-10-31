@@ -41,6 +41,7 @@ import {
 
 // Common / UI
 import { Toast, SeoHead } from './components/common';
+import { RecentlyViewedStrip } from './components/extras/RecentlyViewedStrip';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
 import './styles/layout.css';
@@ -48,6 +49,7 @@ import './styles/components.css';
 import './styles/motion.css';
 import './styles/responsive.css';
 import './styles/luxe-bridal.css';
+import './styles/extras.css';
 
 const MainContent = () => {
   const {
@@ -145,6 +147,9 @@ const MainContent = () => {
 
             {/* 5. Editorial Split Banner ("Fall in Love" & "Forever After" - Lulus Reference) */}
             <EditorialSplitBanner />
+
+            {/* Recently Viewed Strip */}
+            <RecentlyViewedStrip />
 
             {/* 6. Dream Dress Banner Card */}
             <DreamDressBanner />

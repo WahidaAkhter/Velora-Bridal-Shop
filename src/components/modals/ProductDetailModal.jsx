@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { PRODUCTS } from '../../data/products';
+import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
+import { RecentlyViewedStrip } from '../extras/RecentlyViewedStrip';
+import { CompleteTheLook } from '../extras/CompleteTheLook';
 import {
   X,
   Star,
   ShoppingBag,
   Heart,
-  Truck,
   ShieldCheck,
   RotateCcw,
-  Check,
   Plus,
   Minus,
   Calendar,
@@ -29,6 +30,14 @@ export const ProductDetailModal = ({ product, onClose }) => {
     user,
     isLoggedIn
   } = useApp();
+
+  const { track } = useRecentlyViewed();
+
+  useEffect(() => {
+    if (product?.id) {
+      track(product.id);
+    }
+  }, [product?.id, track]);
 
   const [zoom, setZoom] = useState({ active: false, x: 50, y: 50 });
   const handleZoomMove = (e) => {
@@ -374,6 +383,9 @@ export const ProductDetailModal = ({ product, onClose }) => {
           </div>
         </div>
 
+        {/* Complete The Look Curated Ensemble */}
+        <CompleteTheLook product={product} selectedVariant={selectedVariant} />
+
         {related.length > 0 && (
           <div className="related-section">
             <h3 className="related-title">You may also like</h3>
@@ -388,6 +400,9 @@ export const ProductDetailModal = ({ product, onClose }) => {
             </div>
           </div>
         )}
+
+        {/* Recently Viewed Strip (Excluding Current Gown) */}
+        <RecentlyViewedStrip excludeId={product.id} />
       </div>
     </div>
   );

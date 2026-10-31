@@ -12,8 +12,8 @@ export const LOOK_RULES = [
       const text = `${product.silhouette || ''} ${product.shape || ''} ${product.name || ''} ${product.subtitle || ''} ${product.tags?.join(' ') || ''}`.toLowerCase();
       return text.includes('ballgown') || text.includes('ball gown') || text.includes('princess');
     },
-    veilId: 'acc-veil-cathedral-01', // Cathedral Floral Lace Veil
-    beltId: 'acc-belt-crystal-01'   // Pavé Crystal Botanical Belt
+    veilId: 'acc-veil-cathedral-01', // V098C Cathedral Floral Lace Veil
+    beltId: 'acc-belt-crystal'      // Valeria Hand-Embroidered Crystal & Pearl Sash
   },
 
   // 2. A-Line Silhouettes
@@ -23,8 +23,8 @@ export const LOOK_RULES = [
       const text = `${product.silhouette || ''} ${product.shape || ''} ${product.name || ''} ${product.subtitle || ''} ${product.tags?.join(' ') || ''}`.toLowerCase();
       return text.includes('a-line') || text.includes('aline');
     },
-    veilId: 'acc-veil-pearl-02',    // Luminous Pearl Droplet Veil (Fingertip)
-    beltId: 'acc-belt-pearl-02'     // Freshwater Pearl Atelier Sash
+    veilId: 'acc-veil-pearl-02',    // V40 Luminous Pearl Droplet Veil
+    beltId: 'sash-s156'             // S156 Atelier Belt
   },
 
   // 3. Mermaid, Fit & Flare, Sheath
@@ -34,8 +34,8 @@ export const LOOK_RULES = [
       const text = `${product.silhouette || ''} ${product.shape || ''} ${product.name || ''} ${product.subtitle || ''} ${product.tags?.join(' ') || ''}`.toLowerCase();
       return text.includes('mermaid') || text.includes('fit & flare') || text.includes('sheath') || text.includes('trumpet');
     },
-    veilId: 'acc-veil-raw-03',      // Whisper Raw Edge Cathedral Veil
-    beltId: 'acc-train-mikado-01'   // Royal Detachable Mikado Train
+    veilId: 'acc-veil-pearl-02',    // V40 Luminous Pearl Droplet Veil
+    beltId: 'acc-train-a1478t'      // A1478T Sculpted Royal Detachable Train
   },
 
   // 4. Basque Waist & Drop Waist Silhouettes
@@ -45,8 +45,8 @@ export const LOOK_RULES = [
       const text = `${product.silhouette || ''} ${product.shape || ''} ${product.name || ''} ${product.subtitle || ''} ${product.tags?.join(' ') || ''}`.toLowerCase();
       return text.includes('basque') || text.includes('drop waist') || text.includes('drop-waist');
     },
-    veilId: 'acc-veil-mantilla-04', // Royal Spanish Mantilla Veil
-    beltId: 'sash-4'                // Seraphina Marquise Cut Crystal Belt
+    veilId: 'acc-veil-cathedral-01', // V098C Cathedral Floral Lace Veil
+    beltId: 'acc-belt-crystal'      // Valeria Hand-Embroidered Crystal & Pearl Sash
   },
 
   // 5. Boho, Beach, Minimal & Romantic
@@ -56,8 +56,8 @@ export const LOOK_RULES = [
       const text = `${product.silhouette || ''} ${product.shape || ''} ${product.name || ''} ${product.subtitle || ''} ${product.tags?.join(' ') || ''}`.toLowerCase();
       return text.includes('boho') || text.includes('beach') || text.includes('simple') || text.includes('modern');
     },
-    veilId: 'acc-veil-raw-03',      // Whisper Raw Edge Cathedral Veil
-    beltId: 'sash-5'                // Ophelia Raw-Edge Silk Chiffon Ribbon Sash
+    veilId: 'acc-veil-pearl-02',    // V40 Luminous Pearl Droplet Veil
+    beltId: 'sash-s154'             // S154 Atelier Belt
   }
 ];
 
@@ -65,5 +65,5 @@ export const LOOK_RULES = [
 export const FALLBACK_LOOK_RULE = {
   name: 'Signature Atelier Classic',
   veilId: 'acc-veil-cathedral-01', // V098C Cathedral Floral Lace Veil
-  beltId: 'acc-belt-crystal-01'   // B12 Pavé Crystal Botanical Belt
+  beltId: 'acc-belt-crystal'      // Valeria Hand-Embroidered Crystal & Pearl Sash
 };
