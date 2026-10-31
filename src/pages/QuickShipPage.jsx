@@ -42,7 +42,7 @@ export const QuickShipPage = () => {
       if (mounted && res && res.success && res.data && res.data.products) {
         setQuickShipState(res.data);
       }
-    }).catch(() => {});
+    }).catch(() => { });
     return () => { mounted = false; };
   }, []);
 
@@ -67,9 +67,9 @@ export const QuickShipPage = () => {
   const filteredGowns = activeFilter === 'ALL'
     ? gownsList
     : gownsList.filter((g) => {
-        const option = filterOptions.find((o) => o.label === activeFilter);
-        return option && option.match ? option.match(g) : true;
-      });
+      const option = filterOptions.find((o) => o.label === activeFilter);
+      return option && option.match ? option.match(g) : true;
+    });
 
   const handleCardClick = (gown) => {
     const fullProduct = {
@@ -183,7 +183,7 @@ export const QuickShipPage = () => {
         </div>
       </div>
 
-      {/* 2. Editorial Header (Faithfully matching Reference Screenshot) */}
+      {/* 2. Editorial Header */}
       <header className="quick-ship-editorial-header">
         <div className="quick-ship-header-inner">
           <div className="quick-ship-badge-pill">
@@ -223,7 +223,7 @@ export const QuickShipPage = () => {
         </div>
       </section>
 
-      {/* 4. Luxury 4-Column Gowns Grid (Matching Reference Screenshot) */}
+      {/* 4. Luxury 4-Column Gowns Grid */}
       <main className="quick-ship-grid-section">
         <div className="quick-ship-gowns-grid">
           {filteredGowns.map((gown) => {

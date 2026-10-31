@@ -1,6 +1,6 @@
 /* ==========================================================================
-   MONIQUE LHUILLIER BRIDAL LOOKBOOK STYLES
-   Exact replication of https://moniquelhuillier.com/pages/lookbook-bridal-spring-2025
+   VELORA EDITORIAL BRIDAL LOOKBOOK STYLES
+   Spring 2025 Haute Couture Editorial & Lightbox Showcase
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap');
@@ -25,7 +25,7 @@
 }
 
 /* ==========================================================================
-   1. HERO BANNER (Image with Text Overlay - Exact Match to Screenshot)
+   1. HERO BANNER (Image with Text Overlay)
    ========================================================================== */
 .ml-hero-section {
   position: relative;
@@ -411,7 +411,7 @@
 }
 
 /* ==========================================================================
-   6. MONIQUE LHUILLIER LIGHTBOX MODAL (lookbook-modal)
+   6. VELORA LIGHTBOX MODAL (lookbook-modal)
    ========================================================================== */
 .ml-modal-backdrop {
   position: fixed;

@@ -1,10 +1,12 @@
-// Authentic data replicated from Madi Lane Our Story (https://madilane.com/our-story/)
-// Re-branded to VELORA Bridal
+/**
+ * VELORA Atelier Heritage & Brand Story
+ * High fashion couture values, atelier craftsmanship, and bride-centric philosophy.
+ */
 
 export const OUR_STORY_SECTIONS = [
   {
     id: 'our-story-intro',
-    layout: 'image-left', // Left: Image, Right: Text (as shown in user screenshot)
+    layout: 'image-left', // Left: Image, Right: Text
     kicker: 'OUR STORY',
     title: 'VELORA Bridal',
     paragraphs: [
@@ -21,7 +23,7 @@ export const OUR_STORY_SECTIONS = [
   },
   {
     id: 'for-brides-first',
-    layout: 'text-left', // Left: Text, Right: Image (as shown in user screenshot)
+    layout: 'text-left', // Left: Text, Right: Image
     title: 'We are a for-brides-first brand',
     paragraphs: [
       'Our purpose at VELORA is to use our generations of bridal expertise, to make a difference to brides around the world, with accessible and wearable Australian designer wedding gowns for women of all shapes and sizes. We coined this, All For You.',

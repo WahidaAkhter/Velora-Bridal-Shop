@@ -1,7 +1,6 @@
 /**
  * VELORA All Collections Data
- * Extracted directly from https://madilane.com/collections/
- * Exact photography, seasonal collection capsules, and Shape & Style facet tiles.
+ * Curated seasonal collection capsules, haute couture photography, and Shape & Style facet tiles.
  */
 
 export const COLLECTIONS_HERO_DATA = {

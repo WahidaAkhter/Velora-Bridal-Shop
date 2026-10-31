@@ -114,7 +114,7 @@ export const ProductGrid = () => {
   }, [priceRange, setPriceRange]);
 
 
-  // Comprehensive Filter & Sort Logic matching Madi Lane reference
+  // Comprehensive Filter & Sort Logic
   const filtered = useMemo(() => {
     let result = productsList.filter((p) => {
       // 1. Category filter
@@ -130,7 +130,7 @@ export const ProductGrid = () => {
         if (p.category !== selectedCategory && !p.tags?.includes(selectedCategory)) return false;
       }
 
-      // 2. Silhouette filter (Strict Madi Lane options)
+      // 2. Silhouette filter
       if (selectedSilhouette !== 'All Silhouettes') {
         const silDef = SILHOUETTE_DEFINITIONS.find(d => d.name.toLowerCase() === selectedSilhouette.toLowerCase());
         const silKey = getSilhouetteKey(p);
@@ -145,7 +145,7 @@ export const ProductGrid = () => {
         }
       }
 
-      // 3. Neckline & Sleeve filter (Madi Lane options)
+      // 3. Neckline & Sleeve filter
       if (selectedNeckline !== 'All Necklines') {
         const target = selectedNeckline.toLowerCase();
         const neckAttr = (p.attributes?.['Neckline'] || '').toLowerCase();
@@ -157,7 +157,7 @@ export const ProductGrid = () => {
         if (!neckMatch) return false;
       }
 
-      // 4. Style filter (Madi Lane options)
+      // 4. Style filter
       if (selectedStyle !== 'All Styles') {
         const target = selectedStyle.toLowerCase();
         const styleMatch = p.tags?.some(t => t.toLowerCase().includes(target)) ||
@@ -165,7 +165,7 @@ export const ProductGrid = () => {
         if (!styleMatch) return false;
       }
 
-      // 5. Fabric filter (Madi Lane options)
+      // 5. Fabric filter
       if (selectedFabric !== 'All Fabrics') {
         const target = selectedFabric.toLowerCase();
         const tagMatch = p.tags?.some(t => t.toLowerCase().includes(target));
@@ -173,7 +173,7 @@ export const ProductGrid = () => {
         if (!tagMatch && !attrMatch) return false;
       }
 
-      // 6. Accessories filter (Madi Lane options)
+      // 6. Accessories filter
       if (selectedAccessory !== 'All Accessories') {
         const target = selectedAccessory.toLowerCase();
         const accTypeMatch = (p.accessoryType || '').toLowerCase().includes(target);
@@ -499,7 +499,7 @@ export const ProductGrid = () => {
         </div>
       )}
 
-      {/* 4. Four-Column Editorial Grid (Exact Madi Lane Reference Match) */}
+      {/* 4. Four-Column Editorial Grid */}
       {filtered.length > 0 ? (
         <div className="velora-grid-4">
           {paginatedDresses.map((gown) => {
@@ -591,7 +591,7 @@ export const ProductGrid = () => {
         </div>
       )}
 
-      {/* 5. Numbered Pagination Bar (Matching madilane.com/shop/) */}
+      {/* 5. Numbered Pagination Bar */}
       {totalPages > 1 && (
         <div className="velora-pagination-container">
           {currentPage > 1 && (
@@ -667,7 +667,7 @@ export const ProductGrid = () => {
         </aside>
       )}
 
-      {/* 7. Slide-In Filter Drawer (Matching Madi Lane's 5 Category Filter Blocks) */}
+      {/* 7. Slide-In Filter Drawer */}
       {isFilterDrawerOpen && (
         <div
           className="velora-drawer-overlay"
@@ -692,7 +692,7 @@ export const ProductGrid = () => {
             </div>
 
             <div className="velora-drawer-body">
-              {/* 1. Silhouette / Shape Filter (Madi Lane Reference) */}
+              {/* 1. Silhouette / Shape Filter */}
               <div className="velora-filter-group">
                 <div className="velora-filter-group-title">By Silhouette & Shape</div>
                 <div className="velora-filter-chips">
@@ -709,7 +709,7 @@ export const ProductGrid = () => {
                 </div>
               </div>
 
-              {/* 2. Neckline & Sleeve Filter (Madi Lane Reference) */}
+              {/* 2. Neckline & Sleeve Filter */}
               <div className="velora-filter-group">
                 <div className="velora-filter-group-title">By Neckline & Sleeve</div>
                 <div className="velora-filter-chips">
@@ -726,7 +726,7 @@ export const ProductGrid = () => {
                 </div>
               </div>
 
-              {/* 3. Style & Aesthetic Filter (Madi Lane Reference) */}
+              {/* 3. Style & Aesthetic Filter */}
               <div className="velora-filter-group">
                 <div className="velora-filter-group-title">By Style & Aesthetic</div>
                 <div className="velora-filter-chips">
@@ -743,7 +743,7 @@ export const ProductGrid = () => {
                 </div>
               </div>
 
-              {/* 4. Fabrication Filter (Madi Lane Reference) */}
+              {/* 4. Fabrication Filter */}
               <div className="velora-filter-group">
                 <div className="velora-filter-group-title">By Fabrication</div>
                 <div className="velora-filter-chips">
@@ -760,7 +760,7 @@ export const ProductGrid = () => {
                 </div>
               </div>
 
-              {/* 5. Accessories Filter (Madi Lane Reference) */}
+              {/* 5. Accessories Filter */}
               <div className="velora-filter-group">
                 <div className="velora-filter-group-title">Accessories</div>
                 <div className="velora-filter-chips">

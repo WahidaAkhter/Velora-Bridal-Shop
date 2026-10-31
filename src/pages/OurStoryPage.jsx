@@ -66,8 +66,8 @@ export const OurStoryPage = () => {
       {/* 2. Shop Collection Navigation Bar */}
       <ShopCollectionNav activeTab="our-story" style={{ margin: '0 auto 36px auto' }} />
 
-      {/* 3. Main Alternating Story Grid (Exact Match to madilane.com/our-story/ Reference Screenshot) */}
-      <div className="madilane-story-grid-container">
+      {/* 3. Main Alternating Story Grid */}
+      <div className="velora-story-grid-container">
         {(storyState.sections || []).map((section, idx) => {
           const isImageLeft = section.layout === 'image-left';
 
@@ -75,35 +75,35 @@ export const OurStoryPage = () => {
             <section
               key={section.id}
               id={`story-row-${idx}`}
-              className={`madilane-story-row ${isImageLeft ? 'image-on-left' : 'image-on-right'}`}
+              className={`velora-story-row ${isImageLeft ? 'image-on-left' : 'image-on-right'}`}
             >
               {/* Image Column */}
-              <div className="madilane-story-col-image">
-                <div className="madilane-story-img-wrapper">
+              <div className="velora-story-col-image">
+                <div className="velora-story-img-wrapper">
                   <img
                     src={section.image}
                     alt={section.imageAlt || section.title}
-                    className="madilane-story-img"
+                    className="velora-story-img"
                     loading={idx === 0 ? 'eager' : 'lazy'}
                   />
                 </div>
               </div>
 
               {/* Text Column */}
-              <div className="madilane-story-col-text">
-                <div className="madilane-story-text-inner">
+              <div className="velora-story-col-text">
+                <div className="velora-story-text-inner">
                   {/* Optional Pretitle (e.g. "OUR STORY" on row 1) */}
                   {section.kicker && (
-                    <span className="madilane-story-kicker">{section.kicker}</span>
+                    <span className="velora-story-kicker">{section.kicker}</span>
                   )}
 
                   {/* Heading in warm tan/gold serif */}
-                  <h2 className="madilane-story-title">{section.title}</h2>
+                  <h2 className="velora-story-title">{section.title}</h2>
 
                   {/* Paragraphs (centered text) */}
-                  <div className="madilane-story-paragraphs">
+                  <div className="velora-story-paragraphs">
                     {section.paragraphs.map((p, pIdx) => (
-                      <p key={pIdx} className="madilane-story-p">
+                      <p key={pIdx} className="velora-story-p">
                         {p}
                       </p>
                     ))}
@@ -111,17 +111,17 @@ export const OurStoryPage = () => {
 
                   {/* Buttons on row 1 ("VIEW OUR 10-YEAR STORY" & "CONTACT US") */}
                   {section.button && (
-                    <div className="madilane-story-btn-wrap" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <div className="velora-story-btn-wrap" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
                       <button
                         type="button"
-                        className="madilane-gold-button"
+                        className="velora-gold-button"
                         onClick={() => scrollToRow(1)}
                       >
                         {section.button.text}
                       </button>
                       <button
                         type="button"
-                        className="madilane-outline-contact-btn"
+                        className="velora-outline-contact-btn"
                         onClick={() => {
                           const contactSec = document.getElementById('story-contact-section');
                           if (contactSec) {
@@ -139,7 +139,7 @@ export const OurStoryPage = () => {
 
                   {/* Real Bride Tag / Link */}
                   {section.brideTag && (
-                    <div className="madilane-bride-citation">
+                    <div className="velora-bride-citation">
                       <span className="bride-citation-name">{section.brideTag.name}</span>
                       <span className="bride-citation-sep">—</span>
                       <span className="bride-citation-loc">{section.brideTag.location}</span>
@@ -153,52 +153,52 @@ export const OurStoryPage = () => {
       </div>
 
       {/* 4. Complete Q&A Section Matching Reference Site */}
-      <section className="madilane-qa-section" id="story-qa" aria-label="Q&A Section">
-        <div className="madilane-qa-container">
-          <h2 className="madilane-qa-main-heading">Q&A</h2>
+      <section className="velora-qa-section" id="story-qa" aria-label="Q&A Section">
+        <div className="velora-qa-container">
+          <h2 className="velora-qa-main-heading">Q&A</h2>
 
-          <div className="madilane-qa-accordion-list">
+          <div className="velora-qa-accordion-list">
             {(storyState.faqs || []).map((item) => {
               const isOpen = openAccordionId === item.id;
               return (
                 <article
                   key={item.id}
-                  className={`madilane-qa-card ${isOpen ? 'is-open' : ''}`}
+                  className={`velora-qa-card ${isOpen ? 'is-open' : ''}`}
                 >
                   <button
                     type="button"
-                    className="madilane-qa-header-btn"
+                    className="velora-qa-header-btn"
                     onClick={() => toggleAccordion(item.id)}
                     aria-expanded={isOpen}
                     aria-controls={`qa-body-${item.id}`}
                   >
-                    <span className="madilane-qa-question-title">{item.question}</span>
-                    <span className="madilane-qa-icon-wrap">
+                    <span className="velora-qa-question-title">{item.question}</span>
+                    <span className="velora-qa-icon-wrap">
                       {isOpen ? (
-                        <Minus size={18} className="madilane-qa-toggle-icon" />
+                        <Minus size={18} className="velora-qa-toggle-icon" />
                       ) : (
-                        <Plus size={18} className="madilane-qa-toggle-icon" />
+                        <Plus size={18} className="velora-qa-toggle-icon" />
                       )}
                     </span>
                   </button>
 
                   {isOpen && (
                     <div
-                      className="madilane-qa-content-body animate-accordion-down"
+                      className="velora-qa-content-body animate-accordion-down"
                       id={`qa-body-${item.id}`}
                     >
                       {item.answer && (
-                        <p className="madilane-qa-answer-text">{item.answer}</p>
+                        <p className="velora-qa-answer-text">{item.answer}</p>
                       )}
 
                       {item.answerHeader && (
-                        <h4 className="madilane-qa-subheading">{item.answerHeader}</h4>
+                        <h4 className="velora-qa-subheading">{item.answerHeader}</h4>
                       )}
 
                       {item.listItems && (
-                        <ul className="madilane-qa-bullet-list">
+                        <ul className="velora-qa-bullet-list">
                           {item.listItems.map((li, liIdx) => (
-                            <li key={liIdx} className="madilane-qa-bullet-item">
+                            <li key={liIdx} className="velora-qa-bullet-item">
                               {li}
                             </li>
                           ))}
@@ -207,7 +207,7 @@ export const OurStoryPage = () => {
 
                       {/* Quick Ship Notice Callout */}
                       {item.quickShipNotice && (
-                        <div className="madilane-qa-quickship-box">
+                        <div className="velora-qa-quickship-box">
                           <h5 className="quickship-box-title">
                             {item.quickShipNotice.title}
                           </h5>
@@ -330,7 +330,7 @@ export const OurStoryPage = () => {
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
             <button
               type="button"
-              className="madilane-gold-button"
+              className="velora-gold-button"
               style={{ padding: '14px 32px', fontSize: '12px' }}
               onClick={() => setIsAppointmentModalOpen(true)}
             >
@@ -338,7 +338,7 @@ export const OurStoryPage = () => {
             </button>
             <a
               href="mailto:concierge@velorabridal.com?subject=Bridal%20Inquiry%20-%20VELORA%20Atelier"
-              className="madilane-outline-contact-btn"
+              className="velora-outline-contact-btn"
               style={{ padding: '14px 32px', fontSize: '12px', textDecoration: 'none' }}
             >
               <Mail size={14} />
@@ -349,15 +349,15 @@ export const OurStoryPage = () => {
       </section>
 
       {/* 6. VIP Lookbook Banner (Matching Reference Site Bottom Banner) */}
-      <section className="madilane-bottom-vip-banner" aria-label="New Collection Access">
-        <div className="madilane-vip-inner">
-          <h2 className="madilane-vip-heading">{(storyState.vipBanner || OUR_STORY_VIP_BANNER).title}</h2>
-          <p className="madilane-vip-sub">
+      <section className="velora-bottom-vip-banner" aria-label="New Collection Access">
+        <div className="velora-vip-inner">
+          <h2 className="velora-vip-heading">{(storyState.vipBanner || OUR_STORY_VIP_BANNER).title}</h2>
+          <p className="velora-vip-sub">
             {(storyState.vipBanner || OUR_STORY_VIP_BANNER).subtitle}
           </p>
           <button
             type="button"
-            className="madilane-vip-access-btn"
+            className="velora-vip-access-btn"
             onClick={() => {
               setCurrentView((storyState.vipBanner || OUR_STORY_VIP_BANNER).actionView);
               window.scrollTo({ top: 0, behavior: 'smooth' });

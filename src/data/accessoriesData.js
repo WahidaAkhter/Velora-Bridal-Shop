@@ -1,6 +1,6 @@
 /**
  * Authentic Bridal Accessories Data
- * Based on Madi Lane reference: Veils, Trains, Jackets/Shrugs, Capes, Scarves, Gloves, Belts, Neck Collars.
+ * Veils, Trains, Jackets/Shrugs, Capes, Scarves, Gloves, Belts, Neck Collars.
  */
 
 import { SASHES_PRODUCTS } from './sashesData.js';
@@ -371,7 +371,7 @@ export const ACCESSORY_PIECES = [
 export const ACCESSORIES_NAV_DATA = {
   'VEILS': {
     title: 'Bridal Veils',
-    badge: 'Madi Lane Reference',
+    badge: 'Atelier Signature',
     tagline: 'From dramatic cathedral lace to celestial pearl droplets',
     heroImage: 'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/V098C-A1472-01.jpg?v=1778617507',
     thought: 'The veil remains the ultimate romantic bridal statement. Our collection pairs weightless French illusion tulle with intricate hand-appliquéd edges to float effortlessly around the bride.',

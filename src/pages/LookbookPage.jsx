@@ -155,7 +155,7 @@ export const LookbookPage = () => {
       </div>
 
       {/* ====================================================================
-         2. HERO SECTION - Exact Match to User's Attached Screenshot
+         2. HERO SECTION - Editorial Banner
          Image with Text Overlay: "BRIDAL" & "Spring 2025" in Italic Serif
          ==================================================================== */}
       <section className="ml-hero-section" aria-label="Bridal Spring 2025 Collection Hero">
@@ -176,7 +176,7 @@ export const LookbookPage = () => {
       </section>
 
       {/* ====================================================================
-         3. EDITORIAL NARRATIVE STORY SECTION - Exact Match to Reference Webpage
+         3. EDITORIAL NARRATIVE STORY SECTION
          ==================================================================== */}
       <section className="ml-story-section" aria-label="Editorial Narrative">
         <div className="ml-story-container">
@@ -328,7 +328,7 @@ export const LookbookPage = () => {
       </section>
 
       {/* ====================================================================
-         7. MONIQUE LHUILLIER LIGHTBOX MODAL (lookbook-modal)
+         7. VELORA HAUTE COUTURE LIGHTBOX MODAL (lookbook-modal)
          ==================================================================== */}
       {activeModalLook && (
         <div

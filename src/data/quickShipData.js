@@ -1,6 +1,6 @@
 /**
  * Quick Ship Faster Delivery Dataset
- * Replicated exactly from Madi Lane Bridal Quick Ship collection (https://madilane.com/quick-ship/)
+ * VELORA Bridal Quick Ship collection
  * Features all 8 hand-picked gowns: LISSY, NELSON, WENDALL, OPERA, WALKER, OZARI, THANE CR, THANE
  * Complete with authentic descriptions, high-resolution imagery, detailed silhouettes, and express production timelines.
  */

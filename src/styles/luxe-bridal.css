@@ -4476,7 +4476,7 @@ body.modal-open .hero-popout-wrapper {
   font-weight: 700;
 }
 
-/* Editorial Header (Matching Reference Screenshot) */
+/* Editorial Header */
 .quick-ship-editorial-header {
   padding: 60px 24px 30px;
   text-align: center;
@@ -4637,7 +4637,7 @@ body.modal-open .hero-popout-wrapper {
   transform: scale(1.04);
 }
 
-/* Circular Wishlist Button (Matching Reference Screenshot Top-Right) */
+/* Circular Wishlist Button */
 .quick-ship-wishlist-circle {
   position: absolute;
   top: 14px;
@@ -9400,7 +9400,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* ==========================================================================
-   VELORA OUR STORY PAGE (Exact Replication of https://madilane.com/our-story/ Reference Screenshot)
+   VELORA OUR STORY PAGE
    ========================================================================== */
 .velora-our-story-page {
   width: 100%;
@@ -9412,7 +9412,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Alternating 2-Column Story Grid Container */
-.madilane-story-grid-container {
+.velora-story-grid-container {
   max-width: 1160px;
   margin: 20px auto 80px auto;
   display: flex;
@@ -9420,7 +9420,7 @@ body.modal-open .hero-popout-wrapper {
   gap: 80px;
 }
 
-.madilane-story-row {
+.velora-story-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -9429,27 +9429,27 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Row Column Ordering */
-.madilane-story-row.image-on-left .madilane-story-col-image {
+.velora-story-row.image-on-left .velora-story-col-image {
   order: 1;
 }
-.madilane-story-row.image-on-left .madilane-story-col-text {
+.velora-story-row.image-on-left .velora-story-col-text {
   order: 2;
 }
 
-.madilane-story-row.image-on-right .madilane-story-col-text {
+.velora-story-row.image-on-right .velora-story-col-text {
   order: 1;
 }
-.madilane-story-row.image-on-right .madilane-story-col-image {
+.velora-story-row.image-on-right .velora-story-col-image {
   order: 2;
 }
 
 /* Image Column */
-.madilane-story-col-image {
+.velora-story-col-image {
   width: 100%;
   position: relative;
 }
 
-.madilane-story-img-wrapper {
+.velora-story-img-wrapper {
   width: 100%;
   aspect-ratio: 4 / 5;
   max-height: 640px;
@@ -9460,7 +9460,7 @@ body.modal-open .hero-popout-wrapper {
   justify-content: center;
 }
 
-.madilane-story-img {
+.velora-story-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -9469,12 +9469,12 @@ body.modal-open .hero-popout-wrapper {
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.madilane-story-row:hover .madilane-story-img {
+.velora-story-row:hover .velora-story-img {
   transform: scale(1.02);
 }
 
 /* Text Column */
-.madilane-story-col-text {
+.velora-story-col-text {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9483,7 +9483,7 @@ body.modal-open .hero-popout-wrapper {
   padding: 20px 10px;
 }
 
-.madilane-story-text-inner {
+.velora-story-text-inner {
   max-width: 480px;
   width: 100%;
   margin: 0 auto;
@@ -9494,7 +9494,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Pretitle "OUR STORY" */
-.madilane-story-kicker {
+.velora-story-kicker {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 13px;
   font-weight: 500;
@@ -9507,7 +9507,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Headings in warm golden-tan serif */
-.madilane-story-title {
+.velora-story-title {
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(30px, 3.2vw, 44px);
   font-weight: 400;
@@ -9519,7 +9519,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Paragraphs */
-.madilane-story-paragraphs {
+.velora-story-paragraphs {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -9527,7 +9527,7 @@ body.modal-open .hero-popout-wrapper {
   width: 100%;
 }
 
-.madilane-story-p {
+.velora-story-p {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 14.5px;
   line-height: 1.85;
@@ -9537,11 +9537,11 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Gold Button on Row 1 */
-.madilane-story-btn-wrap {
+.velora-story-btn-wrap {
   margin-top: 10px;
 }
 
-.madilane-gold-button {
+.velora-gold-button {
   background-color: #B69D74;
   color: #FFFFFF;
   border: none;
@@ -9556,13 +9556,13 @@ body.modal-open .hero-popout-wrapper {
   transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
-.madilane-gold-button:hover {
+.velora-gold-button:hover {
   background-color: #9E845D;
   transform: translateY(-1px);
 }
 
 /* Real Bride Citation */
-.madilane-bride-citation {
+.velora-bride-citation {
   margin-top: 12px;
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 12px;
@@ -9590,17 +9590,17 @@ body.modal-open .hero-popout-wrapper {
 /* ==========================================================================
    Complete Q&A Accordion Section Matching Reference Site
    ========================================================================== */
-.madilane-qa-section {
+.velora-qa-section {
   max-width: 960px;
   margin: 70px auto 80px auto;
   padding: 0 20px;
 }
 
-.madilane-qa-container {
+.velora-qa-container {
   width: 100%;
 }
 
-.madilane-qa-main-heading {
+.velora-qa-main-heading {
   font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(34px, 3.8vw, 48px);
   font-weight: 400;
@@ -9610,22 +9610,22 @@ body.modal-open .hero-popout-wrapper {
   letter-spacing: 0.02em;
 }
 
-.madilane-qa-accordion-list {
+.velora-qa-accordion-list {
   display: flex;
   flex-direction: column;
 }
 
-.madilane-qa-card {
+.velora-qa-card {
   border-bottom: 1px solid rgba(0, 0, 0, 0.09);
   padding: 18px 0;
   transition: border-color 0.2s ease;
 }
 
-.madilane-qa-card.is-open {
+.velora-qa-card.is-open {
   border-bottom-color: #B69D74;
 }
 
-.madilane-qa-header-btn {
+.velora-qa-header-btn {
   width: 100%;
   display: flex;
   align-items: center;
@@ -9638,7 +9638,7 @@ body.modal-open .hero-popout-wrapper {
   padding: 6px 0;
 }
 
-.madilane-qa-question-title {
+.velora-qa-question-title {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.18rem;
   font-weight: 500;
@@ -9647,15 +9647,15 @@ body.modal-open .hero-popout-wrapper {
   transition: color 0.2s ease;
 }
 
-.madilane-qa-header-btn:hover .madilane-qa-question-title {
+.velora-qa-header-btn:hover .velora-qa-question-title {
   color: #B69D74;
 }
 
-.madilane-qa-card.is-open .madilane-qa-question-title {
+.velora-qa-card.is-open .velora-qa-question-title {
   color: #B69D74;
 }
 
-.madilane-qa-icon-wrap {
+.velora-qa-icon-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -9663,11 +9663,11 @@ body.modal-open .hero-popout-wrapper {
   flex-shrink: 0;
 }
 
-.madilane-qa-content-body {
+.velora-qa-content-body {
   padding: 16px 0 10px 0;
 }
 
-.madilane-qa-answer-text {
+.velora-qa-answer-text {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 0.94rem;
   line-height: 1.8;
@@ -9675,7 +9675,7 @@ body.modal-open .hero-popout-wrapper {
   margin: 0 0 14px 0;
 }
 
-.madilane-qa-subheading {
+.velora-qa-subheading {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -9683,7 +9683,7 @@ body.modal-open .hero-popout-wrapper {
   margin: 18px 0 12px 0;
 }
 
-.madilane-qa-bullet-list {
+.velora-qa-bullet-list {
   list-style: disc;
   padding-left: 20px;
   margin: 10px 0 14px 0;
@@ -9692,7 +9692,7 @@ body.modal-open .hero-popout-wrapper {
   gap: 8px;
 }
 
-.madilane-qa-bullet-item {
+.velora-qa-bullet-item {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 0.92rem;
   line-height: 1.7;
@@ -9700,7 +9700,7 @@ body.modal-open .hero-popout-wrapper {
 }
 
 /* Quick Ship Box */
-.madilane-qa-quickship-box {
+.velora-qa-quickship-box {
   margin-top: 18px;
   padding: 16px 20px;
   background: #FAF6F0;
@@ -9748,7 +9748,7 @@ body.modal-open .hero-popout-wrapper {
 /* ==========================================================================
    Bottom VIP Lookbook Banner
    ========================================================================== */
-.madilane-bottom-vip-banner {
+.velora-bottom-vip-banner {
   max-width: 1160px;
   margin: 40px auto 30px auto;
   background-color: #FAF6F0;
@@ -9756,12 +9756,12 @@ body.modal-open .hero-popout-wrapper {
   text-align: center;
 }
 
-.madilane-vip-inner {
+.velora-vip-inner {
   max-width: 680px;
   margin: 0 auto;
 }
 
-.madilane-vip-heading {
+.velora-vip-heading {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(2rem, 3.2vw, 2.8rem);
   font-weight: 400;
@@ -9769,7 +9769,7 @@ body.modal-open .hero-popout-wrapper {
   margin: 0 0 10px 0;
 }
 
-.madilane-vip-sub {
+.velora-vip-sub {
   font-family: var(--font-sans-luxe, 'Montserrat', sans-serif);
   font-size: 12px;
   font-weight: 600;
@@ -9779,7 +9779,7 @@ body.modal-open .hero-popout-wrapper {
   margin: 0 auto 26px auto;
 }
 
-.madilane-vip-access-btn {
+.velora-vip-access-btn {
   background-color: #B69D74;
   color: #FFFFFF;
   border: none;
@@ -9793,7 +9793,7 @@ body.modal-open .hero-popout-wrapper {
   transition: background-color 0.25s ease, transform 0.25s ease;
 }
 
-.madilane-vip-access-btn:hover {
+.velora-vip-access-btn:hover {
   background-color: #9E845D;
   transform: translateY(-1px);
 }
@@ -9803,29 +9803,29 @@ body.modal-open .hero-popout-wrapper {
   .velora-our-story-page {
     padding: 16px 18px 60px 18px;
   }
-  .madilane-story-grid-container {
+  .velora-story-grid-container {
     gap: 56px;
     margin-bottom: 50px;
   }
-  .madilane-story-row {
+  .velora-story-row {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .madilane-story-row.image-on-left .madilane-story-col-image,
-  .madilane-story-row.image-on-right .madilane-story-col-image {
+  .velora-story-row.image-on-left .velora-story-col-image,
+  .velora-story-row.image-on-right .velora-story-col-image {
     order: 1 !important;
   }
-  .madilane-story-row.image-on-left .madilane-story-col-text,
-  .madilane-story-row.image-on-right .madilane-story-col-text {
+  .velora-story-row.image-on-left .velora-story-col-text,
+  .velora-story-row.image-on-right .velora-story-col-text {
     order: 2 !important;
   }
-  .madilane-story-img-wrapper {
+  .velora-story-img-wrapper {
     max-height: 480px;
   }
-  .madilane-story-title {
+  .velora-story-title {
     font-size: 28px;
   }
-  .madilane-bottom-vip-banner {
+  .velora-bottom-vip-banner {
     padding: 40px 16px;
   }
 }

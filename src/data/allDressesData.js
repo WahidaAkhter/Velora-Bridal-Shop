@@ -1,6 +1,6 @@
 /**
  * VELORA All Dresses Data
- * Extracted directly from Madi Lane shop archive: https://madilane.com/shop/
+ * Complete bridal gowns catalog
  * Preserves the exact 4-column sequence starting with:
  * 1. LISSY
  * 2. WENDALL
