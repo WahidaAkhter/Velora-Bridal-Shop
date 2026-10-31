@@ -10,10 +10,14 @@ import {
   ShoppingBag,
   LogOut,
   Calendar,
+  Clock,
   ArrowRight
 } from 'lucide-react';
 import { PRODUCTS } from '../../data/products';
 import { matchGownSearchStrict } from '../../utils/searchMatcher';
+import { WeddingCountdown } from '../extras/WeddingCountdown';
+import { useWeddingDate } from '../../hooks/useWeddingDate';
+import { calcOrderBy } from '../../utils/orderBy';
 
 export const WEDDING_DRESS_CATEGORIES = [
   {
@@ -265,6 +269,9 @@ export const Header = () => {
     return Array.isArray(wishlist) ? wishlist.filter(id => PRODUCTS.some(p => p.id === id)).length : 0;
   }, [wishlist]);
 
+  const { weddingDate } = useWeddingDate();
+  const weddingOrder = weddingDate ? calcOrderBy({ weddingDate }) : null;
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -500,6 +507,8 @@ export const Header = () => {
       className={`header-master ${isScrolled ? 'is-scrolled' : ''} ${activeDropdown ? 'megamenu-open' : ''} ${isSearchModalOpen ? 'search-open modal-open' : ''}`}
       ref={headerRef}
     >
+      <WeddingCountdown />
+
       {/* Main Luxury Navbar */}
       <nav className={`navbar-luxe ${isScrolled ? 'is-scrolled' : ''}`}>
         <div className="navbar-container">
@@ -670,6 +679,35 @@ export const Header = () => {
                       }}
                     >
                       <Calendar size={14} /> Fitting Appointments
+                    </button>
+                    <button
+                      type="button"
+                      className="user-menu-item user-menu-wedding-item"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        window.dispatchEvent(new Event('velora:open_wedding_modal'));
+                      }}
+                    >
+                      <div className="user-menu-wedding-inner">
+                        <span className="user-menu-wedding-left">
+                          <Clock size={14} /> Wedding Date
+                        </span>
+                        {weddingDate ? (
+                          <span className="user-menu-wedding-pill">
+                            {weddingOrder?.daysUntilWedding > 1
+                              ? `${weddingOrder.daysUntilWedding} days left`
+                              : weddingOrder?.daysUntilWedding === 1
+                              ? 'Tomorrow! 💍'
+                              : weddingOrder?.daysUntilWedding === 0
+                              ? 'Today! 💍'
+                              : 'Passed'}
+                          </span>
+                        ) : (
+                          <span className="user-menu-wedding-pill is-unset">
+                            Set Date
+                          </span>
+                        )}
+                      </div>
                     </button>
                     <button
                       type="button"

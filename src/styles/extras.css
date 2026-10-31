@@ -1511,3 +1511,664 @@
     padding: 8px 10px;
   }
 }
+
+
+/* ==========================================================================
+   Feature 4: Wedding Date Countdown + Order-By Calculator
+   ========================================================================== */
+
+/* Top Utility Bar Integration */
+.top-utility-bar {
+  background-color: #FAF8F5;
+  border-bottom: 1px solid #ECE5DC;
+  padding: 5px 24px;
+  font-size: 11px;
+  color: #5D544F;
+  letter-spacing: 0.03em;
+  z-index: 100;
+  position: relative;
+}
+
+.top-utility-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.utility-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #7D7570;
+  letter-spacing: 0.04em;
+}
+
+.utility-icon {
+  color: #BCA07E;
+  font-size: 11px;
+}
+
+.utility-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* 1. Header Countdown Pill in Top Utility Bar */
+.velora-wedding-countdown-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  color: #4A3E39;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.velora-wedding-countdown-pill:hover {
+  background: rgba(188, 160, 126, 0.12);
+  color: #1F1917;
+  border-color: rgba(188, 160, 126, 0.3);
+}
+
+.velora-wedding-countdown-pill.is-set {
+  background: rgba(188, 160, 126, 0.12);
+  border-color: rgba(188, 160, 126, 0.35);
+  padding: 2px 10px;
+}
+
+.velora-countdown-icon {
+  flex-shrink: 0;
+}
+
+.velora-countdown-label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #2D2321;
+  font-weight: 500;
+}
+
+.velora-countdown-label strong {
+  color: #8C6A3E;
+  font-weight: 700;
+}
+
+/* Wedding Date item inside Account Dropdown */
+.user-menu-item.user-menu-wedding-item {
+  padding-right: 12px;
+}
+
+.user-menu-wedding-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+
+.user-menu-wedding-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-menu-wedding-pill {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(188, 160, 126, 0.16);
+  color: #8C6A3E;
+  border: 1px solid rgba(188, 160, 126, 0.35);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.user-menu-wedding-pill.is-unset {
+  background: #FAF8F5;
+  color: #7D7570;
+  border-color: #DFD7CD;
+}
+
+/* 2. Wedding Date Modal Dialog */
+.velora-date-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 21, 20, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.velora-date-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: #FFFFFF;
+  border: 1px solid #ECE5DC;
+  border-radius: 6px;
+  padding: 36px 32px 32px 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.velora-date-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #EBE5DC;
+  background: #FAF8F5;
+  color: #6E6662;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.velora-date-modal-close:hover {
+  background: #1F1917;
+  color: #FFFFFF;
+  border-color: #1F1917;
+}
+
+.velora-date-modal-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.velora-date-modal-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(188, 160, 126, 0.12);
+  border: 1px solid rgba(188, 160, 126, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+}
+
+.velora-date-kicker {
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #BCA07E;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.velora-date-modal-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 500;
+  color: #1F1917;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-date-modal-desc {
+  font-size: 13px;
+  color: #6E6662;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.velora-date-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.velora-date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.velora-date-label {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #5D544F;
+  font-weight: 600;
+}
+
+.velora-date-input-wrap {
+  position: relative;
+}
+
+.velora-date-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #DFD7CD;
+  border-radius: 3px;
+  background: #FCFBF9;
+  font-size: 15px;
+  color: #1F1917;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.velora-date-input:focus {
+  border-color: #BCA07E;
+  box-shadow: 0 0 0 3px rgba(188, 160, 126, 0.15);
+  background: #FFFFFF;
+}
+
+.velora-date-preview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FAF8F5;
+  border: 1px dashed #E2DCD5;
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-size: 12.5px;
+}
+
+.velora-preview-label {
+  color: #7D7570;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+}
+
+.velora-preview-val {
+  font-weight: 600;
+  color: #1F1917;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+}
+
+.velora-date-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.velora-date-btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #E2DCD5;
+  color: #8C847E;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-date-btn-clear:hover {
+  border-color: #B33939;
+  color: #B33939;
+}
+
+.velora-date-btn-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1F1917;
+  color: #FFFFFF;
+  border: 1px solid #1F1917;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.velora-date-btn-save:hover {
+  background: #BCA07E;
+  border-color: #BCA07E;
+}
+
+/* 3. Order-By Badge / Banner in PDP & Pages */
+.velora-order-by-card {
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin: 18px 0 20px 0;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.velora-order-by-card.status-on-time {
+  background: #F8FAF7;
+  border-color: #D3E5D4;
+}
+
+.velora-order-by-card.status-tight {
+  background: #FDF9F3;
+  border-color: #F1DEC7;
+}
+
+.velora-order-by-card.status-too-late {
+  background: #FCF6F6;
+  border-color: #F3D2D2;
+}
+
+.velora-order-by-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.velora-order-by-status-icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.text-on-time {
+  color: #2E7D32;
+}
+
+.text-tight {
+  color: #C77700;
+}
+
+.text-too-late {
+  color: #B33939;
+}
+
+.velora-order-by-info {
+  flex: 1;
+}
+
+.velora-order-by-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.velora-order-by-kicker {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8C847E;
+  font-weight: 600;
+}
+
+.velora-order-by-status-pill {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+.velora-order-by-status-pill.status-on-time {
+  background: rgba(46, 125, 50, 0.12);
+  color: #2E7D32;
+}
+
+.velora-order-by-status-pill.status-tight {
+  background: rgba(199, 119, 0, 0.12);
+  color: #B46A00;
+}
+
+.velora-order-by-status-pill.status-too-late {
+  background: rgba(179, 57, 57, 0.12);
+  color: #B33939;
+}
+
+.velora-order-by-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: #1F1917;
+  margin: 0 0 4px 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-order-by-desc {
+  font-size: 12.5px;
+  color: #5D544F;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* CTA Row for Alternative Options */
+.velora-order-by-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.velora-order-by-cta-row.is-urgent {
+  justify-content: flex-start;
+}
+
+.velora-cta-hint {
+  font-size: 12px;
+  color: #6E6662;
+  font-style: italic;
+}
+
+.velora-order-btn-quickship {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid #BCA07E;
+  color: #8C6A3E;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-order-btn-quickship:hover {
+  background: #BCA07E;
+  color: #FFFFFF;
+}
+
+.velora-order-btn-urgent-quickship {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1F1917;
+  border: 1px solid #1F1917;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.velora-order-btn-urgent-quickship:hover {
+  background: #BCA07E;
+  border-color: #BCA07E;
+}
+
+/* Prompt card in PDP when no date is set */
+.velora-order-prompt-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #FCFBF9;
+  border: 1px dashed #DFD7CD;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin: 16px 0 18px 0;
+}
+
+.velora-order-prompt-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.velora-order-prompt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.velora-prompt-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8C6A3E;
+}
+
+.velora-prompt-desc {
+  font-size: 12px;
+  color: #6E6662;
+  line-height: 1.4;
+}
+
+.velora-order-prompt-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #BCA07E;
+  color: #8C6A3E;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.velora-order-prompt-btn:hover {
+  background: #BCA07E;
+  color: #FFFFFF;
+}
+
+/* 4. Compact Badge on Cards */
+.velora-order-badge-compact {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-top: 4px;
+}
+
+.velora-order-badge-compact.status-on-time {
+  background: #F0F6F0;
+  color: #2E7D32;
+  border: 1px solid #D3E5D4;
+}
+
+.velora-order-badge-compact.status-tight {
+  background: #FFF8EE;
+  color: #B46A00;
+  border: 1px solid #F3DEC7;
+}
+
+.velora-order-badge-compact.status-too-late {
+  background: #FDF2F2;
+  color: #B33939;
+  border: 1px solid #F5D3D3;
+}
+
+/* 5. Quick Ship Page Order-By Banner */
+.quick-ship-order-banner-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.quick-ship-order-banner-container .velora-order-by-card {
+  margin: 20px 0 10px 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+/* 6. Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .velora-wedding-countdown-pill {
+    padding: 5px 10px;
+  }
+  .velora-countdown-label {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .velora-wedding-countdown-pill {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  .velora-countdown-label {
+    font-size: 10.5px;
+  }
+  .velora-date-modal-card {
+    padding: 28px 20px 24px 20px;
+  }
+  .velora-order-by-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .velora-order-btn-quickship {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .velora-wedding-countdown-pill.is-empty .velora-countdown-label {
+    display: none;
+  }
+  .velora-wedding-countdown-pill.is-empty {
+    padding: 6px;
+    border-radius: 50%;
+  }
+}

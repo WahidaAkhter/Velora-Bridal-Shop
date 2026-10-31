@@ -4,6 +4,7 @@ import { PRODUCTS } from '../../data/products';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { RecentlyViewedStrip } from '../extras/RecentlyViewedStrip';
 import { CompleteTheLook } from '../extras/CompleteTheLook';
+import { OrderByBadge } from '../extras/OrderByBadge';
 import {
   X,
   Star,
@@ -187,6 +188,8 @@ export const ProductDetailModal = ({ product, onClose }) => {
             </div>
 
             <p className="detail-desc">{product.description}</p>
+
+            <OrderByBadge product={product} onClose={onClose} />
 
             {/* Variant Selectors */}
             {product.variants && product.variants.length > 0 && (

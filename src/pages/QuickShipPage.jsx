@@ -3,6 +3,7 @@ import { useApp } from '../context/AppContext';
 import { QUICK_SHIP_GOWNS, QUICK_SHIP_HERO_INFO } from '../data/quickShipData';
 import { getQuickShipData } from '../services/api';
 import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { OrderByBadge } from '../components/extras/OrderByBadge';
 import {
   Heart,
   ArrowLeft,
@@ -10,10 +11,8 @@ import {
   ShieldCheck,
   Clock,
   Calendar,
-  Check,
   ShoppingBag,
-  Eye,
-  SlidersHorizontal
+  Eye
 } from 'lucide-react';
 
 export const QuickShipPage = () => {
@@ -204,6 +203,11 @@ export const QuickShipPage = () => {
       {/* Shop Collection Navigation Tabs */}
       <ShopCollectionNav activeTab="quick-ship" style={{ marginTop: '24px' }} />
 
+      {/* Dynamic Order-By Deadline Banner for Quick Ship */}
+      <div className="quick-ship-order-banner-container">
+        <OrderByBadge isQuickShip={true} />
+      </div>
+
       {/* 3. Filter Navigation Strip */}
       <section className="quick-ship-filter-strip" aria-label="Quick Ship Gown Filters">
         <div className="quick-ship-filter-scroll">
@@ -310,6 +314,7 @@ export const QuickShipPage = () => {
                   <h2 className="quick-ship-gown-name">{gown.name}</h2>
                   <p className="quick-ship-gown-silhouette">{gown.silhouette}</p>
                   <p className="quick-ship-gown-price">{formatPrice(gown.price)}</p>
+                  <OrderByBadge product={gown} isQuickShip={true} compact={true} />
                 </div>
               </article>
             );
