@@ -42,6 +42,8 @@ import {
 // Common / UI
 import { Toast, SeoHead } from './components/common';
 import { RecentlyViewedStrip } from './components/extras/RecentlyViewedStrip';
+import { SharedWishlistView } from './components/extras/SharedWishlistView';
+import { parseShareUrl } from './utils/wishlistShare';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
 import './styles/layout.css';
@@ -71,6 +73,7 @@ const MainContent = () => {
   } = useApp();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [sharedWishlist, setSharedWishlist] = useState(() => parseShareUrl());
   const anyOverlayOpen = Boolean(
     selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen
   );
@@ -134,39 +137,48 @@ const MainContent = () => {
       <Header />
 
       <main className="main-content-body">
-        {currentView === 'catalog' && (
-          <div className="luxe-storefront-page">
-            {/* 2. Hero Section */}
-            <HeroBanner />
+        {sharedWishlist?.isShared ? (
+          <SharedWishlistView
+            sharedData={sharedWishlist}
+            onDismiss={() => setSharedWishlist(null)}
+          />
+        ) : (
+          <>
+            {currentView === 'catalog' && (
+              <div className="luxe-storefront-page">
+                {/* 2. Hero Section */}
+                <HeroBanner />
 
-            {/* 3. Shop By Color Grid */}
-            <ShopByColor />
+                {/* 3. Shop By Color Grid */}
+                <ShopByColor />
 
-            {/* 4. Featured Collection Grid */}
-            <FeaturedCollection />
+                {/* 4. Featured Collection Grid */}
+                <FeaturedCollection />
 
-            {/* 5. Editorial Split Banner ("Fall in Love" & "Forever After" - Lulus Reference) */}
-            <EditorialSplitBanner />
+                {/* 5. Editorial Split Banner ("Fall in Love" & "Forever After" - Lulus Reference) */}
+                <EditorialSplitBanner />
 
-            {/* Recently Viewed Strip */}
-            <RecentlyViewedStrip />
+                {/* Recently Viewed Strip */}
+                <RecentlyViewedStrip />
 
-            {/* 6. Dream Dress Banner Card */}
-            <DreamDressBanner />
-          </div>
+                {/* 6. Dream Dress Banner Card */}
+                <DreamDressBanner />
+              </div>
+            )}
+
+            {currentView === 'all-dresses' && <ProductGrid />}
+            {(currentView === 'new-dresses' || currentView === 'legacy-collection') && <LegacyCollectionPage />}
+            {currentView === 'signature-styles' && <SignatureStylesPage />}
+            {currentView === 'quick-ship' && <QuickShipPage />}
+            {(currentView === 'lookbook' || currentView === 'lookbooks') && <LookbookPage />}
+            {(currentView === 'all-collections' || currentView === 'collections') && <AllCollectionsPage />}
+            {(currentView === 'accessories' || currentView === 'wedding-accessories') && <AccessoriesPage />}
+            {(currentView === 'belts-and-sashes' || currentView === 'sashes' || currentView === 'bridal-belts-sashes') && <BeltsAndSashesPage />}
+            {(currentView === 'our-story' || currentView === 'about' || currentView === 'about-us') && <OurStoryPage />}
+            {currentView === 'checkout' && <CheckoutPage />}
+            {currentView === 'account' && <AccountPage />}
+          </>
         )}
-
-        {currentView === 'all-dresses' && <ProductGrid />}
-        {(currentView === 'new-dresses' || currentView === 'legacy-collection') && <LegacyCollectionPage />}
-        {currentView === 'signature-styles' && <SignatureStylesPage />}
-        {currentView === 'quick-ship' && <QuickShipPage />}
-        {(currentView === 'lookbook' || currentView === 'lookbooks') && <LookbookPage />}
-        {(currentView === 'all-collections' || currentView === 'collections') && <AllCollectionsPage />}
-        {(currentView === 'accessories' || currentView === 'wedding-accessories') && <AccessoriesPage />}
-        {(currentView === 'belts-and-sashes' || currentView === 'sashes' || currentView === 'bridal-belts-sashes') && <BeltsAndSashesPage />}
-        {(currentView === 'our-story' || currentView === 'about' || currentView === 'about-us') && <OurStoryPage />}
-        {currentView === 'checkout' && <CheckoutPage />}
-        {currentView === 'account' && <AccountPage />}
       </main>
 
       {/* 7. Footer Strip */}

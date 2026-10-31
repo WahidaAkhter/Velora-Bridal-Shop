@@ -19,8 +19,10 @@ import {
   Pencil,
   Calendar,
   LogOut,
-  LogIn
+  LogIn,
+  Share2
 } from 'lucide-react';
+import { buildShareUrl } from '../utils/wishlistShare';
 
 export const AccountPage = () => {
   const {
@@ -108,6 +110,32 @@ export const AccountPage = () => {
   };
 
   const wishlistedProducts = PRODUCTS.filter(p => wishlist.includes(p.id));
+
+  const handleShareWishlist = async () => {
+    const url = buildShareUrl(wishlist, user?.name);
+    if (!url) {
+      showToast('No items in wishlist to share', 'info');
+      return;
+    }
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${user?.name || 'Bride'}’s Bridal Wishlist`,
+          text: 'Explore my curated VELORA bridal wishlist',
+          url
+        });
+        return;
+      } catch (err) {
+        if (err?.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('Wishlist link copied to clipboard!');
+    } catch {
+      showToast('Failed to copy link', 'warning');
+    }
+  };
 
   // If user is not signed in, display the luxury guest gateway
   if (!isLoggedIn) {
@@ -547,7 +575,22 @@ export const AccountPage = () => {
                 <p className="text-muted">Click the heart icon on any product to save it here.</p>
               </div>
             ) : (
-              <div className="wishlist-grid">
+              <>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+                  <p className="text-muted" style={{ margin: 0, fontSize: '13px' }}>
+                    {wishlistedProducts.length} {wishlistedProducts.length === 1 ? 'gown' : 'gowns'} curated in your sanctuary
+                  </p>
+                  <button
+                    type="button"
+                    className="btn btn-outline btn-sm"
+                    onClick={handleShareWishlist}
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <Share2 size={14} /> Share Wishlist
+                  </button>
+                </div>
+
+                <div className="wishlist-grid">
                 {wishlistedProducts.map((product) => (
                   <div key={product.id} className="wishlist-card glass-panel">
                     <img src={product.images?.[0] || product.image || ''} alt={product.name} />
@@ -565,7 +608,8 @@ export const AccountPage = () => {
                     </div>
                   </div>
                 ))}
-              </div>
+                </div>
+              </>
             )}
           </div>
         )}

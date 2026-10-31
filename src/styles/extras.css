@@ -444,3 +444,315 @@
     padding: 8px 12px;
   }
 }
+
+
+
+/* --------------------------------------------------------------------------
+   4. SHARED WISHLIST PAGE & CARDS (Feature 2)
+   -------------------------------------------------------------------------- */
+.velora-shared-wishlist-page {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 24px 80px 24px;
+}
+
+.velora-shared-hero {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px auto;
+  padding: 32px 20px;
+  background: #FFFFFF;
+  border: 1px solid #EFEAE3;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.velora-shared-kicker {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #BCA07E;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.velora-shared-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 500;
+  color: #1F1917;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.02em;
+}
+
+.velora-shared-desc {
+  font-size: 15px;
+  color: #6E6662;
+  line-height: 1.6;
+  margin: 0 0 28px 0;
+}
+
+.velora-shared-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.velora-shared-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.velora-shared-btn-primary {
+  background: #1F1917;
+  color: #FAF8F5;
+  border: 1px solid #1F1917;
+}
+
+.velora-shared-btn-primary:hover {
+  background: #BCA07E;
+  border-color: #BCA07E;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(188, 160, 126, 0.3);
+}
+
+.velora-shared-btn-secondary {
+  background: #FAF8F5;
+  color: #1F1917;
+  border: 1px solid #D5CCC1;
+}
+
+.velora-shared-btn-secondary:hover {
+  border-color: #BCA07E;
+  color: #BCA07E;
+  background: #FFFFFF;
+}
+
+.velora-shared-btn-outline {
+  background: transparent;
+  color: #6E6662;
+  border: 1px solid #E2DCD5;
+}
+
+.velora-shared-btn-outline:hover {
+  border-color: #1F1917;
+  color: #1F1917;
+}
+
+/* Grid & Cards */
+.velora-shared-grid-wrap {
+  width: 100%;
+}
+
+.velora-shared-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.velora-shared-card {
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border: 1px solid #EFEAE3;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.velora-shared-card:hover {
+  transform: translateY(-4px);
+  border-color: #BCA07E;
+  box-shadow: 0 10px 28px rgba(45, 35, 33, 0.06);
+}
+
+.velora-shared-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #F3EFEA;
+  cursor: pointer;
+}
+
+.velora-shared-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.35s ease;
+}
+
+.velora-shared-card:hover .velora-shared-card-img {
+  transform: scale(1.04);
+}
+
+.velora-shared-quick-view {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(31, 25, 23, 0.88);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.velora-shared-card:hover .velora-shared-quick-view {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.velora-shared-card-body {
+  padding: 14px 16px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.velora-shared-card-cat {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8C847E;
+  margin-bottom: 4px;
+}
+
+.velora-shared-card-name {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F1917;
+  margin: 0 0 4px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.velora-shared-card-name:hover {
+  color: #BCA07E;
+}
+
+.velora-shared-card-subtitle {
+  font-size: 12px;
+  color: #6E6662;
+  margin: 0 0 10px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.velora-shared-card-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #BCA07E;
+  margin-bottom: 16px;
+}
+
+.velora-shared-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.velora-shared-card-add-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #1F1917;
+  color: #FAF8F5;
+  border: 1px solid #1F1917;
+  padding: 9px 12px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-shared-card-add-btn:hover {
+  background: #BCA07E;
+  border-color: #BCA07E;
+  color: #FFFFFF;
+}
+
+.velora-shared-card-heart-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FAF8F5;
+  border: 1px solid #E2DCD5;
+  border-radius: 2px;
+  color: #6E6662;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.velora-shared-card-heart-btn:hover,
+.velora-shared-card-heart-btn.is-saved {
+  border-color: #BCA07E;
+  color: #BCA07E;
+}
+
+@media (max-width: 1100px) {
+  .velora-shared-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .velora-shared-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .velora-shared-action-bar {
+    flex-direction: column;
+    width: 100%;
+  }
+  .velora-shared-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .velora-shared-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
