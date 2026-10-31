@@ -32,3 +32,4 @@ export const resolveProductById = (id) => {
   const map = buildCatalogMap();
   return map.get(id) || null;
 };
+
