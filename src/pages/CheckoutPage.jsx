@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   Check,
@@ -34,8 +35,19 @@ export const CheckoutPage = () => {
     addAddress,
     placeOrder,
     setCurrentView,
-    formatPrice
+    formatPrice,
+    showToast,
+    selectedOrderDetails
   } = useApp();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cartItems.length === 0 && !selectedOrderDetails) {
+      showToast('Your bag is empty. Please add items before checking out.', 'info');
+      navigate('/dresses', { replace: true });
+    }
+  }, [cartItems.length, selectedOrderDetails, navigate, showToast]);
 
   const [step, setStep] = useState(1); // 1: Address, 2: Shipping, 3: Payment, 4: Review
 
@@ -253,13 +265,14 @@ export const CheckoutPage = () => {
   const total = getCartTotal();
 
   if (cartItems.length === 0) {
+    if (selectedOrderDetails) return null;
     return (
       <div className="container checkout-container animate-fade-in">
         <div className="step-box glass-panel text-center">
           <h3>Your bag is empty</h3>
-          <p className="text-muted mt-2">Add a few products before checking out.</p>
-          <button className="btn btn-primary mt-4" onClick={() => setCurrentView('catalog')}>
-            <ArrowLeft size={16} /> Back to Catalog
+          <p className="text-muted mt-2">Redirecting you to our bridal gown collection...</p>
+          <button className="btn btn-primary mt-4" onClick={() => navigate('/dresses', { replace: true })}>
+            <ArrowLeft size={16} /> Explore Gowns
           </button>
         </div>
       </div>

@@ -45,16 +45,17 @@ export const buildShareUrl = (ids = [], name = '') => {
     .trim()
     .slice(0, 30);
 
-  const queryParts = [`w=${cleanIds.join(',')}`];
+  const queryParts = [`ids=${cleanIds.join(',')}`];
   if (cleanName) {
     queryParts.push(`by=${encodeURIComponent(cleanName)}`);
   }
 
-  return `${origin}/?${queryParts.join('&')}`;
+  return `${origin}/wishlist/shared?${queryParts.join('&')}`;
 };
 
 /**
  * Parses and strictly validates wishlist share query params from the URL.
+ * Supports both new /wishlist/shared?ids=... and legacy ?w=... formats.
  * @param {string} [searchStr] - Optional search string (defaults to window.location.search)
  * @returns {{ isShared: boolean, ids: string[], name: string, products: Object[] }}
  */
@@ -69,14 +70,14 @@ export const parseShareUrl = (searchStr) => {
     if (!query) return emptyResult;
 
     const params = new URLSearchParams(query);
-    const rawW = params.get('w');
+    const rawIdsStr = params.get('ids') || params.get('w');
 
-    // If w is missing or empty, fall back
-    if (!rawW || typeof rawW !== 'string' || !rawW.trim()) {
+    // If ids or w is missing or empty, fall back
+    if (!rawIdsStr || typeof rawIdsStr !== 'string' || !rawIdsStr.trim()) {
       return emptyResult;
     }
 
-    const rawIds = rawW.split(',').map((id) => id.trim()).filter(Boolean);
+    const rawIds = rawIdsStr.split(',').map((id) => id.trim()).filter(Boolean);
 
     // Oversized check: max 50 ids
     if (rawIds.length === 0 || rawIds.length > 50) {
@@ -116,4 +117,25 @@ export const parseShareUrl = (searchStr) => {
   } catch {
     return emptyResult;
   }
+};
+
+/**
+ * Detects legacy ?w=... format and generates the clean redirect path to /wishlist/shared?ids=...
+ * @param {string} searchStr
+ * @returns {string|null}
+ */
+export const getLegacyWishlistRedirect = (searchStr) => {
+  if (!searchStr || typeof searchStr !== 'string') return null;
+  try {
+    const params = new URLSearchParams(searchStr);
+    const rawW = params.get('w');
+    if (rawW) {
+      params.delete('w');
+      params.set('ids', rawW);
+      return `/wishlist/shared?${params.toString()}`;
+    }
+  } catch {
+    return null;
+  }
+  return null;
 };

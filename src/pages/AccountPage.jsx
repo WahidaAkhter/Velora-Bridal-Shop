@@ -42,6 +42,7 @@ export const AccountPage = () => {
     isLoggedIn,
     setIsAuthModalOpen,
     setAuthMode,
+    setAuthTarget,
     loginUser,
     logoutUser,
     cancelAppointment,
@@ -137,6 +138,17 @@ export const AccountPage = () => {
     }
   };
 
+  // If user is not logged in on account page, remember target for post-login redirection
+  useEffect(() => {
+    if (!isLoggedIn) {
+      try {
+        sessionStorage.setItem('velora_auth_target', window.location.pathname);
+      } catch {
+        // ignore
+      }
+    }
+  }, [isLoggedIn]);
+
   // If user is not signed in, display the luxury guest gateway
   if (!isLoggedIn) {
     return (
@@ -158,6 +170,7 @@ export const AccountPage = () => {
               className="btn btn-primary"
               style={{ padding: '12px 28px', fontSize: '13px', letterSpacing: '0.1em' }}
               onClick={() => {
+                setAuthTarget(window.location.pathname);
                 setAuthMode('login');
                 setIsAuthModalOpen(true);
               }}
@@ -169,6 +182,7 @@ export const AccountPage = () => {
               className="btn btn-outline"
               style={{ padding: '12px 28px', fontSize: '13px', letterSpacing: '0.1em' }}
               onClick={() => {
+                setAuthTarget(window.location.pathname);
                 setAuthMode('register');
                 setIsAuthModalOpen(true);
               }}

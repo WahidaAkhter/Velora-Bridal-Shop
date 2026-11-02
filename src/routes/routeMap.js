@@ -27,7 +27,7 @@ export const VIEW_TO_PATH = {
   about: '/our-story',
   'about-us': '/our-story',
   checkout: '/checkout',
-  account: '/account',
+  account: '/account/overview',
   compare: '/compare',
   'wishlist-shared': '/wishlist/shared'
 };
@@ -54,8 +54,9 @@ export const PATH_TO_VIEW = {
   '/about-us': 'our-story',
   '/checkout': 'checkout',
   '/account': 'account',
+  '/account/overview': 'account',
   '/compare': 'compare',
-  '/wishlist/shared': 'catalog'
+  '/wishlist/shared': 'wishlist-shared'
 };
 
 export const VALID_ACCOUNT_TABS = [
@@ -72,6 +73,7 @@ export const VALID_ACCOUNT_TABS = [
  * @param {string} view
  * @param {Object} [options]
  * @param {string} [options.accountTab]
+ * @param {Object} [options.product]
  * @returns {string}
  */
 export const routeFor = (view, options = {}) => {
@@ -82,8 +84,11 @@ export const routeFor = (view, options = {}) => {
     return `/dresses/${toProductSlug(options.product)}`;
   }
 
-  if (view === 'account' && options.accountTab && VALID_ACCOUNT_TABS.includes(options.accountTab)) {
-    return options.accountTab === 'overview' ? '/account' : `/account/${options.accountTab}`;
+  if (view === 'account') {
+    const tab = options.accountTab && VALID_ACCOUNT_TABS.includes(options.accountTab)
+      ? options.accountTab
+      : 'overview';
+    return `/account/${tab}`;
   }
 
   return VIEW_TO_PATH[view] || '/';
@@ -171,7 +176,7 @@ export const productFor = (pathname) => {
  */
 export const accountTabFor = (pathname) => {
   const cleanPath = normalizePath(pathname);
-  if (cleanPath === '/account') return 'overview';
+  if (cleanPath === '/account' || cleanPath === '/account/overview') return 'overview';
   if (cleanPath.startsWith('/account/')) {
     const sub = cleanPath.slice('/account/'.length);
     if (VALID_ACCOUNT_TABS.includes(sub)) {

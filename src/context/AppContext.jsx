@@ -143,8 +143,31 @@ export const AppProvider = ({ children }) => {
 
   // Authentication State
   const [isLoggedIn, setIsLoggedIn] = useState(() => loadJSON('velora_logged_in', false));
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const logged = loadJSON('velora_logged_in', false);
+      const path = window.location.pathname;
+      return !logged && (path === '/account' || path.startsWith('/account/'));
+    }
+    return false;
+  });
   const [authMode, setAuthMode] = useState('login'); // 'login' | 'register' | 'forgot'
+
+  const setAuthTarget = useCallback((path) => {
+    try {
+      if (path) sessionStorage.setItem('velora_auth_target', path);
+      else sessionStorage.removeItem('velora_auth_target');
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // 1. Redirect /account directly to the first tab /account/overview
+  useEffect(() => {
+    if (location.pathname === '/account' || location.pathname === '/account/') {
+      navigate('/account/overview', { replace: true });
+    }
+  }, [location.pathname, navigate]);
 
   // Custom Product Reviews State
   const [customReviews, setCustomReviews] = useState(() => loadJSON('velora_custom_reviews', {}));
@@ -458,6 +481,14 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('aura_user', JSON.stringify(matched));
       showToast(`Welcome back, ${matched.name}!`);
       setIsAuthModalOpen(false);
+      let dest = null;
+      try {
+        dest = sessionStorage.getItem('velora_auth_target');
+        sessionStorage.removeItem('velora_auth_target');
+      } catch {
+        // ignore
+      }
+      if (dest) navigate(dest);
       return { success: true };
     }
     const namePart = email.split('@')[0];
@@ -479,6 +510,14 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
     showToast(`Welcome to VELORA, ${newUser.name}!`);
     setIsAuthModalOpen(false);
+    let dest = null;
+    try {
+      dest = sessionStorage.getItem('velora_auth_target');
+      sessionStorage.removeItem('velora_auth_target');
+    } catch {
+      // ignore
+    }
+    if (dest) navigate(dest);
     return { success: true };
   };
 
@@ -492,6 +531,14 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('aura_user', JSON.stringify(existing));
       showToast(`Welcome back, ${existing.name}!`);
       setIsAuthModalOpen(false);
+      let dest = null;
+      try {
+        dest = sessionStorage.getItem('velora_auth_target');
+        sessionStorage.removeItem('velora_auth_target');
+      } catch {
+        // ignore
+      }
+      if (dest) navigate(dest);
       return { success: true };
     }
     const newUser = {
@@ -512,6 +559,14 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
     showToast(`Welcome to VELORA, ${newUser.name}! Your VIP account is ready.`);
     setIsAuthModalOpen(false);
+    let dest = null;
+    try {
+      dest = sessionStorage.getItem('velora_auth_target');
+      sessionStorage.removeItem('velora_auth_target');
+    } catch {
+      // ignore
+    }
+    if (dest) navigate(dest);
     return { success: true };
   };
 
@@ -621,7 +676,7 @@ export const AppProvider = ({ children }) => {
         shippingMethod, setShippingMethod,
         user, addAddress, updateAddress, deleteAddress, setDefaultAddress,
         addAppointment, cancelAppointment,
-        isLoggedIn, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode,
+        isLoggedIn, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setAuthTarget,
         loginUser, registerUser, logoutUser,
         customReviews, addProductReview,
         getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,

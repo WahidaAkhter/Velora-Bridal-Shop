@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 // Layout Components
 import { Header, Footer } from './components/layout';
@@ -47,7 +47,7 @@ import { RecentlyViewedStrip } from './components/extras/RecentlyViewedStrip';
 import { SharedWishlistView } from './components/extras/SharedWishlistView';
 import { CompareBar } from './components/extras/CompareBar';
 import { CompareView } from './components/extras/CompareView';
-import { parseShareUrl } from './utils/wishlistShare';
+import { parseShareUrl, getLegacyWishlistRedirect } from './utils/wishlistShare';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
 import './styles/layout.css';
@@ -59,6 +59,7 @@ import './styles/extras.css';
 
 const MainContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const {
     currentView,
     selectedProduct,
@@ -78,7 +79,20 @@ const MainContent = () => {
   } = useApp();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [sharedWishlist, setSharedWishlist] = useState(() => parseShareUrl());
+
+  // Detect old links of the form /?w=... (or any path with ?w=) and redirect to /wishlist/shared?ids=...
+  useEffect(() => {
+    const redirectUrl = getLegacyWishlistRedirect(location.search);
+    if (redirectUrl) {
+      navigate(redirectUrl, { replace: true });
+    }
+  }, [location.search, navigate]);
+
+  const isWishlistSharedRoute = location.pathname === '/wishlist/shared';
+  const sharedWishlist = (isWishlistSharedRoute || location.search.includes('ids=') || location.search.includes('w='))
+    ? parseShareUrl(location.search)
+    : null;
+
   const anyOverlayOpen = Boolean(
     selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen
   );
@@ -148,11 +162,11 @@ const MainContent = () => {
         {sharedWishlist?.isShared ? (
           <SharedWishlistView
             sharedData={sharedWishlist}
-            onDismiss={() => setSharedWishlist(null)}
+            onDismiss={() => navigate('/')}
           />
         ) : (
           <>
-            {currentView === 'catalog' && (
+            {(currentView === 'catalog' || currentView === 'wishlist-shared') && (
               <div className="luxe-storefront-page">
                 {/* 2. Hero Section */}
                 <HeroBanner />

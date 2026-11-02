@@ -26,6 +26,12 @@ export const SeoHead = () => {
     } else if (currentView === 'not-found') {
       title = 'Page Not Found | VELORA Storefront';
       description = 'The requested bridal atelier page could not be found.';
+    } else if (currentView === 'compare') {
+      title = 'Compare Gowns | VELORA Storefront';
+      description = 'Compare bridal gowns side by side, evaluating silhouettes, fabrics, necklines, and pricing.';
+    } else if (currentView === 'wishlist-shared') {
+      title = 'Curated Bridal Wishlist | VELORA Storefront';
+      description = 'Explore a hand-picked bridal gown wishlist curated with VELORA haute couture.';
     } else if (currentView === 'checkout') {
       title = 'Secure Checkout | VELORA Storefront';
       description = 'Complete your order with multiple delivery options and card, PayPal, Apple Pay or gift card payment.';
