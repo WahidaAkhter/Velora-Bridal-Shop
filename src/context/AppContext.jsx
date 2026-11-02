@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '../data/products';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
+import { routeFor, viewFor, accountTabFor } from '../routes/routeMap';
 import {
   createOrder as apiCreateOrder,
   bookAppointment as apiBookAppointment,
@@ -48,15 +50,23 @@ export const AppProvider = ({ children }) => {
   const [currencyCode, setCurrencyCode] = useState(() => localStorage.getItem('aura_currency') || 'USD');
   const currency = CURRENCIES.find(c => c.code === currencyCode) || CURRENCIES[0];
 
-  // Navigation: 'catalog' | 'checkout' | 'account' | 'lookbook' | 'all-dresses' etc.
-  const [currentView, setCurrentView] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const p = new URLSearchParams(window.location.search);
-      if (p.get('view')) return p.get('view');
-    }
-    return 'catalog';
-  });
-  const [accountTab, setAccountTab] = useState('overview');
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Navigation: derived from current location via viewFor
+  const currentView = viewFor(location.pathname, location.search);
+  const pathAccountTab = accountTabFor(location.pathname);
+  const [internalAccountTab, setInternalAccountTab] = useState('overview');
+  const accountTab = pathAccountTab || internalAccountTab;
+
+  const setCurrentView = useCallback((view) => {
+    navigate(routeFor(view));
+  }, [navigate]);
+
+  const setAccountTab = useCallback((tab) => {
+    setInternalAccountTab(tab);
+    navigate(routeFor('account', { accountTab: tab }));
+  }, [navigate]);
 
   // Filters
   const [selectedCategory, setSelectedCategory] = useState('all');

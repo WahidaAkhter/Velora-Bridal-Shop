@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 // Layout Components
 import { Header, Footer } from './components/layout';
@@ -26,7 +27,8 @@ import {
   AllCollectionsPage,
   AccessoriesPage,
   BeltsAndSashesPage,
-  OurStoryPage
+  OurStoryPage,
+  NotFoundPage
 } from './pages';
 
 // Modals & Drawers
@@ -56,6 +58,7 @@ import './styles/luxe-bridal.css';
 import './styles/extras.css';
 
 const MainContent = () => {
+  const location = useLocation();
   const {
     currentView,
     selectedProduct,
@@ -120,10 +123,10 @@ const MainContent = () => {
     };
   }, [anyOverlayOpen]);
 
-  // Scroll to top on view change; show back-to-top button after scrolling
+  // Scroll to top on route change (not when a modal opens); show back-to-top button after scrolling
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, [currentView]);
+  }, [location.pathname]);
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 700);
@@ -180,6 +183,7 @@ const MainContent = () => {
             {currentView === 'checkout' && <CheckoutPage />}
             {currentView === 'account' && <AccountPage />}
             {currentView === 'compare' && <CompareView />}
+            {currentView === 'not-found' && <NotFoundPage />}
           </>
         )}
       </main>

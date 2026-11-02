@@ -8,3 +8,4 @@ export * from './AllCollectionsPage';
 export * from './AccessoriesPage';
 export * from './BeltsAndSashesPage';
 export * from './OurStoryPage';
+export * from './NotFoundPage';

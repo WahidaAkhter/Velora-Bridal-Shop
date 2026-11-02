@@ -2172,3 +2172,110 @@
     border-radius: 50%;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   5. NOT FOUND (404) PAGE
+   -------------------------------------------------------------------------- */
+.velora-notfound-page {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  background: #FAF8F5;
+}
+
+.velora-notfound-card {
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+  background: #FFFFFF;
+  border: 1px solid #EFEAE3;
+  border-radius: 6px;
+  padding: 48px 36px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.velora-notfound-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #FAF6F0;
+  color: #BCA07E;
+  margin-bottom: 20px;
+}
+
+.velora-notfound-kicker {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #BCA07E;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.velora-notfound-title {
+  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-size: clamp(28px, 4vw, 36px);
+  color: #1F1917;
+  font-weight: 500;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.velora-notfound-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #6E6761;
+  margin: 0 auto 32px auto;
+  max-width: 440px;
+}
+
+.velora-notfound-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.velora-notfound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.velora-notfound-btn.primary {
+  background: #1F1917;
+  color: #FFFFFF;
+  border: 1px solid #1F1917;
+}
+
+.velora-notfound-btn.primary:hover {
+  background: #3B3330;
+  border-color: #3B3330;
+}
+
+.velora-notfound-btn.secondary {
+  background: #FFFFFF;
+  color: #1F1917;
+  border: 1px solid #D6CECE;
+}
+
+.velora-notfound-btn.secondary:hover {
+  border-color: #1F1917;
+  background: #FAF8F5;
+}
