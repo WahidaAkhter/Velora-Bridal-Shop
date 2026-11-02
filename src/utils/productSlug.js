@@ -109,3 +109,4 @@ export const findProductBySlug = (slug) => {
 
   return null;
 };
+
