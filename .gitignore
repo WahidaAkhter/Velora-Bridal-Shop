@@ -33,4 +33,5 @@ server/cache/
 # Generated presentation assets & scripts
 *.pdf
 public/screenshots/
-scripts/
+scripts/*
+!scripts/generate-sitemap.mjs

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { ROUTE_SEO, ACCOUNT_TAB_SEO } from '../../data/seoConfig';
 
 const setMeta = (attr, key, content) => {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -11,46 +12,58 @@ const setMeta = (attr, key, content) => {
   el.setAttribute('content', content);
 };
 
+const setCanonical = (href) => {
+  let el = document.head.querySelector('link[rel="canonical"]');
+  if (!el) {
+    el = document.createElement('link');
+    el.setAttribute('rel', 'canonical');
+    document.head.appendChild(el);
+  }
+  el.setAttribute('href', href);
+};
+
 export const SeoHead = () => {
-  const { currentView, selectedCategory, selectedProduct, currency } = useApp();
+  const { currentView, accountTab, selectedCategory, selectedProduct, currency } = useApp();
 
   useEffect(() => {
-    let title = 'VELORA — Luxury Bridal Boutique';
-    let description = 'High-performance luxury bridal boutique and couture wedding gowns atelier.';
+    let title = ROUTE_SEO.catalog.title;
+    let description = ROUTE_SEO.catalog.description;
     let image = '/images/bridal/featured-lace-dream.jpg';
 
     if (selectedProduct) {
-      title = `${selectedProduct.name} | VELORA Storefront`;
-      description = selectedProduct.description || selectedProduct.subtitle || description;
+      title = `${selectedProduct.name} | VELORA Bridal Atelier`;
+      description = selectedProduct.description || selectedProduct.subtitle || ROUTE_SEO['all-dresses'].description;
       image = selectedProduct.images?.[0] || selectedProduct.image || image;
-    } else if (currentView === 'not-found') {
-      title = 'Page Not Found | VELORA Storefront';
-      description = 'The requested bridal atelier page could not be found.';
-    } else if (currentView === 'compare') {
-      title = 'Compare Gowns | VELORA Storefront';
-      description = 'Compare bridal gowns side by side, evaluating silhouettes, fabrics, necklines, and pricing.';
-    } else if (currentView === 'wishlist-shared') {
-      title = 'Curated Bridal Wishlist | VELORA Storefront';
-      description = 'Explore a hand-picked bridal gown wishlist curated with VELORA haute couture.';
-    } else if (currentView === 'checkout') {
-      title = 'Secure Checkout | VELORA Storefront';
-      description = 'Complete your order with multiple delivery options and card, PayPal, Apple Pay or gift card payment.';
     } else if (currentView === 'account') {
-      title = 'My Account & Orders | VELORA Storefront';
-      description = 'Manage your saved addresses, order history, wishlist, vouchers and gift cards.';
+      const seo = ACCOUNT_TAB_SEO[accountTab] || ACCOUNT_TAB_SEO.overview;
+      title = seo.title;
+      description = seo.description;
+    } else if (ROUTE_SEO[currentView]) {
+      const seo = ROUTE_SEO[currentView];
+      title = seo.title;
+      description = seo.description;
     } else if (selectedCategory !== 'all') {
       const name = selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1);
-      title = `${name} Collection | VELORA Storefront`;
+      title = `${name} Collection | VELORA Atelier`;
       description = `Explore our curated ${selectedCategory} collection featuring bespoke designer wedding dresses.`;
     }
 
+    const currentOrigin = typeof window !== 'undefined' ? window.location.origin : '';
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const canonicalUrl = `${currentOrigin}${currentPath}`;
+    const fullImageUrl = new URL(image, currentOrigin).href;
+
     document.title = title;
+    setCanonical(canonicalUrl);
     setMeta('name', 'description', description);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', description);
-    setMeta('property', 'og:url', typeof window !== 'undefined' ? window.location.href : '');
-    setMeta('property', 'og:image', new URL(image, window.location.origin).href);
+    setMeta('property', 'og:url', canonicalUrl);
+    setMeta('property', 'og:image', fullImageUrl);
     setMeta('property', 'og:type', selectedProduct ? 'product' : 'website');
+    setMeta('name', 'twitter:title', title);
+    setMeta('name', 'twitter:description', description);
+    setMeta('name', 'twitter:image', fullImageUrl);
 
     // schema.org Product structured data (Google rich results)
     const existing = document.getElementById('ld-product');
@@ -70,7 +83,7 @@ export const SeoHead = () => {
         '@type': 'Product',
         name: p.name,
         description: p.description || p.subtitle || '',
-        image: imagesList.map(src => new URL(src, window.location.origin).href),
+        image: imagesList.map(src => new URL(src, currentOrigin).href),
         sku: p.attributes?.SKU || p.id,
         category: p.categoryName || 'Bridal Gowns',
         brand: { '@type': 'Brand', name: 'VELORA' },
@@ -85,12 +98,13 @@ export const SeoHead = () => {
           lowPrice: (minPrice * currency.rate).toFixed(2),
           highPrice: (maxPrice * currency.rate).toFixed(2),
           offerCount: variantsList.length,
-          availability: (p.stock ?? 10) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+          availability: (p.stock ?? 10) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+          url: canonicalUrl
         }
       });
       document.head.appendChild(script);
     }
-  }, [currentView, selectedCategory, selectedProduct, currency]);
+  }, [currentView, accountTab, selectedCategory, selectedProduct, currency]);
 
   return null;
 };
