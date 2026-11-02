@@ -123,8 +123,11 @@ const MainContent = () => {
     };
   }, [anyOverlayOpen]);
 
-  // Scroll to top on route change (not when a modal opens); show back-to-top button after scrolling
+  // Scroll to top on route change (not when a product modal opens); show back-to-top button after scrolling
   useEffect(() => {
+    if (location.pathname.startsWith('/dresses/') && location.pathname !== '/dresses') {
+      return;
+    }
     window.scrollTo({ top: 0 });
   }, [location.pathname]);
 

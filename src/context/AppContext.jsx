@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PRODUCTS } from '../data/products';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
-import { routeFor, viewFor, accountTabFor } from '../routes/routeMap';
+import { routeFor, viewFor, accountTabFor, productFor } from '../routes/routeMap';
 import {
   createOrder as apiCreateOrder,
   bookAppointment as apiBookAppointment,
@@ -77,7 +77,25 @@ export const AppProvider = ({ children }) => {
   const [minRating, setMinRating] = useState(0);
 
   // Product modals
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const routeProduct = productFor(location.pathname);
+  const [internalSelectedProduct, setInternalSelectedProduct] = useState(null);
+  const selectedProduct = routeProduct || internalSelectedProduct;
+
+  const setSelectedProduct = useCallback((product) => {
+    if (product) {
+      setInternalSelectedProduct(product);
+      navigate(routeFor('product', { product }), { state: { fromInternal: true } });
+    } else {
+      setInternalSelectedProduct(null);
+      if (location.pathname.startsWith('/dresses/') && location.pathname !== '/dresses') {
+        if (location.state?.fromInternal || (typeof window !== 'undefined' && window.history.state?.idx > 0)) {
+          navigate(-1);
+        } else {
+          navigate('/dresses');
+        }
+      }
+    }
+  }, [location.pathname, location.state, navigate]);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(() => {
     if (typeof window !== 'undefined') {

@@ -21,8 +21,11 @@ export const SeoHead = () => {
 
     if (selectedProduct) {
       title = `${selectedProduct.name} | VELORA Storefront`;
-      description = selectedProduct.description;
-      image = selectedProduct.images?.[0] || selectedProduct.image || '';
+      description = selectedProduct.description || selectedProduct.subtitle || description;
+      image = selectedProduct.images?.[0] || selectedProduct.image || image;
+    } else if (currentView === 'not-found') {
+      title = 'Page Not Found | VELORA Storefront';
+      description = 'The requested bridal atelier page could not be found.';
     } else if (currentView === 'checkout') {
       title = 'Secure Checkout | VELORA Storefront';
       description = 'Complete your order with multiple delivery options and card, PayPal, Apple Pay or gift card payment.';
@@ -39,6 +42,7 @@ export const SeoHead = () => {
     setMeta('name', 'description', description);
     setMeta('property', 'og:title', title);
     setMeta('property', 'og:description', description);
+    setMeta('property', 'og:url', typeof window !== 'undefined' ? window.location.href : '');
     setMeta('property', 'og:image', new URL(image, window.location.origin).href);
     setMeta('property', 'og:type', selectedProduct ? 'product' : 'website');
 
@@ -50,23 +54,32 @@ export const SeoHead = () => {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.id = 'ld-product';
+      const imagesList = Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
+      const variantsList = Array.isArray(p.variants) && p.variants.length > 0 ? p.variants : [{ price: p.price || 0 }];
+      const minPrice = Math.min(...variantsList.map(v => v.price || p.price || 0));
+      const maxPrice = Math.max(...variantsList.map(v => v.price || p.price || 0));
+
       script.textContent = JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Product',
         name: p.name,
-        description: p.description,
-        image: p.images.map(src => new URL(src, window.location.origin).href),
-        sku: p.attributes?.SKU,
-        category: p.categoryName,
+        description: p.description || p.subtitle || '',
+        image: imagesList.map(src => new URL(src, window.location.origin).href),
+        sku: p.attributes?.SKU || p.id,
+        category: p.categoryName || 'Bridal Gowns',
         brand: { '@type': 'Brand', name: 'VELORA' },
-        aggregateRating: { '@type': 'AggregateRating', ratingValue: p.rating, reviewCount: p.reviewCount },
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: p.rating || 5.0,
+          reviewCount: p.reviewCount || 12
+        },
         offers: {
           '@type': 'AggregateOffer',
           priceCurrency: currency.code,
-          lowPrice: (Math.min(...p.variants.map(v => v.price)) * currency.rate).toFixed(2),
-          highPrice: (Math.max(...p.variants.map(v => v.price)) * currency.rate).toFixed(2),
-          offerCount: p.variants.length,
-          availability: p.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+          lowPrice: (minPrice * currency.rate).toFixed(2),
+          highPrice: (maxPrice * currency.rate).toFixed(2),
+          offerCount: variantsList.length,
+          availability: (p.stock ?? 10) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
         }
       });
       document.head.appendChild(script);

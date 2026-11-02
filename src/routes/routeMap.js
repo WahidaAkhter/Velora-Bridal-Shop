@@ -3,6 +3,10 @@
  * Constants and pure helpers for clean SPA navigation.
  */
 
+import { findProductBySlug, toProductSlug } from '../utils/productSlug.js';
+
+export { findProductBySlug, toProductSlug };
+
 export const VIEW_TO_PATH = {
   catalog: '/',
   'all-dresses': '/dresses',
@@ -74,6 +78,10 @@ export const routeFor = (view, options = {}) => {
   if (!view) return '/';
   if (view.startsWith('/')) return view;
 
+  if ((view === 'product' || view === 'dresses') && options.product) {
+    return `/dresses/${toProductSlug(options.product)}`;
+  }
+
   if (view === 'account' && options.accountTab && VALID_ACCOUNT_TABS.includes(options.accountTab)) {
     return options.accountTab === 'overview' ? '/account' : `/account/${options.accountTab}`;
   }
@@ -87,7 +95,7 @@ export const routeFor = (view, options = {}) => {
  * @returns {string}
  */
 const normalizePath = (pathname) => {
-  if (!pathname || pathname === '/') return '/';
+  if (!pathname || typeof pathname !== 'string' || pathname === '/') return '/';
   return pathname.replace(/\/+$/, '').toLowerCase();
 };
 
@@ -128,7 +136,32 @@ export const viewFor = (pathname, search = '') => {
     }
   }
 
+  // Product details sub-routes: /dresses/:slug
+  if (cleanPath.startsWith('/dresses/')) {
+    const slug = cleanPath.slice('/dresses/'.length);
+    if (slug) {
+      const matched = findProductBySlug(slug);
+      return matched ? 'all-dresses' : 'not-found';
+    }
+  }
+
   return 'not-found';
+};
+
+/**
+ * Extracts the active product from the pathname if on a product route (/dresses/:slug).
+ * @param {string} pathname
+ * @returns {Object|null}
+ */
+export const productFor = (pathname) => {
+  const cleanPath = normalizePath(pathname);
+  if (cleanPath.startsWith('/dresses/')) {
+    const slug = cleanPath.slice('/dresses/'.length);
+    if (slug) {
+      return findProductBySlug(slug);
+    }
+  }
+  return null;
 };
 
 /**
