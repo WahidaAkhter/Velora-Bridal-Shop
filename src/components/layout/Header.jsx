@@ -13,7 +13,7 @@ import {
   Clock,
   ArrowRight
 } from 'lucide-react';
-import { PRODUCTS } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 import { matchGownSearchStrict } from '../../utils/searchMatcher';
 import { WeddingCountdown } from '../extras/WeddingCountdown';
 import { useWeddingDate } from '../../hooks/useWeddingDate';
@@ -264,10 +264,11 @@ export const Header = () => {
     formatPrice
   } = useApp();
 
+  const catalog = useCatalog();
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const validWishlistCount = useMemo(() => {
-    return Array.isArray(wishlist) ? wishlist.filter(id => PRODUCTS.some(p => p.id === id)).length : 0;
-  }, [wishlist]);
+    return Array.isArray(wishlist) ? wishlist.filter(id => catalog.some(p => p.id === id)).length : 0;
+  }, [wishlist, catalog]);
 
   const { weddingDate } = useWeddingDate();
   const weddingOrder = weddingDate ? calcOrderBy({ weddingDate }) : null;
@@ -341,7 +342,7 @@ export const Header = () => {
   }, []);
 
   const allMatchingGowns = searchQuery.trim()
-    ? PRODUCTS.filter(p => matchGownSearchStrict(p, searchQuery))
+    ? catalog.filter(p => matchGownSearchStrict(p, searchQuery))
     : [];
 
   const searchResults = allMatchingGowns.slice(0, 8);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { PRODUCTS } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 import { Home, Search, Heart, ShoppingBag, User } from 'lucide-react';
 
 /** Bottom navigation shown only on small screens (see responsive.css). */
@@ -10,8 +10,9 @@ export const MobileTabBar = () => {
     setSelectedCategory, setIsCartOpen, isCartOpen, cartItems, wishlist
   } = useApp();
 
+  const catalog = useCatalog();
   const cartCount = cartItems.reduce((a, b) => a + b.quantity, 0);
-  const validWishlistCount = Array.isArray(wishlist) ? wishlist.filter(id => PRODUCTS.some(p => p.id === id)).length : 0;
+  const validWishlistCount = Array.isArray(wishlist) ? wishlist.filter(id => catalog.some(p => p.id === id)).length : 0;
 
   const tabs = [
     {

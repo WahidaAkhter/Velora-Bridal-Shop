@@ -36,4 +36,5 @@ public/screenshots/
 scripts/*
 !scripts/generate-sitemap.mjs
 !scripts/seed.mjs
+!scripts/verify-catalog.mjs
 .env.server

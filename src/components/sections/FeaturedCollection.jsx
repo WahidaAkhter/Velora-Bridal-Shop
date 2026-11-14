@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
-import { PRODUCTS } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 
 export const FeaturedCollection = () => {
   const { setSelectedProduct } = useApp();
+  const catalog = useCatalog();
 
   // Your original 4 Featured Collection Gowns
-  const featuredGowns = PRODUCTS.slice(0, 4);
+  const featuredGowns = catalog.slice(0, 4);
   const total = featuredGowns.length; // 4
 
   const [activeIndex, setActiveIndex] = useState(0);

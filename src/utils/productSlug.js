@@ -1,9 +1,10 @@
-import { PRODUCTS } from '../data/products.js';
+import { getCatalog } from '../services/catalogStore.js';
 import { ALL_SHOP_DRESSES } from '../data/allDressesData.js';
 import { ACCESSORY_PIECES } from '../data/accessoriesData.js';
 import { QUICK_SHIP_GOWNS } from '../data/quickShipData.js';
 import { LEGACY_COLLECTION_GOWNS } from '../data/legacyCollectionData.js';
 
+let lastCatalogRef = null;
 let cachedCatalogList = null;
 let cachedCatalogMap = null;
 
@@ -12,7 +13,9 @@ let cachedCatalogMap = null;
  * @returns {Array<Object>}
  */
 export const getAllProducts = () => {
-  if (cachedCatalogList) return cachedCatalogList;
+  const currentCatalog = getCatalog();
+  if (cachedCatalogList && lastCatalogRef === currentCatalog) return cachedCatalogList;
+  lastCatalogRef = currentCatalog;
 
   const map = new Map();
   const addAll = (list) => {
@@ -25,7 +28,7 @@ export const getAllProducts = () => {
     }
   };
 
-  addAll(PRODUCTS);
+  addAll(currentCatalog);
   addAll(ALL_SHOP_DRESSES);
   addAll(ACCESSORY_PIECES);
   addAll(QUICK_SHIP_GOWNS);

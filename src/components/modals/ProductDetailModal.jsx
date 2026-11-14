@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { PRODUCTS } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
 import { RecentlyViewedStrip } from '../extras/RecentlyViewedStrip';
 import { CompleteTheLook } from '../extras/CompleteTheLook';
@@ -32,6 +32,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
     isLoggedIn
   } = useApp();
 
+  const catalog = useCatalog();
   const { track } = useRecentlyViewed();
 
   useEffect(() => {
@@ -51,8 +52,8 @@ export const ProductDetailModal = ({ product, onClose }) => {
   };
 
   const related = [
-    ...PRODUCTS.filter(p => p.category === product.category && p.id !== product.id),
-    ...PRODUCTS.filter(p => p.category !== product.category && p.isBestseller)
+    ...catalog.filter(p => p.category === product.category && p.id !== product.id),
+    ...catalog.filter(p => p.category !== product.category && p.isBestseller)
   ].slice(0, 4);
 
   const openRelated = (p) => {

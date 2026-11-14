@@ -1,13 +1,17 @@
-import { PRODUCTS } from '../data/products.js';
+import { getCatalog } from '../services/catalogStore.js';
 import { ALL_SHOP_DRESSES } from '../data/allDressesData.js';
 import { ACCESSORY_PIECES } from '../data/accessoriesData.js';
 import { QUICK_SHIP_GOWNS } from '../data/quickShipData.js';
 import { LEGACY_COLLECTION_GOWNS } from '../data/legacyCollectionData.js';
 
+let lastCatalogRef = null;
 let cachedMap = null;
 
 const buildCatalogMap = () => {
-  if (cachedMap) return cachedMap;
+  const currentCatalog = getCatalog();
+  if (cachedMap && lastCatalogRef === currentCatalog) return cachedMap;
+  lastCatalogRef = currentCatalog;
+
   const map = new Map();
   const addAll = (list) => {
     if (Array.isArray(list)) {
@@ -18,7 +22,7 @@ const buildCatalogMap = () => {
       });
     }
   };
-  addAll(PRODUCTS);
+  addAll(currentCatalog);
   addAll(ALL_SHOP_DRESSES);
   addAll(ACCESSORY_PIECES);
   addAll(QUICK_SHIP_GOWNS);

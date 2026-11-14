@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
-import { PRODUCTS } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 import { ALL_SHOP_DRESSES } from '../../data/allDressesData';
 import { ACCESSORY_PIECES } from '../../data/accessoriesData';
 import { QUICK_SHIP_GOWNS } from '../../data/quickShipData';
@@ -10,6 +10,7 @@ import { LEGACY_COLLECTION_GOWNS } from '../../data/legacyCollectionData';
 export const RecentlyViewedStrip = ({ excludeId = null, title = 'Recently Viewed' }) => {
   const { setSelectedProduct, formatPrice } = useApp();
   const { recentIds } = useRecentlyViewed();
+  const catalog = useCatalog();
 
   // Combine product datasets for comprehensive lookup
   const productLookup = useMemo(() => {
@@ -24,13 +25,13 @@ export const RecentlyViewedStrip = ({ excludeId = null, title = 'Recently Viewed
       }
     };
 
-    addAll(PRODUCTS);
+    addAll(catalog);
     addAll(ALL_SHOP_DRESSES);
     addAll(ACCESSORY_PIECES);
     addAll(QUICK_SHIP_GOWNS);
     addAll(LEGACY_COLLECTION_GOWNS);
     return map;
-  }, []);
+  }, [catalog]);
 
   // Filter IDs (deduped, excluding excludeId, and existing in catalog)
   const items = useMemo(() => {

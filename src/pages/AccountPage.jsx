@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { PRODUCTS } from '../data/products';
+import { useCatalog } from '../services/catalogStore';
 import { VOUCHERS } from '../data/vouchers';
 import {
   User,
@@ -48,6 +48,8 @@ export const AccountPage = () => {
     cancelAppointment,
     setIsAppointmentModalOpen
   } = useApp();
+
+  const catalog = useCatalog();
 
   const [editingAddrId, setEditingAddrId] = useState(null);
 
@@ -110,7 +112,7 @@ export const AccountPage = () => {
     closeAddrForm();
   };
 
-  const wishlistedProducts = PRODUCTS.filter(p => wishlist.includes(p.id));
+  const wishlistedProducts = catalog.filter(p => wishlist.includes(p.id));
 
   const handleShareWishlist = async () => {
     const url = buildShareUrl(wishlist, user?.name);

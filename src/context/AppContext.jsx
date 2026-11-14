@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PRODUCTS } from '../data/products';
+import { useCatalog, getCatalog } from '../services/catalogStore';
+import { getProducts, isSupabaseConfigured } from '../services/productsService';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
 import { routeFor, viewFor, accountTabFor, productFor } from '../routes/routeMap';
@@ -21,10 +22,10 @@ const loadJSON = (key, fallback) => {
   }
 };
 
-// Sanitizes wishlist IDs to keep only valid, unique IDs that actually exist in PRODUCTS
+// Sanitizes wishlist IDs to keep only valid, unique IDs that actually exist in the catalog
 const sanitizeWishlistIds = (rawIds) => {
   if (!Array.isArray(rawIds)) return [];
-  const validIdSet = new Set(PRODUCTS.map(p => p.id));
+  const validIdSet = new Set(getCatalog().map(p => p.id));
   const seen = new Set();
   const clean = [];
   for (const id of rawIds) {
@@ -37,6 +38,31 @@ const sanitizeWishlistIds = (rawIds) => {
 };
 
 export const AppProvider = ({ children }) => {
+  // Catalog store subscription & Supabase loading
+  const catalog = useCatalog();
+  const [isProductsLoading, setIsProductsLoading] = useState(false);
+  const [productsError, setProductsError] = useState(null);
+
+  const loadProducts = useCallback(async () => {
+    if (!isSupabaseConfigured) return;
+    setIsProductsLoading(true);
+    setProductsError(null);
+    try {
+      const res = await getProducts();
+      if (!res.success && res.error) {
+        setProductsError(res.error);
+      }
+    } catch (err) {
+      setProductsError(err);
+    } finally {
+      setIsProductsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadProducts();
+  }, [loadProducts]);
+
   // Theme — VELORA is an editorial bridal luxury storefront (Light Palette)
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('aura_theme');
@@ -110,12 +136,14 @@ export const AppProvider = ({ children }) => {
 
   // Cart
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() =>
-    loadJSON('aura_cart', [
-      { id: 'cart-1', productId: 'prod-1', product: PRODUCTS[0], variant: PRODUCTS[0].variants[0], quantity: 1 },
-      { id: 'cart-2', productId: 'prod-3', product: PRODUCTS[2], variant: PRODUCTS[2].variants[1], quantity: 1 }
-    ])
-  );
+  const [cartItems, setCartItems] = useState(() => {
+    const defaultCatalog = getCatalog();
+    const fallbackCart = [
+      { id: 'cart-1', productId: 'prod-1', product: defaultCatalog[0], variant: defaultCatalog[0]?.variants?.[0], quantity: 1 },
+      { id: 'cart-2', productId: 'prod-3', product: defaultCatalog[2], variant: defaultCatalog[2]?.variants?.[1], quantity: 1 }
+    ];
+    return loadJSON('aura_cart', fallbackCart);
+  });
 
   const [wishlist, setWishlist] = useState(() => {
     const raw = loadJSON('aura_wishlist', ['prod-1', 'prod-2']);
@@ -269,7 +297,7 @@ export const AppProvider = ({ children }) => {
   };
 
   const toggleWishlist = (productId) => {
-    const item = PRODUCTS.find(p => p.id === productId);
+    const item = catalog.find(p => p.id === productId);
     if (!item) return;
 
     if (wishlist.includes(productId)) {
@@ -659,6 +687,7 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        catalog, isProductsLoading, productsError, isSupabaseConfigured, reloadProducts: loadProducts,
         isDark, toggleTheme,
         currency, currencyCode, setCurrencyCode, formatPrice,
         currentView, setCurrentView, accountTab, setAccountTab,

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
-import { COLOR_DRESSES, PRODUCTS } from '../../data/products';
+import { COLOR_DRESSES } from '../../data/products';
+import { useCatalog } from '../../services/catalogStore';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const ShopByColor = () => {
   const { setSelectedProduct } = useApp();
+  const catalog = useCatalog();
   const [currentIndex, setCurrentIndex] = useState(2); // Start with romantic Blush Pink in center
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
@@ -98,7 +100,7 @@ export const ShopByColor = () => {
   };
 
   const openProductDetails = (colorItem) => {
-    const matched = PRODUCTS.find((p) => p.slug === colorItem.slug) || {
+    const matched = catalog.find((p) => p.slug === colorItem.slug) || {
       id: colorItem.id,
       name: `${colorItem.colorName} BRIDAL GOWN`,
       subtitle: colorItem.subtitle,

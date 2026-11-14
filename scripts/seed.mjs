@@ -113,53 +113,54 @@ async function runSeed() {
   const productsPayload = [];
   const variantsPayload = [];
 
-  for (const p of allUniqueProducts) {
-    // Products table payload including extra catalog fields
+  for (let idx = 0; idx < allUniqueProducts.length; idx++) {
+    const p = allUniqueProducts[idx];
+    // Products table payload: explicitly send null for absent fields to overwrite old DB defaults
     productsPayload.push({
       id: p.id,
+      sort_order: idx,
       name: p.name,
       slug: p.slug,
-      subtitle: p.subtitle || null,
-      price: p.price || 0,
-      original_price: p.originalPrice || null,
-      image: p.image || (Array.isArray(p.images) && p.images[0]) || '/images/bridal/hero-bride-clean.jpg',
-      hover_image: p.hoverImage || null,
-      images: Array.isArray(p.images) && p.images.length > 0 ? p.images : [p.image || '/images/bridal/hero-bride-clean.jpg'],
-      video: p.video || null,
-      silhouette: p.silhouette || null,
-      shape: p.shape || null,
-      fabric: p.fabric || null,
-      neckline: p.neckline || null,
-      category: p.category || 'all-dresses',
-      category_name: p.categoryName || 'All Wedding Dresses',
-      collection: p.collection || 'VELORA Bridal Atelier',
-      description: p.description || null,
-      tags: Array.isArray(p.tags) ? p.tags : [],
-      attributes: p.attributes || {},
-      rating: p.rating ?? 5.0,
-      stock: p.stock ?? 10,
-      // Extra catalog fields from migration 002
-      velora_id: p.veloraId ? String(p.veloraId) : null,
-      code: p.code || null,
-      review_count: p.reviewCount || 0,
-      is_new: Boolean(p.isNew),
-      is_bestseller: Boolean(p.isBestseller),
-      colors: Array.isArray(p.colors) ? p.colors : [],
-      accessory_type: p.accessoryType || null,
-      badge: p.badge || null,
-      title: p.title || null,
-      material: p.material || null,
-      style_category: p.styleCategory || null,
-      color_swatches: p.colorSwatches || [],
-      reviews: p.reviews || [],
-      video_url: p.videoUrl || null,
-      styles: Array.isArray(p.styles) ? p.styles : [],
-      train: p.train || null,
-      sleeves: p.sleeves || null,
-      back: p.back || null,
-      boning: p.boning || null,
-      colorways: Array.isArray(p.colorways) ? p.colorways : [],
-      timeline: p.timeline || null
+      subtitle: p.subtitle ?? null,
+      price: p.price ?? 0,
+      original_price: p.originalPrice ?? null,
+      image: p.image ?? null,
+      hover_image: p.hoverImage ?? null,
+      images: Array.isArray(p.images) ? p.images : [],
+      video: p.video ?? null,
+      silhouette: p.silhouette ?? null,
+      shape: p.shape ?? null,
+      fabric: p.fabric ?? null,
+      neckline: p.neckline ?? null,
+      category: p.category ?? null,
+      category_name: p.categoryName ?? null,
+      collection: p.collection ?? null,
+      description: p.description ?? null,
+      tags: p.tags ?? null,
+      attributes: p.attributes ?? null,
+      velora_id: p.veloraId != null ? String(p.veloraId) : null,
+      code: p.code ?? null,
+      rating: p.rating ?? null,
+      review_count: p.reviewCount ?? null,
+      is_new: p.isNew != null ? p.isNew : null,
+      is_bestseller: p.isBestseller != null ? p.isBestseller : null,
+      stock: p.stock ?? null,
+      colors: p.colors ?? null,
+      accessory_type: p.accessoryType ?? null,
+      badge: p.badge ?? null,
+      title: p.title ?? null,
+      material: p.material ?? null,
+      style_category: p.styleCategory ?? null,
+      color_swatches: p.colorSwatches ?? null,
+      reviews: p.reviews ?? null,
+      video_url: p.videoUrl ?? null,
+      styles: p.styles ?? null,
+      train: p.train ?? null,
+      sleeves: p.sleeves ?? null,
+      back: p.back ?? null,
+      boning: p.boning ?? null,
+      colorways: p.colorways ?? null,
+      timeline: p.timeline ?? null
     });
 
     // Variants payload: products without variants get standard fallback
@@ -171,22 +172,22 @@ async function runSeed() {
         color: null,
         color_hex: null,
         size: 'Standard',
-        price: p.price || 0,
+        price: p.price ?? 0,
         stock: p.stock ?? 10,
         sku: `${p.slug || p.id}-STD`
       });
     } else {
-      p.variants.forEach((v, idx) => {
+      p.variants.forEach((v, vIdx) => {
         variantsPayload.push({
-          id: v.id || `${p.id}-v${idx}`,
+          id: v.id || `${p.id}-v${vIdx}`,
           product_id: p.id,
           name: v.name || `${v.size || 'Standard'} / ${v.color || 'Ivory'}`,
-          color: v.color || null,
-          color_hex: v.colorHex || null,
-          size: v.size || null,
-          price: v.price ?? p.price ?? 0,
-          stock: v.stock ?? 10,
-          sku: v.sku || `${p.slug || p.id}-${idx + 1}`
+          color: v.color ?? null,
+          color_hex: v.colorHex ?? null,
+          size: v.size ?? null,
+          price: v.price ?? null,
+          stock: v.stock ?? null,
+          sku: v.sku ?? null
         });
       });
     }

@@ -1,4 +1,4 @@
-import { PRODUCTS } from '../data/products.js';
+import { getCatalog } from '../services/catalogStore.js';
 import { ALL_SHOP_DRESSES } from '../data/allDressesData.js';
 import { ACCESSORY_PIECES } from '../data/accessoriesData.js';
 import { QUICK_SHIP_GOWNS } from '../data/quickShipData.js';
@@ -16,7 +16,7 @@ const getCatalogMap = () => {
       });
     }
   };
-  addAll(PRODUCTS);
+  addAll(getCatalog());
   addAll(ALL_SHOP_DRESSES);
   addAll(ACCESSORY_PIECES);
   addAll(QUICK_SHIP_GOWNS);

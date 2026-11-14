@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { PRODUCTS } from '../../data/products';
-import { getProducts } from '../../services/api';
+import { useCatalog } from '../../services/catalogStore';
 import { ShopCollectionNav } from '../common/ShopCollectionNav';
 import { Heart, X, Scale } from 'lucide-react';
 import { useCompare } from '../../hooks/useCompare';
@@ -81,9 +80,14 @@ export const ProductGrid = () => {
     wishlist,
     toggleWishlist,
     formatPrice,
-    setIsAppointmentModalOpen
+    setIsAppointmentModalOpen,
+    isProductsLoading,
+    productsError,
+    isSupabaseConfigured,
+    reloadProducts
   } = useApp();
 
+  const catalog = useCatalog();
   const { isInCompare, toggle: toggleCompare } = useCompare();
 
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
@@ -96,19 +100,6 @@ export const ProductGrid = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
 
-  const [productsList, setProductsList] = useState(PRODUCTS);
-
-  // Fetch full live catalog from backend server (with backend-routed images)
-  useEffect(() => {
-    let isMounted = true;
-    getProducts({ limit: 'all' }).then(res => {
-      if (isMounted && res && res.success && res.data && res.data.length > 0) {
-        setProductsList(res.data);
-      }
-    }).catch(() => {});
-    return () => { isMounted = false; };
-  }, []);
-
   // Auto-normalize price range on mount if legacy low non-bridal range was set
   useEffect(() => {
     if (!priceRange || (Array.isArray(priceRange) && priceRange[1] < 1500)) {
@@ -119,7 +110,7 @@ export const ProductGrid = () => {
 
   // Comprehensive Filter & Sort Logic
   const filtered = useMemo(() => {
-    let result = productsList.filter((p) => {
+    let result = catalog.filter((p) => {
       // 1. Category filter
       if (selectedCategory === 'accessories') {
         const isAcc = p.category === 'accessories' ||
@@ -210,7 +201,7 @@ export const ProductGrid = () => {
       sorted.sort((a, b) => a.name.localeCompare(b.name));
     }
     return sorted;
-  }, [productsList, selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, priceRange, searchQuery, sortBy]);
+  }, [catalog, selectedCategory, selectedSilhouette, selectedNeckline, selectedStyle, selectedFabric, selectedAccessory, priceRange, searchQuery, sortBy]);
 
   // Reset to page 1 whenever filters change
   useEffect(() => {
@@ -396,6 +387,52 @@ export const ProductGrid = () => {
       )}
 
 
+      {/* Non-blocking Offline Notice (shown only when Supabase is configured and request failed) */}
+      {isSupabaseConfigured && productsError && (
+        <div
+          className="velora-offline-notice"
+          role="status"
+          style={{
+            margin: '0 0 20px 0',
+            padding: '12px 20px',
+            background: 'rgba(188, 160, 126, 0.08)',
+            border: '1px solid rgba(188, 160, 126, 0.3)',
+            borderRadius: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px',
+            fontFamily: 'inherit',
+            fontSize: '13px',
+            color: '#4A403A'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: '#BCA07E' }} />
+            <span>Currently displaying cached atelier collection (live cloud synchronization unavailable).</span>
+          </div>
+          <button
+            type="button"
+            onClick={reloadProducts}
+            disabled={isProductsLoading}
+            style={{
+              background: '#1F1917',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '2px',
+              padding: '6px 14px',
+              fontSize: '11px',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              cursor: isProductsLoading ? 'wait' : 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {isProductsLoading ? 'Connecting...' : 'Retry Connection'}
+          </button>
+        </div>
+      )}
+
       {/* 3. Toolbar: Filter Toggle | Products Count | Sort By */}
       <div className="velora-toolbar">
         {/* Left: Filter Toggle with Filter Slider Icon */}
@@ -503,7 +540,16 @@ export const ProductGrid = () => {
       )}
 
       {/* 4. Four-Column Editorial Grid */}
-      {filtered.length > 0 ? (
+      {isProductsLoading && catalog.length === 0 ? (
+        <div className="velora-grid-4" style={{ opacity: 0.6 }}>
+          {[...Array(8)].map((_, idx) => (
+            <div key={idx} className="velora-gown-card" style={{ pointerEvents: 'none' }}>
+              <div className="velora-gown-media" style={{ background: '#EDE8E3', minHeight: '380px' }} />
+              <div className="velora-gown-caption" style={{ marginTop: '12px', height: '20px', background: '#EDE8E3', borderRadius: '2px' }} />
+            </div>
+          ))}
+        </div>
+      ) : filtered.length > 0 ? (
         <div className="velora-grid-4">
           {paginatedDresses.map((gown) => {
             const isWishlisted = wishlist.includes(gown.id);
