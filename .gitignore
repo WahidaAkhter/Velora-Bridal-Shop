@@ -35,4 +35,5 @@ server/cache/
 public/screenshots/
 scripts/*
 !scripts/generate-sitemap.mjs
+!scripts/seed.mjs
 .env.server
