@@ -43,7 +43,6 @@ export const AccountPage = () => {
     setIsAuthModalOpen,
     setAuthMode,
     setAuthTarget,
-    loginUser,
     logoutUser,
     cancelAppointment,
     setIsAppointmentModalOpen
@@ -191,40 +190,6 @@ export const AccountPage = () => {
             >
               CREATE VIP ACCOUNT
             </button>
-          </div>
-
-          {/* Quick Demo Logins inside Guest Gate */}
-          <div className="velora-demo-profiles-card" style={{ maxWidth: '520px', margin: '0 auto 28px' }}>
-            <span className="velora-demo-title">Explore With 1-Click Demo Profiles:</span>
-            <div className="velora-demo-chips">
-              <button
-                type="button"
-                className="velora-demo-chip is-vip"
-                onClick={() => loginUser('eleanor.vance@example.com')}
-                title="Sign in as Eleanor Vance (VIP Bride)"
-              >
-                <User size={12} color="#B76E65" />
-                <span>Eleanor Vance (VIP Bride)</span>
-              </button>
-              <button
-                type="button"
-                className="velora-demo-chip"
-                onClick={() => loginUser('jessica.sterling@example.com')}
-                title="Sign in as Jessica Sterling"
-              >
-                <User size={12} />
-                <span>Jessica Sterling</span>
-              </button>
-              <button
-                type="button"
-                className="velora-demo-chip"
-                onClick={() => loginUser('chloe.laurent@velora.com')}
-                title="Sign in as Chloe Laurent (Stylist)"
-              >
-                <ShieldCheck size={12} />
-                <span>Chloe (Stylist)</span>
-              </button>
-            </div>
           </div>
 
           <div className="guest-gate-perks-row">

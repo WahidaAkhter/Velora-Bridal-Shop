@@ -37,4 +37,5 @@ scripts/*
 !scripts/generate-sitemap.mjs
 !scripts/seed.mjs
 !scripts/verify-catalog.mjs
+!scripts/security-test.mjs
 .env.server

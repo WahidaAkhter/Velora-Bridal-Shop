@@ -28,7 +28,8 @@ import {
   AccessoriesPage,
   BeltsAndSashesPage,
   OurStoryPage,
-  NotFoundPage
+  NotFoundPage,
+  ResetPasswordPage
 } from './pages';
 
 // Modals & Drawers
@@ -200,6 +201,7 @@ const MainContent = () => {
             {currentView === 'checkout' && <CheckoutPage />}
             {currentView === 'account' && <AccountPage />}
             {currentView === 'compare' && <CompareView />}
+            {currentView === 'reset-password' && <ResetPasswordPage />}
             {currentView === 'not-found' && <NotFoundPage />}
           </>
         )}

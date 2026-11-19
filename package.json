@@ -8,6 +8,7 @@
     "server": "node server/server.js",
     "seed": "node scripts/seed.mjs",
     "verify:catalog": "node scripts/verify-catalog.mjs",
+    "test:security": "node scripts/security-test.mjs",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
     "lint": "oxlint",

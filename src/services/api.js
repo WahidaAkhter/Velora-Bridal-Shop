@@ -150,14 +150,4 @@ export async function validateVoucher(code, subtotal) {
   });
 }
 
-// 7. Auth API
-export async function loginUser(email, password) {
-  return await safeFetch('/auth/login', {
-    method: 'POST',
-    body: JSON.stringify({ email, password })
-  });
-}
 
-export async function getUserProfile() {
-  return await safeFetch('/auth/profile', { method: 'GET' });
-}

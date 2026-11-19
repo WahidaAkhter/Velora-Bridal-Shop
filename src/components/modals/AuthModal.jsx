@@ -11,9 +11,9 @@ import {
   ArrowRight,
   CheckCircle2,
   Calendar,
-  KeyRound,
-  ShieldCheck
+  KeyRound
 } from 'lucide-react';
+import { requestPasswordReset, formatAuthError } from '../../services/authService';
 
 export const AuthModal = () => {
   const {
@@ -21,6 +21,7 @@ export const AuthModal = () => {
     setIsAuthModalOpen,
     authMode,
     setAuthMode,
+    isAuthAvailable,
     loginUser,
     registerUser,
     showToast
@@ -33,6 +34,7 @@ export const AuthModal = () => {
   const [weddingDate, setWeddingDate] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [resetSuccess, setResetSuccess] = useState(false);
 
@@ -55,24 +57,44 @@ export const AuthModal = () => {
 
   if (!isAuthModalOpen) return null;
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    if (!isAuthAvailable) {
+      setErrorMsg('Accounts are temporarily unavailable.');
+      return;
+    }
     if (!email || !email.includes('@')) {
       setErrorMsg('Please enter a valid email address.');
       return;
     }
-    const res = loginUser(email, password);
-    if (!res.success) {
-      setErrorMsg(res.message || 'Unable to sign in. Please try again.');
-    } else {
-      handleClose();
+    if (!password) {
+      setErrorMsg('Please enter your password.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await loginUser(email, password);
+      if (!res.success) {
+        setErrorMsg(res.message || 'Unable to sign in. Please try again.');
+      } else {
+        handleClose();
+      }
+    } catch (err) {
+      setErrorMsg(formatAuthError(err));
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    if (!isAuthAvailable) {
+      setErrorMsg('Accounts are temporarily unavailable.');
+      return;
+    }
     if (!name || name.trim().length < 2) {
       setErrorMsg('Please enter your full name.');
       return;
@@ -81,33 +103,51 @@ export const AuthModal = () => {
       setErrorMsg('Please enter a valid email address.');
       return;
     }
-    if (password && password.length < 6) {
+    if (!password || password.length < 6) {
       setErrorMsg('Password should be at least 6 characters.');
       return;
     }
-    const res = registerUser({ name, email, phone, weddingDate });
-    if (!res.success) {
-      setErrorMsg(res.message);
-    } else {
-      handleClose();
+
+    setIsLoading(true);
+    try {
+      const res = await registerUser({ name, email, password, phone, weddingDate });
+      if (!res.success) {
+        setErrorMsg(res.message);
+      } else {
+        handleClose();
+      }
+    } catch (err) {
+      setErrorMsg(formatAuthError(err));
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleForgotSubmit = (e) => {
+  const handleForgotSubmit = async (e) => {
     e.preventDefault();
+    if (!isAuthAvailable) {
+      setErrorMsg('Accounts are temporarily unavailable.');
+      return;
+    }
     if (!email || !email.includes('@')) {
       setErrorMsg('Please enter your registered email address.');
       return;
     }
     setErrorMsg('');
-    setResetSuccess(true);
-    showToast(`Password reset link dispatched to ${email}!`, 'info');
-  };
-
-  const handleQuickDemo = (demoEmail) => {
-    setErrorMsg('');
-    loginUser(demoEmail);
-    handleClose();
+    setIsLoading(true);
+    try {
+      const res = await requestPasswordReset(email);
+      if (res.success) {
+        setResetSuccess(true);
+        showToast(`Password reset link dispatched to ${email}!`, 'info');
+      } else {
+        setErrorMsg(res.message);
+      }
+    } catch (err) {
+      setErrorMsg(formatAuthError(err));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -327,46 +367,45 @@ export const AuthModal = () => {
                 </button>
               </div>
 
-              <button type="submit" className="velora-auth-submit-btn">
-                <span>SIGN IN TO ATELIER</span>
+              <button
+                type="submit"
+                disabled={isLoading || !isAuthAvailable}
+                className="velora-auth-submit-btn"
+                style={{ cursor: (!isAuthAvailable || isLoading) ? 'not-allowed' : 'pointer' }}
+              >
+                <span>
+                  {!isAuthAvailable
+                    ? 'ACCOUNTS UNAVAILABLE'
+                    : isLoading
+                    ? 'SIGNING IN...'
+                    : 'SIGN IN TO ATELIER'}
+                </span>
                 <ArrowRight size={15} />
               </button>
 
-              {/* 1-Click Demo Profiles */}
-              <div className="velora-demo-profiles-card">
-                <span className="velora-demo-title">
-                  Quick 1-Click Demo Profiles:
-                </span>
-                <div className="velora-demo-chips">
-                  <button
-                    type="button"
-                    className="velora-demo-chip is-vip"
-                    onClick={() => handleQuickDemo('eleanor.vance@example.com', 'Eleanor Vance')}
-                    title="Sign in as Eleanor Vance (VIP Bride with full orders)"
-                  >
-                    <User size={12} color="#B76E65" />
-                    <span>Eleanor Vance (VIP)</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="velora-demo-chip"
-                    onClick={() => handleQuickDemo('jessica.sterling@example.com', 'Jessica Sterling')}
-                    title="Sign in as Jessica Sterling (Bride-to-be)"
-                  >
-                    <User size={12} />
-                    <span>Jessica Sterling</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="velora-demo-chip"
-                    onClick={() => handleQuickDemo('chloe.laurent@velora.com', 'Chloe Laurent')}
-                    title="Sign in as Chloe Laurent (Stylist)"
-                  >
-                    <ShieldCheck size={12} />
-                    <span>Chloe (Stylist)</span>
-                  </button>
+              {/* Dev-only Demo Credentials (strictly excluded in production builds) */}
+              {import.meta.env.DEV && import.meta.env.VITE_DEV_DEMO_EMAIL && import.meta.env.VITE_DEV_DEMO_PASSWORD && (
+                <div className="velora-demo-profiles-card" style={{ marginTop: '16px' }}>
+                  <span className="velora-demo-title">
+                    Development Demo Credentials:
+                  </span>
+                  <div className="velora-demo-chips">
+                    <button
+                      type="button"
+                      className="velora-demo-chip is-vip"
+                      onClick={() => {
+                        setEmail(import.meta.env.VITE_DEV_DEMO_EMAIL);
+                        setPassword(import.meta.env.VITE_DEV_DEMO_PASSWORD);
+                        setErrorMsg('');
+                      }}
+                      title="Fill development demo credentials from .env.local"
+                    >
+                      <User size={12} color="#B76E65" />
+                      <span>Fill Dev Demo Credentials</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </form>
           )}
 
@@ -457,8 +496,19 @@ export const AuthModal = () => {
                 </div>
               </div>
 
-              <button type="submit" className="velora-auth-submit-btn">
-                <span>CREATE VELORA VIP ACCOUNT</span>
+              <button
+                type="submit"
+                disabled={isLoading || !isAuthAvailable}
+                className="velora-auth-submit-btn"
+                style={{ cursor: (!isAuthAvailable || isLoading) ? 'not-allowed' : 'pointer' }}
+              >
+                <span>
+                  {!isAuthAvailable
+                    ? 'ACCOUNTS UNAVAILABLE'
+                    : isLoading
+                    ? 'CREATING ACCOUNT...'
+                    : 'CREATE VELORA VIP ACCOUNT'}
+                </span>
                 <ArrowRight size={15} />
               </button>
 
@@ -496,8 +546,19 @@ export const AuthModal = () => {
                 </div>
               </div>
 
-              <button type="submit" className="velora-auth-submit-btn">
-                <span>DISPATCH RESET LINK</span>
+              <button
+                type="submit"
+                disabled={isLoading || !isAuthAvailable}
+                className="velora-auth-submit-btn"
+                style={{ cursor: (!isAuthAvailable || isLoading) ? 'not-allowed' : 'pointer' }}
+              >
+                <span>
+                  {!isAuthAvailable
+                    ? 'ACCOUNTS UNAVAILABLE'
+                    : isLoading
+                    ? 'DISPATCHING LINK...'
+                    : 'DISPATCH RESET LINK'}
+                </span>
                 <KeyRound size={15} />
               </button>
 

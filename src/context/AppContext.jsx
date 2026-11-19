@@ -2,6 +2,15 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCatalog, getCatalog } from '../services/catalogStore';
 import { getProducts, isSupabaseConfigured } from '../services/productsService';
+import { supabase } from '../lib/supabaseClient';
+import {
+  isAuthAvailable,
+  signInUser,
+  signUpUser,
+  signOutUser,
+  fetchUserProfile,
+  mergeWishlistOnAuth
+} from '../services/authService';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
 import { routeFor, viewFor, accountTabFor, productFor } from '../routes/routeMap';
@@ -12,6 +21,10 @@ import {
 } from '../services/api';
 
 const AppContext = createContext();
+
+const LEGACY_DEFAULT_WISHLIST = ['prod-1', 'prod-2'];
+const WISHLIST_TOUCHED_KEY = 'velora_wishlist_touched';
+const WISHLIST_STORAGE_KEY = 'aura_wishlist';
 
 const loadJSON = (key, fallback) => {
   try {
@@ -35,6 +48,53 @@ const sanitizeWishlistIds = (rawIds) => {
     }
   }
   return clean;
+};
+
+// Checks if an array consists only of the legacy default IDs
+const isLegacyDefaultOnly = (ids) => {
+  if (!Array.isArray(ids) || ids.length === 0) return false;
+  return ids.length <= LEGACY_DEFAULT_WISHLIST.length &&
+    ids.every(id => LEGACY_DEFAULT_WISHLIST.includes(id));
+};
+
+// Initializes the wishlist state with safe one-time cleanup of legacy default gowns
+const getInitialWishlist = () => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const isTouched = localStorage.getItem(WISHLIST_TOUCHED_KEY) === 'true';
+    const rawSaved = localStorage.getItem(WISHLIST_STORAGE_KEY);
+
+    // New visitor: start with clean empty wishlist
+    if (!rawSaved) {
+      return [];
+    }
+
+    const parsed = JSON.parse(rawSaved);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      return [];
+    }
+
+    // Existing visitor whose localStorage still holds legacy defaults
+    if (!isTouched) {
+      if (isLegacyDefaultOnly(parsed)) {
+        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify([]));
+        return [];
+      }
+      // If user had added custom items prior to this fix, strip legacy defaults and preserve custom picks
+      const userPicked = parsed.filter(id => !LEGACY_DEFAULT_WISHLIST.includes(id));
+      if (userPicked.length > 0) {
+        localStorage.setItem(WISHLIST_TOUCHED_KEY, 'true');
+        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(userPicked));
+        return sanitizeWishlistIds(userPicked);
+      }
+      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify([]));
+      return [];
+    }
+
+    return sanitizeWishlistIds(parsed);
+  } catch {
+    return [];
+  }
 };
 
 export const AppProvider = ({ children }) => {
@@ -145,10 +205,7 @@ export const AppProvider = ({ children }) => {
     return loadJSON('aura_cart', fallbackCart);
   });
 
-  const [wishlist, setWishlist] = useState(() => {
-    const raw = loadJSON('aura_wishlist', ['prod-1', 'prod-2']);
-    return sanitizeWishlistIds(raw);
-  });
+  const [wishlist, setWishlist] = useState(getInitialWishlist);
 
   // Discounts
   const [appliedVoucher, setAppliedVoucher] = useState(null);
@@ -299,6 +356,12 @@ export const AppProvider = ({ children }) => {
   const toggleWishlist = (productId) => {
     const item = catalog.find(p => p.id === productId);
     if (!item) return;
+
+    try {
+      localStorage.setItem(WISHLIST_TOUCHED_KEY, 'true');
+    } catch {
+      // ignore
+    }
 
     if (wishlist.includes(productId)) {
       setWishlist(prev => prev.filter(id => id !== productId));
@@ -456,88 +519,103 @@ export const AppProvider = ({ children }) => {
     showToast('Appointment has been cancelled', 'info');
   };
 
-  // Preconfigured Demo VIP Profiles
-  const PRECONFIGURED_USERS = [
-    INITIAL_USER,
-    {
-      ...INITIAL_USER,
-      id: 'usr-902',
-      name: 'Jessica Sterling',
-      email: 'jessica.sterling@example.com',
-      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
-      phone: '+1 (555) 890-1234',
-      memberSince: 'August 2026',
-      membershipTier: 'Bride-to-be (Summer 2027)',
-      orders: [],
-      appointments: [
-        {
-          id: 'apt-demo-1',
-          name: 'Jessica Sterling',
-          email: 'jessica.sterling@example.com',
-          phone: '+1 (555) 890-1234',
-          service: 'Signature Bridal Gown Consultation',
-          appointmentDate: '2026-11-15',
-          timeSlot: '2:00 PM',
-          stylist: 'Chloe Laurent (Master Bridal Stylist)',
-          status: 'Confirmed',
-          location: 'VELORA Atelier Flagship, New York'
+  // Synchronizes authenticated Supabase user & public.profiles row with context
+  const syncUserSession = useCallback(async (authUser) => {
+    if (!authUser) return;
+
+    const profile = await fetchUserProfile(authUser.id);
+
+    const realName = profile?.full_name || authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'VIP Bride';
+    const realPhone = profile?.phone || authUser.user_metadata?.phone || '+1 (555) 000-0000';
+    const role = profile?.role || 'customer';
+
+    setUser(prev => {
+      const updated = {
+        ...INITIAL_USER,
+        ...prev,
+        id: authUser.id,
+        name: realName,
+        email: authUser.email,
+        phone: realPhone,
+        role,
+        membershipTier: role === 'admin' ? 'Master Atelier Admin' : 'VELORA VIP Club'
+      };
+      localStorage.setItem('aura_user', JSON.stringify(updated));
+      return updated;
+    });
+
+    setIsLoggedIn(true);
+    localStorage.setItem('velora_logged_in', 'true');
+  }, []);
+
+  // Listen to Supabase Auth State changes & restore session on page load
+  useEffect(() => {
+    if (!supabase) return;
+
+    let isMounted = true;
+
+    // 1. Restore active session on load
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!isMounted) return;
+      if (session?.user) {
+        await syncUserSession(session.user);
+      } else {
+        setIsLoggedIn(false);
+        localStorage.removeItem('velora_logged_in');
+      }
+    }).catch(err => {
+      console.warn('[VELORA Auth] Error restoring session:', err);
+    });
+
+    // 2. Subscribe to auth state updates
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
+      if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'TOKEN_REFRESHED') {
+        if (session?.user) {
+          await syncUserSession(session.user);
         }
-      ]
-    },
-    {
-      ...INITIAL_USER,
-      id: 'usr-903',
-      name: 'Chloe Laurent',
-      email: 'chloe.laurent@velora.com',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
-      phone: '+1 (800) 892-LUXE',
-      memberSince: 'Senior Atelier Team',
-      membershipTier: 'Master Bridal Stylist',
-      orders: [],
-      appointments: []
-    }
-  ];
-
-  // Authentication Helpers
-  const loginUser = (email) => {
-    const savedUsers = loadJSON('velora_users_list', PRECONFIGURED_USERS);
-    const matched = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
-    if (matched) {
-      setUser(matched);
-      setIsLoggedIn(true);
-      localStorage.setItem('velora_logged_in', 'true');
-      localStorage.setItem('aura_user', JSON.stringify(matched));
-      showToast(`Welcome back, ${matched.name}!`);
-      setIsAuthModalOpen(false);
-      let dest = null;
-      try {
-        dest = sessionStorage.getItem('velora_auth_target');
-        sessionStorage.removeItem('velora_auth_target');
-      } catch {
-        // ignore
+      } else if (event === 'SIGNED_OUT') {
+        setIsLoggedIn(false);
+        setUser(INITIAL_USER);
+        localStorage.removeItem('velora_logged_in');
+        localStorage.removeItem('aura_user');
       }
-      if (dest) navigate(dest);
-      return { success: true };
-    }
-    const namePart = email.split('@')[0];
-    const capitalized = namePart.charAt(0).toUpperCase() + namePart.slice(1);
-    const newUser = {
-      ...INITIAL_USER,
-      id: `usr-${Date.now()}`,
-      name: capitalized,
-      email: email.trim(),
-      memberSince: 'October 2026',
-      membershipTier: 'VELORA VIP Club',
-      orders: [],
-      appointments: []
+    });
+
+    return () => {
+      isMounted = false;
+      subscription?.unsubscribe();
     };
-    setUser(newUser);
-    setIsLoggedIn(true);
-    localStorage.setItem('velora_logged_in', 'true');
-    localStorage.setItem('aura_user', JSON.stringify(newUser));
-    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
-    showToast(`Welcome to VELORA, ${newUser.name}!`);
+  }, [syncUserSession]);
+
+  // Authentication Helpers using Supabase Auth
+  const loginUser = async (email, password) => {
+    if (!isAuthAvailable) {
+      showToast('Accounts are temporarily unavailable.', 'error');
+      return { success: false, message: 'Accounts are temporarily unavailable.' };
+    }
+
+    const res = await signInUser({ email, password });
+    if (!res.success) {
+      return res;
+    }
+
+    const authUser = res.user;
+    await syncUserSession(authUser);
+
+    // Merge localStorage wishlist into database
+    try {
+      const mergedWishlist = await mergeWishlistOnAuth(authUser.id, wishlist);
+      if (Array.isArray(mergedWishlist)) {
+        setWishlist(mergedWishlist);
+      }
+    } catch (err) {
+      console.warn('[VELORA Auth] Wishlist merge error:', err);
+    }
+
+    showToast(`Welcome back, ${authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'VIP Bride'}!`);
     setIsAuthModalOpen(false);
+
     let dest = null;
     try {
       dest = sessionStorage.getItem('velora_auth_target');
@@ -549,44 +627,34 @@ export const AppProvider = ({ children }) => {
     return { success: true };
   };
 
-  const registerUser = ({ name, email, phone, weddingDate }) => {
-    const savedUsers = loadJSON('velora_users_list', PRECONFIGURED_USERS);
-    const existing = savedUsers.find(u => u.email.toLowerCase() === email.trim().toLowerCase());
-    if (existing) {
-      setUser(existing);
-      setIsLoggedIn(true);
-      localStorage.setItem('velora_logged_in', 'true');
-      localStorage.setItem('aura_user', JSON.stringify(existing));
-      showToast(`Welcome back, ${existing.name}!`);
-      setIsAuthModalOpen(false);
-      let dest = null;
-      try {
-        dest = sessionStorage.getItem('velora_auth_target');
-        sessionStorage.removeItem('velora_auth_target');
-      } catch {
-        // ignore
-      }
-      if (dest) navigate(dest);
-      return { success: true };
+  const registerUser = async ({ name, email, password, phone, weddingDate }) => {
+    if (!isAuthAvailable) {
+      showToast('Accounts are temporarily unavailable.', 'error');
+      return { success: false, message: 'Accounts are temporarily unavailable.' };
     }
-    const newUser = {
-      ...INITIAL_USER,
-      id: `usr-${Date.now()}`,
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone ? phone.trim() : '+1 (555) 000-0000',
-      memberSince: 'Today',
-      membershipTier: weddingDate ? `Bride-to-be (Wedding: ${weddingDate})` : 'VELORA VIP Club',
-      orders: [],
-      appointments: []
-    };
-    setUser(newUser);
-    setIsLoggedIn(true);
-    localStorage.setItem('velora_logged_in', 'true');
-    localStorage.setItem('aura_user', JSON.stringify(newUser));
-    localStorage.setItem('velora_users_list', JSON.stringify([...savedUsers, newUser]));
-    showToast(`Welcome to VELORA, ${newUser.name}! Your VIP account is ready.`);
+
+    // Signup sends ONLY full_name and phone in options.data
+    const res = await signUpUser({ email, password, fullName: name, phone });
+    if (!res.success) {
+      return res;
+    }
+
+    const authUser = res.user;
+    if (authUser) {
+      await syncUserSession(authUser);
+      try {
+        const mergedWishlist = await mergeWishlistOnAuth(authUser.id, wishlist);
+        if (Array.isArray(mergedWishlist)) {
+          setWishlist(mergedWishlist);
+        }
+      } catch (err) {
+        console.warn('[VELORA Auth] Wishlist merge error:', err);
+      }
+    }
+
+    showToast(`Welcome to VELORA, ${name.trim()}! Your VIP account is ready.`);
     setIsAuthModalOpen(false);
+
     let dest = null;
     try {
       dest = sessionStorage.getItem('velora_auth_target');
@@ -598,9 +666,12 @@ export const AppProvider = ({ children }) => {
     return { success: true };
   };
 
-  const logoutUser = () => {
+  const logoutUser = async () => {
+    await signOutUser();
+    setUser(INITIAL_USER);
     setIsLoggedIn(false);
-    localStorage.setItem('velora_logged_in', 'false');
+    localStorage.removeItem('velora_logged_in');
+    localStorage.removeItem('aura_user');
     showToast('Signed out of VELORA account', 'info');
   };
 
@@ -706,7 +777,7 @@ export const AppProvider = ({ children }) => {
         user, addAddress, updateAddress, deleteAddress, setDefaultAddress,
         addAppointment, cancelAppointment,
         isLoggedIn, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setAuthTarget,
-        loginUser, registerUser, logoutUser,
+        isAuthAvailable, loginUser, registerUser, logoutUser,
         customReviews, addProductReview,
         getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,
         placeOrder, selectedOrderDetails, setSelectedOrderDetails,

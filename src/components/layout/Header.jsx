@@ -634,13 +634,13 @@ export const Header = () => {
                   type="button"
                   className="navbar-user-btn"
                   onClick={() => setIsUserMenuOpen(prev => !prev)}
-                  title={`Atelier Account: ${user.name}`}
+                  title={`Atelier Account: ${user?.name || 'VIP Bride'}`}
                   aria-label="Bride account menu"
                 >
                   <div className="navbar-user-avatar">
                     <User size={14} strokeWidth={1.8} />
                   </div>
-                  <span className="navbar-user-name">{user.name.split(' ')[0]}</span>
+                  <span className="navbar-user-name">{(user?.name || 'VIP Bride').split(' ')[0]}</span>
                   <ChevronDown
                     size={12}
                     strokeWidth={1.5}
@@ -654,9 +654,9 @@ export const Header = () => {
                 {isUserMenuOpen && (
                   <div className="navbar-user-dropdown-menu">
                     <div className="user-menu-header">
-                      <span className="user-menu-name">{user.name}</span>
+                      <span className="user-menu-name">{user?.name || 'VIP Bride'}</span>
                       <span className="user-menu-tier">
-                        {user.membershipTier}
+                        {user?.membershipTier || 'VELORA VIP Club'}
                       </span>
                     </div>
                     <button
@@ -843,7 +843,7 @@ export const Header = () => {
                     }}
                   >
                     <User size={15} />
-                    <span>{user.name}</span>
+                    <span>{user?.name || 'VIP Bride'}</span>
                   </button>
                   <button
                     type="button"

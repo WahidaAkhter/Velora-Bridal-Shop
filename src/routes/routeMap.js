@@ -29,7 +29,8 @@ export const VIEW_TO_PATH = {
   checkout: '/checkout',
   account: '/account/overview',
   compare: '/compare',
-  'wishlist-shared': '/wishlist/shared'
+  'wishlist-shared': '/wishlist/shared',
+  'reset-password': '/reset-password'
 };
 
 export const PATH_TO_VIEW = {
@@ -56,7 +57,8 @@ export const PATH_TO_VIEW = {
   '/account': 'account',
   '/account/overview': 'account',
   '/compare': 'compare',
-  '/wishlist/shared': 'wishlist-shared'
+  '/wishlist/shared': 'wishlist-shared',
+  '/reset-password': 'reset-password'
 };
 
 export const VALID_ACCOUNT_TABS = [
