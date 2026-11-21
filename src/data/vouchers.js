@@ -42,130 +42,15 @@ export const VOUCHERS = [
 ];
 
 export const INITIAL_USER = {
-  id: 'usr-901',
-  name: 'Eleanor Vance',
-  email: 'eleanor.vance@example.com',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
-  phone: '+1 (555) 234-8901',
-  memberSince: 'January 2024',
+  id: null,
+  name: 'VIP Bride',
+  email: '',
+  avatar: '',
+  phone: '',
+  memberSince: '',
   membershipTier: 'VELORA VIP Club',
-  addresses: [
-    {
-      id: 'addr-1',
-      title: 'Primary Residence',
-      isDefault: true,
-      firstName: 'Eleanor',
-      lastName: 'Vance',
-      street: '742 Evergreen Terrace, Suite 4B',
-      city: 'Seattle',
-      state: 'WA',
-      zip: '98101',
-      country: 'United States',
-      phone: '+1 (555) 234-8901'
-    },
-    {
-      id: 'addr-2',
-      title: 'Studio Office',
-      isDefault: false,
-      firstName: 'Eleanor',
-      lastName: 'Vance',
-      street: '100 Pine Street, Floor 12',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94111',
-      country: 'United States',
-      phone: '+1 (555) 987-6543'
-    }
-  ],
-  giftCards: [
-    { code: 'GIFT-VELORA-9821', initialBalance: 200.00, currentBalance: 150.00, expiry: '2027-01-01' },
-    { code: 'GIFT-SALEOR-5541', initialBalance: 50.00, currentBalance: 50.00, expiry: '2026-11-30' }
-  ],
-  orders: [
-    {
-      id: 'SLR-89241',
-      date: '2026-09-28',
-      status: 'Delivered',
-      trackingNumber: 'TRK-908234-US',
-      carrier: 'FedEx Express',
-      estimatedDelivery: 'Sep 30, 2026',
-      items: [
-        {
-          id: 'prod-1',
-          name: 'Lace Dream Gown',
-          variantName: 'Ivory / US 4',
-          price: 2199.00,
-          quantity: 1,
-          image: '/images/bridal/featured-lace-dream.jpg'
-        }
-      ],
-      subtotal: 285.00,
-      discount: 28.50,
-      shipping: 0.00,
-      tax: 20.52,
-      total: 277.02,
-      shippingAddress: {
-        firstName: 'Eleanor',
-        lastName: 'Vance',
-        street: '742 Evergreen Terrace, Suite 4B',
-        city: 'Seattle',
-        state: 'WA',
-        zip: '98101'
-      },
-      paymentMethod: 'Visa ending in 4242'
-    },
-    {
-      id: 'SLR-77402',
-      date: '2026-08-14',
-      status: 'Delivered',
-      trackingNumber: 'TRK-552199-US',
-      carrier: 'DHL Express',
-      estimatedDelivery: 'Aug 17, 2026',
-      items: [
-        {
-          id: 'prod-2',
-          name: 'Satin Elegance Ballgown',
-          variantName: 'Pearl Ivory / US 6',
-          price: 1899.00,
-          quantity: 1,
-          image: '/images/bridal/featured-satin-elegance.jpg'
-        },
-        {
-          id: 'prod-10',
-          name: 'Artisan Pour-Over Ceramic Dripper Set',
-          variantName: 'Matte Slate Grey / 600ml',
-          price: 75.00,
-          quantity: 1,
-          image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80'
-        }
-      ],
-      subtotal: 220.00,
-      discount: 20.00,
-      shipping: 5.00,
-      tax: 16.40,
-      total: 221.40,
-      shippingAddress: {
-        firstName: 'Eleanor',
-        lastName: 'Vance',
-        street: '742 Evergreen Terrace, Suite 4B',
-        city: 'Seattle',
-        state: 'WA',
-        zip: '98101'
-      },
-      paymentMethod: 'Apple Pay'
-    }
-  ],
-  appointments: [
-    {
-      id: 'apt-101',
-      service: 'Signature Bridal Gown Consultation',
-      appointmentDate: '2026-11-15',
-      timeSlot: '02:00 PM',
-      weddingDate: '2027-04-18',
-      stylist: 'Chloe Laurent (Master Bridal Stylist)',
-      status: 'Confirmed',
-      location: 'VELORA Atelier, 123 Bridal Lane, New York, NY',
-      notes: 'Interested in Basque waist silhouettes and cathedral veils'
-    }
-  ]
+  addresses: [],
+  giftCards: [],
+  orders: [],
+  appointments: []
 };

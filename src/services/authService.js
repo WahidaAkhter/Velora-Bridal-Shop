@@ -207,10 +207,12 @@ export async function fetchUserProfile(userId) {
 
 /**
  * Merges localStorage wishlist into public.wishlists table upon login/signup.
- * - Only merges IDs if the user actually interacted with the wishlist (velora_wishlist_touched is 'true').
- * - Uploads all local wishlist IDs (including 'prod-1' and 'prod-2' if picked by user).
+ * - Reads user's local picks from 'velora_wishlist_picks'.
+ * - Uploads only IDs that the user actually toggled (in picks) AND that currently exist in localWishlistIds.
+ * - 'prod-1' and 'prod-2' are only uploaded if velora_wishlist_touched is 'true' AND they exist in picks.
+ * - Clears 'velora_wishlist_picks' only after the upsert succeeds. If upsert fails, keeps picks for retry.
  * - Never deletes anything from the database in the merge.
- * - Fetches all database wishlist items and returns the unified list of product IDs.
+ * - Queries and returns all database wishlist product IDs for the user (the single source of truth for the account).
  */
 export async function mergeWishlistOnAuth(userId, localWishlistIds = []) {
   if (!supabase || !userId) return localWishlistIds;
@@ -220,15 +222,30 @@ export async function mergeWishlistOnAuth(userId, localWishlistIds = []) {
       ? localStorage.getItem('velora_wishlist_touched') === 'true'
       : false;
 
-    // Upload local IDs only if user actually interacted with the wishlist
-    let toUpload = [];
-    if (isTouched && Array.isArray(localWishlistIds)) {
-      toUpload = localWishlistIds.filter(
-        (id) => typeof id === 'string' && id.trim().length > 0
-      );
+    // Read toggled picks from localStorage
+    let picks = [];
+    if (typeof window !== 'undefined') {
+      try {
+        const rawPicks = localStorage.getItem('velora_wishlist_picks');
+        if (rawPicks) {
+          const parsed = JSON.parse(rawPicks);
+          if (Array.isArray(parsed)) {
+            picks = parsed;
+          }
+        }
+      } catch {
+        picks = [];
+      }
     }
 
-    // 1. Insert valid local wishlist items into Supabase
+    // Only upload IDs that the user actually toggled (in picks) AND that exist in localWishlistIds
+    let toUpload = [];
+    if (isTouched && picks.length > 0) {
+      const localSet = new Set(Array.isArray(localWishlistIds) ? localWishlistIds : []);
+      toUpload = picks.filter(id => typeof id === 'string' && id.trim().length > 0 && localSet.has(id));
+    }
+
+    let upsertSucceeded = false;
     if (toUpload.length > 0) {
       const rows = toUpload.map((productId) => ({
         user_id: userId,
@@ -236,23 +253,48 @@ export async function mergeWishlistOnAuth(userId, localWishlistIds = []) {
       }));
 
       // onConflict ignoreDuplicates prevents duplicate key errors
-      await supabase
+      const { error: upsertError } = await supabase
         .from('wishlists')
         .upsert(rows, { onConflict: 'user_id, product_id', ignoreDuplicates: true });
+
+      if (!upsertError) {
+        upsertSucceeded = true;
+        // On successful merge, clear velora_wishlist_picks
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.removeItem('velora_wishlist_picks');
+          } catch {
+            // ignore
+          }
+        }
+      } else {
+        console.warn('[VELORA Auth] Failed to upsert wishlist picks to Supabase:', upsertError.message);
+        // If upsert fails, keep the picks so the next sign-in retries
+      }
+    } else {
+      // If there were no picks to upload, ensure empty picks key is cleaned up
+      if (typeof window !== 'undefined' && picks.length === 0) {
+        try {
+          localStorage.removeItem('velora_wishlist_picks');
+        } catch {
+          // ignore
+        }
+      }
     }
 
-    // 2. Query all wishlisted product_ids for this user from DB
+    // Query all wishlisted product_ids for this user from DB
     const { data, error } = await supabase
       .from('wishlists')
       .select('product_id')
       .eq('user_id', userId);
 
     if (!error && Array.isArray(data)) {
-      const dbIds = data.map((r) => r.product_id);
-      // Combine valid local items with DB items without deleting anything from the DB
-      const baseLocal = isTouched && Array.isArray(localWishlistIds) ? toUpload : [];
-      const unified = Array.from(new Set([...baseLocal, ...dbIds]));
-      return unified;
+      const dbIds = data.map((r) => r.product_id).filter(Boolean);
+      // If upsert failed, keep local picks in memory as well so user doesn't lose them temporarily
+      if (!upsertSucceeded && toUpload.length > 0) {
+        return Array.from(new Set([...toUpload, ...dbIds]));
+      }
+      return dbIds;
     }
   } catch (err) {
     console.warn('[VELORA Auth] Wishlist merge error:', err);

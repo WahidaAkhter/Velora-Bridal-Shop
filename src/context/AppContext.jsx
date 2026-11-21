@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCatalog, getCatalog } from '../services/catalogStore';
 import { getProducts, isSupabaseConfigured } from '../services/productsService';
@@ -25,6 +25,7 @@ const AppContext = createContext();
 const LEGACY_DEFAULT_WISHLIST = ['prod-1', 'prod-2'];
 const WISHLIST_TOUCHED_KEY = 'velora_wishlist_touched';
 const WISHLIST_STORAGE_KEY = 'aura_wishlist';
+const WISHLIST_PICKS_KEY = 'velora_wishlist_picks';
 
 const loadJSON = (key, fallback) => {
   try {
@@ -52,51 +53,127 @@ const sanitizeWishlistIds = (rawIds) => {
   return clean;
 };
 
-// Checks if an array consists only of the legacy default IDs
-const isLegacyDefaultOnly = (ids) => {
-  if (!Array.isArray(ids) || ids.length === 0) return false;
-  return ids.length <= LEGACY_DEFAULT_WISHLIST.length &&
-    ids.every(id => LEGACY_DEFAULT_WISHLIST.includes(id));
+// Records user wishlist toggle history in localStorage
+const recordWishlistPick = (productId, isAdding) => {
+  if (typeof window === 'undefined' || !productId) return;
+  try {
+    const raw = localStorage.getItem(WISHLIST_PICKS_KEY);
+    let picks = [];
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) picks = parsed;
+    }
+    if (isAdding) {
+      if (!picks.includes(productId)) {
+        picks.push(productId);
+      }
+    } else {
+      picks = picks.filter(id => id !== productId);
+    }
+    localStorage.setItem(WISHLIST_PICKS_KEY, JSON.stringify(picks));
+  } catch {
+    // ignore
+  }
 };
 
-// Initializes the wishlist state with safe one-time cleanup of legacy default gowns
+// Checks if an array consists only of legacy default IDs (e.g. ['prod-1'], ['prod-2'], ['prod-1', 'prod-2'])
+const isLegacyDefaultWishlist = (ids) => {
+  if (!Array.isArray(ids) || ids.length === 0) return false;
+  return ids.every(id => LEGACY_DEFAULT_WISHLIST.includes(id));
+};
+
+// Initializes the wishlist state with safe cleanup of legacy default gowns
 const getInitialWishlist = () => {
   if (typeof window === 'undefined') return [];
   try {
-    const isTouched = localStorage.getItem(WISHLIST_TOUCHED_KEY) === 'true';
     const rawSaved = localStorage.getItem(WISHLIST_STORAGE_KEY);
-
-    // New visitor: start with clean empty wishlist
-    if (!rawSaved) {
-      return [];
-    }
+    if (!rawSaved) return [];
 
     const parsed = JSON.parse(rawSaved);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
+    if (!Array.isArray(parsed) || parsed.length === 0) return [];
+
+    // If localStorage holds only legacy default items ('prod-1', 'prod-2'), clear it
+    if (isLegacyDefaultWishlist(parsed)) {
+      localStorage.removeItem(WISHLIST_STORAGE_KEY);
       return [];
     }
 
-    // Existing visitor whose localStorage still holds legacy defaults
-    if (!isTouched) {
-      if (isLegacyDefaultOnly(parsed)) {
-        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify([]));
+    // For a guest (not logged in), ensure items were actually picked via velora_wishlist_picks
+    const loggedIn = localStorage.getItem('velora_logged_in') === 'true';
+    if (!loggedIn) {
+      const rawPicks = localStorage.getItem(WISHLIST_PICKS_KEY);
+      let picks = [];
+      if (rawPicks) {
+        try {
+          const parsedPicks = JSON.parse(rawPicks);
+          if (Array.isArray(parsedPicks)) picks = parsedPicks;
+        } catch {
+          picks = [];
+        }
+      }
+      // If guest has no recorded picks in this browser, start at 0 and clear storage
+      if (picks.length === 0) {
+        localStorage.removeItem(WISHLIST_STORAGE_KEY);
         return [];
       }
-      // If user had added custom items prior to this fix, strip legacy defaults and preserve custom picks
-      const userPicked = parsed.filter(id => !LEGACY_DEFAULT_WISHLIST.includes(id));
-      if (userPicked.length > 0) {
-        localStorage.setItem(WISHLIST_TOUCHED_KEY, 'true');
-        localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(userPicked));
-        return sanitizeWishlistIds(userPicked);
+      // If guest has picks, return only those picks
+      const validPicks = parsed.filter(id => picks.includes(id));
+      if (validPicks.length === 0) {
+        localStorage.removeItem(WISHLIST_STORAGE_KEY);
+        return [];
       }
-      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify([]));
-      return [];
+      return sanitizeWishlistIds(validPicks);
     }
 
     return sanitizeWishlistIds(parsed);
   } catch {
     return [];
   }
+};
+
+// Detects legacy hardcoded default cart items (LISSY and WARD from template seed)
+const isLegacyDefaultCart = (items) => {
+  if (!Array.isArray(items) || items.length === 0) return false;
+  return items.every(i =>
+    (i?.id === 'cart-1' && i?.productId === 'prod-1') ||
+    (i?.id === 'cart-2' && i?.productId === 'prod-3')
+  );
+};
+
+// Initializes the cart with clean empty bag fallback and legacy cleanup
+const getInitialCart = () => {
+  if (typeof window === 'undefined') return [];
+  try {
+    const rawSaved = localStorage.getItem('aura_cart');
+    if (!rawSaved) return [];
+    const parsed = JSON.parse(rawSaved);
+    if (!Array.isArray(parsed) || parsed.length === 0) return [];
+    if (isLegacyDefaultCart(parsed)) {
+      localStorage.removeItem('aura_cart');
+      return [];
+    }
+    return parsed;
+  } catch {
+    return [];
+  }
+};
+
+// Sanitizes user addresses to purge legacy template seeds ('addr-1', 'addr-2')
+const sanitizeAddresses = (raw) => {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((a) => a && a.id !== 'addr-1' && a.id !== 'addr-2');
+};
+
+// Sanitizes user appointments to purge legacy template seeds ('apt-101')
+const sanitizeAppointments = (raw) => {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((a) => a && a.id !== 'apt-101');
+};
+
+// Sanitizes user orders to purge legacy template seeds ('SLR-89241', 'SLR-77402')
+const sanitizeOrders = (raw) => {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter((o) => o && o.id !== 'SLR-89241' && o.id !== 'SLR-77402');
 };
 
 export const AppProvider = ({ children }) => {
@@ -198,16 +275,13 @@ export const AppProvider = ({ children }) => {
 
   // Cart
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() => {
-    const defaultCatalog = getCatalog();
-    const fallbackCart = [
-      { id: 'cart-1', productId: 'prod-1', product: defaultCatalog[0], variant: defaultCatalog[0]?.variants?.[0], quantity: 1 },
-      { id: 'cart-2', productId: 'prod-3', product: defaultCatalog[2], variant: defaultCatalog[2]?.variants?.[1], quantity: 1 }
-    ];
-    return loadJSON('aura_cart', fallbackCart);
-  });
+  const [cartItems, setCartItems] = useState(getInitialCart);
 
   const [wishlist, setWishlist] = useState(getInitialWishlist);
+  const wishlistRef = useRef(wishlist);
+  useEffect(() => {
+    wishlistRef.current = wishlist;
+  }, [wishlist]);
 
   // Discounts
   const [appliedVoucher, setAppliedVoucher] = useState(null);
@@ -220,19 +294,20 @@ export const AppProvider = ({ children }) => {
   });
 
   const [user, setUser] = useState(() => {
-    const saved = loadJSON('aura_user', INITIAL_USER);
+    const saved = loadJSON('aura_user', null);
+    if (!saved) return INITIAL_USER;
     return {
       ...INITIAL_USER,
-      ...(saved || {}),
-      name: saved?.name || INITIAL_USER.name || 'VIP Bride',
-      email: saved?.email || INITIAL_USER.email || '',
-      phone: saved?.phone || INITIAL_USER.phone || '+1 (555) 000-0000',
-      role: saved?.role || INITIAL_USER.role || 'customer',
-      membershipTier: saved?.membershipTier || INITIAL_USER.membershipTier || 'VELORA VIP Club',
-      orders: Array.isArray(saved?.orders) ? saved.orders : (INITIAL_USER.orders || []),
-      addresses: Array.isArray(saved?.addresses) ? saved.addresses : (INITIAL_USER.addresses || []),
-      appointments: Array.isArray(saved?.appointments) ? saved.appointments : (INITIAL_USER.appointments || []),
-      giftCards: Array.isArray(saved?.giftCards) ? saved.giftCards : (INITIAL_USER.giftCards || [])
+      ...saved,
+      name: saved.name || INITIAL_USER.name || 'VIP Bride',
+      email: saved.email || INITIAL_USER.email || '',
+      phone: saved.phone || INITIAL_USER.phone || '+1 (555) 000-0000',
+      role: saved.role || INITIAL_USER.role || 'customer',
+      membershipTier: saved.membershipTier || INITIAL_USER.membershipTier || 'VELORA VIP Club',
+      orders: sanitizeOrders(saved.orders),
+      addresses: sanitizeAddresses(saved.addresses),
+      appointments: sanitizeAppointments(saved.appointments),
+      giftCards: Array.isArray(saved.giftCards) ? saved.giftCards : []
     };
   });
 
@@ -282,16 +357,25 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem('aura_theme', isDark ? 'dark' : 'light');
   }, [isDark]);
   useEffect(() => localStorage.setItem('aura_currency', currencyCode), [currencyCode]);
-  useEffect(() => localStorage.setItem('aura_cart', JSON.stringify(cartItems)), [cartItems]);
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      localStorage.removeItem('aura_cart');
+    } else {
+      localStorage.setItem('aura_cart', JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
   useEffect(() => {
     const clean = sanitizeWishlistIds(wishlist);
     if (clean.length !== wishlist.length) {
       setWishlist(clean);
-      localStorage.setItem('aura_wishlist', JSON.stringify(clean));
-    } else {
-      localStorage.setItem('aura_wishlist', JSON.stringify(wishlist));
     }
-  }, [wishlist, catalog]);
+    const toSave = clean.length !== wishlist.length ? clean : wishlist;
+    if (toSave.length === 0 && !isLoggedIn) {
+      localStorage.removeItem(WISHLIST_STORAGE_KEY);
+    } else {
+      localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(toSave));
+    }
+  }, [wishlist, catalog, isLoggedIn]);
   useEffect(() => localStorage.setItem('aura_user', JSON.stringify(user)), [user]);
   useEffect(() => localStorage.setItem('aura_recent', JSON.stringify(recentlyViewed)), [recentlyViewed]);
 
@@ -373,12 +457,29 @@ export const AppProvider = ({ children }) => {
       // ignore
     }
 
-    if (wishlist.includes(productId)) {
+    const isAdding = !wishlist.includes(productId);
+    recordWishlistPick(productId, isAdding);
+
+    if (!isAdding) {
       setWishlist(prev => prev.filter(id => id !== productId));
       showToast('Removed from wishlist', 'info');
+      if (supabase && user?.id) {
+        supabase
+          .from('wishlists')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('product_id', productId)
+          .catch(err => console.warn('[VELORA Auth] Wishlist delete error:', err));
+      }
     } else {
       setWishlist(prev => sanitizeWishlistIds([...prev, productId]));
       showToast(`Saved "${item.name}" to wishlist`);
+      if (supabase && user?.id) {
+        supabase
+          .from('wishlists')
+          .upsert({ user_id: user.id, product_id: productId }, { onConflict: 'user_id, product_id', ignoreDuplicates: true })
+          .catch(err => console.warn('[VELORA Auth] Wishlist upsert error:', err));
+      }
     }
   };
 
@@ -550,10 +651,10 @@ export const AppProvider = ({ children }) => {
         phone: realPhone,
         role,
         membershipTier: role === 'admin' ? 'Master Atelier Admin' : (base.membershipTier || 'VELORA VIP Club'),
-        orders: Array.isArray(base.orders) ? base.orders : (INITIAL_USER.orders || []),
-        addresses: Array.isArray(base.addresses) ? base.addresses : (INITIAL_USER.addresses || []),
-        appointments: Array.isArray(base.appointments) ? base.appointments : (INITIAL_USER.appointments || []),
-        giftCards: Array.isArray(base.giftCards) ? base.giftCards : (INITIAL_USER.giftCards || [])
+        orders: sanitizeOrders(base.orders),
+        addresses: sanitizeAddresses(base.addresses),
+        appointments: sanitizeAppointments(base.appointments),
+        giftCards: Array.isArray(base.giftCards) ? base.giftCards : []
       };
       localStorage.setItem('aura_user', JSON.stringify(updated));
       return updated;
@@ -561,6 +662,16 @@ export const AppProvider = ({ children }) => {
 
     setIsLoggedIn(true);
     localStorage.setItem('velora_logged_in', 'true');
+
+    // Merge any local picks and hydrate account wishlist from Supabase
+    try {
+      const mergedWishlist = await mergeWishlistOnAuth(authUser.id, wishlistRef.current);
+      if (Array.isArray(mergedWishlist)) {
+        setWishlist(sanitizeWishlistIds(mergedWishlist));
+      }
+    } catch (err) {
+      console.warn('[VELORA Auth] Wishlist sync error:', err);
+    }
   }, []);
 
   // Listen to Supabase Auth State changes & restore session on page load
@@ -592,8 +703,15 @@ export const AppProvider = ({ children }) => {
       } else if (event === 'SIGNED_OUT') {
         setIsLoggedIn(false);
         setUser(INITIAL_USER);
+        setWishlist([]);
+        setCartItems([]);
+        setAppliedVoucher(null);
+        setAppliedGiftCard(null);
         localStorage.removeItem('velora_logged_in');
         localStorage.removeItem('aura_user');
+        localStorage.removeItem(WISHLIST_STORAGE_KEY);
+        localStorage.removeItem(WISHLIST_PICKS_KEY);
+        localStorage.removeItem('aura_cart');
       }
     });
 
@@ -617,16 +735,6 @@ export const AppProvider = ({ children }) => {
 
     const authUser = res.user;
     await syncUserSession(authUser);
-
-    // Merge localStorage wishlist into database
-    try {
-      const mergedWishlist = await mergeWishlistOnAuth(authUser.id, wishlist);
-      if (Array.isArray(mergedWishlist)) {
-        setWishlist(mergedWishlist);
-      }
-    } catch (err) {
-      console.warn('[VELORA Auth] Wishlist merge error:', err);
-    }
 
     showToast(`Welcome back, ${authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'VIP Bride'}!`);
     setIsAuthModalOpen(false);
@@ -657,14 +765,6 @@ export const AppProvider = ({ children }) => {
     const authUser = res.user;
     if (authUser) {
       await syncUserSession(authUser);
-      try {
-        const mergedWishlist = await mergeWishlistOnAuth(authUser.id, wishlist);
-        if (Array.isArray(mergedWishlist)) {
-          setWishlist(mergedWishlist);
-        }
-      } catch (err) {
-        console.warn('[VELORA Auth] Wishlist merge error:', err);
-      }
     }
 
     showToast(`Welcome to VELORA, ${name.trim()}! Your VIP account is ready.`);
@@ -685,8 +785,15 @@ export const AppProvider = ({ children }) => {
     await signOutUser();
     setUser(INITIAL_USER);
     setIsLoggedIn(false);
+    setWishlist([]);
+    setCartItems([]);
+    setAppliedVoucher(null);
+    setAppliedGiftCard(null);
     localStorage.removeItem('velora_logged_in');
     localStorage.removeItem('aura_user');
+    localStorage.removeItem(WISHLIST_STORAGE_KEY);
+    localStorage.removeItem(WISHLIST_PICKS_KEY);
+    localStorage.removeItem('aura_cart');
     showToast('Signed out of VELORA account', 'info');
   };
 

@@ -520,34 +520,50 @@ export const AccountPage = () => {
               </form>
             )}
 
-            <div className="addresses-cards-grid mt-4">
-              {(user?.addresses || []).map((addr) => (
-                <div key={addr.id} className="address-card glass-panel">
-                  <div className="card-head">
-                    <strong>{addr.title}</strong>
-                    {addr.isDefault && <span className="badge badge-gold">Default</span>}
-                  </div>
-                  <p>{addr.firstName} {addr.lastName}</p>
-                  <p>{addr.street}</p>
-                  <p>{addr.city}, {addr.state} {addr.zip}</p>
-                  <p className="text-muted">{addr.phone}</p>
-
-                  <div className="card-actions mt-4">
-                    <button className="btn btn-outline btn-sm" onClick={() => startEditAddress(addr)}>
-                      <Pencil size={13} /> Edit
-                    </button>
-                    {!addr.isDefault && (
-                      <button className="btn btn-outline btn-sm" onClick={() => setDefaultAddress(addr.id)}>
-                        Set Default
-                      </button>
-                    )}
-                    <button className="btn-icon-danger" onClick={() => deleteAddress(addr.id)} title="Delete address">
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
+            {(!user?.addresses || user.addresses.length === 0) ? (
+              !isAddAddrOpen && (
+                <div className="empty-state text-center p-8 glass-panel mt-4">
+                  <MapPin size={48} className="mx-auto text-muted mb-4" />
+                  <h4>No Saved Addresses</h4>
+                  <p className="text-muted">You have not added any shipping or billing addresses yet.</p>
+                  <button
+                    className="btn btn-primary mt-4"
+                    onClick={() => { closeAddrForm(); setIsAddAddrOpen(true); }}
+                  >
+                    <Plus size={16} /> Add New Address
+                  </button>
                 </div>
-              ))}
-            </div>
+              )
+            ) : (
+              <div className="addresses-cards-grid mt-4">
+                {(user?.addresses || []).map((addr) => (
+                  <div key={addr.id} className="address-card glass-panel">
+                    <div className="card-head">
+                      <strong>{addr.title}</strong>
+                      {addr.isDefault && <span className="badge badge-gold">Default</span>}
+                    </div>
+                    <p>{addr.firstName} {addr.lastName}</p>
+                    <p>{addr.street}</p>
+                    <p>{addr.city}, {addr.state} {addr.zip}</p>
+                    <p className="text-muted">{addr.phone}</p>
+
+                    <div className="card-actions mt-4">
+                      <button className="btn btn-outline btn-sm" onClick={() => startEditAddress(addr)}>
+                        <Pencil size={13} /> Edit
+                      </button>
+                      {!addr.isDefault && (
+                        <button className="btn btn-outline btn-sm" onClick={() => setDefaultAddress(addr.id)}>
+                          Set Default
+                        </button>
+                      )}
+                      <button className="btn-icon-danger" onClick={() => deleteAddress(addr.id)} title="Delete address">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
