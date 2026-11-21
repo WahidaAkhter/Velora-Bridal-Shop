@@ -52,11 +52,11 @@ export const CheckoutPage = () => {
   const [step, setStep] = useState(1); // 1: Address, 2: Shipping, 3: Payment, 4: Review
 
   // Shipping Address Form State
-  const defaultAddr = user.addresses.find(a => a.isDefault) || user.addresses[0] || {};
+  const defaultAddr = (user?.addresses || []).find(a => a.isDefault) || user?.addresses?.[0] || {};
   const [selectedAddrId, setSelectedAddrId] = useState(defaultAddr.id || 'custom');
 
   const [formData, setFormData] = useState({
-    email: user.email || 'eleanor.vance@example.com',
+    email: user?.email || 'eleanor.vance@example.com',
     firstName: defaultAddr.firstName || 'Eleanor',
     lastName: defaultAddr.lastName || 'Vance',
     street: defaultAddr.street || '742 Evergreen Terrace, Suite 4B',
@@ -330,11 +330,11 @@ export const CheckoutPage = () => {
               </div>
 
               {/* Saved Address Book Selector */}
-              {user.addresses && user.addresses.length > 0 && (
+              {user?.addresses && user.addresses.length > 0 && (
                 <div className="address-book-picker">
                   <label className="picker-label">Saved Address Book:</label>
                   <div className="address-cards-grid">
-                    {user.addresses.map((addr) => (
+                    {(user?.addresses || []).map((addr) => (
                       <div
                         key={addr.id}
                         className={`addr-picker-card ${selectedAddrId === addr.id ? 'selected' : ''}`}
@@ -704,7 +704,7 @@ export const CheckoutPage = () => {
                   <h4>Redeem a VELORA Gift Card</h4>
                   <p className="text-muted text-sm mt-1">Gift card credit is applied after tax. Any remainder is charged to your card.</p>
                   <div className="gift-card-list mt-2">
-                    {user.giftCards.map(card => {
+                    {(user?.giftCards || []).map(card => {
                       const isApplied = appliedGiftCard === card.code;
                       return (
                         <div key={card.code} className={`gift-card-balance-card ${isApplied ? 'applied' : ''}`}>

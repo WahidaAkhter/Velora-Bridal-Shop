@@ -155,7 +155,7 @@ export async function getProducts() {
       }
     }
 
-    const mappedProducts = allRows.map(mapRowToProduct);
+    const mappedProducts = allRows.map(mapRowToProduct).filter(Boolean);
     const totalVariants = mappedProducts.reduce((sum, p) => sum + (p.variants?.length || 0), 0);
 
     // Update central catalog store

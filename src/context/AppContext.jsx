@@ -38,11 +38,13 @@ const loadJSON = (key, fallback) => {
 // Sanitizes wishlist IDs to keep only valid, unique IDs that actually exist in the catalog
 const sanitizeWishlistIds = (rawIds) => {
   if (!Array.isArray(rawIds)) return [];
-  const validIdSet = new Set(getCatalog().map(p => p.id));
+  const catalogList = getCatalog();
+  if (!Array.isArray(catalogList) || catalogList.length === 0) return [];
+  const validIdSet = new Set(catalogList.filter(p => p && p.id).map(p => p.id));
   const seen = new Set();
   const clean = [];
   for (const id of rawIds) {
-    if (validIdSet.has(id) && !seen.has(id)) {
+    if (typeof id === 'string' && validIdSet.has(id) && !seen.has(id)) {
       seen.add(id);
       clean.push(id);
     }
@@ -221,8 +223,16 @@ export const AppProvider = ({ children }) => {
     const saved = loadJSON('aura_user', INITIAL_USER);
     return {
       ...INITIAL_USER,
-      ...saved,
-      appointments: saved?.appointments || INITIAL_USER.appointments || []
+      ...(saved || {}),
+      name: saved?.name || INITIAL_USER.name || 'VIP Bride',
+      email: saved?.email || INITIAL_USER.email || '',
+      phone: saved?.phone || INITIAL_USER.phone || '+1 (555) 000-0000',
+      role: saved?.role || INITIAL_USER.role || 'customer',
+      membershipTier: saved?.membershipTier || INITIAL_USER.membershipTier || 'VELORA VIP Club',
+      orders: Array.isArray(saved?.orders) ? saved.orders : (INITIAL_USER.orders || []),
+      addresses: Array.isArray(saved?.addresses) ? saved.addresses : (INITIAL_USER.addresses || []),
+      appointments: Array.isArray(saved?.appointments) ? saved.appointments : (INITIAL_USER.appointments || []),
+      giftCards: Array.isArray(saved?.giftCards) ? saved.giftCards : (INITIAL_USER.giftCards || [])
     };
   });
 
@@ -281,7 +291,7 @@ export const AppProvider = ({ children }) => {
     } else {
       localStorage.setItem('aura_wishlist', JSON.stringify(wishlist));
     }
-  }, [wishlist]);
+  }, [wishlist, catalog]);
   useEffect(() => localStorage.setItem('aura_user', JSON.stringify(user)), [user]);
   useEffect(() => localStorage.setItem('aura_recent', JSON.stringify(recentlyViewed)), [recentlyViewed]);
 
@@ -397,7 +407,7 @@ export const AppProvider = ({ children }) => {
 
   const getGiftCardCredit = () => {
     if (!appliedGiftCard) return 0;
-    const card = user.giftCards.find(g => g.code === appliedGiftCard);
+    const card = (user?.giftCards || []).find(g => g.code === appliedGiftCard);
     if (!card) return 0;
     return Math.min(card.currentBalance, getTotalBeforeGiftCard());
   };
@@ -425,7 +435,7 @@ export const AppProvider = ({ children }) => {
 
   // Gift cards
   const applyGiftCard = (code) => {
-    const card = user.giftCards.find(g => g.code === code.trim().toUpperCase());
+    const card = (user?.giftCards || []).find(g => g.code === code.trim().toUpperCase());
     if (!card) return { success: false, message: 'Gift card not found on your account' };
     if (card.currentBalance <= 0) return { success: false, message: 'This gift card has no remaining balance' };
     setAppliedGiftCard(card.code);
@@ -439,7 +449,7 @@ export const AppProvider = ({ children }) => {
     const addr = { ...newAddr, id: `addr-${Date.now()}` };
     setUser(prev => ({
       ...prev,
-      addresses: prev.addresses
+      addresses: (prev?.addresses || [])
         .map(a => (newAddr.isDefault ? { ...a, isDefault: false } : a))
         .concat(addr)
     }));
@@ -449,7 +459,7 @@ export const AppProvider = ({ children }) => {
   const updateAddress = (addrId, updates) => {
     setUser(prev => ({
       ...prev,
-      addresses: prev.addresses.map(a => {
+      addresses: (prev?.addresses || []).map(a => {
         if (a.id === addrId) return { ...a, ...updates };
         return updates.isDefault ? { ...a, isDefault: false } : a;
       })
@@ -459,7 +469,7 @@ export const AppProvider = ({ children }) => {
 
   const deleteAddress = (addrId) => {
     setUser(prev => {
-      const remaining = prev.addresses.filter(a => a.id !== addrId);
+      const remaining = (prev?.addresses || []).filter(a => a.id !== addrId);
       if (remaining.length && !remaining.some(a => a.isDefault)) remaining[0] = { ...remaining[0], isDefault: true };
       return { ...prev, addresses: remaining };
     });
@@ -469,7 +479,7 @@ export const AppProvider = ({ children }) => {
   const setDefaultAddress = (addrId) => {
     setUser(prev => ({
       ...prev,
-      addresses: prev.addresses.map(a => ({ ...a, isDefault: a.id === addrId }))
+      addresses: (prev?.addresses || []).map(a => ({ ...a, isDefault: a.id === addrId }))
     }));
     showToast('Default address updated!');
   };
@@ -530,15 +540,20 @@ export const AppProvider = ({ children }) => {
     const role = profile?.role || 'customer';
 
     setUser(prev => {
+      const base = prev || INITIAL_USER;
       const updated = {
         ...INITIAL_USER,
-        ...prev,
+        ...base,
         id: authUser.id,
         name: realName,
-        email: authUser.email,
+        email: authUser.email || base.email,
         phone: realPhone,
         role,
-        membershipTier: role === 'admin' ? 'Master Atelier Admin' : 'VELORA VIP Club'
+        membershipTier: role === 'admin' ? 'Master Atelier Admin' : (base.membershipTier || 'VELORA VIP Club'),
+        orders: Array.isArray(base.orders) ? base.orders : (INITIAL_USER.orders || []),
+        addresses: Array.isArray(base.addresses) ? base.addresses : (INITIAL_USER.addresses || []),
+        appointments: Array.isArray(base.appointments) ? base.appointments : (INITIAL_USER.appointments || []),
+        giftCards: Array.isArray(base.giftCards) ? base.giftCards : (INITIAL_USER.giftCards || [])
       };
       localStorage.setItem('aura_user', JSON.stringify(updated));
       return updated;
@@ -679,7 +694,7 @@ export const AppProvider = ({ children }) => {
   const addProductReview = (productId, reviewData) => {
     const newReview = {
       id: `rev-${Date.now()}`,
-      author: reviewData.author || (isLoggedIn ? user.name : 'Bridal Guest'),
+      author: reviewData.author || (isLoggedIn ? (user?.name || 'VIP Bride') : 'Bridal Guest'),
       date: 'Just now',
       rating: reviewData.rating || 5,
       title: reviewData.title || 'Exquisite gown & perfect fitting!',

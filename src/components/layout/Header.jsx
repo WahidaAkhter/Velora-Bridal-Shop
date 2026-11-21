@@ -267,7 +267,9 @@ export const Header = () => {
   const catalog = useCatalog();
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const validWishlistCount = useMemo(() => {
-    return Array.isArray(wishlist) ? wishlist.filter(id => catalog.some(p => p.id === id)).length : 0;
+    return Array.isArray(wishlist) && Array.isArray(catalog)
+      ? wishlist.filter(id => id && catalog.some(p => p && p.id === id)).length
+      : 0;
   }, [wishlist, catalog]);
 
   const { weddingDate } = useWeddingDate();

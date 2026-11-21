@@ -12,7 +12,9 @@ export const MobileTabBar = () => {
 
   const catalog = useCatalog();
   const cartCount = cartItems.reduce((a, b) => a + b.quantity, 0);
-  const validWishlistCount = Array.isArray(wishlist) ? wishlist.filter(id => catalog.some(p => p.id === id)).length : 0;
+  const validWishlistCount = Array.isArray(wishlist) && Array.isArray(catalog)
+    ? wishlist.filter(id => id && catalog.some(p => p && p.id === id)).length
+    : 0;
 
   const tabs = [
     {

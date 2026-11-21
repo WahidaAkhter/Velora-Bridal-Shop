@@ -83,7 +83,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
   const [isAddingReview, setIsAddingReview] = useState(false);
   const [newReviewRating, setNewReviewRating] = useState(5);
   const [newReviewComment, setNewReviewComment] = useState('');
-  const [newReviewName, setNewReviewName] = useState(isLoggedIn ? user.name : '');
+  const [newReviewName, setNewReviewName] = useState(isLoggedIn ? (user?.name || '') : '');
 
   // Persistent combined reviews (saved in localStorage + defaults)
   const combinedReviews = [
@@ -91,7 +91,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
     ...(product.reviews || [])
   ];
 
-  const isWishlisted = wishlist.includes(product.id);
+  const isWishlisted = Boolean(product?.id && Array.isArray(wishlist) && wishlist.includes(product.id));
   const currentPrice = selectedVariant ? selectedVariant.price : (product.price || 0);
   const currentStock = selectedVariant ? (selectedVariant.stock ?? 10) : (product.stock ?? 10);
 
@@ -102,7 +102,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
     const created = {
       author: newReviewName.trim(),
       name: newReviewName.trim(),
-      avatar: isLoggedIn ? user.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
+      avatar: isLoggedIn ? (user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80') : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
       rating: Number(newReviewRating),
       date: 'Just now',
       comment: newReviewComment.trim(),

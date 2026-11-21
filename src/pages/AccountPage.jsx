@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { useCatalog } from '../services/catalogStore';
 import { VOUCHERS } from '../data/vouchers';
@@ -56,14 +56,14 @@ export const AccountPage = () => {
   const [isAddAddrOpen, setIsAddAddrOpen] = useState(false);
   const [newAddrForm, setNewAddrForm] = useState({
     title: 'Home Address',
-    firstName: user.name.split(' ')[0] || '',
-    lastName: user.name.split(' ')[1] || '',
+    firstName: (user?.name || '').split(' ')[0] || '',
+    lastName: (user?.name || '').split(' ')[1] || '',
     street: '',
     city: '',
     state: '',
     zip: '',
     country: 'United States',
-    phone: user.phone || '',
+    phone: user?.phone || '',
     isDefault: false
   });
 
@@ -111,7 +111,7 @@ export const AccountPage = () => {
     closeAddrForm();
   };
 
-  const wishlistedProducts = catalog.filter(p => wishlist.includes(p.id));
+  const wishlistedProducts = catalog.filter(p => p && p.id && Array.isArray(wishlist) && wishlist.includes(p.id));
 
   const handleShareWishlist = async () => {
     const url = buildShareUrl(wishlist, user?.name);
@@ -216,15 +216,15 @@ export const AccountPage = () => {
       {/* Account Hero Banner */}
       <div className="account-hero-card glass-panel">
         <div className="user-profile-row">
-          <img src={user.avatar} alt={user.name} className="user-avatar-lg" />
+          <img src={user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80'} alt={user?.name || 'VIP Bride'} className="user-avatar-lg" />
           <div className="user-info-text">
             <div className="user-title-badge-row">
-              <h2>{user.name}</h2>
+              <h2>{user?.name || 'VIP Bride'}</h2>
               <span className="badge badge-gold">
-                {user.membershipTier}
+                {user?.membershipTier || 'VELORA VIP Club'}
               </span>
             </div>
-            <p className="text-muted">{user.email} • Member since {user.memberSince}</p>
+            <p className="text-muted">{user?.email || ''} • Member since {user?.memberSince || 'Recent'}</p>
           </div>
 
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -263,15 +263,15 @@ export const AccountPage = () => {
         {/* Quick Stats Row */}
         <div className="stats-row">
           <div className="stat-box">
-            <span className="stat-num">{user.orders.length}</span>
+            <span className="stat-num">{user?.orders?.length || 0}</span>
             <span className="stat-label">Total Orders</span>
           </div>
           <div className="stat-box">
-            <span className="stat-num">{user.appointments?.length || 0}</span>
+            <span className="stat-num">{user?.appointments?.length || 0}</span>
             <span className="stat-label">Appointments</span>
           </div>
           <div className="stat-box">
-            <span className="stat-num">{user.addresses.length}</span>
+            <span className="stat-num">{user?.addresses?.length || 0}</span>
             <span className="stat-label">Saved Addresses</span>
           </div>
           <div className="stat-box">
@@ -279,7 +279,7 @@ export const AccountPage = () => {
             <span className="stat-label">Wishlist Items</span>
           </div>
           <div className="stat-box">
-            <span className="stat-num">{formatPrice(user.giftCards.reduce((a, b) => a + b.currentBalance, 0))}</span>
+            <span className="stat-num">{formatPrice((user?.giftCards || []).reduce((a, b) => a + (b?.currentBalance || 0), 0))}</span>
             <span className="stat-label">Gift Credits</span>
           </div>
         </div>
@@ -297,13 +297,13 @@ export const AccountPage = () => {
           className={`tab-link ${accountTab === 'orders' ? 'active' : ''}`}
           onClick={() => setAccountTab('orders')}
         >
-          <Package size={18} /> Order History ({user.orders.length})
+          <Package size={18} /> Order History ({user?.orders?.length || 0})
         </button>
         <button
           className={`tab-link ${accountTab === 'addresses' ? 'active' : ''}`}
           onClick={() => setAccountTab('addresses')}
         >
-          <MapPin size={18} /> Address Book ({user.addresses.length})
+          <MapPin size={18} /> Address Book ({user?.addresses?.length || 0})
         </button>
         <button
           className={`tab-link ${accountTab === 'wishlist' ? 'active' : ''}`}
@@ -315,7 +315,7 @@ export const AccountPage = () => {
           className={`tab-link ${accountTab === 'appointments' ? 'active' : ''}`}
           onClick={() => setAccountTab('appointments')}
         >
-          <Calendar size={18} /> Appointments ({user.appointments?.length || 0})
+          <Calendar size={18} /> Appointments ({user?.appointments?.length || 0})
         </button>
         <button
           className={`tab-link ${accountTab === 'vouchers' ? 'active' : ''}`}
@@ -337,11 +337,11 @@ export const AccountPage = () => {
                 <button onClick={() => setAccountTab('orders')} className="btn-link">View All</button>
               </div>
               <div className="recent-orders-list">
-                {user.orders.slice(0, 2).map((ord) => (
+                {(user?.orders || []).slice(0, 2).map((ord) => (
                   <div key={ord.id} className="recent-order-row">
                     <div>
                       <strong>Order #{ord.id}</strong>
-                      <span className="text-muted block text-sm">{ord.date} • {ord.items.length} items</span>
+                      <span className="text-muted block text-sm">{ord.date} • {ord.items?.length || 0} items</span>
                     </div>
                     <div className="text-right">
                       <span className="badge badge-success">{ord.status}</span>
@@ -358,13 +358,18 @@ export const AccountPage = () => {
                 <h3>Default Shipping Address</h3>
                 <button onClick={() => setAccountTab('addresses')} className="btn-link">Manage</button>
               </div>
-              {user.addresses.find(a => a.isDefault) ? (
-                <div className="address-display-box">
-                  <strong>{user.addresses.find(a => a.isDefault).title}</strong>
-                  <p>{user.addresses.find(a => a.isDefault).firstName} {user.addresses.find(a => a.isDefault).lastName}</p>
-                  <p>{user.addresses.find(a => a.isDefault).street}</p>
-                  <p>{user.addresses.find(a => a.isDefault).city}, {user.addresses.find(a => a.isDefault).state} {user.addresses.find(a => a.isDefault).zip}</p>
-                </div>
+              {(user?.addresses || []).find(a => a.isDefault) ? (
+                (() => {
+                  const defAddr = (user?.addresses || []).find(a => a.isDefault);
+                  return (
+                    <div className="address-display-box">
+                      <strong>{defAddr.title}</strong>
+                      <p>{defAddr.firstName} {defAddr.lastName}</p>
+                      <p>{defAddr.street}</p>
+                      <p>{defAddr.city}, {defAddr.state} {defAddr.zip}</p>
+                    </div>
+                  );
+                })()
               ) : (
                 <p className="text-muted">No default address selected.</p>
               )}
@@ -375,11 +380,11 @@ export const AccountPage = () => {
         {/* ORDERS TAB */}
         {accountTab === 'orders' && (
           <div className="orders-tab-view">
-            {user.orders.length === 0 ? (
+            {(!user?.orders || user.orders.length === 0) ? (
               <p className="text-muted">No orders found.</p>
             ) : (
               <div className="orders-history-list">
-                {user.orders.map((ord) => (
+                {(user?.orders || []).map((ord) => (
                   <div key={ord.id} className="order-history-card glass-panel">
                     <div className="order-card-header">
                       <div>
@@ -516,7 +521,7 @@ export const AccountPage = () => {
             )}
 
             <div className="addresses-cards-grid mt-4">
-              {user.addresses.map((addr) => (
+              {(user?.addresses || []).map((addr) => (
                 <div key={addr.id} className="address-card glass-panel">
                   <div className="card-head">
                     <strong>{addr.title}</strong>
@@ -572,23 +577,23 @@ export const AccountPage = () => {
                 </div>
 
                 <div className="wishlist-grid">
-                {wishlistedProducts.map((product) => (
-                  <div key={product.id} className="wishlist-card glass-panel">
-                    <img src={product.images?.[0] || product.image || ''} alt={product.name} />
-                    <div className="card-info">
-                      <h4>{product.name}</h4>
-                      <span className="price">{formatPrice(product.price)}</span>
+                  {wishlistedProducts.map((product) => (
+                    <div key={product.id} className="wishlist-card glass-panel">
+                      <img src={product.images?.[0] || product.image || ''} alt={product.name} />
+                      <div className="card-info">
+                        <h4>{product.name}</h4>
+                        <span className="price">{formatPrice(product.price)}</span>
+                      </div>
+                      <div className="card-actions">
+                        <button className="btn btn-accent btn-sm flex-1" onClick={() => addToCart(product)}>
+                          <ShoppingBag size={14} /> Add to Bag
+                        </button>
+                        <button className="btn btn-outline btn-sm icon-only" onClick={() => toggleWishlist(product.id)}>
+                          <Trash2 size={15} />
+                        </button>
+                      </div>
                     </div>
-                    <div className="card-actions">
-                      <button className="btn btn-accent btn-sm flex-1" onClick={() => addToCart(product)}>
-                        <ShoppingBag size={14} /> Add to Bag
-                      </button>
-                      <button className="btn btn-outline btn-sm icon-only" onClick={() => toggleWishlist(product.id)}>
-                        <Trash2 size={15} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
                 </div>
               </>
             )}
@@ -642,7 +647,7 @@ export const AccountPage = () => {
               </button>
             </div>
 
-            {(!user.appointments || user.appointments.length === 0) ? (
+            {(!user?.appointments || user.appointments.length === 0) ? (
               <div className="text-center p-8 glass-panel">
                 <Calendar size={36} className="mx-auto text-muted mb-2" />
                 <h4>No Scheduled Appointments</h4>
@@ -656,7 +661,7 @@ export const AccountPage = () => {
               </div>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {user.appointments.map((apt) => (
+                {(user?.appointments || []).map((apt) => (
                   <div
                     key={apt.id}
                     className="glass-panel"
