@@ -507,6 +507,7 @@ export const AppProvider = ({ children }) => {
     Math.max(0, getCartSubtotal() - getVoucherDiscount() + getShippingCost() + getTax());
 
   const getGiftCardCredit = () => {
+    if (isSupabaseConfigured) return 0;
     if (!appliedGiftCard) return 0;
     const card = (user?.giftCards || []).find(g => g.code === appliedGiftCard);
     if (!card) return 0;
@@ -536,6 +537,11 @@ export const AppProvider = ({ children }) => {
 
   // Gift cards
   const applyGiftCard = (code) => {
+    if (isSupabaseConfigured) {
+      const msg = 'Gift card redemption is temporarily disabled during backend upgrade.';
+      showToast(msg, 'warning');
+      return { success: false, message: msg };
+    }
     const card = (user?.giftCards || []).find(g => g.code === code.trim().toUpperCase());
     if (!card) return { success: false, message: 'Gift card not found on your account' };
     if (card.currentBalance <= 0) return { success: false, message: 'This gift card has no remaining balance' };
@@ -827,7 +833,97 @@ export const AppProvider = ({ children }) => {
   };
 
   // Orders
-  const placeOrder = (orderData) => {
+  const placeOrder = async (orderData) => {
+    if (isSupabaseConfigured && supabase) {
+      const itemsPayload = cartItems.map(i => ({
+        variant_id: i.variant?.id || `${i.productId}-default`,
+        quantity: i.quantity
+      }));
+
+      const shippingPayload = {
+        firstName: orderData.shippingAddress?.firstName || '',
+        lastName: orderData.shippingAddress?.lastName || '',
+        street: orderData.shippingAddress?.street || '',
+        city: orderData.shippingAddress?.city || '',
+        state: orderData.shippingAddress?.state || '',
+        zip: orderData.shippingAddress?.zip || '',
+        country: orderData.shippingAddress?.country || 'United States',
+        phone: orderData.shippingAddress?.phone || '',
+        email: orderData.shippingAddress?.email || user?.email || ''
+      };
+
+      const shippingMethodCode = shippingMethod?.id || 'std';
+      const voucherCode = appliedVoucher?.code || null;
+      const paymentMethod = 'Cash on Delivery';
+
+      const { data, error } = await supabase.rpc('place_order', {
+        items: itemsPayload,
+        shipping: shippingPayload,
+        shipping_method: shippingMethodCode,
+        voucher_code: voucherCode,
+        payment_method: paymentMethod
+      });
+
+      if (error) {
+        showToast(error.message || 'Failed to place order', 'error');
+        return null;
+      }
+
+      const clientPreviewTotal = getCartTotal();
+      const serverTotal = Number(data.total);
+      if (Math.abs(clientPreviewTotal - serverTotal) > 0.01) {
+        showToast(`Order total adjusted to server total: $${serverTotal.toFixed(2)}`, 'info');
+      }
+
+      const newOrder = {
+        id: data.order_id,
+        orderNumber: data.order_number,
+        date: new Date().toISOString().split('T')[0],
+        status: data.status || 'Processing',
+        paymentStatus: data.payment_status || 'pending_cod',
+        trackingNumber: `TRK-${Math.floor(100000 + Math.random() * 900000)}-US`,
+        carrier: shippingMethod.id === 'prio' ? 'UPS Next Day Air' : 'FedEx Express',
+        estimatedDelivery: new Date(Date.now() + 3 * 86400000).toLocaleDateString('en-US', {
+          month: 'short', day: 'numeric', year: 'numeric'
+        }),
+        items: cartItems.map(i => ({
+          id: i.productId,
+          variantId: i.variant?.id || `${i.productId}-default`,
+          name: i.product.name,
+          variantName: i.variant?.name || 'Standard Atelier Sizing',
+          price: i.variant?.price || i.product.price || 0,
+          quantity: i.quantity,
+          image: i.product.images?.[0] || i.product.image || ''
+        })),
+        subtotal: Number(data.subtotal),
+        discount: Number(data.discount),
+        voucherCode: voucherCode,
+        shipping: Number(data.shipping),
+        tax: Number(data.tax),
+        giftCardCredit: 0,
+        giftCardCode: null,
+        total: serverTotal,
+        currency: 'USD',
+        shippingAddress: orderData.shippingAddress,
+        paymentMethod: 'Cash on Delivery (COD)'
+      };
+
+      setUser(prev => ({
+        ...prev,
+        orders: [newOrder, ...(prev?.orders || [])]
+      }));
+
+      clearCart();
+      setSelectedOrderDetails(newOrder);
+      setCurrentView('account');
+      setAccountTab('orders');
+      // Sync to Express Backend asynchronously
+      apiCreateOrder(newOrder).catch(err => console.warn('Backend sync error (order):', err.message));
+      showToast(`Order placed successfully! Order #${data.order_number}`);
+      return newOrder;
+    }
+
+    // Fallback: Local offline mock order flow
     const giftCredit = getGiftCardCredit();
     const newOrder = {
       id: `VLR-${Math.floor(10000 + Math.random() * 90000)}`,

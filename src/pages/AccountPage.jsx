@@ -340,7 +340,7 @@ export const AccountPage = () => {
                 {(user?.orders || []).slice(0, 2).map((ord) => (
                   <div key={ord.id} className="recent-order-row">
                     <div>
-                      <strong>Order #{ord.id}</strong>
+                      <strong>Order #{ord.orderNumber || ord.id}</strong>
                       <span className="text-muted block text-sm">{ord.date} • {ord.items?.length || 0} items</span>
                     </div>
                     <div className="text-right">
@@ -388,7 +388,7 @@ export const AccountPage = () => {
                   <div key={ord.id} className="order-history-card glass-panel">
                     <div className="order-card-header">
                       <div>
-                        <span className="order-id">Order #{ord.id}</span>
+                        <span className="order-id">Order #{ord.orderNumber || ord.id}</span>
                         <span className="order-date">{ord.date}</span>
                       </div>
                       <span className={`badge badge-${ord.status === 'Delivered' ? 'success' : 'accent'}`}>

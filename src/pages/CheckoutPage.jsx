@@ -37,7 +37,8 @@ export const CheckoutPage = () => {
     setCurrentView,
     formatPrice,
     showToast,
-    selectedOrderDetails
+    selectedOrderDetails,
+    isSupabaseConfigured
   } = useApp();
 
   const navigate = useNavigate();
@@ -50,21 +51,22 @@ export const CheckoutPage = () => {
   }, [cartItems.length, selectedOrderDetails, navigate, showToast]);
 
   const [step, setStep] = useState(1); // 1: Address, 2: Shipping, 3: Payment, 4: Review
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Shipping Address Form State
   const defaultAddr = (user?.addresses || []).find(a => a.isDefault) || user?.addresses?.[0] || {};
   const [selectedAddrId, setSelectedAddrId] = useState(defaultAddr.id || 'custom');
 
   const [formData, setFormData] = useState({
-    email: user?.email || 'eleanor.vance@example.com',
-    firstName: defaultAddr.firstName || 'Eleanor',
-    lastName: defaultAddr.lastName || 'Vance',
-    street: defaultAddr.street || '742 Evergreen Terrace, Suite 4B',
-    city: defaultAddr.city || 'Seattle',
-    state: defaultAddr.state || 'WA',
-    zip: defaultAddr.zip || '98101',
+    email: user?.email || '',
+    firstName: defaultAddr.firstName || '',
+    lastName: defaultAddr.lastName || '',
+    street: defaultAddr.street || '',
+    city: defaultAddr.city || '',
+    state: defaultAddr.state || '',
+    zip: defaultAddr.zip || '',
     country: defaultAddr.country || 'United States',
-    phone: defaultAddr.phone || '+1 (555) 234-8901',
+    phone: defaultAddr.phone || '',
     saveAddress: false
   });
 
@@ -180,7 +182,7 @@ export const CheckoutPage = () => {
 
   const handleProceedToReview = (e) => {
     if (e) e.preventDefault();
-    if (paymentType === 'card') {
+    if (!isSupabaseConfigured && paymentType === 'card') {
       const errors = validateCard();
       if (Object.keys(errors).length > 0) {
         setCardErrors(errors);
@@ -206,36 +208,31 @@ export const CheckoutPage = () => {
     }));
   };
 
-  const handleCompleteOrder = () => {
-    // Save address if checked
-    if (formData.saveAddress) {
-      addAddress({
-        title: `${formData.city} Address`,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        street: formData.street,
-        city: formData.city,
-        state: formData.state,
-        zip: formData.zip,
-        country: formData.country,
-        phone: formData.phone,
-        isDefault: false
-      });
-    }
-
-    // Trigger Confetti
+  const handleCompleteOrder = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     try {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    } catch (e) {}
+      // Save address if checked
+      if (formData.saveAddress) {
+        addAddress({
+          title: `${formData.city || 'Home'} Address`,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          street: formData.street,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          country: formData.country,
+          phone: formData.phone,
+          isDefault: false
+        });
+      }
 
-    // Place Order
-    const cleanCardNum = (cardData.number || '').replace(/\s+/g, '');
-    const paymentName =
-      paymentType === 'card'
+      // Place Order
+      const cleanCardNum = (cardData.number || '').replace(/\s+/g, '');
+      const paymentName = isSupabaseConfigured
+        ? 'Cash on Delivery (COD)'
+        : paymentType === 'card'
         ? `${getCardBrand(cardData.number)} ending in ${cleanCardNum.slice(-4) || '••••'}`
         : paymentType === 'paypal'
         ? 'PayPal Account'
@@ -243,18 +240,33 @@ export const CheckoutPage = () => {
         ? 'Apple Pay'
         : 'VELORA Gift Card';
 
-    placeOrder({
-      shippingAddress: {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        street: formData.street,
-        city: formData.city,
-        state: formData.state,
-        zip: formData.zip,
-        country: formData.country
-      },
-      paymentMethodName: paymentName
-    });
+      const res = await placeOrder({
+        shippingAddress: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          street: formData.street,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+          country: formData.country,
+          phone: formData.phone,
+          email: formData.email
+        },
+        paymentMethodName: paymentName
+      });
+
+      if (res) {
+        try {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
+        } catch (e) {}
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const subtotal = getCartSubtotal();
@@ -535,201 +547,220 @@ export const CheckoutPage = () => {
                 <h3>3. Choose Payment Method</h3>
               </div>
 
-              <div className="payment-tabs-row">
-                <button
-                  type="button"
-                  className={`pay-tab ${paymentType === 'card' ? 'active' : ''}`}
-                  onClick={() => { setPaymentType('card'); setCardErrors({}); }}
-                >
-                  <CreditCard size={16} /> Credit / Debit Card
-                </button>
-                <button
-                  type="button"
-                  className={`pay-tab ${paymentType === 'paypal' ? 'active' : ''}`}
-                  onClick={() => { setPaymentType('paypal'); setCardErrors({}); }}
-                >
-                  <span>PayPal</span>
-                </button>
-                <button
-                  type="button"
-                  className={`pay-tab ${paymentType === 'applepay' ? 'active' : ''}`}
-                  onClick={() => { setPaymentType('applepay'); setCardErrors({}); }}
-                >
-                  <Smartphone size={16} /> Apple Pay
-                </button>
-                <button
-                  type="button"
-                  className={`pay-tab ${paymentType === 'giftcard' ? 'active' : ''}`}
-                  onClick={() => { setPaymentType('giftcard'); setCardErrors({}); }}
-                >
-                  <Gift size={16} /> Gift Card
-                </button>
-              </div>
-
-              {/* Card Payment Form */}
-              {paymentType === 'card' && (
-                <div className="card-payment-view mt-4">
-                  <div className="card-demo-header">
-                    <span className="text-sm font-semibold text-secondary">
-                      Debit / Credit / Visa Card Details
-                    </span>
+              {isSupabaseConfigured ? (
+                <div className="payment-cod-box p-6 glass-panel mt-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <Truck size={24} className="text-accent" />
+                    <div>
+                      <h4 className="font-semibold text-base">Cash on Delivery (COD)</h4>
+                      <p className="text-muted text-sm mt-0.5">Pay upon bridal gown delivery and concierge inspection.</p>
+                    </div>
+                  </div>
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs text-muted mt-3">
+                    <p className="font-medium text-foreground mb-1">Database Payment Notice</p>
+                    <p>Orders are verified on the server and confirmed with Cash on Delivery (payment_status: pending_cod). Online card processing arrives in Step 2.6.</p>
+                    <p className="mt-1">Gift card redemption is temporarily offline during database account table migration.</p>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div className="payment-tabs-row">
                     <button
                       type="button"
-                      className="btn btn-outline btn-xs demo-fill-btn"
-                      onClick={fillDemoCard}
-                      title="Quick fill sample Visa credentials for testing"
+                      className={`pay-tab ${paymentType === 'card' ? 'active' : ''}`}
+                      onClick={() => { setPaymentType('card'); setCardErrors({}); }}
                     >
-                      Fill Demo Visa Card
+                      <CreditCard size={16} /> Credit / Debit Card
+                    </button>
+                    <button
+                      type="button"
+                      className={`pay-tab ${paymentType === 'paypal' ? 'active' : ''}`}
+                      onClick={() => { setPaymentType('paypal'); setCardErrors({}); }}
+                    >
+                      <span>PayPal</span>
+                    </button>
+                    <button
+                      type="button"
+                      className={`pay-tab ${paymentType === 'applepay' ? 'active' : ''}`}
+                      onClick={() => { setPaymentType('applepay'); setCardErrors({}); }}
+                    >
+                      <Smartphone size={16} /> Apple Pay
+                    </button>
+                    <button
+                      type="button"
+                      className={`pay-tab ${paymentType === 'giftcard' ? 'active' : ''}`}
+                      onClick={() => { setPaymentType('giftcard'); setCardErrors({}); }}
+                    >
+                      <Gift size={16} /> Gift Card
                     </button>
                   </div>
 
-                  {/* Top Validation Alert if there are errors */}
-                  {Object.keys(cardErrors).length > 0 && (
-                    <div className="payment-alert-error animate-fade-in">
-                      <AlertCircle size={17} />
-                      <span>Please enter complete debit, credit, or Visa card details to proceed.</span>
+                  {/* Card Payment Form */}
+                  {paymentType === 'card' && (
+                    <div className="card-payment-view mt-4">
+                      <div className="card-demo-header">
+                        <span className="text-sm font-semibold text-secondary">
+                          Debit / Credit / Visa Card Details
+                        </span>
+                        <button
+                          type="button"
+                          className="btn btn-outline btn-xs demo-fill-btn"
+                          onClick={fillDemoCard}
+                          title="Quick fill sample Visa credentials for testing"
+                        >
+                          Fill Demo Visa Card
+                        </button>
+                      </div>
+
+                      {/* Top Validation Alert if there are errors */}
+                      {Object.keys(cardErrors).length > 0 && (
+                        <div className="payment-alert-error animate-fade-in">
+                          <AlertCircle size={17} />
+                          <span>Please enter complete debit, credit, or Visa card details to proceed.</span>
+                        </div>
+                      )}
+
+                      {/* Live Credit Card Component */}
+                      <div className="visual-credit-card">
+                        <div className="card-top-row">
+                          <div className="card-chip-icon"><CreditCard size={15} /></div>
+                          <span className="card-brand-badge">
+                            {getCardBrand(cardData.number)}
+                          </span>
+                        </div>
+                        <div className="card-number-display">
+                          {cardData.number || '•••• •••• •••• ••••'}
+                        </div>
+                        <div className="card-bottom-row">
+                          <div>
+                            <span className="card-label">CARDHOLDER</span>
+                            <span className="card-val">{cardData.name.toUpperCase() || 'FULL NAME'}</span>
+                          </div>
+                          <div>
+                            <span className="card-label">EXPIRES</span>
+                            <span className="card-val">{cardData.expiry || 'MM/YY'}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="card-inputs-grid mt-4">
+                        <div className={`form-group full-width ${cardErrors.number ? 'has-error' : ''}`}>
+                          <label>Card Number (Visa, Mastercard, Amex)</label>
+                          <input
+                            type="text"
+                            placeholder="1234 5678 9012 3456"
+                            maxLength={19}
+                            value={cardData.number}
+                            onChange={handleCardNumberChange}
+                          />
+                          {cardErrors.number && (
+                            <span className="field-error-text">
+                              <AlertCircle size={13} /> {cardErrors.number}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`form-group ${cardErrors.name ? 'has-error' : ''}`}>
+                          <label>Name on Card</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. Jane Doe"
+                            value={cardData.name}
+                            onChange={handleNameChange}
+                          />
+                          {cardErrors.name && (
+                            <span className="field-error-text">
+                              <AlertCircle size={13} /> {cardErrors.name}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`form-group ${cardErrors.expiry ? 'has-error' : ''}`}>
+                          <label>Expiry Date</label>
+                          <input
+                            type="text"
+                            placeholder="MM/YY"
+                            maxLength={5}
+                            value={cardData.expiry}
+                            onChange={handleExpiryChange}
+                          />
+                          {cardErrors.expiry && (
+                            <span className="field-error-text">
+                              <AlertCircle size={13} /> {cardErrors.expiry}
+                            </span>
+                          )}
+                        </div>
+                        <div className={`form-group ${cardErrors.cvc ? 'has-error' : ''}`}>
+                          <label>CVC Security Code</label>
+                          <input
+                            type="password"
+                            placeholder="CVC"
+                            maxLength={4}
+                            value={cardData.cvc}
+                            onChange={handleCvcChange}
+                          />
+                          {cardErrors.cvc && (
+                            <span className="field-error-text">
+                              <AlertCircle size={13} /> {cardErrors.cvc}
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
 
-                  {/* Live Credit Card Component */}
-                  <div className="visual-credit-card">
-                    <div className="card-top-row">
-                      <div className="card-chip-icon"><CreditCard size={15} /></div>
-                      <span className="card-brand-badge">
-                        {getCardBrand(cardData.number)}
-                      </span>
+                  {paymentType === 'paypal' && (
+                    <div className="mock-paypal-box text-center p-6 glass-panel mt-4">
+                      <span className="paypal-logo text-accent font-bold text-xl">PayPal Express</span>
+                      <p className="text-muted mt-2">You will be redirected to PayPal to authorize payment securely.</p>
+                      <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
+                        Authorize PayPal Payment
+                      </button>
                     </div>
-                    <div className="card-number-display">
-                      {cardData.number || '•••• •••• •••• ••••'}
+                  )}
+
+                  {paymentType === 'applepay' && (
+                    <div className="mock-applepay-box text-center p-6 glass-panel mt-4">
+                      <Smartphone size={36} className="mx-auto text-accent mb-2" />
+                      <h4>Apple Pay Instant Touch / FaceID</h4>
+                      <p className="text-muted mt-1">Pay quickly using saved Apple Wallet cards.</p>
+                      <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
+                        Pay with Apple Pay
+                      </button>
                     </div>
-                    <div className="card-bottom-row">
-                      <div>
-                        <span className="card-label">CARDHOLDER</span>
-                        <span className="card-val">{cardData.name.toUpperCase() || 'FULL NAME'}</span>
+                  )}
+
+                  {paymentType === 'giftcard' && (
+                    <div className="mock-giftcard-box p-4 glass-panel mt-4">
+                      <h4>Redeem a VELORA Gift Card</h4>
+                      <p className="text-muted text-sm mt-1">Gift card credit is applied after tax. Any remainder is charged to your card.</p>
+                      <div className="gift-card-list mt-2">
+                        {(user?.giftCards || []).map(card => {
+                          const isApplied = appliedGiftCard === card.code;
+                          return (
+                            <div key={card.code} className={`gift-card-balance-card ${isApplied ? 'applied' : ''}`}>
+                              <div>
+                                <strong>{card.code}</strong>
+                                <span className="text-muted text-sm block">Expires {card.expiry}</span>
+                              </div>
+                              <span className="badge badge-gold">{formatPrice(card.currentBalance)}</span>
+                              {isApplied ? (
+                                <button type="button" className="btn btn-outline btn-sm" onClick={removeGiftCard}>Remove</button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary btn-sm"
+                                  disabled={card.currentBalance <= 0}
+                                  onClick={() => applyGiftCard(card.code)}
+                                >
+                                  Apply
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
-                      <div>
-                        <span className="card-label">EXPIRES</span>
-                        <span className="card-val">{cardData.expiry || 'MM/YY'}</span>
-                      </div>
                     </div>
-                  </div>
-
-                  <div className="card-inputs-grid mt-4">
-                    <div className={`form-group full-width ${cardErrors.number ? 'has-error' : ''}`}>
-                      <label>Card Number (Visa, Mastercard, Amex)</label>
-                      <input
-                        type="text"
-                        placeholder="1234 5678 9012 3456"
-                        maxLength={19}
-                        value={cardData.number}
-                        onChange={handleCardNumberChange}
-                      />
-                      {cardErrors.number && (
-                        <span className="field-error-text">
-                          <AlertCircle size={13} /> {cardErrors.number}
-                        </span>
-                      )}
-                    </div>
-                    <div className={`form-group ${cardErrors.name ? 'has-error' : ''}`}>
-                      <label>Name on Card</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Jane Doe"
-                        value={cardData.name}
-                        onChange={handleNameChange}
-                      />
-                      {cardErrors.name && (
-                        <span className="field-error-text">
-                          <AlertCircle size={13} /> {cardErrors.name}
-                        </span>
-                      )}
-                    </div>
-                    <div className={`form-group ${cardErrors.expiry ? 'has-error' : ''}`}>
-                      <label>Expiry Date</label>
-                      <input
-                        type="text"
-                        placeholder="MM/YY"
-                        maxLength={5}
-                        value={cardData.expiry}
-                        onChange={handleExpiryChange}
-                      />
-                      {cardErrors.expiry && (
-                        <span className="field-error-text">
-                          <AlertCircle size={13} /> {cardErrors.expiry}
-                        </span>
-                      )}
-                    </div>
-                    <div className={`form-group ${cardErrors.cvc ? 'has-error' : ''}`}>
-                      <label>CVC Security Code</label>
-                      <input
-                        type="password"
-                        placeholder="CVC"
-                        maxLength={4}
-                        value={cardData.cvc}
-                        onChange={handleCvcChange}
-                      />
-                      {cardErrors.cvc && (
-                        <span className="field-error-text">
-                          <AlertCircle size={13} /> {cardErrors.cvc}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {paymentType === 'paypal' && (
-                <div className="mock-paypal-box text-center p-6 glass-panel mt-4">
-                  <span className="paypal-logo text-accent font-bold text-xl">PayPal Express</span>
-                  <p className="text-muted mt-2">You will be redirected to PayPal to authorize payment securely.</p>
-                  <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
-                    Authorize PayPal Payment
-                  </button>
-                </div>
-              )}
-
-              {paymentType === 'applepay' && (
-                <div className="mock-applepay-box text-center p-6 glass-panel mt-4">
-                  <Smartphone size={36} className="mx-auto text-accent mb-2" />
-                  <h4>Apple Pay Instant Touch / FaceID</h4>
-                  <p className="text-muted mt-1">Pay quickly using saved Apple Wallet cards.</p>
-                  <button type="button" className="btn btn-primary mt-4" onClick={() => setStep(4)}>
-                    Pay with Apple Pay
-                  </button>
-                </div>
-              )}
-
-              {paymentType === 'giftcard' && (
-                <div className="mock-giftcard-box p-4 glass-panel mt-4">
-                  <h4>Redeem a VELORA Gift Card</h4>
-                  <p className="text-muted text-sm mt-1">Gift card credit is applied after tax. Any remainder is charged to your card.</p>
-                  <div className="gift-card-list mt-2">
-                    {(user?.giftCards || []).map(card => {
-                      const isApplied = appliedGiftCard === card.code;
-                      return (
-                        <div key={card.code} className={`gift-card-balance-card ${isApplied ? 'applied' : ''}`}>
-                          <div>
-                            <strong>{card.code}</strong>
-                            <span className="text-muted text-sm block">Expires {card.expiry}</span>
-                          </div>
-                          <span className="badge badge-gold">{formatPrice(card.currentBalance)}</span>
-                          {isApplied ? (
-                            <button type="button" className="btn btn-outline btn-sm" onClick={removeGiftCard}>Remove</button>
-                          ) : (
-                            <button
-                              type="button"
-                              className="btn btn-secondary btn-sm"
-                              disabled={card.currentBalance <= 0}
-                              onClick={() => applyGiftCard(card.code)}
-                            >
-                              Apply
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                  )}
+                </>
               )}
 
               <div className="form-actions-bar mt-6">
@@ -772,7 +803,9 @@ export const CheckoutPage = () => {
                 <div className="review-block">
                   <span className="block-title">Payment Method:</span>
                   <p>
-                    {paymentType === 'card'
+                    {isSupabaseConfigured
+                      ? 'Cash on Delivery (COD)'
+                      : paymentType === 'card'
                       ? `${getCardBrand(cardData.number)} (${(cardData.number || '').replace(/\s+/g, '').slice(-4) || '••••'})`
                       : paymentType === 'paypal'
                       ? 'PayPal Express'
@@ -787,8 +820,15 @@ export const CheckoutPage = () => {
               <button
                 className="btn btn-accent btn-lg w-full mt-6 place-order-btn"
                 onClick={handleCompleteOrder}
+                disabled={isSubmitting}
               >
-                <Lock size={18} /> Complete Purchase — {formatPrice(total)}
+                {isSubmitting ? (
+                  <span>Processing Order...</span>
+                ) : (
+                  <>
+                    <Lock size={18} /> Complete Purchase — {formatPrice(total)}
+                  </>
+                )}
               </button>
             </div>
           )}

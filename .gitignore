@@ -38,4 +38,5 @@ scripts/*
 !scripts/seed.mjs
 !scripts/verify-catalog.mjs
 !scripts/security-test.mjs
+!scripts/order-test.mjs
 .env.server

@@ -38,7 +38,7 @@ export const OrderConfirmationModal = ({ order, onClose }) => {
             <CheckCircle2 size={36} className="text-success" />
           </div>
           <h2>Order Receipt & Details</h2>
-          <p className="text-muted">Order ID: <strong>#{order.id}</strong> • Placed on {order.date}</p>
+          <p className="text-muted">Order ID: <strong>#{order.orderNumber || order.id}</strong> • Placed on {order.date}</p>
         </div>
 
         {/* Order Tracking Progress Bar */}
@@ -112,7 +112,9 @@ export const OrderConfirmationModal = ({ order, onClose }) => {
               <CreditCard size={15} /> Payment & Method
             </div>
             <p>{order.paymentMethod}</p>
-            <span className="badge badge-primary mt-1">Status: Paid</span>
+            <span className="badge badge-primary mt-1">
+              Status: {order.paymentStatus === 'pending_cod' ? 'Pending (COD)' : 'Paid'}
+            </span>
           </div>
 
           <div className="receipt-block totals-block">
