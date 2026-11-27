@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   COLLECTIONS_HERO_DATA,
@@ -6,18 +7,17 @@ import {
   SHAPE_AND_STYLE_CARDS
 } from '../data/allCollectionsData';
 import { getAllCollectionsData } from '../services/api';
+import { collectionPathFor, stylePathFor } from '../data/routeCatalog';
+import { routeFor } from '../routes/routeMap';
 import {
   ArrowRight,
   Calendar
 } from 'lucide-react';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { PageBackBar } from '../components/common/PageBackBar';
 import '../styles/luxe-bridal.css';
 
 export const AllCollectionsPage = () => {
   const {
-    setCurrentView,
-    setSelectedCategory,
-    setSearchQuery,
     setIsAppointmentModalOpen
   } = useApp();
 
@@ -41,60 +41,16 @@ export const AllCollectionsPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const handleCtaClick = (card) => {
-    setSelectedCategory('all');
-    if (card.filterType === 'silhouette') {
-      setSearchQuery(card.filterValue);
-    } else if (card.filterType === 'style' || card.filterType === 'fabric' || card.filterType === 'neckline') {
-      setSearchQuery(card.filterValue);
-    } else {
-      setSearchQuery('');
-    }
-    setCurrentView('all-dresses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleCollectionCardClick = (col) => {
-    if (col.id === 'terra' || col.id === 'poeme' || col.id === 'solara' || col.id === 'ceres' || col.id === 'memoirs' || col.id === 'baciami') {
-      setSearchQuery(col.filterTag || '');
-    } else {
-      setSearchQuery('');
-    }
-    setCurrentView(col.targetView || 'all-dresses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <div className="velora-all-collections-page animate-fade-in" id="velora-collections-top">
-      {/* 1. Breadcrumb Navigation */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('all-dresses');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Wedding Dresses
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">All Collections</span>
-      </nav>
-
-      {/* Shop Collection Navigation Tabs */}
-      <ShopCollectionNav activeTab="all-collections" style={{ margin: '0 auto 28px auto' }} />
+      <PageBackBar
+        fallbackPath="/"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'Wedding Dresses', to: '/dresses' },
+          { label: 'All Collections' }
+        ]}
+      />
 
       {/* 2. Full-Width Hero Banner (Exact match to CTA 0 - New Collection Legacy) */}
       <section className="velora-collections-hero-banner" aria-label="New Collection Legacy Showcase">
@@ -112,21 +68,18 @@ export const AllCollectionsPage = () => {
           <h1 className="velora-col-hero-title">{heroData?.collectionName || COLLECTIONS_HERO_DATA.collectionName}</h1>
           <p className="velora-col-hero-subtitle">{heroData?.subtitle || COLLECTIONS_HERO_DATA.subtitle}</p>
           <p className="velora-col-hero-desc">{heroData?.description || COLLECTIONS_HERO_DATA.description}</p>
-          <button
-            type="button"
+          <Link
+            to={routeFor(heroData?.targetView || COLLECTIONS_HERO_DATA.targetView)}
             className="velora-col-hero-btn"
-            onClick={() => {
-              setCurrentView(heroData?.targetView || COLLECTIONS_HERO_DATA.targetView);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            style={{ textDecoration: 'none' }}
           >
             <span>{heroData?.ctaText || COLLECTIONS_HERO_DATA.ctaText}</span>
             <ArrowRight size={16} />
-          </button>
+          </Link>
         </div>
       </section>
 
-      {/* 3. "All Collections" Editorial Narrative (Exact match to madilane.com/collections/) */}
+      {/* 3. "All Collections" Editorial Narrative */}
       <div className="velora-collections-editorial-header">
         <h2 className="velora-collections-heading">All Collections</h2>
         <div className="velora-collections-desc-wrap">
@@ -139,20 +92,16 @@ export const AllCollectionsPage = () => {
         </div>
       </div>
 
-      {/* 4. Seasonal Collections 4-Column Grid (Exact 8 Capsules) */}
+      {/* 4. Seasonal Collections 4-Column Grid */}
       <section className="velora-seasonal-grid-section" aria-label="Seasonal Bridal Collections">
         <div className="velora-seasonal-grid-4col">
           {(seasonalData || []).map((col) => (
-            <article
+            <Link
               key={col.id}
+              to={collectionPathFor(col.id)}
               className="velora-seasonal-card"
-              onClick={() => handleCollectionCardClick(col)}
-              tabIndex={0}
-              role="button"
               aria-label={`Explore ${col.name}`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCollectionCardClick(col);
-              }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <div className="velora-seasonal-media">
                 <img
@@ -175,12 +124,12 @@ export const AllCollectionsPage = () => {
                 <h3 className="velora-seasonal-title">{col.name}</h3>
                 <p className="velora-seasonal-desc">{col.tagline}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>
 
-      {/* 5. "Shape & Style" Section with 10 Call-To-Action Tiles (Exact match to Madi Lane) */}
+      {/* 5. "Shape & Style" Section with 10 Call-To-Action Tiles */}
       <section className="velora-shape-style-section" aria-label="Shape and Style Wedding Dresses">
         <div className="velora-shape-style-header">
           <h2 className="velora-shape-style-title">Shape & Style</h2>
@@ -191,35 +140,28 @@ export const AllCollectionsPage = () => {
           </p>
         </div>
 
-        {/* 10 Facet CTA Cards (5 Columns x 2 Rows) */}
         <div className="velora-shape-cards-grid">
           {(shapeStyleData || []).map((card) => (
-            <div
+            <Link
               key={card.id}
+              to={stylePathFor(card.filterValue === 'all' ? card.title : card.filterValue)}
               className="velora-shape-cta-card"
-              onClick={() => handleCtaClick(card)}
-              tabIndex={0}
-              role="button"
               aria-label={`Browse ${card.title} wedding dresses`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCtaClick(card);
-              }}
+              style={{ textDecoration: 'none' }}
             >
-              {/* Background Image with Dark Vignette Overlay */}
               <div
                 className="velora-shape-bg-img"
                 style={{ backgroundImage: `url(${card.bgImage})` }}
               />
               <div className="velora-shape-overlay" />
 
-              {/* Centered Content */}
               <div className="velora-shape-content">
                 <h3 className="velora-shape-name">{card.title}</h3>
                 <span className="velora-shape-btn">
                   <span>VIEW</span>
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

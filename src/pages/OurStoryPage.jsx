@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import {
   OUR_STORY_SECTIONS,
@@ -6,12 +7,14 @@ import {
   OUR_STORY_VIP_BANNER
 } from '../data/ourStoryData';
 import { getOurStoryData } from '../services/api';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
-import { ChevronDown, Plus, Minus, ArrowRight, MapPin, Phone, Mail, Calendar } from 'lucide-react';
+import { routeFor } from '../routes/routeMap';
+import { PageBackBar } from '../components/common/PageBackBar';
+import { Plus, Minus, ArrowRight, MapPin, Phone, Mail, Calendar } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const OurStoryPage = () => {
-  const { setCurrentView, setIsAppointmentModalOpen, showToast } = useApp();
+  const location = useLocation();
+  const { setIsAppointmentModalOpen } = useApp();
   const [openAccordionId, setOpenAccordionId] = useState('qa-1');
 
   const [storyState, setStoryState] = useState({
@@ -31,8 +34,16 @@ export const OurStoryPage = () => {
   }, []);
 
   useEffect(() => {
+    if (location.hash) {
+      const targetId = location.hash.slice(1);
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 140);
+      return () => clearTimeout(timer);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  }, [location.hash]);
 
   const toggleAccordion = (id) => {
     setOpenAccordionId((prev) => (prev === id ? null : id));
@@ -47,24 +58,13 @@ export const OurStoryPage = () => {
 
   return (
     <div className="velora-our-story-page animate-fade-in" id="our-story-top">
-      {/* 1. Breadcrumbs */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">Our Story</span>
-      </nav>
-
-      {/* 2. Shop Collection Navigation Bar */}
-      <ShopCollectionNav activeTab="our-story" style={{ margin: '0 auto 36px auto' }} />
+      <PageBackBar
+        fallbackPath="/"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'Our Story' }
+        ]}
+      />
 
       {/* 3. Main Alternating Story Grid */}
       <div className="velora-story-grid-container">
@@ -214,17 +214,14 @@ export const OurStoryPage = () => {
                           <p className="quickship-box-body">
                             {item.quickShipNotice.body}
                           </p>
-                          <button
-                            type="button"
+                          <Link
+                            to="/quick-ship"
                             className="quickship-box-btn"
-                            onClick={() => {
-                              setCurrentView('quick-ship');
-                              window.scrollTo({ top: 0, behavior: 'smooth' });
-                            }}
+                            style={{ textDecoration: 'none' }}
                           >
                             Explore Quick Ship Gowns
                             <ArrowRight size={13} />
-                          </button>
+                          </Link>
                         </div>
                       )}
                     </div>
@@ -355,16 +352,13 @@ export const OurStoryPage = () => {
           <p className="velora-vip-sub">
             {(storyState.vipBanner || OUR_STORY_VIP_BANNER).subtitle}
           </p>
-          <button
-            type="button"
+          <Link
+            to={routeFor((storyState.vipBanner || OUR_STORY_VIP_BANNER).actionView)}
             className="velora-vip-access-btn"
-            onClick={() => {
-              setCurrentView((storyState.vipBanner || OUR_STORY_VIP_BANNER).actionView);
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            style={{ textDecoration: 'none', display: 'inline-block' }}
           >
             {(storyState.vipBanner || OUR_STORY_VIP_BANNER).buttonText}
-          </button>
+          </Link>
         </div>
       </section>
     </div>

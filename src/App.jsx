@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 import { AppProvider, useApp } from './context/AppContext';
 // Layout Components
 import { Header, Footer } from './components/layout';
@@ -28,6 +29,13 @@ import {
   AccessoriesPage,
   BeltsAndSashesPage,
   OurStoryPage,
+  SizeChartPage,
+  StyleFeaturePage,
+  AccessoryCategoryPage,
+  CollectionDetailPage,
+  RealBridesPage,
+  ProductDetailPage,
+  ShopRomancePage,
   NotFoundPage,
   ResetPasswordPage
 } from './pages';
@@ -37,14 +45,11 @@ import {
   AppointmentModal,
   AuthModal,
   CartDrawer,
-  OrderConfirmationModal,
-  ProductDetailModal,
-  WeddingDressFeatureModal
+  OrderConfirmationModal
 } from './components/modals';
 
 // Common / UI
 import { Toast, SeoHead } from './components/common';
-import { RecentlyViewedStrip } from './components/extras/RecentlyViewedStrip';
 import { SharedWishlistView } from './components/extras/SharedWishlistView';
 import { CompareBar } from './components/extras/CompareBar';
 import { CompareView } from './components/extras/CompareView';
@@ -64,13 +69,8 @@ const MainContent = () => {
   const {
     currentView,
     selectedProduct,
-    setSelectedProduct,
-    quickViewProduct,
-    setQuickViewProduct,
     isAppointmentModalOpen,
     setIsAppointmentModalOpen,
-    activeWeddingDressOption,
-    setActiveWeddingDressOption,
     selectedOrderDetails,
     setSelectedOrderDetails,
     isCartOpen,
@@ -95,7 +95,7 @@ const MainContent = () => {
     : null;
 
   const anyOverlayOpen = Boolean(
-    selectedProduct || quickViewProduct || selectedOrderDetails || isCartOpen || isAppointmentModalOpen || activeWeddingDressOption || isAuthModalOpen
+    selectedOrderDetails || isCartOpen || isAppointmentModalOpen || isAuthModalOpen
   );
 
   // Escape closes the top-most overlay
@@ -103,28 +103,19 @@ const MainContent = () => {
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
       if (isAuthModalOpen) setIsAuthModalOpen(false);
-      else if (activeWeddingDressOption) setActiveWeddingDressOption(null);
       else if (selectedOrderDetails) setSelectedOrderDetails(null);
       else if (isAppointmentModalOpen) setIsAppointmentModalOpen(false);
-      else if (quickViewProduct) setQuickViewProduct(null);
-      else if (selectedProduct) setSelectedProduct(null);
       else if (isCartOpen) setIsCartOpen(false);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [
-    activeWeddingDressOption,
     selectedOrderDetails,
     isAppointmentModalOpen,
-    quickViewProduct,
-    selectedProduct,
     isCartOpen,
     isAuthModalOpen,
-    setActiveWeddingDressOption,
     setSelectedOrderDetails,
     setIsAppointmentModalOpen,
-    setQuickViewProduct,
-    setSelectedProduct,
     setIsCartOpen,
     setIsAuthModalOpen
   ]);
@@ -138,13 +129,20 @@ const MainContent = () => {
     };
   }, [anyOverlayOpen]);
 
-  // Scroll to top on route change (not when a product modal opens); show back-to-top button after scrolling
+  // Scroll to top on route change (or smoothly to hash target when present)
   useEffect(() => {
-    if (location.pathname.startsWith('/dresses/') && location.pathname !== '/dresses') {
-      return;
+    if (location.hash) {
+      const targetId = location.hash.slice(1);
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 120);
+      return () => clearTimeout(timer);
     }
     window.scrollTo({ top: 0 });
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     const onScroll = () => setShowBackToTop(window.scrollY > 700);
@@ -181,23 +179,29 @@ const MainContent = () => {
                 {/* 5. Editorial Split Banner ("Fall in Love" & "Forever After" - Lulus Reference) */}
                 <EditorialSplitBanner />
 
-                {/* Recently Viewed Strip */}
-                <RecentlyViewedStrip />
-
                 {/* 6. Dream Dress Banner Card */}
                 <DreamDressBanner />
               </div>
             )}
 
             {currentView === 'all-dresses' && <ProductGrid />}
+            {currentView === 'product-detail' && (
+              <ProductDetailPage key={selectedProduct?.id || location.pathname} />
+            )}
             {(currentView === 'new-dresses' || currentView === 'legacy-collection') && <LegacyCollectionPage />}
             {currentView === 'signature-styles' && <SignatureStylesPage />}
+            {currentView === 'romance' && <ShopRomancePage />}
             {currentView === 'quick-ship' && <QuickShipPage />}
             {(currentView === 'lookbook' || currentView === 'lookbooks') && <LookbookPage />}
             {(currentView === 'all-collections' || currentView === 'collections') && <AllCollectionsPage />}
             {(currentView === 'accessories' || currentView === 'wedding-accessories') && <AccessoriesPage />}
             {(currentView === 'belts-and-sashes' || currentView === 'sashes' || currentView === 'bridal-belts-sashes') && <BeltsAndSashesPage />}
             {(currentView === 'our-story' || currentView === 'about' || currentView === 'about-us') && <OurStoryPage />}
+            {currentView === 'size-chart' && <SizeChartPage />}
+            {currentView === 'style-feature' && <StyleFeaturePage />}
+            {currentView === 'accessory-category' && <AccessoryCategoryPage />}
+            {currentView === 'collection-detail' && <CollectionDetailPage />}
+            {currentView === 'real-brides' && <RealBridesPage />}
             {currentView === 'checkout' && <CheckoutPage />}
             {currentView === 'account' && <AccountPage />}
             {currentView === 'compare' && <CompareView />}
@@ -211,20 +215,6 @@ const MainContent = () => {
       <Footer />
 
       {/* Modals & Drawers */}
-      {selectedProduct && (
-        <ProductDetailModal
-          key={selectedProduct.id}
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
-      )}
-      {quickViewProduct && (
-        <ProductDetailModal
-          key={`qv-${quickViewProduct.id}`}
-          product={quickViewProduct}
-          onClose={() => setQuickViewProduct(null)}
-        />
-      )}
       {isAppointmentModalOpen && (
         <AppointmentModal onClose={() => setIsAppointmentModalOpen(false)} />
       )}
@@ -234,9 +224,6 @@ const MainContent = () => {
           onClose={() => setSelectedOrderDetails(null)}
         />
       )}
-
-      {/* Luxury Wedding Dress Feature & Silhouette Showcase */}
-      <WeddingDressFeatureModal />
 
       <AuthModal />
       <CartDrawer />
@@ -258,9 +245,11 @@ const MainContent = () => {
 
 export function App() {
   return (
-    <AppProvider>
-      <MainContent />
-    </AppProvider>
+    <MotionConfig reducedMotion="user">
+      <AppProvider>
+        <MainContent />
+      </AppProvider>
+    </MotionConfig>
   );
 }
 

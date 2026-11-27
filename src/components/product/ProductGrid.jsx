@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { useCatalog } from '../../services/catalogStore';
-import { ShopCollectionNav } from '../common/ShopCollectionNav';
+import { PageBackBar } from '../common/PageBackBar';
 import { Heart, X, Scale } from 'lucide-react';
 import { useCompare } from '../../hooks/useCompare';
 import { matchGownSearchStrict, getSilhouetteKey, SILHOUETTE_DEFINITIONS } from '../../utils/searchMatcher';
@@ -258,37 +258,22 @@ export const ProductGrid = () => {
 
   return (
     <div className="velora-collection-page animate-fade-in" id="velora-collection-top">
-      {/* 1. Breadcrumb */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={handleGoToAllDresses}
-          title="See All Dresses"
-        >
-          Collections
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">
-          {searchQuery.trim()
-            ? `Search: "${searchQuery}"`
-            : selectedCategory === 'accessories'
-            ? 'Bridal Accessories'
-            : selectedAccessory !== 'All Accessories'
-            ? `Accessories · ${selectedAccessory}`
-            : 'VELORA Bridal Collection'}
-        </span>
-      </nav>
+      <PageBackBar
+        fallbackPath="/"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'Wedding Dresses', to: '/dresses' },
+          {
+            label: searchQuery.trim()
+              ? `Search: "${searchQuery}"`
+              : selectedCategory === 'accessories'
+              ? 'Bridal Accessories'
+              : selectedAccessory !== 'All Accessories'
+              ? `Accessories · ${selectedAccessory}`
+              : 'All Dresses'
+          }
+        ]}
+      />
 
       {/* Hide the huge ALL DRESSES heading, description, and category/silhouette pills when in search mode */}
       {!searchQuery.trim() && (
@@ -308,9 +293,6 @@ export const ProductGrid = () => {
               ? 'Handcrafted veils, detachable royal trains, mock-neck lace jackets, sheer capes, and bespoke bridal accents designed to complete your wedding day look.'
               : 'Discover our complete bridal collection featuring hand-appliquéd lace, basque corsetry, dramatic drop waists, and ethereal silhouettes inspired by European haute couture.'}
           </p>
-
-          {/* 3. Shop Collection Quick Nav Tabs */}
-          <ShopCollectionNav activeTab={selectedCategory === 'accessories' ? 'accessories' : 'all-dresses'} />
 
           {/* Secondary Sub-Category / Silhouette Filter Pills */}
           {selectedCategory === 'accessories' || selectedAccessory !== 'All Accessories' ? (

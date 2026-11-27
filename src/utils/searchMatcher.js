@@ -110,6 +110,36 @@ export const ACCESSORY_DEFINITIONS = [
     check: (p, s) => p.category === 'accessories' && (s.includes('glove') || cleanText(p.name).includes('glove') || cleanText(p.accessoryType).includes('glove'))
   },
   {
+    id: 'bow',
+    patterns: ['bow', 'bows'],
+    check: (p, s) =>
+      p.category === 'accessories' &&
+      (/\bbows?\b/i.test(cleanText(p.name)) ||
+        /\bbows?\b/i.test(cleanText(p.subtitle)) ||
+        /\bbows?\b/i.test(s) ||
+        /\bbows?\b/i.test(cleanText(p.styleCategory)) ||
+        (p.tags || []).some((t) => /\bbows?\b/i.test(t)))
+  },
+  {
+    id: 'corset',
+    patterns: ['corset', 'corsets', 'bodice', 'bodices'],
+    check: (p, s) =>
+      p.category === 'accessories' &&
+      (s.includes('corset') ||
+        cleanText(p.name).includes('corset') ||
+        cleanText(p.accessoryType).includes('corset'))
+  },
+  {
+    id: 'sleeve',
+    patterns: ['sleeve', 'sleeves'],
+    check: (p, s) =>
+      p.category === 'accessories' &&
+      (/\bsleeves?\b/i.test(cleanText(p.name)) ||
+        /\bsleeves?\b/i.test(cleanText(p.accessoryType)) ||
+        /\bsleeves?\b/i.test(s) ||
+        (p.tags || []).some((t) => /\bsleeves?\b/i.test(t)))
+  },
+  {
     id: 'belt',
     patterns: ['belt', 'sash', 'belts', 'sashes', 'ribbon sash', 'bow belt'],
     check: (p, s) => p.category === 'accessories' && (s.includes('belt') || s.includes('sash') || cleanText(p.name).includes('belt') || cleanText(p.name).includes('sash'))

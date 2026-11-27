@@ -13,7 +13,7 @@ import {
 } from '../services/authService';
 import { VOUCHERS, INITIAL_USER } from '../data/vouchers';
 import { CURRENCIES, FREE_SHIPPING_THRESHOLD, TAX_RATE } from '../data/channels';
-import { routeFor, viewFor, accountTabFor, productFor } from '../routes/routeMap';
+import { routeFor, viewFor, accountTabFor, productFor, toProductSlug } from '../routes/routeMap';
 import {
   createOrder as apiCreateOrder,
   bookAppointment as apiBookAppointment,
@@ -218,6 +218,28 @@ export const AppProvider = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Track visited routes for reliable in-app Previous button navigation
+  const navStackRef = useRef([`${location.pathname}${location.search}`]);
+  useEffect(() => {
+    const full = `${location.pathname}${location.search}`;
+    const stack = navStackRef.current;
+    if (stack[stack.length - 1] !== full) {
+      stack.push(full);
+      if (stack.length > 30) stack.shift();
+    }
+  }, [location.pathname, location.search]);
+
+  const goBack = useCallback((fallbackPath = '/') => {
+    if (
+      navStackRef.current.length > 1 ||
+      (typeof window !== 'undefined' && (window.history.state?.idx ?? 0) > 0)
+    ) {
+      navigate(-1);
+    } else {
+      navigate(fallbackPath || '/');
+    }
+  }, [navigate]);
+
   // Navigation: derived from current location via viewFor
   const currentView = viewFor(location.pathname, location.search);
   const pathAccountTab = accountTabFor(location.pathname);
@@ -241,26 +263,25 @@ export const AppProvider = ({ children }) => {
   const [inStockOnly, setInStockOnly] = useState(false);
   const [minRating, setMinRating] = useState(0);
 
-  // Product modals
+  // Product detail page resolution
   const routeProduct = productFor(location.pathname);
+  const stateProduct = currentView === 'product-detail' ? (location.state?.product || null) : null;
   const [internalSelectedProduct, setInternalSelectedProduct] = useState(null);
-  const selectedProduct = routeProduct || internalSelectedProduct;
+  const selectedProduct = routeProduct || stateProduct || (currentView === 'product-detail' ? internalSelectedProduct : null);
 
   const setSelectedProduct = useCallback((product) => {
     if (product) {
       setInternalSelectedProduct(product);
-      navigate(routeFor('product', { product }), { state: { fromInternal: true } });
+      const slug = toProductSlug(product);
+      const target = slug ? `/dresses/${slug}` : '/dresses';
+      navigate(target, { state: { fromInternal: true, product } });
     } else {
       setInternalSelectedProduct(null);
       if (location.pathname.startsWith('/dresses/') && location.pathname !== '/dresses') {
-        if (location.state?.fromInternal || (typeof window !== 'undefined' && window.history.state?.idx > 0)) {
-          navigate(-1);
-        } else {
-          navigate('/dresses');
-        }
+        goBack('/dresses');
       }
     }
-  }, [location.pathname, location.state, navigate]);
+  }, [location.pathname, navigate, goBack]);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -296,11 +317,12 @@ export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const saved = loadJSON('aura_user', null);
     if (!saved) return INITIAL_USER;
+    const cleanEmail = saved.email === 'eleanor.vance@example.com' ? '' : (saved.email || '');
     return {
       ...INITIAL_USER,
       ...saved,
       name: saved.name || INITIAL_USER.name || 'VIP Bride',
-      email: saved.email || INITIAL_USER.email || '',
+      email: cleanEmail,
       phone: saved.phone || INITIAL_USER.phone || '+1 (555) 000-0000',
       role: saved.role || INITIAL_USER.role || 'customer',
       membershipTier: saved.membershipTier || INITIAL_USER.membershipTier || 'VELORA VIP Club',
@@ -313,6 +335,7 @@ export const AppProvider = ({ children }) => {
 
   // Authentication State
   const [isLoggedIn, setIsLoggedIn] = useState(() => loadJSON('velora_logged_in', false));
+  const [tier, setTier] = useState(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(() => {
     if (typeof window !== 'undefined') {
       const logged = loadJSON('velora_logged_in', false);
@@ -678,6 +701,21 @@ export const AppProvider = ({ children }) => {
     } catch (err) {
       console.warn('[VELORA Auth] Wishlist sync error:', err);
     }
+
+    // Hydrate member tier in memory from Supabase (never localStorage)
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { data: tierData, error: tierError } = await supabase.rpc('get_my_tier');
+        if (!tierError && tierData) {
+          setTier(tierData);
+        } else {
+          setTier(null);
+        }
+      } catch (err) {
+        console.warn('[VELORA Auth] Tier fetch error:', err);
+        setTier(null);
+      }
+    }
   }, []);
 
   // Listen to Supabase Auth State changes & restore session on page load
@@ -708,6 +746,7 @@ export const AppProvider = ({ children }) => {
         }
       } else if (event === 'SIGNED_OUT') {
         setIsLoggedIn(false);
+        setTier(null);
         setUser(INITIAL_USER);
         setWishlist([]);
         setCartItems([]);
@@ -791,6 +830,7 @@ export const AppProvider = ({ children }) => {
     await signOutUser();
     setUser(INITIAL_USER);
     setIsLoggedIn(false);
+    setTier(null);
     setWishlist([]);
     setCartItems([]);
     setAppliedVoucher(null);
@@ -835,92 +875,8 @@ export const AppProvider = ({ children }) => {
   // Orders
   const placeOrder = async (orderData) => {
     if (isSupabaseConfigured && supabase) {
-      const itemsPayload = cartItems.map(i => ({
-        variant_id: i.variant?.id || `${i.productId}-default`,
-        quantity: i.quantity
-      }));
-
-      const shippingPayload = {
-        firstName: orderData.shippingAddress?.firstName || '',
-        lastName: orderData.shippingAddress?.lastName || '',
-        street: orderData.shippingAddress?.street || '',
-        city: orderData.shippingAddress?.city || '',
-        state: orderData.shippingAddress?.state || '',
-        zip: orderData.shippingAddress?.zip || '',
-        country: orderData.shippingAddress?.country || 'United States',
-        phone: orderData.shippingAddress?.phone || '',
-        email: orderData.shippingAddress?.email || user?.email || ''
-      };
-
-      const shippingMethodCode = shippingMethod?.id || 'std';
-      const voucherCode = appliedVoucher?.code || null;
-      const paymentMethod = 'Cash on Delivery';
-
-      const { data, error } = await supabase.rpc('place_order', {
-        items: itemsPayload,
-        shipping: shippingPayload,
-        shipping_method: shippingMethodCode,
-        voucher_code: voucherCode,
-        payment_method: paymentMethod
-      });
-
-      if (error) {
-        showToast(error.message || 'Failed to place order', 'error');
-        return null;
-      }
-
-      const clientPreviewTotal = getCartTotal();
-      const serverTotal = Number(data.total);
-      if (Math.abs(clientPreviewTotal - serverTotal) > 0.01) {
-        showToast(`Order total adjusted to server total: $${serverTotal.toFixed(2)}`, 'info');
-      }
-
-      const newOrder = {
-        id: data.order_id,
-        orderNumber: data.order_number,
-        date: new Date().toISOString().split('T')[0],
-        status: data.status || 'Processing',
-        paymentStatus: data.payment_status || 'pending_cod',
-        trackingNumber: `TRK-${Math.floor(100000 + Math.random() * 900000)}-US`,
-        carrier: shippingMethod.id === 'prio' ? 'UPS Next Day Air' : 'FedEx Express',
-        estimatedDelivery: new Date(Date.now() + 3 * 86400000).toLocaleDateString('en-US', {
-          month: 'short', day: 'numeric', year: 'numeric'
-        }),
-        items: cartItems.map(i => ({
-          id: i.productId,
-          variantId: i.variant?.id || `${i.productId}-default`,
-          name: i.product.name,
-          variantName: i.variant?.name || 'Standard Atelier Sizing',
-          price: i.variant?.price || i.product.price || 0,
-          quantity: i.quantity,
-          image: i.product.images?.[0] || i.product.image || ''
-        })),
-        subtotal: Number(data.subtotal),
-        discount: Number(data.discount),
-        voucherCode: voucherCode,
-        shipping: Number(data.shipping),
-        tax: Number(data.tax),
-        giftCardCredit: 0,
-        giftCardCode: null,
-        total: serverTotal,
-        currency: 'USD',
-        shippingAddress: orderData.shippingAddress,
-        paymentMethod: 'Cash on Delivery (COD)'
-      };
-
-      setUser(prev => ({
-        ...prev,
-        orders: [newOrder, ...(prev?.orders || [])]
-      }));
-
-      clearCart();
-      setSelectedOrderDetails(newOrder);
-      setCurrentView('account');
-      setAccountTab('orders');
-      // Sync to Express Backend asynchronously
-      apiCreateOrder(newOrder).catch(err => console.warn('Backend sync error (order):', err.message));
-      showToast(`Order placed successfully! Order #${data.order_number}`);
-      return newOrder;
+      showToast('Online card payment is coming soon. Your order cannot be placed yet.', 'warning');
+      return null;
     }
 
     // Fallback: Local offline mock order flow
@@ -979,7 +935,7 @@ export const AppProvider = ({ children }) => {
         catalog, isProductsLoading, productsError, isSupabaseConfigured, reloadProducts: loadProducts,
         isDark, toggleTheme,
         currency, currencyCode, setCurrencyCode, formatPrice,
-        currentView, setCurrentView, accountTab, setAccountTab,
+        currentView, setCurrentView, accountTab, setAccountTab, goBack,
         selectedCategory, setSelectedCategory, searchQuery, setSearchQuery,
         priceRange, setPriceRange, sortBy, setSortBy,
         inStockOnly, setInStockOnly, minRating, setMinRating,
@@ -994,7 +950,7 @@ export const AppProvider = ({ children }) => {
         shippingMethod, setShippingMethod,
         user, addAddress, updateAddress, deleteAddress, setDefaultAddress,
         addAppointment, cancelAppointment,
-        isLoggedIn, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setAuthTarget,
+        isLoggedIn, tier, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setAuthTarget,
         isAuthAvailable, loginUser, registerUser, logoutUser,
         customReviews, addProductReview,
         getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,

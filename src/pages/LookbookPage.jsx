@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { MONIQUE_LOOKBOOK_SPRING_2025 } from '../data/moniqueSpring2025Data';
 import {
@@ -12,13 +13,12 @@ import {
   Share2,
   Check
 } from 'lucide-react';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { PageBackBar } from '../components/common/PageBackBar';
 import '../styles/monique-lookbook.css';
 import '../styles/luxe-bridal.css';
 
 export const LookbookPage = () => {
   const {
-    setCurrentView,
     setIsAppointmentModalOpen,
     showToast
   } = useApp();
@@ -122,36 +122,15 @@ export const LookbookPage = () => {
 
   return (
     <div className="monique-lookbook-root animate-fade-in" id="monique-lookbook-top">
-      {/* 1. Breadcrumbs Navigation */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb" style={{ maxWidth: '1440px', margin: '0 auto', padding: '16px 24px' }}>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('all-dresses');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Collections
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">Lookbook | Bridal: Spring 2025</span>
-      </nav>
-
-      {/* Universal Collection Navigation Tabs */}
-      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '0 24px' }}>
-        <ShopCollectionNav activeTab="lookbook" style={{ margin: '0 auto 20px auto' }} />
+      <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '16px 24px 0' }}>
+        <PageBackBar
+          fallbackPath="/collections"
+          trail={[
+            { label: 'Home', to: '/' },
+            { label: 'Collections', to: '/collections' },
+            { label: 'Lookbook | Bridal: Spring 2025' }
+          ]}
+        />
       </div>
 
       {/* ====================================================================
@@ -415,18 +394,15 @@ export const LookbookPage = () => {
                   <span>BOOK PRIVATE ATELIER APPOINTMENT</span>
                 </button>
 
-                <button
-                  type="button"
+                <Link
+                  to="/dresses"
                   className="ml-modal-btn-secondary"
-                  onClick={() => {
-                    setActiveModalLook(null);
-                    setCurrentView('all-dresses');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                  }}
+                  style={{ textDecoration: 'none' }}
+                  onClick={() => setActiveModalLook(null)}
                 >
                   <span>BROWSE SIMILAR SILHOUETTES</span>
                   <ArrowRight size={14} />
-                </button>
+                </Link>
 
                 <button
                   type="button"

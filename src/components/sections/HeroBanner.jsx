@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { Calendar } from 'lucide-react';
 
 export const HeroBanner = () => {
-  const { setSelectedCategory, setCurrentView, setIsAppointmentModalOpen, setPriceRange, setSearchQuery } = useApp();
+  const { setSelectedCategory, setIsAppointmentModalOpen, setPriceRange, setSearchQuery } = useApp();
   const popoutHeadRef = useRef(null);
 
   useEffect(() => {
@@ -81,8 +82,6 @@ export const HeroBanner = () => {
     setSelectedCategory('all');
     if (setPriceRange) setPriceRange([0, 10000]);
     if (setSearchQuery) setSearchQuery('');
-    setCurrentView('new-dresses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBookAppointment = () => {
@@ -104,12 +103,14 @@ export const HeroBanner = () => {
           </p>
 
           <div className="luxe-hero-actions">
-            <button
+            <Link
+              to="/new-dresses"
               onClick={handleShopCollection}
               className="luxe-btn-solid"
+              style={{ textDecoration: 'none' }}
             >
               SHOP COLLECTION
-            </button>
+            </Link>
             <button
               onClick={handleBookAppointment}
               className="luxe-btn-outline"

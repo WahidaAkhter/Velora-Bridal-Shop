@@ -17,6 +17,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",
     "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.14.0",
     "lucide-react": "^1.51.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

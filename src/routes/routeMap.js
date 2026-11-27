@@ -4,6 +4,12 @@
  */
 
 import { findProductBySlug, toProductSlug } from '../utils/productSlug.js';
+import {
+  findStyleRouteBySlug,
+  findAccessoryRouteBySlug,
+  findCollectionSlug,
+  findRealBrideFeature
+} from '../data/routeCatalog.js';
 
 export { findProductBySlug, toProductSlug };
 
@@ -11,8 +17,9 @@ export const VIEW_TO_PATH = {
   catalog: '/',
   'all-dresses': '/dresses',
   'new-dresses': '/new-dresses',
-  'legacy-collection': '/new-dresses',
+  'legacy-collection': '/legacy-collection',
   'signature-styles': '/signature-styles',
+  romance: '/romance',
   'quick-ship': '/quick-ship',
   lookbook: '/lookbook',
   lookbooks: '/lookbook',
@@ -26,6 +33,8 @@ export const VIEW_TO_PATH = {
   'our-story': '/our-story',
   about: '/our-story',
   'about-us': '/our-story',
+  'size-chart': '/size-chart',
+  'real-brides': '/real-brides',
   checkout: '/checkout',
   account: '/account/overview',
   compare: '/compare',
@@ -38,8 +47,9 @@ export const PATH_TO_VIEW = {
   '/dresses': 'all-dresses',
   '/all-dresses': 'all-dresses',
   '/new-dresses': 'new-dresses',
-  '/legacy-collection': 'new-dresses',
+  '/legacy-collection': 'legacy-collection',
   '/signature-styles': 'signature-styles',
+  '/romance': 'romance',
   '/quick-ship': 'quick-ship',
   '/lookbook': 'lookbook',
   '/lookbooks': 'lookbook',
@@ -53,6 +63,8 @@ export const PATH_TO_VIEW = {
   '/our-story': 'our-story',
   '/about': 'our-story',
   '/about-us': 'our-story',
+  '/size-chart': 'size-chart',
+  '/real-brides': 'real-brides',
   '/checkout': 'checkout',
   '/account': 'account',
   '/account/overview': 'account',
@@ -84,6 +96,22 @@ export const routeFor = (view, options = {}) => {
 
   if ((view === 'product' || view === 'dresses') && options.product) {
     return `/dresses/${toProductSlug(options.product)}`;
+  }
+
+  if (view === 'style-feature' && options.styleSlug) {
+    return `/styles/${options.styleSlug}`;
+  }
+
+  if (view === 'accessory-category' && options.accessorySlug) {
+    return `/accessories/${options.accessorySlug}`;
+  }
+
+  if (view === 'collection-detail' && options.collectionSlug) {
+    return `/collections/${options.collectionSlug}`;
+  }
+
+  if (view === 'real-brides' && options.realBrideSlug) {
+    return `/real-brides/${options.realBrideSlug}`;
   }
 
   if (view === 'account') {
@@ -143,16 +171,84 @@ export const viewFor = (pathname, search = '') => {
     }
   }
 
+  // Style / Silhouette / Neckline / Fabric sub-routes: /styles/:slug
+  if (cleanPath.startsWith('/styles/')) {
+    const slug = cleanPath.slice('/styles/'.length);
+    if (slug && findStyleRouteBySlug(slug)) {
+      return 'style-feature';
+    }
+    return 'not-found';
+  }
+
+  // Accessory category sub-routes: /accessories/:slug
+  if (cleanPath.startsWith('/accessories/')) {
+    const slug = cleanPath.slice('/accessories/'.length);
+    if (slug && findAccessoryRouteBySlug(slug)) {
+      return 'accessory-category';
+    }
+    return 'not-found';
+  }
+
+  // Seasonal collection capsule sub-routes: /collections/:slug
+  if (cleanPath.startsWith('/collections/')) {
+    const slug = cleanPath.slice('/collections/'.length);
+    if (slug && findCollectionSlug(slug)) {
+      return 'collection-detail';
+    }
+    return 'not-found';
+  }
+
+  // Real brides sub-routes: /real-brides/:slug
+  if (cleanPath.startsWith('/real-brides/')) {
+    const slug = cleanPath.slice('/real-brides/'.length);
+    if (slug && findRealBrideFeature(slug)) {
+      return 'real-brides';
+    }
+    return 'not-found';
+  }
+
   // Product details sub-routes: /dresses/:slug
   if (cleanPath.startsWith('/dresses/')) {
     const slug = cleanPath.slice('/dresses/'.length);
     if (slug) {
       const matched = findProductBySlug(slug);
-      return matched ? 'all-dresses' : 'not-found';
+      return matched ? 'product-detail' : 'not-found';
     }
   }
 
   return 'not-found';
+};
+
+export const styleRouteFor = (pathname) => {
+  const cleanPath = normalizePath(pathname);
+  if (cleanPath.startsWith('/styles/')) {
+    return findStyleRouteBySlug(cleanPath.slice('/styles/'.length));
+  }
+  return null;
+};
+
+export const accessoryRouteFor = (pathname) => {
+  const cleanPath = normalizePath(pathname);
+  if (cleanPath.startsWith('/accessories/')) {
+    return findAccessoryRouteBySlug(cleanPath.slice('/accessories/'.length));
+  }
+  return null;
+};
+
+export const collectionRouteFor = (pathname) => {
+  const cleanPath = normalizePath(pathname);
+  if (cleanPath.startsWith('/collections/')) {
+    return findCollectionSlug(cleanPath.slice('/collections/'.length));
+  }
+  return null;
+};
+
+export const realBrideSlugFor = (pathname) => {
+  const cleanPath = normalizePath(pathname);
+  if (cleanPath.startsWith('/real-brides/')) {
+    return cleanPath.slice('/real-brides/'.length) || null;
+  }
+  return null;
 };
 
 /**

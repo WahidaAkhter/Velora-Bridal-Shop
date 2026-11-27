@@ -62,8 +62,8 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Chapel Veil',
     tags: ['Accessories', 'Veils', 'Pearl', 'Modern'],
     images: [
-      'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/V061C-01.jpg?v=1778617507',
-      'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/V043C-01.jpg?v=1778617507'
+      '/images/bridal/accessory-pearl-veil.jpg',
+      'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/V098C-A1472-02.jpg?v=1778617507'
     ],
     description: 'A whisper-light chapel veil showered in hand-pinned luminous pearls that diminish gently towards the crown. Creates a floating constellation effect around the bride.',
     colors: ['Ivory'],
@@ -207,8 +207,7 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Bridal Cape',
     tags: ['Accessories', 'Capes', 'Tulle', 'Boho'],
     images: [
-      '/images/bridal/style-boho-beach.jpg',
-      '/images/bridal/hero-salon-bg.jpg'
+      '/images/bridal/accessory-watteau-cape.jpg'
     ],
     description: 'The modern bride’s breathtaking veil alternative. Fastens discreetly onto dress shoulder straps and cascades down 90 inches into soft, wind-blown ripples behind your steps.',
     colors: ['Ivory', 'Champagne'],
@@ -243,8 +242,7 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Bridal Scarf',
     tags: ['Accessories', 'Scarves', 'Crepe', 'Modern', 'Minimalist'],
     images: [
-      '/images/bridal/style-modern-crepe.jpg',
-      '/images/bridal/style-high-neck.jpg'
+      '/images/bridal/accessory-silk-scarf.jpg'
     ],
     description: 'Minimal and ultra-refined, this fluid silk crepe scarf wraps softly around the collar and flows behind the shoulders for high-fashion runway sophistication.',
     colors: ['Ivory', 'Soft White'],
@@ -279,8 +277,7 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Opera Gloves',
     tags: ['Accessories', 'Gloves', 'Lace', 'Vintage'],
     images: [
-      '/images/bridal/style-basque-waist.jpg',
-      '/images/bridal/featured-lace-dream.jpg'
+      '/images/bridal/accessory-opera-gloves.jpg'
     ],
     description: 'Evoke old-world glamour. Crafted from sheer stretch lace that clings effortlessly to the forearms, reaching past the elbow with intricate floral scalloping.',
     colors: ['Ivory'],
@@ -316,8 +313,7 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Bridal Belt',
     tags: ['Accessories', 'Belts', 'Crystal', 'Pearl'],
     images: [
-      '/images/bridal/style-sparkle-beaded.jpg',
-      '/images/bridal/style-off-shoulder.jpg'
+      '/images/bridal/accessory-crystal-pearl-belt.jpg'
     ],
     description: 'Accentuate your waistline with dazzling radiance. Hand-wired with luminous crystals and tiny seed pearls, mounted onto silk satin ribbons that tie in an effortless bow at the spine.',
     colors: ['Ivory Satin', 'Champagne Satin'],
@@ -352,8 +348,7 @@ export const ACCESSORY_PIECES = [
     silhouette: 'Neck Collar',
     tags: ['Accessories', 'Neck Collars', 'Pearl', 'Lace', 'High Neck'],
     images: [
-      '/images/bridal/style-high-neck.jpg',
-      '/images/bridal/style-basque-waist.jpg'
+      '/images/bridal/accessory-pearl-collar.jpg'
     ],
     description: 'A regal couture focal point. This high choker collar frames the jawline in hand-beaded guipure lace, with shimmering baroque pearl droplets that sway with your every smile.',
     colors: ['Ivory & Pearl'],
@@ -364,6 +359,74 @@ export const ACCESSORY_PIECES = [
       'Accessory Type': 'Neck Collar',
       'Closure': 'Adjustable Sterling Silver Extender',
       'Embellishment': 'Natural Freshwater Pearls & Glass Beads'
+    }
+  },
+
+  // 9. CORSETS & DETACHABLE SLEEVES
+  {
+    id: 'acc-corset-boned',
+    name: 'Sovereign 14-Bone Sheer Bridal Corset Bodice',
+    code: 'CR-06',
+    slug: 'sovereign-14-bone-sheer-bridal-corset-bodice',
+    subtitle: 'Exposed spiraled-steel couture boning in French Chantilly lace',
+    category: 'accessories',
+    accessoryType: 'Corsets',
+    price: 580,
+    originalPrice: 680,
+    rating: 5.0,
+    reviewCount: 24,
+    badge: 'Sculpted Separate',
+    isNew: true,
+    isBestseller: true,
+    stock: 5,
+    silhouette: 'Bridal Corset',
+    tags: ['Accessories', 'Corsets', 'Bodice', 'Lace', 'Boning'],
+    images: [
+      '/images/bridal/accessory-bridal-corset.jpg'
+    ],
+    description: 'A tailored bridal corset separate engineered with 14 flexible couture bones and scalloped Chantilly lace panels. Pair with silk crepe column skirts or voluminous tulle overskirts for a two-piece atelier silhouette.',
+    colors: ['Ivory'],
+    variants: [
+      { id: 'v-cr-s', name: 'US 4-6 / Ivory', color: 'Ivory', size: 'US 4-6', price: 580, stock: 2 },
+      { id: 'v-cr-m', name: 'US 8-10 / Ivory', color: 'Ivory', size: 'US 8-10', price: 580, stock: 3 }
+    ],
+    attributes: {
+      'Accessory Type': 'Corset Separate',
+      'Structure': '14-Piece Internal Couture Boning',
+      'Fabrication': 'French Chantilly Lace & Illusion Mesh'
+    }
+  },
+  {
+    id: 'acc-sleeves-pearl',
+    name: 'Celeste Detachable Pearl-Beaded Tulle Sleeves',
+    code: 'SL-07',
+    slug: 'celeste-detachable-pearl-beaded-tulle-sleeves',
+    subtitle: 'Sheer fitted arm sleeves hand-encrusted with luminous micro-pearls',
+    category: 'accessories',
+    accessoryType: 'Sleeves',
+    price: 340,
+    originalPrice: 410,
+    rating: 4.9,
+    reviewCount: 21,
+    badge: 'Convertible Sleeves',
+    isNew: true,
+    isBestseller: true,
+    stock: 6,
+    silhouette: 'Detachable Sleeves',
+    tags: ['Accessories', 'Sleeves', 'Pearl', 'Detachable', 'Tulle'],
+    images: [
+      '/images/bridal/accessory-detachable-sleeves.jpg'
+    ],
+    description: 'Slip effortlessly from strapless minimalist poise into opulent ceremony radiance. These featherlight sheer illusion sleeves are hand-scattered with iridescent glass pearls and attach invisibly at the inner armhole.',
+    colors: ['Ivory'],
+    variants: [
+      { id: 'v-sl-s', name: 'Size S/M / Ivory', color: 'Ivory', size: 'S/M', price: 340, stock: 3 },
+      { id: 'v-sl-m', name: 'Size M/L / Ivory', color: 'Ivory', size: 'M/L', price: 340, stock: 3 }
+    ],
+    attributes: {
+      'Accessory Type': 'Detachable Sleeves',
+      'Embellishment': 'Hand-Sewn Luminous Micro-Pearls',
+      'Fabrication': 'Stretch French Illusion Tulle'
     }
   }
 ];
@@ -400,7 +463,7 @@ export const ACCESSORIES_NAV_DATA = {
     title: 'Bridal Capes & Watteau Wings',
     badge: 'Modern Runway',
     tagline: 'Airy shoulder-attached tulle trails for the contemporary bohemian bride',
-    heroImage: '/images/bridal/style-boho-beach.jpg',
+    heroImage: '/images/bridal/accessory-watteau-cape.jpg',
     thought: 'A dramatic alternative to hairpins and combs. Bridal capes drape from the shoulders, framing the spine and accentuating low-back dresses without obscuring bridal up-dos.',
     stylistNote: 'Ideal for windy outdoor terraces, garden ceremonies, and beach vows.',
     type: 'Capes'
@@ -409,7 +472,7 @@ export const ACCESSORIES_NAV_DATA = {
     title: 'Bridal Scarves & Neck Wraps',
     badge: 'Parisian Chic',
     tagline: 'Minimalist fluid silk crepe scarves that float behind the collar',
-    heroImage: '/images/bridal/style-modern-crepe.jpg',
+    heroImage: '/images/bridal/accessory-silk-scarf.jpg',
     thought: 'The darling of modern editorial couture. Soft matte crepe and sheer silk organza neck wraps lend effortless fashion-forward allure to clean, structured column gowns.',
     stylistNote: 'Wear loosely draped around the collarbones with floating tails down the spine.',
     type: 'Scarves'
@@ -418,7 +481,7 @@ export const ACCESSORIES_NAV_DATA = {
     title: 'Bridal Opera Gloves',
     badge: 'Timeless Romance',
     tagline: 'Elbow-length Chantilly lace and sheer stretch tulle for vintage opulence',
-    heroImage: '/images/bridal/style-basque-waist.jpg',
+    heroImage: '/images/bridal/accessory-opera-gloves.jpg',
     thought: 'Opera gloves impart instant regal sophistication. Cut from delicate stretch lace that molds naturally to the hand and arm, adding texture and romance to strapless silhouettes.',
     stylistNote: 'Keep jewelry focused on earrings and a hairpiece when wearing statement opera gloves.',
     type: 'Gloves'
@@ -427,7 +490,7 @@ export const ACCESSORIES_NAV_DATA = {
     title: 'Bridal Belts, Sashes & Bows',
     badge: 'Silhouette Cinch',
     tagline: 'Crystal-embellished waistbands and dramatic silk bows',
-    heroImage: '/images/bridal/style-sparkle-beaded.jpg',
+    heroImage: '/images/bridal/accessory-crystal-pearl-belt.jpg',
     thought: 'The crowning touch to define your waist. Delicate crystals, seed pearls, and duchess satin ribbons introduce shimmer and tailored contouring to minimalist and ballgown dresses.',
     stylistNote: 'Ties into a clean, elongated bow at the back waist with streamers flowing down the train.',
     type: 'Belts'
@@ -436,9 +499,36 @@ export const ACCESSORIES_NAV_DATA = {
     title: 'High Neck & Choker Collars',
     badge: 'Architectural Regal',
     tagline: 'Victorian-inspired lace chokers and baroque pearl necklaces',
-    heroImage: '/images/bridal/style-high-neck.jpg',
+    heroImage: '/images/bridal/accessory-pearl-collar.jpg',
     thought: 'Architectural neckline extensions for dramatic portraits. These handcrafted collars elevate sweetheart necklines into majestic queen-like collars with pearlescent finishes.',
     stylistNote: 'Style with swept-up chignons and sleek drop earrings.',
     type: 'Neck Collars'
+  },
+  'BOWS': {
+    title: 'Sculptural Bridal Bows',
+    badge: 'Couture Statement',
+    tagline: 'Architectural Mikado satin bows with cascading waist streamers',
+    heroImage: '/images/bridal/accessory-mikado-bow.jpg',
+    thought: 'Nothing defines timeless back drama like an architectural silk Mikado bow tailored crisply at the lower waist.',
+    stylistNote: 'Snap effortlessly over clean matte crepe or duchess satin gowns for an iconic aisle exit.',
+    type: 'Bows'
+  },
+  'SLEEVES': {
+    title: 'Detachable Bridal Sleeves',
+    badge: 'Two Looks In One',
+    tagline: 'Pearl-encrusted illusion sleeves for effortless ceremony-to-reception conversion',
+    heroImage: '/images/bridal/accessory-detachable-sleeves.jpg',
+    thought: 'Enjoy luminous arm coverage for ceremony vows and unclip in seconds to dance freely at your reception.',
+    stylistNote: 'Pair with strapless corseted silhouettes so the delicate pearlescent tulle shines.',
+    type: 'Sleeves'
+  },
+  'CORSETS': {
+    title: 'Bridal Corset Separates',
+    badge: 'Atelier Structure',
+    tagline: '14-piece exposed boning bodices for architectural waist contouring',
+    heroImage: '/images/bridal/accessory-bridal-corset.jpg',
+    thought: 'Mix and match sculpted Chantilly lace corset tops with clean silk column skirts or sweeping tulle overskirts.',
+    stylistNote: 'Tuck seamlessly into high-waisted bridal trousers or sleek satin skirts.',
+    type: 'Corsets'
   }
 };

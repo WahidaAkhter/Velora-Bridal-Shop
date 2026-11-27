@@ -43,8 +43,8 @@ export const CompleteTheLook = ({ product, selectedVariant = null }) => {
   };
 
   const gownImg = product.images?.[0] || product.image || '/images/bridal/hero-bride-clean.jpg';
-  const veilImg = veil?.images?.[0] || veil?.image || '/images/bridal/featured-lace-dream.jpg';
-  const beltImg = belt?.images?.[0] || belt?.image || '/images/bridal/style-sparkle-beaded.jpg';
+  const veilImg = veil?.images?.[0] || veil?.image || '/images/bridal/accessory-pearl-veil.jpg';
+  const beltImg = belt?.images?.[0] || belt?.image || '/images/bridal/accessory-crystal-pearl-belt.jpg';
 
   return (
     <section className="velora-complete-look-box" aria-label="Complete the Look">

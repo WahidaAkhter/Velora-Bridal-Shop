@@ -1,6 +1,15 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { ROUTE_SEO, ACCOUNT_TAB_SEO } from '../../data/seoConfig';
+import {
+  styleRouteFor,
+  accessoryRouteFor,
+  collectionRouteFor,
+  realBrideSlugFor
+} from '../../routes/routeMap';
+import { findRealBrideFeature } from '../../data/routeCatalog';
+import { SEASONAL_COLLECTIONS_DATA } from '../../data/allCollectionsData';
 
 const setMeta = (attr, key, content) => {
   let el = document.head.querySelector(`meta[${attr}="${key}"]`);
@@ -23,6 +32,7 @@ const setCanonical = (href) => {
 };
 
 export const SeoHead = () => {
+  const location = useLocation();
   const { currentView, accountTab, selectedCategory, selectedProduct, currency } = useApp();
 
   useEffect(() => {
@@ -38,6 +48,24 @@ export const SeoHead = () => {
       const seo = ACCOUNT_TAB_SEO[accountTab] || ACCOUNT_TAB_SEO.overview;
       title = seo.title;
       description = seo.description;
+    } else if (currentView === 'style-feature') {
+      const sr = styleRouteFor(location.pathname);
+      title = sr ? `${sr.label} Wedding Dresses | VELORA Atelier` : ROUTE_SEO['style-feature'].title;
+      description = sr ? `Explore ${sr.label} luxury bridal gowns handcrafted at the VELORA atelier.` : ROUTE_SEO['style-feature'].description;
+    } else if (currentView === 'accessory-category') {
+      const ar = accessoryRouteFor(location.pathname);
+      title = ar ? `${ar.title} | VELORA Atelier` : ROUTE_SEO['accessory-category'].title;
+      description = ar ? ar.description : ROUTE_SEO['accessory-category'].description;
+    } else if (currentView === 'collection-detail') {
+      const cs = collectionRouteFor(location.pathname);
+      const col = SEASONAL_COLLECTIONS_DATA.find(c => c.id === cs);
+      title = col ? `${col.name} | VELORA Atelier` : ROUTE_SEO['collection-detail'].title;
+      description = col ? col.description : ROUTE_SEO['collection-detail'].description;
+    } else if (currentView === 'real-brides') {
+      const rbSlug = realBrideSlugFor(location.pathname);
+      const feat = rbSlug ? findRealBrideFeature(rbSlug) : null;
+      title = feat ? `${feat.title} — Real Brides | VELORA Atelier` : ROUTE_SEO['real-brides'].title;
+      description = feat ? feat.quote : ROUTE_SEO['real-brides'].description;
     } else if (ROUTE_SEO[currentView]) {
       const seo = ROUTE_SEO[currentView];
       title = seo.title;

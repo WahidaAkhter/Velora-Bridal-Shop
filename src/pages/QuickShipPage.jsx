@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { QUICK_SHIP_GOWNS, QUICK_SHIP_HERO_INFO } from '../data/quickShipData';
 import { getQuickShipData } from '../services/api';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { PageBackBar } from '../components/common/PageBackBar';
 import { OrderByBadge } from '../components/extras/OrderByBadge';
 import {
   Heart,
-  ArrowLeft,
   Truck,
   ShieldCheck,
   Clock,
@@ -17,7 +16,6 @@ import {
 
 export const QuickShipPage = () => {
   const {
-    setCurrentView,
     setSelectedProduct,
     wishlist,
     toggleWishlist,
@@ -163,23 +161,15 @@ export const QuickShipPage = () => {
 
   return (
     <div className="quick-ship-page-wrapper">
-      {/* 1. Top Breadcrumb Navigation */}
-      <div className="quick-ship-breadcrumb-container">
-        <div className="quick-ship-breadcrumb-content">
-          <button
-            type="button"
-            className="quick-ship-breadcrumb-back"
-            onClick={() => setCurrentView('catalog')}
-          >
-            <ArrowLeft size={14} /> Back to Store
-          </button>
-          <span className="breadcrumb-divider">/</span>
-          <span className="breadcrumb-muted">WEDDING DRESSES</span>
-          <span className="breadcrumb-divider">/</span>
-          <span className="breadcrumb-muted">BY TYPE</span>
-          <span className="breadcrumb-divider">/</span>
-          <span className="breadcrumb-active">QUICK SHIP FASTER DELIVERY</span>
-        </div>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '16px 24px 0' }}>
+        <PageBackBar
+          fallbackPath="/dresses"
+          trail={[
+            { label: 'Home', to: '/' },
+            { label: 'Wedding Dresses', to: '/dresses' },
+            { label: 'Quick Ship' }
+          ]}
+        />
       </div>
 
       {/* 2. Editorial Header */}
@@ -199,9 +189,6 @@ export const QuickShipPage = () => {
           </p>
         </div>
       </header>
-
-      {/* Shop Collection Navigation Tabs */}
-      <ShopCollectionNav activeTab="quick-ship" style={{ marginTop: '24px' }} />
 
       {/* Dynamic Order-By Deadline Banner for Quick Ship */}
       <div className="quick-ship-order-banner-container">

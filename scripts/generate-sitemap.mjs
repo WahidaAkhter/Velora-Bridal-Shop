@@ -13,13 +13,17 @@ const STATIC_ROUTES = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/dresses', priority: '0.9', changefreq: 'daily' },
   { path: '/new-dresses', priority: '0.8', changefreq: 'weekly' },
+  { path: '/legacy-collection', priority: '0.8', changefreq: 'weekly' },
   { path: '/signature-styles', priority: '0.8', changefreq: 'weekly' },
+  { path: '/romance', priority: '0.85', changefreq: 'weekly' },
   { path: '/quick-ship', priority: '0.8', changefreq: 'weekly' },
   { path: '/lookbook', priority: '0.7', changefreq: 'weekly' },
   { path: '/collections', priority: '0.8', changefreq: 'weekly' },
   { path: '/accessories', priority: '0.8', changefreq: 'weekly' },
   { path: '/belts-and-sashes', priority: '0.7', changefreq: 'weekly' },
   { path: '/our-story', priority: '0.6', changefreq: 'monthly' },
+  { path: '/size-chart', priority: '0.7', changefreq: 'monthly' },
+  { path: '/real-brides', priority: '0.7', changefreq: 'weekly' },
   { path: '/compare', priority: '0.5', changefreq: 'monthly' }
 ];
 

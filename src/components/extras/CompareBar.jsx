@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { useCompare } from '../../hooks/useCompare';
 import { resolveProductById } from '../../utils/catalogResolver';
 import { X, ArrowRight, Scale } from 'lucide-react';
 
 export const CompareBar = () => {
-  const { currentView, setCurrentView } = useApp();
+  const { currentView } = useApp();
   const { compareIds, remove, clear } = useCompare();
 
   // Hide the bar if empty or already in the compare view
@@ -15,12 +16,6 @@ export const CompareBar = () => {
 
   const products = compareIds.map((id) => resolveProductById(id)).filter(Boolean);
   const canCompare = products.length >= 2;
-
-  const handleOpenCompare = () => {
-    if (!canCompare) return;
-    setCurrentView('compare');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <aside className="velora-compare-bar animate-slide-up" aria-label="Gown Comparison Bar">
@@ -78,16 +73,27 @@ export const CompareBar = () => {
           >
             Clear All
           </button>
-          <button
-            type="button"
-            className={`velora-compare-submit-btn ${canCompare ? 'is-ready' : 'is-disabled'}`}
-            disabled={!canCompare}
-            onClick={handleOpenCompare}
-            title={canCompare ? 'Compare selected gowns side-by-side' : 'Select at least 2 gowns to compare'}
-          >
-            <span>Compare</span>
-            <ArrowRight size={15} />
-          </button>
+          {canCompare ? (
+            <Link
+              to="/compare"
+              className="velora-compare-submit-btn is-ready"
+              title="Compare selected gowns side-by-side"
+              style={{ textDecoration: 'none' }}
+            >
+              <span>Compare</span>
+              <ArrowRight size={15} />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="velora-compare-submit-btn is-disabled"
+              disabled
+              title="Select at least 2 gowns to compare"
+            >
+              <span>Compare</span>
+              <ArrowRight size={15} />
+            </button>
+          )}
         </div>
       </div>
     </aside>

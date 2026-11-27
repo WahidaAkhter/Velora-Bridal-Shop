@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import { headerLinkFor, stylePathFor } from '../../data/routeCatalog';
+import { routeFor } from '../../routes/routeMap';
 import {
   ChevronDown,
   X,
@@ -249,14 +252,13 @@ export const Header = () => {
     setSelectedCategory,
     searchQuery,
     setSearchQuery,
-    setSelectedProduct,
     setIsAppointmentModalOpen,
     cartItems,
     setIsCartOpen,
     wishlist,
-    setAccountTab,
-    setActiveWeddingDressOption,
     isLoggedIn,
+    tier,
+    isSupabaseConfigured,
     user,
     logoutUser,
     setIsAuthModalOpen,
@@ -327,7 +329,7 @@ export const Header = () => {
     };
   }, [isSearchModalOpen]);
 
-  // Cmd/Ctrl + K opens search, Escape closes modals
+  // Cmd/Ctrl + K (or custom event from MobileTabBar) opens search, Escape closes modals
   useEffect(() => {
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -339,8 +341,13 @@ export const Header = () => {
         setActiveDropdown(null);
       }
     };
+    const onOpenSearch = () => setIsSearchModalOpen(true);
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    window.addEventListener('aura:open-search', onOpenSearch);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('aura:open-search', onOpenSearch);
+    };
   }, []);
 
   const allMatchingGowns = searchQuery.trim()
@@ -349,31 +356,12 @@ export const Header = () => {
 
   const searchResults = allMatchingGowns.slice(0, 8);
 
-  const handleProductSelect = (prod) => {
-    setSelectedProduct(prod);
-    setIsSearchModalOpen(false);
-  };
-
   const handleSearchSubmit = (e) => {
     if (e) e.preventDefault();
     if (!searchQuery.trim()) return;
     setCurrentView('all-dresses');
     setIsSearchModalOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleNavClick = (targetId) => {
-    setCurrentView('catalog');
-    setIsMobileMenuOpen(false);
-    setActiveDropdown(null);
-    if (targetId === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const el = document.getElementById(targetId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
   };
 
   const handleNavHover = (key) => {
@@ -387,11 +375,6 @@ export const Header = () => {
     }, 180);
   };
 
-  const handleNavClickToggle = (key) => {
-    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
-    setActiveDropdown(prev => prev === key ? null : key);
-  };
-
   const handleDropdownMouseEnter = () => {
     if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current);
   };
@@ -400,108 +383,9 @@ export const Header = () => {
     handleNavLeave();
   };
 
-  const handleFeatureItemClick = (featureKey, colTitle, item) => {
+  const closeMenus = () => {
     setActiveDropdown(null);
     setIsMobileMenuOpen(false);
-
-    if (featureKey === 'wedding-dresses') {
-      if (item === 'NEW DRESSES') {
-        setCurrentView('new-dresses');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (item === 'SIGNATURE STYLES') {
-        setCurrentView('signature-styles');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (item === 'QUICK SHIP STYLES') {
-        setCurrentView('quick-ship');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (item === 'ALL DRESSES') {
-        setSelectedCategory('all');
-        setSearchQuery('');
-        setCurrentView('all-dresses');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (item === 'ALL COLLECTIONS') {
-        setCurrentView('all-collections');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (item === 'LOOKBOOKS' || item === 'LOOKBOOK') {
-        setCurrentView('lookbook');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      setActiveWeddingDressOption(item);
-      return;
-    }
-
-    if (featureKey === 'accessories') {
-      if (item === 'ALL ACCESSORIES' || item === 'ALL ACCESSORIES SHOWCASE' || item === 'WEDDING ACCESSORIES SHOWCASE') {
-        setCurrentView('accessories');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      setSelectedCategory('accessories');
-      if (item === 'VEILS' || item === 'CATHEDRAL LACE VEILS' || item === 'PEARL VEILS') {
-        setSearchQuery('Veil');
-      } else if (item === 'TRAINS' || item === 'DETACHABLE MIKADO TRAINS' || item === 'OVERSKIRTS & BOWS') {
-        setSearchQuery('Train');
-      } else if (item === 'JACKETS/SHRUGS' || item === 'MOCK-NECK LACE JACKETS' || item === 'SHEER BOLEROS') {
-        setSearchQuery('Jacket');
-      } else if (item === 'CAPES' || item === 'WATTEAU TULLE CAPES' || item === 'WING CAPES') {
-        setSearchQuery('Cape');
-      } else if (item === 'SCARVES' || item === 'FLUID SILK SCARVES') {
-        setSearchQuery('Scarf');
-      } else if (item === 'GLOVES' || item === 'CHANTILLY OPERA GLOVES' || item === 'SATIN GLOVES') {
-        setSearchQuery('Gloves');
-      } else if (item === 'BELTS' || item === 'CRYSTAL EMBROIDERED BELTS' || item === 'EMBROIDERED SASHES') {
-        setCurrentView('belts-and-sashes');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      } else if (item === 'NECK COLLARS' || item === 'BAROQUE PEARL COLLARS') {
-        setSearchQuery('Neck Collar');
-      } else {
-        setSearchQuery('');
-      }
-      setCurrentView('all-dresses');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    setCurrentView('catalog');
-
-    if (item === 'CONTACT US' || item === 'FLAGSHIP BOUTIQUES' || item === 'CALL +1 (800) 892-LUXE') {
-      setCurrentView('our-story');
-      setTimeout(() => {
-        const el = document.getElementById('story-contact-section');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-        else setIsAppointmentModalOpen(true);
-      }, 80);
-      return;
-    }
-
-    if (item === 'BOOK ATELIER FITTING' || (featureKey === 'contact' && colTitle.includes('APPOINTMENT'))) {
-      setIsAppointmentModalOpen(true);
-      return;
-    }
-
-    if (featureKey === 'about' || featureKey === 'our-story') {
-      setCurrentView('our-story');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    if (featureKey === 'brides') {
-      const el = document.getElementById('footer-testimonials') || document.getElementById('boutique-footer');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
   };
 
 
@@ -527,92 +411,85 @@ export const Header = () => {
           {/* Desktop Navigation Links */}
           <div className="luxe-nav-menu" role="navigation" aria-label="Main Bridal Navigation">
             {/* HOME */}
-            <button
+            <Link
+              to="/"
               className={`nav-link-item ${currentView === 'catalog' && selectedCategory === 'all' && !activeDropdown ? 'active' : ''}`}
-              onClick={() => {
-                setActiveDropdown(null);
-                handleNavClick('home');
-              }}
+              onClick={closeMenus}
+              style={{ textDecoration: 'none' }}
             >
               HOME
-            </button>
+            </Link>
 
-            {/* WEDDING DRESSES ⌵ (Click or Hover) */}
+            {/* WEDDING DRESSES ⌵ (Link + Hover Mega-Menu) */}
             <div
               className="nav-dropdown-holder"
               onMouseEnter={() => handleNavHover('wedding-dresses')}
               onMouseLeave={handleNavLeave}
             >
-              <button
-                type="button"
-                className={`nav-link-item has-dropdown ${activeDropdown === 'wedding-dresses' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNavClickToggle('wedding-dresses');
+              <Link
+                to="/dresses"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'wedding-dresses' || currentView === 'all-dresses' ? 'active' : ''}`}
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSearchQuery('');
+                  closeMenus();
                 }}
                 aria-expanded={activeDropdown === 'wedding-dresses'}
+                style={{ textDecoration: 'none' }}
               >
                 WEDDING DRESSES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'wedding-dresses' ? 'is-rotated' : ''}`} />
-              </button>
+              </Link>
             </div>
 
-            {/* ACCESSORIES ⌵ (Click or Hover) */}
+            {/* ACCESSORIES ⌵ (Link + Hover Mega-Menu) */}
             <div
               className="nav-dropdown-holder"
               onMouseEnter={() => handleNavHover('accessories')}
               onMouseLeave={handleNavLeave}
             >
-              <button
-                type="button"
-                className={`nav-link-item has-dropdown ${activeDropdown === 'accessories' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNavClickToggle('accessories');
-                }}
+              <Link
+                to="/accessories"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'accessories' || currentView === 'accessories' || currentView === 'accessory-category' ? 'active' : ''}`}
+                onClick={closeMenus}
                 aria-expanded={activeDropdown === 'accessories'}
+                style={{ textDecoration: 'none' }}
               >
                 ACCESSORIES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'accessories' ? 'is-rotated' : ''}`} />
-              </button>
+              </Link>
             </div>
 
-            {/* OUR STORY ⌵ (Click or Hover) */}
+            {/* OUR STORY ⌵ (Link + Hover Mega-Menu) */}
             <div
               className="nav-dropdown-holder"
               onMouseEnter={() => handleNavHover('about')}
               onMouseLeave={handleNavLeave}
             >
-              <button
-                type="button"
+              <Link
+                to="/our-story"
                 className={`nav-link-item has-dropdown ${currentView === 'our-story' || activeDropdown === 'about' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setCurrentView('our-story');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                  setActiveDropdown(null);
-                }}
+                onClick={closeMenus}
                 aria-expanded={activeDropdown === 'about'}
+                style={{ textDecoration: 'none' }}
               >
                 OUR STORY <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'about' ? 'is-rotated' : ''}`} />
-              </button>
+              </Link>
             </div>
 
-            {/* REAL BRIDES ⌵ (Click or Hover) */}
+            {/* REAL BRIDES ⌵ (Link + Hover Mega-Menu) */}
             <div
               className="nav-dropdown-holder"
               onMouseEnter={() => handleNavHover('brides')}
               onMouseLeave={handleNavLeave}
             >
-              <button
-                type="button"
-                className={`nav-link-item has-dropdown ${activeDropdown === 'brides' ? 'active' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleNavClickToggle('brides');
-                }}
+              <Link
+                to="/real-brides"
+                className={`nav-link-item has-dropdown ${activeDropdown === 'brides' || currentView === 'real-brides' ? 'active' : ''}`}
+                onClick={closeMenus}
                 aria-expanded={activeDropdown === 'brides'}
+                style={{ textDecoration: 'none' }}
               >
                 REAL BRIDES <ChevronDown size={12} className={`chevron-mini ${activeDropdown === 'brides' ? 'is-rotated' : ''}`} />
-              </button>
+              </Link>
             </div>
           </div>
 
@@ -657,32 +534,28 @@ export const Header = () => {
                   <div className="navbar-user-dropdown-menu">
                     <div className="user-menu-header">
                       <span className="user-menu-name">{user?.name || 'VIP Bride'}</span>
-                      <span className="user-menu-tier">
-                        {user?.membershipTier || 'VELORA VIP Club'}
-                      </span>
+                      {isSupabaseConfigured && isLoggedIn && tier && (tier.is_vip || tier.member_since) && (
+                        <span className="user-menu-tier">
+                          {tier.is_vip ? 'VELORA VIP Club' : `Member since ${tier.member_since}`}
+                        </span>
+                      )}
                     </div>
-                    <button
-                      type="button"
+                    <Link
+                      to="/account/overview"
                       className="user-menu-item"
-                      onClick={() => {
-                        setCurrentView('account');
-                        setAccountTab('overview');
-                        setIsUserMenuOpen(false);
-                      }}
+                      style={{ textDecoration: 'none' }}
+                      onClick={() => setIsUserMenuOpen(false)}
                     >
                       <User size={14} /> My Profile & Orders
-                    </button>
-                    <button
-                      type="button"
+                    </Link>
+                    <Link
+                      to="/account/appointments"
                       className="user-menu-item"
-                      onClick={() => {
-                        setCurrentView('account');
-                        setAccountTab('appointments');
-                        setIsUserMenuOpen(false);
-                      }}
+                      style={{ textDecoration: 'none' }}
+                      onClick={() => setIsUserMenuOpen(false)}
                     >
                       <Calendar size={14} /> Fitting Appointments
-                    </button>
+                    </Link>
                     <button
                       type="button"
                       className="user-menu-item user-menu-wedding-item"
@@ -712,17 +585,14 @@ export const Header = () => {
                         )}
                       </div>
                     </button>
-                    <button
-                      type="button"
+                    <Link
+                      to="/account/wishlist"
                       className="user-menu-item"
-                      onClick={() => {
-                        setCurrentView('account');
-                        setAccountTab('wishlist');
-                        setIsUserMenuOpen(false);
-                      }}
+                      style={{ textDecoration: 'none' }}
+                      onClick={() => setIsUserMenuOpen(false)}
                     >
                       <Heart size={14} /> Saved Gowns ({validWishlistCount})
-                    </button>
+                    </Link>
                     <button
                       type="button"
                       className="user-menu-item logout-item"
@@ -753,20 +623,18 @@ export const Header = () => {
             )}
 
             {/* Wishlist */}
-            <button
+            <Link
+              to="/account/wishlist"
               className="navbar-action-btn btn-wishlist"
-              onClick={() => {
-                setCurrentView('account');
-                setAccountTab('wishlist');
-              }}
               title="Saved Gowns"
               aria-label={`Wishlist with ${validWishlistCount} saved gowns`}
+              style={{ textDecoration: 'none' }}
             >
               <Heart size={18} strokeWidth={1.5} />
               {validWishlistCount > 0 && (
                 <span className="navbar-wishlist-badge">{validWishlistCount}</span>
               )}
-            </button>
+            </Link>
 
             {/* Shopping Bag / Cart */}
             <button
@@ -784,48 +652,36 @@ export const Header = () => {
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
           <div className="mobile-nav-drawer">
-            <button className="mobile-nav-link" onClick={() => handleNavClick('home')}>
+            <Link to="/" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               HOME
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/dresses"
               className="mobile-nav-link"
+              style={{ textDecoration: 'none' }}
               onClick={() => {
-                setIsMobileMenuOpen(false);
-                setCurrentView('all-dresses');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSelectedCategory('all');
+                setSearchQuery('');
+                closeMenus();
               }}
             >
               WEDDING DRESSES
-            </button>
-            <button className="mobile-nav-link" onClick={() => { setIsMobileMenuOpen(false); setCurrentView('quick-ship'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+            </Link>
+            <Link to="/quick-ship" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               QUICK SHIP STYLES
-            </button>
-            <button className="mobile-nav-link" onClick={() => handleNavClick('shop-by-color-heading')}>
+            </Link>
+            <Link to="/#shop-by-color-heading" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               SHOP BY COLOR
-            </button>
-            <button
-              className="mobile-nav-link"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setCurrentView('accessories');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
+            </Link>
+            <Link to="/accessories" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               ACCESSORIES
-            </button>
-            <button
-              className="mobile-nav-link"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setCurrentView('our-story');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
+            </Link>
+            <Link to="/our-story" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               OUR STORY
-            </button>
-            <button className="mobile-nav-link" onClick={() => handleNavClick('footer-testimonials')}>
+            </Link>
+            <Link to="/real-brides" className="mobile-nav-link" onClick={closeMenus} style={{ textDecoration: 'none' }}>
               REAL BRIDES
-            </button>
+            </Link>
             <button className="mobile-nav-link highlight" onClick={() => { setIsMobileMenuOpen(false); setIsAppointmentModalOpen(true); }}>
               BOOK APPOINTMENT
             </button>
@@ -834,19 +690,15 @@ export const Header = () => {
             <div style={{ padding: '14px 16px', borderTop: '1px solid #EBE4DA', marginTop: '12px' }}>
               {isLoggedIn ? (
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <button
-                    type="button"
+                  <Link
+                    to="/account/overview"
                     className="mobile-nav-link"
-                    style={{ margin: 0, padding: 0, display: 'flex', alignItems: 'center', gap: '8px' }}
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      setCurrentView('account');
-                      setAccountTab('overview');
-                    }}
+                    style={{ margin: 0, padding: 0, display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}
+                    onClick={closeMenus}
                   >
                     <User size={15} />
                     <span>{user?.name || 'VIP Bride'}</span>
-                  </button>
+                  </Link>
                   <button
                     type="button"
                     onClick={() => {
@@ -910,17 +762,40 @@ export const Header = () => {
               <div key={idx} className="megamenu-column">
                 <h3 className="megamenu-col-header">{col.title}</h3>
                 <ul className="megamenu-col-list">
-                  {col.items.map((item, itemIdx) => (
-                    <li key={itemIdx}>
-                      <button
-                        type="button"
-                        className="megamenu-item-btn"
-                        onClick={() => handleFeatureItemClick(activeDropdown, col.title, item)}
-                      >
-                        {item}
-                      </button>
-                    </li>
-                  ))}
+                  {col.items.map((item, itemIdx) => {
+                    const linkTarget = headerLinkFor(activeDropdown, col.title, item);
+                    return (
+                      <li key={itemIdx}>
+                        {linkTarget.action === 'appointment' ? (
+                          <button
+                            type="button"
+                            className="megamenu-item-btn"
+                            onClick={() => {
+                              closeMenus();
+                              setIsAppointmentModalOpen(true);
+                            }}
+                          >
+                            {item}
+                          </button>
+                        ) : (
+                          <Link
+                            to={linkTarget.to}
+                            className="megamenu-item-btn"
+                            style={{ textDecoration: 'none', display: 'block' }}
+                            onClick={() => {
+                              if (linkTarget.to === '/dresses') {
+                                setSelectedCategory('all');
+                                setSearchQuery('');
+                              }
+                              closeMenus();
+                            }}
+                          >
+                            {item}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
@@ -990,19 +865,15 @@ export const Header = () => {
                 <span className="search-quick-title">Popular Bridal Searches:</span>
                 <div className="search-tag-chips">
                   {['A-Line', 'Mermaid', 'Ballgown', 'Princess', 'Lace', 'Drop Waist', 'Quick Ship'].map(tag => (
-                    <button
+                    <Link
                       key={tag}
-                      type="button"
+                      to={tag === 'Quick Ship' ? '/quick-ship' : stylePathFor(tag)}
                       className="search-tag-chip"
-                      onClick={() => {
-                        setSearchQuery(tag);
-                        setCurrentView('all-dresses');
-                        setIsSearchModalOpen(false);
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                      }}
+                      style={{ textDecoration: 'none' }}
+                      onClick={() => setIsSearchModalOpen(false)}
                     >
                       {tag}
-                    </button>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -1011,10 +882,12 @@ export const Header = () => {
                 {searchResults.length > 0 ? (
                   <>
                     {searchResults.map(prod => (
-                      <div
+                      <Link
                         key={prod.id}
+                        to={routeFor('product', { product: prod })}
+                        state={{ fromInternal: true, product: prod }}
                         className="search-result-item"
-                        onClick={() => handleProductSelect(prod)}
+                        onClick={() => setIsSearchModalOpen(false)}
                       >
                         <img
                           src={prod.images?.[0] || prod.image}
@@ -1026,7 +899,7 @@ export const Header = () => {
                           <p>{prod.subtitle || prod.categoryName}</p>
                           <span className="search-result-price">{formatPrice(prod.price)}</span>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                     <div className="search-modal-footer">
                       <button

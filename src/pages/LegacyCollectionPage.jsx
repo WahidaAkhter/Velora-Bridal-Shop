@@ -6,19 +6,21 @@ import {
   LEGACY_FILTER_STYLES
 } from '../data/legacyCollectionData';
 import { getLegacyCollection } from '../services/api';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { PageBackBar } from '../components/common/PageBackBar';
 import { Heart, X } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const LegacyCollectionPage = () => {
   const {
-    setCurrentView,
+    currentView,
     setSelectedProduct,
     wishlist,
     toggleWishlist,
     formatPrice,
     showToast
   } = useApp();
+
+  const isNewDresses = currentView === 'new-dresses';
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedShape, setSelectedShape] = useState('All Shapes');
@@ -40,7 +42,7 @@ export const LegacyCollectionPage = () => {
       if (mounted && res && res.success && res.data && res.data.gowns) {
         setLegacyData(res.data);
       }
-    }).catch(() => {});
+    }).catch(() => { });
     return () => { mounted = false; };
   }, []);
 
@@ -118,7 +120,7 @@ export const LegacyCollectionPage = () => {
       ...gown,
       rating: gown.rating || 5.0,
       reviewCount: gown.reviewCount || 42,
-      badge: gown.badge || 'Legacy Collection 2025/2026',
+      badge: gown.badge || (isNewDresses ? 'New Arrival 2025/2026' : 'Legacy Collection 2025/2026'),
       isNew: true,
       stock: gown.stock || 4,
       images:
@@ -137,7 +139,7 @@ export const LegacyCollectionPage = () => {
         'Silhouette': gown.silhouette || gown.shape,
         'Fabrication': gown.fabric,
         'Neckline': gown.neckline,
-        'Collection': 'Legacy Collection',
+        'Collection': isNewDresses ? 'New Dresses' : 'Legacy Collection',
         'Production Timeline': 'Made to Order (8–12 Weeks Handcrafted Atelier)'
       },
       reviews: gown.reviews || [
@@ -157,41 +159,32 @@ export const LegacyCollectionPage = () => {
 
   return (
     <div className="velora-collection-page animate-fade-in" id="legacy-collection-top">
-      {/* 1. Breadcrumb Navigation */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('all-dresses');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Collections
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">Legacy Collection</span>
-      </nav>
+      <PageBackBar
+        fallbackPath={isNewDresses ? '/dresses' : '/collections'}
+        trail={
+          isNewDresses
+            ? [
+              { label: 'Home', to: '/' },
+              { label: 'Wedding Dresses', to: '/dresses' },
+              { label: 'New Dresses' }
+            ]
+            : [
+              { label: 'Home', to: '/' },
+              { label: 'Collections', to: '/collections' },
+              { label: 'Legacy Collection' }
+            ]
+        }
+      />
 
       {/* 2. Collection Main Heading & Editorial Quote */}
-      <h1 className="velora-collection-heading">LEGACY COLLECTION</h1>
+      <h1 className="velora-collection-heading">
+        {isNewDresses ? 'NEW DRESSES' : 'LEGACY COLLECTION'}
+      </h1>
       <p style={{ textAlign: 'center', color: '#7D736C', fontSize: '14px', maxWidth: '680px', margin: '-12px auto 24px auto', lineHeight: 1.6 }}>
-        The 2025 / 2026 Haute Couture Era — Sculptural basque waists, dramatic drop corsetry, sheer chantilly sleeves, and hand-embroidered royal trains designed to make your wedding day unforgettable.
+        {isNewDresses
+          ? 'Fresh from our Paris & Sydney ateliers — discover our newest 2025 / 2026 couture bridal arrivals featuring sculptural basque waists, dramatic drop corsetry, and hand-embroidered trains.'
+          : 'The 2025 / 2026 Haute Couture Era — Sculptural basque waists, dramatic drop corsetry, sheer chantilly sleeves, and hand-embroidered royal trains designed to make your wedding day unforgettable.'}
       </p>
-
-      {/* 3. Shop Collection Navigation Tabs (Allows turning to any page in Shop Collection anytime) */}
-      <ShopCollectionNav activeTab="legacy-collection" />
 
       {/* 4. Secondary Quick Shape Filter Pills */}
       <div className="legacy-shape-quick-pills">

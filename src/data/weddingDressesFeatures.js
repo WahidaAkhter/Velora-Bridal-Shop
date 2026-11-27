@@ -506,7 +506,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
     title: 'Short & Tea-Length Dresses',
     badge: 'Chic Modern Romance',
     tagline: 'Fashion-forward minis and tea-length skirts for modern celebrations',
-    heroImage: '/images/bridal/style-boho-beach.jpg',
+    heroImage: '/images/bridal/style-short-tea.jpg',
     thought: 'Modern weddings have evolved: civil ceremonies at city hall, fashionable rehearsal dinners, and vibrant after-parties demand daring shorter hem lines. Our short bridal collection blends playful energy with uncompromising couture standards.',
     stylistNote: 'Show off statement bridal heels like satin pointed pumps with ankle crystal ribbons.',
     curatedGowns: [
@@ -516,7 +516,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
         subtitle: 'Silk organza sweetheart mini with detachable tulle train',
         price: 1450,
         originalPrice: 1700,
-        image: '/images/bridal/style-boho-beach.jpg',
+        image: '/images/bridal/style-short-tea.jpg',
         silhouette: 'Tea-Length / High-Low',
         fabric: 'Silk Organza & Lace',
         description: 'Playful above-the-ankle cut featuring a detachable 50-inch train for versatile reception dancing.'
@@ -527,7 +527,7 @@ export const WEDDING_DRESS_OPTIONS_DATA = {
         subtitle: 'Structured heavy satin double-breasted dress',
         price: 1350,
         originalPrice: 1550,
-        image: '/images/bridal/featured-satin-elegance.jpg',
+        image: '/images/bridal/style-mini-satin.jpg',
         silhouette: 'Tailored Mini',
         fabric: 'Duchess Satin',
         description: 'Sharp lapels, pearl buttons, and a clean modern hem made for city weddings and post-vow cocktails.'

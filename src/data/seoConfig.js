@@ -13,8 +13,12 @@ export const ROUTE_SEO = {
     description: 'Explore our full catalog of handcrafted luxury wedding gowns, from ethereal A-lines to dramatic cathedral ballgowns.'
   },
   'new-dresses': {
-    title: 'New Arrivals & Legacy Collection | VELORA Atelier',
-    description: 'Browse our newest bridal silhouettes, trending drop-waist designs, and timeless legacy bridal couture gowns.'
+    title: 'New Dresses | VELORA Atelier',
+    description: 'Browse our newest bridal silhouettes, trending drop-waist designs, and 2025–2026 new arrival wedding gowns.'
+  },
+  'legacy-collection': {
+    title: 'Legacy Collection | VELORA Atelier',
+    description: 'Explore the 2025–2026 Legacy Collection featuring sculptural basque waists, sheer Chantilly sleeves, and royal trains.'
   },
   'signature-styles': {
     title: 'Signature Bridal Styles | VELORA Atelier',
@@ -43,6 +47,26 @@ export const ROUTE_SEO = {
   'our-story': {
     title: 'Our Heritage & Atelier Story | VELORA Atelier',
     description: 'The craftsmanship, bespoke tailoring philosophy, and heritage behind every VELORA couture bridal gown.'
+  },
+  'size-chart': {
+    title: 'Atelier Size Chart & Measurement Guide | VELORA Atelier',
+    description: 'US, UK, and EU bridal sizing tables with inches/centimeters toggle and step-by-step atelier measurement guidance.'
+  },
+  'real-brides': {
+    title: 'Real VELORA Brides & Global Weddings | VELORA Atelier',
+    description: 'Explore real VELORA brides across Chantilly, Lake Como, Paris, and Tuscany along with 2,400+ verified reviews.'
+  },
+  'style-feature': {
+    title: 'Curated Bridal Silhouettes & Styles | VELORA Atelier',
+    description: 'Explore bespoke bridal gowns curated by silhouette, neckline, fabrication, and couture wedding style.'
+  },
+  'accessory-category': {
+    title: 'Bridal Accessories Collection | VELORA Atelier',
+    description: 'Discover handcrafted veils, detachable trains, jackets, capes, scarves, gloves, and couture bridal accents.'
+  },
+  'collection-detail': {
+    title: 'Seasonal Bridal Capsule | VELORA Atelier',
+    description: 'Explore seasonal VELORA bridal collections designed with French lace, silk Mikado, and ethereal tulle.'
   },
   checkout: {
     title: 'Secure Checkout | VELORA Atelier',
@@ -86,5 +110,13 @@ export const ACCOUNT_TAB_SEO = {
   vouchers: {
     title: 'Vouchers & Gift Credits | VELORA Atelier',
     description: 'View your bridal credits, salon vouchers, and atelier gift certificates.'
+  },
+  'product-detail': {
+    title: 'Couture Bridal Gown | VELORA Atelier',
+    description: 'Explore bespoke craftsmanship, atelier sizing, lace details, and styling consultations for our couture bridal gowns.'
+  },
+  romance: {
+    title: 'VELORA Romance Collection | Dreamy and Feminine Gowns',
+    description: 'Explore every VELORA Romance bridal gown silhouette — draped satin, Chantilly lace sleeves, Basque corsets, and silk Mikado ballgowns.'
   }
 };

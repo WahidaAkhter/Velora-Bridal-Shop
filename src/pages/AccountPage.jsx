@@ -23,6 +23,7 @@ import {
   Share2
 } from 'lucide-react';
 import { buildShareUrl } from '../utils/wishlistShare';
+import { PageBackBar } from '../components/common/PageBackBar';
 
 export const AccountPage = () => {
   const {
@@ -40,6 +41,8 @@ export const AccountPage = () => {
     showToast,
     formatPrice,
     isLoggedIn,
+    tier,
+    isSupabaseConfigured,
     setIsAuthModalOpen,
     setAuthMode,
     setAuthTarget,
@@ -154,6 +157,7 @@ export const AccountPage = () => {
   if (!isLoggedIn) {
     return (
       <div className="container account-container animate-fade-in" style={{ padding: '40px 16px' }}>
+        <PageBackBar fallbackPath="/" trail={[{ label: 'Home', to: '/' }, { label: 'Account' }]} />
         <div className="account-guest-gate">
           <div className="guest-gate-icon-circle">
             <User size={28} />
@@ -213,6 +217,13 @@ export const AccountPage = () => {
 
   return (
     <div className="container account-container animate-fade-in">
+      <PageBackBar
+        fallbackPath="/"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'My Atelier Account' }
+        ]}
+      />
       {/* Account Hero Banner */}
       <div className="account-hero-card glass-panel">
         <div className="user-profile-row">
@@ -220,11 +231,16 @@ export const AccountPage = () => {
           <div className="user-info-text">
             <div className="user-title-badge-row">
               <h2>{user?.name || 'VIP Bride'}</h2>
-              <span className="badge badge-gold">
-                {user?.membershipTier || 'VELORA VIP Club'}
-              </span>
+              {isSupabaseConfigured && isLoggedIn && tier && (tier.is_vip || tier.member_since) && (
+                <span className="badge badge-gold">
+                  {tier.is_vip ? 'VELORA VIP Club' : `Member since ${tier.member_since}`}
+                </span>
+              )}
             </div>
-            <p className="text-muted">{user?.email || ''} • Member since {user?.memberSince || 'Recent'}</p>
+            <p className="text-muted">
+              {user?.email || ''}
+              {isSupabaseConfigured && isLoggedIn && tier?.member_since ? ` • Member since ${tier.member_since}` : ''}
+            </p>
           </div>
 
           <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px', alignItems: 'center' }}>

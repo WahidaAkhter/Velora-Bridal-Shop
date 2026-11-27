@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { FREE_SHIPPING_THRESHOLD } from '../../data/channels';
 import { X, ShoppingBag, Trash2, Plus, Minus, Tag, ArrowRight, CheckCircle2, Truck } from 'lucide-react';
@@ -8,7 +9,7 @@ export const CartDrawer = () => {
   const {
     isCartOpen, setIsCartOpen, cartItems, updateCartQuantity, removeFromCart,
     getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,
-    appliedVoucher, applyVoucherCode, removeVoucher, setCurrentView, setSelectedCategory, setSearchQuery, shippingMethod, formatPrice
+    appliedVoucher, applyVoucherCode, removeVoucher, setSelectedCategory, setSearchQuery, shippingMethod, formatPrice
   } = useApp();
 
   const [inputCode, setInputCode] = useState('');
@@ -21,8 +22,6 @@ export const CartDrawer = () => {
     setIsCartOpen(false);
     if (setSelectedCategory) setSelectedCategory('all');
     if (setSearchQuery) setSearchQuery('');
-    setCurrentView('all-dresses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const subtotal = getCartSubtotal();
@@ -64,7 +63,7 @@ export const CartDrawer = () => {
               <div className="empty-icon-circle"><ShoppingBag size={32} className="text-muted" /></div>
               <h4>Your bag is currently empty</h4>
               <p className="text-muted">Discover our curated artisan products and add items to your cart.</p>
-              <button className="btn btn-primary mt-4" onClick={handleStartShopping}>Start Shopping</button>
+              <Link to="/dresses" className="btn btn-primary mt-4" onClick={handleStartShopping} style={{ textDecoration: 'none' }}>Start Shopping</Link>
             </div>
           ) : (
             <div className="cart-items-list">
@@ -146,9 +145,9 @@ export const CartDrawer = () => {
               <div className="summary-row total-row"><span>Total</span><span className="total-amount">{formatPrice(total)}</span></div>
             </div>
 
-            <button className="btn btn-accent btn-lg w-full checkout-trigger-btn" onClick={() => { setIsCartOpen(false); setCurrentView('checkout'); }}>
+            <Link to="/checkout" className="btn btn-accent btn-lg w-full checkout-trigger-btn" onClick={() => setIsCartOpen(false)} style={{ textDecoration: 'none' }}>
               Proceed to Checkout <ArrowRight size={18} />
-            </button>
+            </Link>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { useCatalog } from '../../services/catalogStore';
 
@@ -137,55 +138,26 @@ export const FeaturedCollection = () => {
               loading="eager"
             />
 
-            {/* SHOP ROMANCE Overlay Button (Exact VELORA Romance Match) */}
-            <button
-              type="button"
+            {/* SHOP ROMANCE Full-Page Button */}
+            <Link
+              to="/romance"
               className="editorial-shop-romance-btn"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedProduct(activeGown);
-              }}
-              aria-label={`Shop ${activeGown.name}`}
+              onClick={(e) => e.stopPropagation()}
+              style={{ textDecoration: 'none' }}
+              aria-label="Explore all VELORA Romance gowns"
             >
               SHOP ROMANCE
-            </button>
+            </Link>
           </div>
         </div>
 
         {/* Right Area: Top Header + Bottom Queue Track */}
         <div className="editorial-right-area">
-          {/* Editorial Top Split Header (Exact VELORA Romance Layout) */}
+          {/* Editorial Top Header */}
           <div className="editorial-collection-header">
             <div className="editorial-header-left">
               <span className="editorial-kicker">VELORA ROMANCE</span>
               <h2 className="editorial-script-title">Dreamy and Feminine</h2>
-            </div>
-
-            <div className="editorial-header-right">
-              <p className="editorial-narrative">
-                VELORA Romance focuses on softness and movement for the bride drawn to delicate detail.
-                This season features floral appliqués, airy chiffon, glittering tulle, and romantic touches
-                — designed to feel dreamy, light, and effortlessly beautiful.
-              </p>
-
-              <div className="editorial-nav-controls">
-                <button
-                  type="button"
-                  className="editorial-nav-btn prev-btn"
-                  onClick={handlePrev}
-                  aria-label="Previous gown"
-                >
-                  &lt; PREVIOUS
-                </button>
-                <button
-                  type="button"
-                  className="editorial-nav-btn next-btn"
-                  onClick={handleNext}
-                  aria-label="Next gown"
-                >
-                  NEXT &gt;
-                </button>
-              </div>
             </div>
           </div>
 

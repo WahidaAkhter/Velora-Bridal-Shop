@@ -10,7 +10,7 @@ export const COLLECTIONS_HERO_DATA = {
   description: 'Sculptural basque waists, dramatic drop corsetry, sheer chantilly sleeves, and hand-embroidered royal trains designed to make your wedding day unforgettable.',
   bgImage: 'https://madilane.com/wp-content/uploads/2026/05/LISSY-LEE_ML266000037-2-2500x1128.jpg',
   ctaText: 'EXPLORE NOW',
-  targetView: 'new-dresses'
+  targetView: 'legacy-collection'
 };
 
 export const SEASONAL_COLLECTIONS_DATA = [

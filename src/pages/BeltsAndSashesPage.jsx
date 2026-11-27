@@ -7,13 +7,12 @@ import {
   SASHES_COLOR_OPTIONS
 } from '../data/sashesData';
 import { getSashesData } from '../services/api';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { PageBackBar } from '../components/common/PageBackBar';
 import { Heart, X } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const BeltsAndSashesPage = () => {
   const {
-    setCurrentView,
     setSelectedProduct,
     wishlist,
     toggleWishlist,
@@ -141,32 +140,14 @@ export const BeltsAndSashesPage = () => {
 
   return (
     <div className="velora-collection-page animate-fade-in" id="velora-sashes-top">
-      {/* 1. Breadcrumb Navigation */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('accessories');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Accessories
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">Bridal Belts & Sashes</span>
-      </nav>
+      <PageBackBar
+        fallbackPath="/accessories"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'Accessories', to: '/accessories' },
+          { label: 'Bridal Belts & Sashes' }
+        ]}
+      />
 
       {/* 2. Collection Main Heading & Editorial Lead */}
       <h1 className="velora-collection-heading">{sashesState.hero?.headline || SASHES_HERO_INFO.headline}</h1>
@@ -176,9 +157,6 @@ export const BeltsAndSashesPage = () => {
       <p style={{ textAlign: 'center', color: '#9C8E84', fontSize: '13px', maxWidth: '680px', margin: '0 auto 24px auto', lineHeight: 1.5 }}>
         {sashesState.hero?.description || SASHES_HERO_INFO.description}
       </p>
-
-      {/* 3. Shop Collection Navigation Tabs (Allows turning to any page in Shop Collection anytime) */}
-      <ShopCollectionNav activeTab="accessories" />
 
       {/* 4. Sub-Category Style Quick Pills */}
       <div className="legacy-shape-quick-pills">

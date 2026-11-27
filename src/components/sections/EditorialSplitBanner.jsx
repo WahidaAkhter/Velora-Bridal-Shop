@@ -1,38 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 
 export const EditorialSplitBanner = () => {
-  const { setSelectedCategory, setCurrentView } = useApp();
+  const { setSelectedCategory, setSearchQuery } = useApp();
 
-  const handleShopFallCollection = (e) => {
-    e.stopPropagation();
+  const handleResetFilters = () => {
     setSelectedCategory('all');
-    setCurrentView('catalog');
-    const el = document.getElementById('featured-collection-heading');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleShopWeddingDresses = (e) => {
-    e.stopPropagation();
-    setSelectedCategory('all');
-    setCurrentView('catalog');
-    const el = document.getElementById('featured-collection-heading');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
+    setSearchQuery('');
   };
 
   return (
     <section className="editorial-split-section" aria-label="Lulus Editorial Bridal Showcase">
       <div className="editorial-split-grid">
         {/* Left Column: Fall in Love */}
-        <div
+        <Link
+          to="/collections"
           className="split-banner-card split-card-left"
-          onClick={handleShopFallCollection}
-          role="region"
+          onClick={handleResetFilters}
           aria-label="Fall in Love Collection"
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="split-banner-media-wrap">
             <img
@@ -49,23 +36,19 @@ export const EditorialSplitBanner = () => {
             <p className="split-card-desc">
               Everything you need for the ceremony, the celebration, and the champagne toast.
             </p>
-            <button
-              type="button"
-              className="split-card-cta"
-              onClick={handleShopFallCollection}
-              aria-label="Shop the Fall Bridal Collection"
-            >
+            <span className="split-card-cta">
               Shop the Fall Bridal Collection
-            </button>
+            </span>
           </div>
-        </div>
+        </Link>
 
         {/* Right Column: Forever After */}
-        <div
+        <Link
+          to="/dresses"
           className="split-banner-card split-card-right"
-          onClick={handleShopWeddingDresses}
-          role="region"
+          onClick={handleResetFilters}
           aria-label="Forever After Wedding Dresses"
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
           <div className="split-banner-media-wrap">
             <img
@@ -79,16 +62,11 @@ export const EditorialSplitBanner = () => {
 
           <div className="split-card-content content-bottom">
             <h2 className="split-card-title">Forever After</h2>
-            <button
-              type="button"
-              className="split-card-cta"
-              onClick={handleShopWeddingDresses}
-              aria-label="Shop Wedding Dresses"
-            >
+            <span className="split-card-cta">
               Shop Wedding Dresses
-            </button>
+            </span>
           </div>
-        </div>
+        </Link>
       </div>
     </section>
   );

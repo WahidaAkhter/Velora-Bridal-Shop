@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { useCompare } from '../../hooks/useCompare';
 import { resolveProductById } from '../../utils/catalogResolver';
+import { PageBackBar } from '../common/PageBackBar';
 import {
   ArrowLeft,
   Trash2,
@@ -11,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export const CompareView = () => {
-  const { setCurrentView, formatPrice, addToCart, setSelectedProduct } = useApp();
+  const { formatPrice, addToCart, setSelectedProduct } = useApp();
   const { compareIds, remove, clear } = useCompare();
 
   const products = compareIds.map((id) => resolveProductById(id)).filter(Boolean);
@@ -20,6 +22,9 @@ export const CompareView = () => {
   if (products.length < 2) {
     return (
       <div className="velora-compare-page-empty animate-fade-in" role="region" aria-label="Gown comparison empty state">
+        <div style={{ maxWidth: '1200px', width: '100%', margin: '0 auto 12px' }}>
+          <PageBackBar fallbackPath="/dresses" trail={[{ label: 'Home', to: '/' }, { label: 'Compare Gowns' }]} />
+        </div>
         <div className="velora-compare-empty-card">
           <div className="velora-compare-empty-icon">
             <Scale size={36} className="text-accent" />
@@ -30,16 +35,13 @@ export const CompareView = () => {
             You need at least 2 bridal gowns selected to inspect side-by-side silhouette cuts, fabrication, necklines, and delivery timelines.
           </p>
           <div className="velora-compare-empty-actions">
-            <button
-              type="button"
+            <Link
+              to="/dresses"
               className="velora-compare-btn-primary"
-              onClick={() => {
-                setCurrentView('all-dresses');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
+              style={{ textDecoration: 'none' }}
             >
               Browse All Wedding Dresses
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -122,19 +124,17 @@ export const CompareView = () => {
 
   return (
     <div className="velora-compare-page animate-fade-in" role="region" aria-label="Gown comparison table">
+      <PageBackBar fallbackPath="/dresses" trail={[{ label: 'Home', to: '/' }, { label: 'Wedding Dresses', to: '/dresses' }, { label: 'Compare Gowns' }]} />
       {/* Top Navigation & Title Bar */}
       <div className="velora-compare-top-bar">
-        <button
-          type="button"
+        <Link
+          to="/dresses"
           className="velora-compare-back-btn"
-          onClick={() => {
-            setCurrentView('all-dresses');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
+          style={{ textDecoration: 'none' }}
         >
           <ArrowLeft size={16} />
-          <span>Back to Collection</span>
-        </button>
+          <span>All Gowns</span>
+        </Link>
 
         <div className="velora-compare-page-heading">
           <span className="velora-compare-kicker">HAUTE COUTURE SPECIFICATIONS</span>

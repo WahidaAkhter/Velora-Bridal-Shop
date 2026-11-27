@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { PageBackBar } from '../components/common/PageBackBar';
 import {
   Check,
   CreditCard,
@@ -34,7 +35,6 @@ export const CheckoutPage = () => {
     user,
     addAddress,
     placeOrder,
-    setCurrentView,
     formatPrice,
     showToast,
     selectedOrderDetails,
@@ -57,8 +57,10 @@ export const CheckoutPage = () => {
   const defaultAddr = (user?.addresses || []).find(a => a.isDefault) || user?.addresses?.[0] || {};
   const [selectedAddrId, setSelectedAddrId] = useState(defaultAddr.id || 'custom');
 
+  const initialEmail = (user?.email && user.email !== 'eleanor.vance@example.com') ? user.email : '';
+
   const [formData, setFormData] = useState({
-    email: user?.email || '',
+    email: null,
     firstName: defaultAddr.firstName || '',
     lastName: defaultAddr.lastName || '',
     street: defaultAddr.street || '',
@@ -69,6 +71,8 @@ export const CheckoutPage = () => {
     phone: defaultAddr.phone || '',
     saveAddress: false
   });
+
+  const displayEmail = formData.email !== null ? formData.email : initialEmail;
 
   // Payment State
   const [paymentType, setPaymentType] = useState('card'); // 'card' | 'paypal' | 'applepay' | 'giftcard'
@@ -240,6 +244,14 @@ export const CheckoutPage = () => {
         ? 'Apple Pay'
         : 'VELORA Gift Card';
 
+      const effectiveEmail = (
+        (displayEmail && displayEmail !== 'eleanor.vance@example.com')
+          ? displayEmail
+          : (user?.email && user.email !== 'eleanor.vance@example.com')
+          ? user.email
+          : ''
+      ).trim();
+
       const res = await placeOrder({
         shippingAddress: {
           firstName: formData.firstName,
@@ -250,7 +262,7 @@ export const CheckoutPage = () => {
           zip: formData.zip,
           country: formData.country,
           phone: formData.phone,
-          email: formData.email
+          email: effectiveEmail
         },
         paymentMethodName: paymentName
       });
@@ -293,11 +305,12 @@ export const CheckoutPage = () => {
 
   return (
     <div className="container checkout-container animate-fade-in">
+      <PageBackBar fallbackPath="/dresses" trail={[{ label: 'Home', to: '/' }, { label: 'Wedding Dresses', to: '/dresses' }, { label: 'Checkout' }]} />
       {/* Top Breadcrumb Header */}
       <div className="checkout-top-bar">
-        <button className="btn btn-outline btn-sm" onClick={() => setCurrentView('catalog')}>
-          <ArrowLeft size={16} /> Back to Catalog
-        </button>
+        <Link to="/dresses" className="btn btn-outline btn-sm" style={{ textDecoration: 'none' }}>
+          <ArrowLeft size={16} /> Back to Gowns
+        </Link>
         <div className="checkout-logo">
           <span>▲ VELORA CHECKOUT</span>
         </div>
@@ -372,7 +385,7 @@ export const CheckoutPage = () => {
                   <input
                     type="email"
                     required
-                    value={formData.email}
+                    value={displayEmail}
                     onChange={e => setFormData({ ...formData, email: e.target.value })}
                   />
                 </div>
@@ -549,17 +562,14 @@ export const CheckoutPage = () => {
 
               {isSupabaseConfigured ? (
                 <div className="payment-cod-box p-6 glass-panel mt-4">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Truck size={24} className="text-accent" />
+                  <div className="flex items-center gap-3 mb-2">
+                    <CreditCard size={24} className="text-accent" />
                     <div>
-                      <h4 className="font-semibold text-base">Cash on Delivery (COD)</h4>
-                      <p className="text-muted text-sm mt-0.5">Pay upon bridal gown delivery and concierge inspection.</p>
+                      <h4 className="font-semibold text-base">Online Card Payment</h4>
+                      <p className="text-muted text-sm mt-1">
+                        Online card payment is coming soon. Your order cannot be placed yet.
+                      </p>
                     </div>
-                  </div>
-                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 text-xs text-muted mt-3">
-                    <p className="font-medium text-foreground mb-1">Database Payment Notice</p>
-                    <p>Orders are verified on the server and confirmed with Cash on Delivery (payment_status: pending_cod). Online card processing arrives in Step 2.6.</p>
-                    <p className="mt-1">Gift card redemption is temporarily offline during database account table migration.</p>
                   </div>
                 </div>
               ) : (
@@ -804,7 +814,7 @@ export const CheckoutPage = () => {
                   <span className="block-title">Payment Method:</span>
                   <p>
                     {isSupabaseConfigured
-                      ? 'Cash on Delivery (COD)'
+                      ? 'Online Card Payment (Coming Soon)'
                       : paymentType === 'card'
                       ? `${getCardBrand(cardData.number)} (${(cardData.number || '').replace(/\s+/g, '').slice(-4) || '••••'})`
                       : paymentType === 'paypal'
@@ -820,7 +830,7 @@ export const CheckoutPage = () => {
               <button
                 className="btn btn-accent btn-lg w-full mt-6 place-order-btn"
                 onClick={handleCompleteOrder}
-                disabled={isSubmitting}
+                disabled={isSubmitting || isSupabaseConfigured}
               >
                 {isSubmitting ? (
                   <span>Processing Order...</span>

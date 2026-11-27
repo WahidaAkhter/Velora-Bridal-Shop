@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useWeddingDate } from '../../hooks/useWeddingDate';
-import { useApp } from '../../context/AppContext';
 import { calcOrderBy } from '../../utils/orderBy';
 import { Clock, AlertTriangle, ArrowRight, Sparkles, CheckCircle2, Calendar } from 'lucide-react';
 
@@ -11,7 +11,6 @@ export const OrderByBadge = ({
   isQuickShip = false
 }) => {
   const { weddingDate } = useWeddingDate();
-  const { setCurrentView } = useApp();
 
   if (!weddingDate) {
     if (compact) return null;
@@ -61,8 +60,6 @@ export const OrderByBadge = ({
     if (typeof onClose === 'function') {
       onClose();
     }
-    setCurrentView('quick-ship');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Compact badge rendering (e.g., inside Quick Ship grid cards)
@@ -135,29 +132,31 @@ export const OrderByBadge = ({
       {status === 'tight' && !isQuickShipGown && (
         <div className="velora-order-by-cta-row">
           <span className="velora-cta-hint">Need more breathing room?</span>
-          <button
-            type="button"
+          <Link
+            to="/quick-ship"
             className="velora-order-btn-quickship"
             onClick={handleNavigateQuickShip}
+            style={{ textDecoration: 'none' }}
           >
             <Sparkles size={13} />
             <span>View Quick Ship Alternatives (2–3 Wks)</span>
             <ArrowRight size={13} />
-          </button>
+          </Link>
         </div>
       )}
 
       {status === 'too-late' && !isQuickShipGown && (
         <div className="velora-order-by-cta-row is-urgent">
-          <button
-            type="button"
+          <Link
+            to="/quick-ship"
             className="velora-order-btn-urgent-quickship"
             onClick={handleNavigateQuickShip}
+            style={{ textDecoration: 'none' }}
           >
             <Sparkles size={14} />
             <span>Explore Quick Ship Gowns (Dispatched in 2–3 Weeks)</span>
             <ArrowRight size={14} />
-          </button>
+          </Link>
         </div>
       )}
     </div>

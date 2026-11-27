@@ -5,21 +5,16 @@ import {
   Printer,
   CheckCircle2,
   MapPin,
-  CreditCard,
-  Download
+  CreditCard
 } from 'lucide-react';
 
 export const OrderConfirmationModal = ({ order, onClose }) => {
-  const { showToast, formatPrice } = useApp();
+  const { formatPrice } = useApp();
 
   if (!order) return null;
 
   const handlePrint = () => {
     window.print();
-  };
-
-  const handleDownloadInvoice = () => {
-    showToast('Invoice PDF downloaded successfully!');
   };
 
   return (
@@ -154,9 +149,6 @@ export const OrderConfirmationModal = ({ order, onClose }) => {
         <div className="receipt-actions-row mt-6">
           <button className="btn btn-outline" onClick={handlePrint}>
             <Printer size={16} /> Print Receipt
-          </button>
-          <button className="btn btn-secondary" onClick={handleDownloadInvoice}>
-            <Download size={16} /> Download PDF Invoice
           </button>
           <button className="btn btn-primary" onClick={onClose}>
             Close

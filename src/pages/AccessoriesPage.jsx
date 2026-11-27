@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useApp } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 import {
   ACCESSORIES_PAGE_HEADER,
   ACCESSORIES_COLLECTION_CARDS
 } from '../data/accessoriesPageData';
 import { getAccessoriesData } from '../services/api';
-import { ShopCollectionNav } from '../components/common/ShopCollectionNav';
+import { accessoryPathFor } from '../data/routeCatalog';
+import { PageBackBar } from '../components/common/PageBackBar';
 import { ChevronRight } from 'lucide-react';
 import '../styles/luxe-bridal.css';
 
 export const AccessoriesPage = () => {
-  const {
-    setCurrentView,
-    setSelectedCategory,
-    setSearchQuery
-  } = useApp();
-
   const [headerData, setHeaderData] = useState(ACCESSORIES_PAGE_HEADER);
   const [cardsData, setCardsData] = useState(ACCESSORIES_COLLECTION_CARDS);
 
@@ -34,35 +29,22 @@ export const AccessoriesPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const handleCardClick = (card) => {
+  const getCardPath = (card) => {
     if (card.id === 'bridal-belts-sashes' || card.category === 'Belts') {
-      setCurrentView('belts-and-sashes');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
+      return '/belts-and-sashes';
     }
-    setSelectedCategory('accessories');
-    setSearchQuery(card.filterQuery || '');
-    setCurrentView('all-dresses');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return accessoryPathFor(card.title || card.category);
   };
 
   return (
     <div className="velora-accessories-page animate-fade-in" id="velora-accessories-top">
-      {/* 1. Breadcrumbs */}
-      <nav className="velora-breadcrumb" aria-label="Breadcrumb">
-        <button
-          type="button"
-          className="velora-breadcrumb-link"
-          onClick={() => {
-            setCurrentView('catalog');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-        >
-          Home
-        </button>
-        <span className="velora-breadcrumb-sep">/</span>
-        <span className="velora-breadcrumb-current">Wedding Dress Accessories</span>
-      </nav>
+      <PageBackBar
+        fallbackPath="/"
+        trail={[
+          { label: 'Home', to: '/' },
+          { label: 'Wedding Dress Accessories' }
+        ]}
+      />
 
       {/* 2. Main Page Title & Editorial Header */}
       <header className="velora-accessories-header">
@@ -73,23 +55,16 @@ export const AccessoriesPage = () => {
         </div>
       </header>
 
-      {/* Shop Collection Navigation Tabs */}
-      <ShopCollectionNav activeTab="accessories" style={{ margin: '0 auto 28px auto' }} />
-
       {/* 3. 11 Bridal Accessories Cards (3-Column Desktop Grid) */}
       <section className="velora-accessories-grid-section" aria-label="Wedding Dress Accessories">
         <div className="velora-accessories-grid">
           {(cardsData || []).map((card) => (
-            <article
+            <Link
               key={card.id}
+              to={getCardPath(card)}
               className="velora-acc-card group"
-              onClick={() => handleCardClick(card)}
-              tabIndex={0}
-              role="button"
               aria-label={`Explore ${card.title}`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleCardClick(card);
-              }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
               {/* Media Container - Pure, Clean Photography */}
               <div className="velora-acc-media">
@@ -117,7 +92,7 @@ export const AccessoriesPage = () => {
                 </h2>
                 <p className="velora-acc-caption">{card.caption}</p>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </section>

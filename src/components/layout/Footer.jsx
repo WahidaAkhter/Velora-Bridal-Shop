@@ -1,5 +1,6 @@
 import React from 'react';
-import { useApp } from '../../context/AppContext';
+import { Link } from 'react-router-dom';
+import { stylePathFor } from '../../data/routeCatalog';
 
 // High-fidelity social SVG icons matching the reference design
 const InstagramIcon = () => (
@@ -35,58 +36,38 @@ const YoutubeIcon = () => (
 );
 
 export const Footer = () => {
-  const { setCurrentView, setSearchQuery } = useApp();
+  const shapes = [
+    'A-line',
+    'Princess',
+    'Fit & Flare',
+    'Mermaid',
+    'Plus Size',
+    'Basque Waist',
+    'Drop Waist',
+    'Corset',
+    'Short'
+  ];
 
-  const handleLinkClick = (text, category) => {
-    if (text === 'Quick Ship Delivery' || text === 'Quick Ship Styles') {
-      setCurrentView('quick-ship');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (text === 'Signature Styles') {
-      setCurrentView('signature-styles');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (text === 'Lookbooks' || text === 'Collection Lookbook') {
-      setCurrentView('lookbook');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (text === 'All Collections' || text === 'Collections') {
-      setCurrentView('all-collections');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (text === 'Wedding Accessories' || text === 'Accessories' || text === 'Bridal Accessories') {
-      setCurrentView('accessories');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (text === 'Our Story' || text === 'About Us') {
-      setCurrentView('our-story');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    if (category === 'shape' || category === 'styles') {
-      setCurrentView('catalog');
-      setSearchQuery(text);
-      const el = document.getElementById('featured-collection-heading');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    } else if (text === 'Contact') {
-      const banner = document.getElementById('dream-dress-banner');
-      if (banner) banner.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const styles = [
+    'Lace',
+    'Long Sleeve',
+    'Off The Shoulder',
+    'Statement Back',
+    'Satin',
+    'Boho',
+    'Beach',
+    'Simple',
+    'Floral'
+  ];
 
   return (
     <footer className="luxe-footer" id="footer-testimonials" aria-label="Bridal Boutique Footer">
       <div className="luxe-footer-inner">
-        {/* Top Section: Brand Logo + 5 Category Columns */}
+        {/* Top Section: Brand Logo + 4 Category Columns */}
         <div className="footer-main-grid">
           {/* Brand Logo Block */}
           <div className="footer-brand-block">
-            <div className="footer-brand-logo" role="img" aria-label="VELORA Bridal">
+            <Link to="/" className="footer-brand-logo" aria-label="VELORA Bridal Home" style={{ textDecoration: 'none' }}>
               <div className="footer-logo-wordmark">
                 <span className="logo-word-left">VEL</span>
                 <span className="logo-crest">
@@ -96,7 +77,7 @@ export const Footer = () => {
                 <span className="logo-word-right">ORA</span>
               </div>
               <span className="footer-logo-tagline">BRIDAL</span>
-            </div>
+            </Link>
           </div>
 
           {/* Column 1: BRAND */}
@@ -104,34 +85,29 @@ export const Footer = () => {
             <h4 className="footer-nav-heading">BRAND</h4>
             <ul className="footer-nav-list">
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Our Story', 'brand')}>
+                <Link to="/our-story" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Our Story
-                </button>
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Velora For You', 'brand')}>
-                  Velora For You
-                </button>
+                <Link to="/real-brides" className="footer-nav-link" style={{ textDecoration: 'none' }}>
+                  Real Brides
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Velora Brides', 'brand')}>
-                  Velora Brides
-                </button>
+                <Link to="/collections" className="footer-nav-link" style={{ textDecoration: 'none' }}>
+                  All Collections
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Giving Back', 'brand')}>
-                  Giving Back
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Lookbooks', 'brand')}>
+                <Link to="/lookbook" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Lookbooks
-                </button>
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Contact', 'brand')}>
+                <Link to="/our-story#story-contact-section" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Contact
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -140,51 +116,13 @@ export const Footer = () => {
           <div className="footer-nav-col">
             <h4 className="footer-nav-heading">SHAPE</h4>
             <ul className="footer-nav-list">
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('A-line', 'shape')}>
-                  A-line
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Princess', 'shape')}>
-                  Princess
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Fit & Flare', 'shape')}>
-                  Fit & Flare
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Mermaid', 'shape')}>
-                  Mermaid
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Plus Size', 'shape')}>
-                  Plus Size
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Basque Waist', 'shape')}>
-                  Basque Waist
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Drop Waist', 'shape')}>
-                  Drop Waist
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Corset', 'shape')}>
-                  Corset
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Short', 'shape')}>
-                  Short
-                </button>
-              </li>
+              {shapes.map((shape) => (
+                <li key={shape}>
+                  <Link to={stylePathFor(shape)} className="footer-nav-link" style={{ textDecoration: 'none' }}>
+                    {shape}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -192,51 +130,13 @@ export const Footer = () => {
           <div className="footer-nav-col">
             <h4 className="footer-nav-heading">STYLES</h4>
             <ul className="footer-nav-list">
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Lace', 'styles')}>
-                  Lace
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Long Sleeve', 'styles')}>
-                  Long Sleeve
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Off The Shoulder', 'styles')}>
-                  Off The Shoulder
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Statement Back', 'styles')}>
-                  Statement Back
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Satin', 'styles')}>
-                  Satin
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Boho', 'styles')}>
-                  Boho
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Beach', 'styles')}>
-                  Beach
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Simple', 'styles')}>
-                  Simple
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Floral', 'styles')}>
-                  Floral
-                </button>
-              </li>
+              {styles.map((style) => (
+                <li key={style}>
+                  <Link to={stylePathFor(style)} className="footer-nav-link" style={{ textDecoration: 'none' }}>
+                    {style}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -245,61 +145,29 @@ export const Footer = () => {
             <h4 className="footer-nav-heading">QUICK LINKS</h4>
             <ul className="footer-nav-list">
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Sizing Chart', 'links')}>
+                <Link to="/size-chart" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Sizing Chart
-                </button>
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Wedding Accessories', 'links')}>
+                <Link to="/accessories" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Wedding Accessories
-                </button>
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Quick Ship Delivery', 'links')}>
+                <Link to="/quick-ship" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   Quick Ship Delivery
-                </button>
+                </Link>
               </li>
               <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('FAQ', 'links')}>
+                <Link to="/signature-styles" className="footer-nav-link" style={{ textDecoration: 'none' }}>
+                  Signature Styles
+                </Link>
+              </li>
+              <li>
+                <Link to="/our-story#story-qa" className="footer-nav-link" style={{ textDecoration: 'none' }}>
                   FAQ
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('Privacy Policy', 'links')}>
-                  Privacy Policy
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 5: RETAILERS */}
-          <div className="footer-nav-col">
-            <h4 className="footer-nav-heading">RETAILERS</h4>
-            <ul className="footer-nav-list">
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('All Retailers', 'retailers')}>
-                  All Retailers
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('In-Store Events', 'retailers')}>
-                  In-Store Events
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('UK Retailers', 'retailers')}>
-                  UK Retailers
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('US Retailers', 'retailers')}>
-                  US Retailers
-                </button>
-              </li>
-              <li>
-                <button type="button" className="footer-nav-link" onClick={() => handleLinkClick('US Wholesale', 'retailers')}>
-                  US Wholesale
-                </button>
+                </Link>
               </li>
             </ul>
           </div>

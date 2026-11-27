@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
 import { useCatalog } from '../../services/catalogStore';
 import { useRecentlyViewed } from '../../hooks/useRecentlyViewed';
-import { RecentlyViewedStrip } from '../extras/RecentlyViewedStrip';
 import { CompleteTheLook } from '../extras/CompleteTheLook';
 import { OrderByBadge } from '../extras/OrderByBadge';
 import {
@@ -404,9 +403,6 @@ export const ProductDetailModal = ({ product, onClose }) => {
             </div>
           </div>
         )}
-
-        {/* Recently Viewed Strip (Excluding Current Gown) */}
-        <RecentlyViewedStrip excludeId={product.id} />
       </div>
     </div>
   );

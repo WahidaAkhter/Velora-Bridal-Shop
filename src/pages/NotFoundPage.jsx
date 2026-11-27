@@ -1,13 +1,15 @@
 import React from 'react';
-import { useApp } from '../context/AppContext';
+import { Link } from 'react-router-dom';
 import { Compass, ArrowRight, Home } from 'lucide-react';
+import { PageBackBar } from '../components/common/PageBackBar';
 import '../styles/extras.css';
 
 export const NotFoundPage = () => {
-  const { setCurrentView } = useApp();
-
   return (
     <div className="velora-notfound-page animate-fade-in">
+      <div style={{ maxWidth: '1200px', width: '100%', margin: '0 auto 12px', padding: '0 20px' }}>
+        <PageBackBar fallbackPath="/" trail={[{ label: 'Home', to: '/' }, { label: 'Not Found' }]} />
+      </div>
       <div className="velora-notfound-card">
         <div className="velora-notfound-badge">
           <Compass size={28} strokeWidth={1.5} />
@@ -19,20 +21,12 @@ export const NotFoundPage = () => {
           Allow us to guide you back to our curated collections.
         </p>
         <div className="velora-notfound-actions">
-          <button
-            type="button"
-            className="velora-notfound-btn primary"
-            onClick={() => setCurrentView('catalog')}
-          >
+          <Link to="/" className="velora-notfound-btn primary" style={{ textDecoration: 'none' }}>
             <Home size={16} /> Return to Home
-          </button>
-          <button
-            type="button"
-            className="velora-notfound-btn secondary"
-            onClick={() => setCurrentView('all-dresses')}
-          >
+          </Link>
+          <Link to="/dresses" className="velora-notfound-btn secondary" style={{ textDecoration: 'none' }}>
             Explore Gowns <ArrowRight size={16} />
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -397,9 +397,10 @@ export const SASHES_PRODUCTS = [
     material: 'French Mikado Silk',
     styleCategory: 'Bow Sashes',
     description: 'This large mikado sash features a statement-making oversized bow for a bold yet elegant finish. Available in ivory and periwinkle, it’s crafted from luxurious mikado and comes with style C722 to complete the look, but is also sold separately as Bow B24. Attaches securely with discrete couture hook closures.',
-    image: 'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/C722-09__41497.jpg?v=1754951532',
+    image: '/images/bridal/accessory-mikado-bow.jpg',
     hoverImage: 'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/C722-09__41497.jpg?v=1754951532',
     images: [
+      '/images/bridal/accessory-mikado-bow.jpg',
       'https://cdn.shopify.com/s/files/1/0592/3396/0030/files/C722-09__41497.jpg?v=1754951532'
     ],
     colors: ['Ivory', 'Periwinkle'],
