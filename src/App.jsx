@@ -53,6 +53,7 @@ import { Toast, SeoHead } from './components/common';
 import { SharedWishlistView } from './components/extras/SharedWishlistView';
 import { CompareBar } from './components/extras/CompareBar';
 import { CompareView } from './components/extras/CompareView';
+import BridalStylistChat from './components/common/BridalStylistChat';
 import { parseShareUrl, getLegacyWishlistRedirect } from './utils/wishlistShare';
 import { ArrowUp } from 'lucide-react';
 import './styles/index.css';
@@ -229,6 +230,7 @@ const MainContent = () => {
       <CartDrawer />
       <CompareBar />
       <Toast />
+      <BridalStylistChat />
 
       {showBackToTop && !anyOverlayOpen && (
         <button

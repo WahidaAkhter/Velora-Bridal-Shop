@@ -38,6 +38,7 @@
   - Saved addresses manager and personalized bridal wishlists.
 - **VIP Consultation Booking:** Interactive bridal appointment scheduling with date, time slot, boutique location selectors, and celebratory confetti animations.
 - **Curated By Palette (Shop by Color):** Interactive multi-angle color carousel dynamically showcasing gowns in Ivory, Champagne, Blush, and Pearl.
+- **VELORA Bridal Stylist:** An AI chat assistant for dress planning, silhouette and fabric guidance, fitting preparation, and catalog-aware gown suggestions.
 - **Zero-Crash Storefront:** Built with resilient fallbacks for products without pre-configured variant arrays or missing thumbnail sets.
 
 ---
@@ -174,6 +175,8 @@ npm run dev
 # (Optional) Start the Express backend server
 npm run server
 ```
+
+The bridal stylist uses OpenRouter's server-side chat completions API. Add `OPENROUTER_API_KEY=your-key` to the ignored `.env.server` file and restart the backend to enable AI replies. It defaults to `google/gemma-4-26b-a4b-it:free`; set `OPENROUTER_MODEL` to change models. Replies stream into the chat and transient API errors show a retry option instead of silently switching to the local guide. The key stays on the server and is never sent to the browser.
 
 ### Production Build
 ```bash

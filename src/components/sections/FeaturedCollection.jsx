@@ -159,6 +159,14 @@ export const FeaturedCollection = () => {
               <span className="editorial-kicker">VELORA ROMANCE</span>
               <h2 className="editorial-script-title">Dreamy and Feminine</h2>
             </div>
+            <div className="editorial-gallery-controls" aria-label="Gown gallery controls">
+              <button type="button" className="editorial-gallery-button" onClick={handlePrev} aria-label="Previous gown">
+                <span aria-hidden="true">←</span> Previous
+              </button>
+              <button type="button" className="editorial-gallery-button editorial-gallery-button-next" onClick={handleNext} aria-label="Next gown">
+                Next <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
 
           {/* Queue Track (Cards 2, 3, 4, etc. aligned below header, height matching left peek) */}

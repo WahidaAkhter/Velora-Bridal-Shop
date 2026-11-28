@@ -19,11 +19,11 @@ import allCollectionsRouter from './routes/allCollections.js';
 import lookbooksRouter from './routes/lookbooks.js';
 import ourStoryRouter from './routes/ourStory.js';
 import channelsRouter from './routes/channels.js';
-
-dotenv.config();
+import stylistRouter from './routes/stylist.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.resolve(__dirname, '../.env.server') });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -82,6 +82,7 @@ app.get('/api/health', (req, res) => {
     },
     endpoints: [
       { method: 'GET', path: '/api/health', description: 'System health check & diagnostics' },
+      { method: 'POST', path: '/api/stylist/chat', description: 'VELORA AI bridal styling conversation' },
       { method: 'GET', path: '/api/media?url=...', description: 'Backend media streaming proxy & disk cache' },
       { method: 'GET', path: '/images/...', description: 'Local static bridal imagery directly from backend' },
       { method: 'GET', path: '/api/products', description: 'Full bridal catalog with search, filter, pagination' },
@@ -119,6 +120,7 @@ app.use('/api/collections', allCollectionsRouter);
 app.use('/api/lookbooks', lookbooksRouter);
 app.use('/api/our-story', ourStoryRouter);
 app.use('/api/channels', channelsRouter);
+app.use('/api/stylist', stylistRouter);
 app.use('/api/orders', ordersRouter);
 app.use('/api/appointments', appointmentsRouter);
 app.use('/api/vouchers', vouchersRouter);
