@@ -31,6 +31,7 @@ export default function BridalStylistChat() {
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [retryQuestion, setRetryQuestion] = useState('');
+  const [canRetry, setCanRetry] = useState(true);
   const logRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -60,6 +61,7 @@ export default function BridalStylistChat() {
     setIsSending(true);
     setErrorMessage('');
     setRetryQuestion('');
+    setCanRetry(true);
 
     try {
       const response = await fetch('http://localhost:5000/api/stylist/chat', {
@@ -67,8 +69,8 @@ export default function BridalStylistChat() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: nextMessages
-            .filter((message) => message.content && message.content !== 'I could not get a reply just now.')
-            .slice(-8)
+            .filter((message) => message.content && !errorMessage.includes(message.content))
+            .slice(-6)
             .map(({ role, content: message }) => ({ role, content: message })),
           page: location.pathname
         })
@@ -77,6 +79,7 @@ export default function BridalStylistChat() {
         const data = await response.json().catch(() => ({}));
         const error = new Error(data.error || 'The stylist is temporarily unavailable. Please try again.');
         error.status = response.status;
+        error.retryable = data.retryable ?? (response.status >= 500 || response.status === 429);
         throw error;
       }
 
@@ -100,7 +103,11 @@ export default function BridalStylistChat() {
           if (!data || data === '[DONE]') { finished = true; break; }
           let chunk;
           try { chunk = JSON.parse(data); } catch { continue; }
-          if (chunk.error) throw new Error(chunk.error);
+          if (chunk.error) {
+            const error = new Error(chunk.error);
+            error.retryable = chunk.retryable !== false;
+            throw error;
+          }
           if (typeof chunk.text === 'string') {
             reply += chunk.text;
             setMessages((current) => current.map((message, index) => (
@@ -116,8 +123,9 @@ export default function BridalStylistChat() {
       const message = error.message || 'The stylist is temporarily unavailable. Please try again.';
       setErrorMessage(message);
       setRetryQuestion(content);
+      setCanRetry(error.retryable !== false);
       setMessages((current) => current.map((item, index) => (
-        index === current.length - 1 ? { ...item, content: 'I could not get a reply just now.' } : item
+        index === current.length - 1 ? { ...item, content: message } : item
       )));
     } finally {
       setIsSending(false);
@@ -148,9 +156,8 @@ export default function BridalStylistChat() {
               </div>
             ))}
             {isSending && <div className="stylist-typing" aria-label="Stylist is thinking"><i /><i /><i /></div>}
-            {errorMessage && (
+            {errorMessage && canRetry && (
               <div className="stylist-error-actions" role="status">
-                <p>{errorMessage}</p>
                 <button type="button" onClick={() => sendMessage(retryQuestion)}>Try again</button>
               </div>
             )}

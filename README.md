@@ -176,7 +176,7 @@ npm run dev
 npm run server
 ```
 
-The bridal stylist uses OpenRouter's server-side chat completions API. Add `OPENROUTER_API_KEY=your-key` to the ignored `.env.server` file and restart the backend to enable AI replies. It defaults to `google/gemma-4-26b-a4b-it:free`; set `OPENROUTER_MODEL` to change models. Replies stream into the chat and transient API errors show a retry option instead of silently switching to the local guide. The key stays on the server and is never sent to the browser.
+The bridal stylist runs locally with Ollama by default. Install Ollama for Windows, then run `ollama pull qwen3:1.7b`. The ignored `.env.server` is configured for `http://127.0.0.1:11434` and this model. Start both `npm run server` and `npm run dev`; replies stream from the local model without an OpenRouter key or internet connection. To use OpenRouter instead, set `STYLIST_PROVIDER=openrouter` and add `OPENROUTER_API_KEY` to `.env.server`.
 
 ### Production Build
 ```bash

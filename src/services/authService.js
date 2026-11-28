@@ -115,6 +115,34 @@ export async function signInUser({ email, password }) {
 }
 
 /**
+ * Starts the Google OAuth flow.
+ * The browser navigates away; the session arrives through onAuthStateChange.
+ */
+export async function signInWithGoogle(redirectTo) {
+  if (!supabase) {
+    return { success: false, message: 'Authentication service is currently unavailable.' };
+  }
+
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: redirectTo || (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:5173'),
+        queryParams: { prompt: 'select_account' }
+      }
+    });
+
+    if (error) {
+      return { success: false, message: formatAuthError(error) };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, message: formatAuthError(err) };
+  }
+}
+
+/**
  * Sign out current user.
  */
 export async function signOutUser() {

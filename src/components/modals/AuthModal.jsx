@@ -23,6 +23,7 @@ export const AuthModal = () => {
     setAuthMode,
     isAuthAvailable,
     loginUser,
+    loginWithGoogle,
     registerUser,
     showToast
   } = useApp();
@@ -37,6 +38,7 @@ export const AuthModal = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [resetSuccess, setResetSuccess] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleClose = () => {
     setIsAuthModalOpen(false);
@@ -56,6 +58,22 @@ export const AuthModal = () => {
   }, [isAuthModalOpen]);
 
   if (!isAuthModalOpen) return null;
+
+  const handleGoogle = async () => {
+    setErrorMsg('');
+    setGoogleLoading(true);
+    try {
+      const res = await loginWithGoogle();
+      if (!res?.success) {
+        setErrorMsg(res?.message || 'Google sign-in is unavailable right now.');
+        setGoogleLoading(false);
+      }
+      // On success the browser navigates to Google; the modal closes on return.
+    } catch (err) {
+      setErrorMsg(formatAuthError(err));
+      setGoogleLoading(false);
+    }
+  };
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -301,6 +319,49 @@ export const AuthModal = () => {
             }}>
               <strong>Check your inbox!</strong> A password reset link has been dispatched to <u>{email}</u>.
             </div>
+          )}
+
+          {/* Google OAuth — one-click sign in / sign up */}
+          {authMode !== 'forgot' && (
+            <>
+              <button
+                type="button"
+                onClick={handleGoogle}
+                disabled={isLoading || googleLoading || !isAuthAvailable}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  padding: '12px 16px',
+                  background: '#FFFFFF',
+                  color: '#2B2320',
+                  border: '1px solid #D9C7BE',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  cursor: (isLoading || googleLoading || !isAuthAvailable) ? 'not-allowed' : 'pointer',
+                  opacity: (isLoading || googleLoading || !isAuthAvailable) ? 0.6 : 1
+                }}
+              >
+                <span
+                  aria-hidden="true"
+                  style={{ fontFamily: 'Georgia, serif', fontSize: '15px', fontWeight: 700, color: '#B76E65', lineHeight: 1 }}
+                >
+                  G
+                </span>
+                <span>{googleLoading ? 'Opening Google...' : 'Continue with Google'}</span>
+              </button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '18px 0' }}>
+                <span style={{ flex: 1, height: '1px', background: '#E7DAD3' }} />
+                <span style={{ fontSize: '10px', letterSpacing: '0.14em', color: '#9A8A82' }}>OR</span>
+                <span style={{ flex: 1, height: '1px', background: '#E7DAD3' }} />
+              </div>
+            </>
           )}
 
           {/* 1. SIGN IN FORM */}

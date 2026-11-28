@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabaseClient';
 import {
   isAuthAvailable,
   signInUser,
+  signInWithGoogle,
   signUpUser,
   signOutUser,
   fetchUserProfile,
@@ -743,6 +744,19 @@ export const AppProvider = ({ children }) => {
       if (event === 'SIGNED_IN' || event === 'USER_UPDATED' || event === 'TOKEN_REFRESHED') {
         if (session?.user) {
           await syncUserSession(session.user);
+
+          // Return trip from a Google OAuth redirect: close the modal, honour the pending destination
+          try {
+            const oauthDest = sessionStorage.getItem('velora_oauth_target');
+            if (oauthDest) {
+              sessionStorage.removeItem('velora_oauth_target');
+              sessionStorage.removeItem('velora_auth_target');
+              setIsAuthModalOpen(false);
+              navigate(oauthDest);
+            }
+          } catch {
+            // ignore
+          }
         }
       } else if (event === 'SIGNED_OUT') {
         setIsLoggedIn(false);
@@ -793,6 +807,27 @@ export const AppProvider = ({ children }) => {
     }
     if (dest) navigate(dest);
     return { success: true };
+  };
+
+  const loginWithGoogle = async () => {
+    if (!isAuthAvailable) {
+      showToast('Accounts are temporarily unavailable.', 'error');
+      return { success: false, message: 'Accounts are temporarily unavailable.' };
+    }
+
+    // Preserve the destination the guest was heading to before the OAuth redirect
+    try {
+      const dest = sessionStorage.getItem('velora_auth_target');
+      if (dest) sessionStorage.setItem('velora_oauth_target', dest);
+    } catch {
+      // ignore
+    }
+
+    const res = await signInWithGoogle(typeof window !== 'undefined' ? window.location.origin : undefined);
+    if (!res.success) {
+      showToast(res.message || 'Google sign-in is unavailable right now.', 'error');
+    }
+    return res;
   };
 
   const registerUser = async ({ name, email, password, phone, weddingDate }) => {
@@ -951,7 +986,7 @@ export const AppProvider = ({ children }) => {
         user, addAddress, updateAddress, deleteAddress, setDefaultAddress,
         addAppointment, cancelAppointment,
         isLoggedIn, tier, isAuthModalOpen, setIsAuthModalOpen, authMode, setAuthMode, setAuthTarget,
-        isAuthAvailable, loginUser, registerUser, logoutUser,
+        isAuthAvailable, loginUser, loginWithGoogle, registerUser, logoutUser,
         customReviews, addProductReview,
         getCartSubtotal, getVoucherDiscount, getShippingCost, getTax, getGiftCardCredit, getCartTotal,
         placeOrder, selectedOrderDetails, setSelectedOrderDetails,
